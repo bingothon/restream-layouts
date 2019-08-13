@@ -5,16 +5,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { Component, Vue } from "vue-property-decorator";
 
-export default Vue.extend({
-  name: 'Example',
-  data() {
-    return {
-      text: 'Example',
-    };
-  },
-});
+@Component({})
+export default class Example extends Vue {
+  text: string = "test";
+}
 </script>
 
 <style>
