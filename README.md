@@ -1,2 +1,3 @@
-# nodecg-vue-ts-template
-Template for NodeCG bundles that use Vue.js and TypeScript.
+# Layouts for Bingothon
+
+Based on Vue and ts template [here](https://github.com/zoton2/nodecg-vue-ts-template)

@@ -1,5 +1,6 @@
 'use strict';
 
+// Based on https://github.com/GamesDoneQuick/sgdq18-layouts/blob/master/src/extension/oot-bingo.ts
 // Packages
 import * as RequestPromise from 'request-promise';
 import WebSocket from 'ws';
