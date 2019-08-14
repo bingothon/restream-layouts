@@ -5,11 +5,13 @@
 
 import * as nodecgApiContext from './util/nodecg-api-context';
 import equal = require('deep-equal');
-import needle from 'needle';
+import * as RequestPromise from 'request-promise';
 import { TrackerOpenBids, TrackerDonations, DonationTotal } from "../../schemas";
 
 
 const nodecg = nodecgApiContext.get();
+const log = new nodecg.Logger(`${nodecg.bundleName}:donationtracker`);
+const client = RequestPromise.defaults({});
 
 
 if (nodecg.bundleConfig && nodecg.bundleConfig.donationtracker && nodecg.bundleConfig.donationtracker.enable) {
@@ -20,42 +22,45 @@ if (nodecg.bundleConfig && nodecg.bundleConfig.donationtracker && nodecg.bundleC
 	const eventSlug = nodecg.bundleConfig.donationtracker.eventSlug;
 	function doUpdate() {
 		// current donation total
-		needle.get(feedUrl + "/feed/current_donations/" + eventSlug, function (err, response) {
-			if (err || !response.body || response.statusCode != 200) {
-				nodecg.log.warn("error getting donation total!");
-			} else {
-				donationTotalReplicant.value = response.body.total;
-				nodecg.log.info("Updating donation total to " + donationTotalReplicant.value);
-			}
-		});
+		client.get(feedUrl + "/feed/current_donations/" + eventSlug, {json: true})
+			.then(data => {
+				if (data.total != donationTotalReplicant.value) {
+					donationTotalReplicant.value = data.total;
+					log.info(`donation total updated to ${data.total}`);
+				}
+			})
+			.error(err => {
+				log.error("error getting donation total: ", err);
+			});
 
 		// all bids that are open
-		needle.get(feedUrl + "/feed/upcoming_bids/" + eventSlug, function (err, response) {
-			if (err || !response.body || response.statusCode != 200) {
-				nodecg.log.warn("error getting bids!");
-			} else {
-				if (!equal(openBidsReplicant.value, response.body.results)) {
-					openBidsReplicant.value = response.body.results;
-					nodecg.log.info("Updating upcoming bids to " + JSON.stringify(openBidsReplicant.value));
+		client.get(feedUrl + "/feed/upcoming_bids/" + eventSlug, {json: true})
+			.then(data => {
+				if (!equal(openBidsReplicant.value, data.results)) {
+					openBidsReplicant.value = data.results;
+					log.info(`bids updated to ${JSON.stringify(data.results)}`);
 				}
-			}
-		});
+			})
+			.error(err => {
+				log.error("error getting bids: ", err);
+			});
+
 
 		// last 20 donations (limited by the tracker)
 		// TODO: send out event on new donation
-		needle.get(feedUrl + "/feed/donations/" + eventSlug, function (err, response) {
-			if (err || !response.body || response.statusCode != 200) {
-				nodecg.log.warn("error getting donations!");
-			} else {
-				if (!equal(donationsReplicant.value, response.body.results)) {
-					donationsReplicant.value = response.body.results;
-					nodecg.log.info("Updating donations to " + JSON.stringify(donationsReplicant.value));
+		client.get(feedUrl + "/feed/donations/" + eventSlug, {json: true})
+			.then(data => {
+				if (!equal(donationsReplicant.value, data.results)) {
+					donationsReplicant.value = data.results;
+					log.info(`donations updated to ${JSON.stringify(data.results)}`);
 				}
-			}
-		});
+			})
+			.error(err => {
+				log.error("error getting donations: ", err);
+			});
 	}
 	doUpdate();
 	setInterval(doUpdate, 30000);
 } else {
-	nodecg.log.warn("donationtracker isn't enabled!");
+	log.warn("not enabled!");
 }
