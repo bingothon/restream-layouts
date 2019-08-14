@@ -227,9 +227,21 @@ async function joinRoom(roomCode: string, passphrase: string) {
 		// Bail if nothing has changed.
 		if (equal(boardRep.value, newBoardState)) {
 			return;
-		}
+        }
+        let goalCounts: {[key:string]:number} = {"pink":0, "red":0, "orange":0, "brown":0, "yellow":0, "green":0, "teal":0, "blue":0, "navy":0, "purple":0};
+
+		newBoardState.forEach((cell: {colors: string}) => {
+			// remove blank cause thats not a color
+			// count all the color occurences
+			cell.colors.split(' ').forEach(color => {
+				if (color != 'blank') {
+					goalCounts[color]++;
+				}
+			});
+		});
 
         boardRep.value = newBoardState;
+        boardMetaRep.value.colorCounts = goalCounts;
 	}
 }
 
@@ -276,7 +288,15 @@ function createWebsocket(socketUrl: string, socketKey: string) {
 
 			if (json.type === 'goal') {
 				const index = parseInt(json.square.slot.slice(4), 10) - 1;
+                boardRep.value[index] = json.square;
+                const color = json.color;
 				boardRep.value[index] = json.square;
+				// update goal count
+				if (json.remove) {
+					boardMetaRep.value.colorCounts[color]--;
+				} else {
+					boardMetaRep.value.colorCounts[color]++;
+				}
 			}
 		};
 

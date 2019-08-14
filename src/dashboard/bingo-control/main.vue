@@ -1,5 +1,10 @@
 <template>
   <div id="App">
+      <ul>
+          <li v-for="(count,i) in colorCounts" v-bind:key="i">
+              {{count["color"]}}:{{count["count"]}}
+          </li>
+      </ul>
       <div>
         Room Code: <input v-model="roomCode">
       </div>
@@ -47,6 +52,20 @@ export default class BingoControl extends Vue {
             case "error":
                 return false;
         }
+    }
+
+    get colorCounts(): Array<{color: string, count: number}> {
+        let counts = store.state.bingoboardMeta.colorCounts;
+        let countArray = [];
+        for (const key in counts) {
+            if (counts.hasOwnProperty(key)) {
+                const element = counts[key];
+                if (element > 0) {
+                    countArray.push({color: key, count: element});
+                }
+            }
+        }
+        return countArray;
     }
 
     connectAction() {
