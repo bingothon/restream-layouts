@@ -6,4 +6,6 @@ export = (nodecg: NodeCG): void => {
   nodecg.log.info('Extension code working!');
   require("./bingosync");
   require("./discord");
+  require("./twitch-chat-bot");
+  require("./gdq-donationtracker");
 };

@@ -8,14 +8,13 @@
 export type TrackerOpenBids = {
   game: string;
   bid: string;
-  goal: number;
-  amount: number;
-  custom_options: boolean;
-  state: {
-    [k: string]: any;
-  };
+  goal: number | null;
+  amount_raised: number;
+  allow_custom_options: boolean;
+  state: "PENDING" | "DENIED" | "HIDDEN" | "OPENED" | "CLOSED";
   run_started: boolean;
-  options?: {
-    [k: string]: any;
-  };
+  options: {
+    name: string;
+    amount_raised: number;
+  }[];
 }[];

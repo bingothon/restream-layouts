@@ -55,7 +55,10 @@
     "vue": "./node_modules/vue/dist/vue.esm.js"
   },
   "nodecg": {
-    "compatibleRange": "^1.0.0",
+    "compatibleRange": "^1.2.2",
+    "bundleDependencies": {
+      "nodecg-speedcontrol": "^1.0.1"
+    },
     "dashboardPanels": [
       {
         "name": "example",
@@ -81,11 +84,11 @@
     "runtimeCompiler": true
   },
   "dependencies": {
-    "@types/needle": "^2.0.4",
     "cheerio": "^1.0.0-rc.3",
     "deep-equal": "^1.0.1",
     "discord.js": "^11.5.1",
     "request-promise": "^4.2.4",
+    "twitch-js": "^1.2.17",
     "vuex": "^3.1.1",
     "ws": "^7.1.2"
   }

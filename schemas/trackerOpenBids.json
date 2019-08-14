@@ -2,22 +2,29 @@
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"type": "array",
 	"default": [],
-	"additionalProperties": false,
 	"items": {
 		"type": "object",
-		"required": [ "game", "bid", "goal", "amount", "custom_options", "state", "run_started" ],
+		"required": [ "game", "bid", "goal", "amount_raised", "allow_custom_options", "state", "run_started", "options" ],
 		"additionalProperties": false,
 		"properties": {
 			"game": { "type": "string" },
 			"bid": { "type": "string" },
-			"goal": { "type": "number" },
-			"amount": { "type": "number" },
-			"custom_options": { "type": "boolean" },
-			"state": { "type": "enum" },
+			"goal": { "type": ["number", "null"] },
+			"amount_raised": { "type": "number" },
+			"allow_custom_options": { "type": "boolean" },
+			"state": { "type": "string", "enum": ["PENDING", "DENIED", "HIDDEN", "OPENED", "CLOSED"] },
 			"run_started": { "type": "boolean" },
 			"options": {
-				"name": { "type": "string" },
-				"amount": { "type": "number" }
+				"type":"array",
+				"items": {
+					"type": "object",
+					"additionalProperties": false,
+					"required": ["name", "amount_raised"],
+					"properties": {
+						"name": { "type": "string" },
+						"amount_raised": { "type": "number" }
+					}
+				}
 			}
 		}
 	}
