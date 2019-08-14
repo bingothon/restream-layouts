@@ -6,6 +6,7 @@ import { RunDataActiveRun, RunDataPlayer } from "../../speedcontrol-types";
 import { Configschema } from "../../configschema";
 
 import * as nodecgApiContext from "./util/nodecg-api-context";
+import { Replicant } from "nodecg/types/server";
 const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger(`${nodecg.bundleName}:twitch-chat-bot`);
 
@@ -32,19 +33,21 @@ const twitchChannelNameRep = nodecg.Replicant<string>('twitchChannelName', 'node
 const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
 const bundleConfig = nodecg.bundleConfig as Configschema;
 
-function waitForReplicants(callback: Function) {
-    accessToken.once('change', () => {
-        twitchChannelNameRep.once('change', () => {
-            runDataActiveRunRep.once('change', () => {
+function waitForReplicants(replicants: Replicant<any>[], callback: Function) {
+    var count = 0;
+    replicants.forEach(r => {
+        r.once('change',() => {
+            count++;
+            if (count == replicants.length) {
                 callback();
-            });
+            }
         });
     });
 }
 
 if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.chatBot) {
     nodecg.listenFor('twitchAPIReady', 'nodecg-speedcontrol', () => {
-    waitForReplicants(() => {
+    waitForReplicants([twitchChannelNameRep, runDataActiveRunRep, accessToken],() => {
         log.info("Twitch chat bot is enabled.");
 
         var options = {
