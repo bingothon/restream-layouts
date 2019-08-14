@@ -1,0 +1,49 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["twitch", "discord","donationtracker","obs","esaRepeaterPostKey"],
+    "additionalItems": false,
+	"properties": {
+		"twitch": {
+            "type":"object",
+            "required": ["enable","chatBot"],
+            "additionalProperties": false,
+			"properties": {
+				"enable": {"type":"boolean", "default": false},
+				"chatBot": {"type":"boolean", "default": false}
+			}
+		},
+		"discord": {
+            "type": "object",
+            "required": ["test","token","serverID","commandChannelID","voiceChannelID"],
+            "additionalProperties": false,
+			"properties": {
+				"test": {"type": "boolean", "default": true},
+				"token": {"type": "string", "default": "DISCORD_BOT_TOKEN"},
+				"serverID": {"type": "string", "default": "DISCORD_SERVER_ID"},
+				"commandChannelID": {"type": "string", "default": "DISCORD_COMMAND_CHANNEL_ID"},
+				"voiceChannelID": {"type": "string", "default": "DISCORD_VC_ID"}
+			}
+		},
+		"donationtracker": {
+            "type": "object",
+            "required": ["enable","url","eventSlug"],
+            "additionalProperties": false,
+			"properties": {
+				"enable": {"type": "boolean", "default": false},
+				"url": {"type": "string", "default": "https://devdonations.bingothon.com"},
+				"eventSlug": {"type": "string", "default": "bingothon18"}
+			}
+		},
+		"obs": {
+            "type":"object",
+            "required": ["discordAudio","nodecgAudio"],
+            "additionalProperties": false,
+			"properties": {
+				"discordAudio": {"type":"string", "default":"Discord-Audio"},
+				"nodecgAudio": {"type":"string", "default":"Desktop-Audio"}
+			}
+		},
+		"esaRepeaterPostKey": {"type": "string", "default": "DEFAULT_KEY"}
+	}
+}

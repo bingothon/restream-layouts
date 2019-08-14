@@ -5,4 +5,5 @@ export = (nodecg: NodeCG): void => {
   nodecgApiContext.set(nodecg);
   nodecg.log.info('Extension code working!');
   require("./bingosync");
+  require("./discord");
 };

@@ -21,7 +21,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { nodecg, NodeCG } from "../../browser-util/nodecg";
 import { Bingoboard, BingosyncSocket } from "../../../schemas";
-import { store } from "../state/state";
+import { store } from "../_misc/state";
 
 @Component({})
 export default class BingoControl extends Vue {
