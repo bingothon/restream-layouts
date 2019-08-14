@@ -27,8 +27,8 @@ import { store } from "../state/state";
 export default class BingoControl extends Vue {
     roomCode: string = "";
     passphrase: string = "";
-    //connectActionText: string = "[init]";
 
+    // --- computed properties
     get connectActionText(): string {
         switch (store.state.bingosyncSocket.status) {
             case "connected":
@@ -54,6 +54,7 @@ export default class BingoControl extends Vue {
         }
     }
 
+    // test
     get colorCounts(): Array<{color: string, count: number}> {
         let counts = store.state.bingoboardMeta.colorCounts;
         let countArray = [];
@@ -68,8 +69,17 @@ export default class BingoControl extends Vue {
         return countArray;
     }
 
+    // --- handlers
+
     connectAction() {
-        nodecg.sendMessage("bingosync:joinRoom", {roomCode: this.roomCode, passphrase: this.passphrase});
+        switch (store.state.bingosyncSocket.status) {
+            case "connected":
+                nodecg.sendMessage("bingosync:leaveRoom");
+                return;
+            case "disconnected":
+                nodecg.sendMessage("bingosync:joinRoom", {roomCode: this.roomCode, passphrase: this.passphrase});
+                return;
+        }
     }
 }
 </script>
