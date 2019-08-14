@@ -1,0 +1,24 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"type": "array",
+	"default": [],
+	"additionalProperties": false,
+	"items": {
+		"type": "object",
+		"required": [ "game", "bid", "goal", "amount", "custom_options", "state", "run_started" ],
+		"additionalProperties": false,
+		"properties": {
+			"game": { "type": "string" },
+			"bid": { "type": "string" },
+			"goal": { "type": "number" },
+			"amount": { "type": "number" },
+			"custom_options": { "type": "boolean" },
+			"state": { "type": "enum" },
+			"run_started": { "type": "boolean" },
+			"options": {
+				"name": { "type": "string" },
+				"amount": { "type": "number" }
+			}
+		}
+	}
+}
