@@ -5,7 +5,7 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type Streams = {
+export type TwitchStreams = {
   channel: string;
   widthPercent: number;
   heightPercent: number;

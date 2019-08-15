@@ -1,5 +1,5 @@
 import * as nodecgApiContext from "./util/nodecg-api-context";
-import { Streams } from "../../schemas"
+import { TwitchStreams } from "../../schemas"
 import { RunDataActiveRun } from "../../speedcontrol-types"
 const nodecg = nodecgApiContext.get();
 
@@ -7,7 +7,7 @@ const nodecg = nodecgApiContext.get();
 
 var runDataActiveRunReplicant = nodecg.Replicant <RunDataActiveRun>("runDataActiveRun", 'nodecg-speedcontrol');
 
-var streamsReplicant = nodecg.Replicant <Streams>('twitchStreams', { 'defaultValue': [] });
+var streamsReplicant = nodecg.Replicant <TwitchStreams>('twitchStreams', { 'defaultValue': [] });
 var soundOnTwitchStream = nodecg.Replicant<number>('soundOnTwitchStream', { defaultValue: -1 });
 
 const aspectRatioToCropping = {
@@ -30,7 +30,7 @@ streamsReplicant.once('change', () => {
 		}
 
 		// grab all runners
-		var newStreams: Streams = []
+		var newStreams: TwitchStreams = []
 		var idx = 0;
 		newVal.teams.forEach(team => {
 			team.players.forEach(player => {
