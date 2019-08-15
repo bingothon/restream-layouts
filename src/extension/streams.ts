@@ -5,10 +5,10 @@ const nodecg = nodecgApiContext.get();
 
 //Twitch aspect ratio 1024x576
 
-var runDataActiveRunReplicant = nodecg.Replicant < RunDataActiveRun >("runDataActiveRun", 'nodecg-speedcontrol');
+var runDataActiveRunReplicant = nodecg.Replicant <RunDataActiveRun>("runDataActiveRun", 'nodecg-speedcontrol');
 
-var streamsReplicant = nodecg.Replicant <Streams>('twitch-streams', { 'defaultValue': [] });
-var soundOnTwitchStream = nodecg.Replicant('sound-on-twitch-stream', { defaultValue: -1 });
+var streamsReplicant = nodecg.Replicant <Streams>('twitchStreams', { 'defaultValue': [] });
+var soundOnTwitchStream = nodecg.Replicant<number>('soundOnTwitchStream', { defaultValue: -1 });
 
 const aspectRatioToCropping = {
 	"16_9": { 'widthPercent': 100, 'heightPercent': 100, 'topPercent': 0, 'leftPercent': 0 },
@@ -30,12 +30,25 @@ streamsReplicant.once('change', () => {
 		}
 
 		// grab all runners
-		var newStreams = []
+		var newStreams: Streams = []
 		var idx = 0;
 		newVal.teams.forEach(team => {
 			team.players.forEach(player => {
 				// in case the replicant changed, but this stream wasn't affected, don't reset cropping
-				var current = { 'channel': 'esamarathon', 'quality': 'chunked', 'widthPercent': 100, 'heightPercent': 100, 'topPercent': 0, 'leftPercent': 0, 'volume': 1, 'paused': false, 'hidden': true };
+				// fill everything with defaults
+				var current = {
+					'channel': 'esamarathon',
+					'quality': 'chunked',
+					'widthPercent': 100,
+					'heightPercent': 100,
+					'topPercent': 0,
+					'leftPercent': 0,
+					'volume': 1,
+					'paused': false,
+					'hidden': true,
+					'delay': -1,
+					'availableQualities': [] as string[]
+				};
 				current.widthPercent = cropping.widthPercent;
 				current.heightPercent = cropping.heightPercent;
 				current.topPercent = cropping.topPercent;
@@ -57,11 +70,6 @@ streamsReplicant.once('change', () => {
 				idx++;
 			});
 		});
-		// hide/mute/stop all other streams
-		// TODO refactor this to be dynamic in the layout
-		for (var i = newStreams.length; i < 4; i++) {
-			newStreams.push({ "paused": true, "hidden": true });
-		}
 		streamsReplicant.value = newStreams;
 	});
 });

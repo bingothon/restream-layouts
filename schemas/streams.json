@@ -4,8 +4,8 @@
 	"default": [],
 	"items": {
 			"type": "object",
-			"additionalProperties": "false",
-			"required": [],
+			"additionalProperties": false,
+			"required": ["channel","widthPercent","heightPercent","topPercent","leftPercent","quality","volume","paused","hidden","delay","availableQualities"],
 		"properties": {
 			"channel": {
 				"type": "string",
@@ -29,7 +29,6 @@
 			},
 			"quality": {
 				"type": "string",
-				"enum": [ "chunked" ],
 				"default": "chunked"
 			},
 			"volume": {
@@ -43,6 +42,17 @@
 			"hidden": {
 				"type": "boolean",
 				"default": "true"
+			},
+			"delay": {
+				"type":"number",
+				"default":0
+			},
+			"availableQualities": {
+				"type": "array",
+				"default": [],
+				"items": {
+					"type": "string"
+				}
 			}
 		}
 	}

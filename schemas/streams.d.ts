@@ -6,14 +6,15 @@
  */
 
 export type Streams = {
-  channel?: string;
-  widthPercent?: number;
-  heightPercent?: number;
-  topPercent?: number;
-  leftPercent?: number;
-  quality?: "chunked";
-  volume?: number;
-  paused?: boolean;
-  hidden?: boolean;
-  [k: string]: any;
+  channel: string;
+  widthPercent: number;
+  heightPercent: number;
+  topPercent: number;
+  leftPercent: number;
+  quality: string;
+  volume: number;
+  paused: boolean;
+  hidden: boolean;
+  delay: number;
+  availableQualities: string[];
 }[];

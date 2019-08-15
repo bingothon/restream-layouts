@@ -8,4 +8,5 @@ export = (nodecg: NodeCG): void => {
   require("./discord");
   require("./twitch-chat-bot");
   require("./gdq-donationtracker");
+  require("./streams");
 };
