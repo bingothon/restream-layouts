@@ -19,7 +19,7 @@ const nodecgSpeedcontrolReplicantNames = [
   'runDataActiveRun',
   'runDataArray',
 ]
-const replicants: ReplicantBrowser<unknown>[] = [];
+const replicants: Map<string,ReplicantBrowser<any>> = new Map();
 
 export const store = new Vuex.Store({
   state: {
@@ -41,6 +41,18 @@ export const store = new Vuex.Store({
   },
 });
 
+/**
+ * Gets the raw replicant, only intended for modifications, to use values use state
+ * @param replicant name of the replicant, throws an error if it isn't found
+ */
+export function getReplicant<T>(replicant: string): ReplicantBrowser<T> {
+  const rep = replicants.get(replicant);
+  if (!rep) {
+    throw new Error("invalid replicant!");
+  }
+  return rep;
+}
+
 replicantNames.forEach((name) => {
   const replicant = nodecg.Replicant(name);
 
@@ -51,7 +63,7 @@ replicantNames.forEach((name) => {
     });
   });
 
-  replicants.push(replicant);
+  replicants.set(name,replicant);
 });
 
 nodecgSpeedcontrolReplicantNames.forEach(name => {
@@ -64,9 +76,9 @@ nodecgSpeedcontrolReplicantNames.forEach(name => {
     });
   });
 
-  replicants.push(rep);
+  replicants.set(name,rep);
 })
 
 export async function create() {
-  return NodeCG.waitForReplicants(...replicants).then(() => store);
+  return NodeCG.waitForReplicants(...Array.from(replicants.values())).then(() => store);
 }

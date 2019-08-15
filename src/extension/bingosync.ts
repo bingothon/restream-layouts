@@ -101,6 +101,19 @@ nodecg.listenFor('bingosync:toggleCard', (_data, callback) => {
 	}
 });
 
+nodecg.listenFor('bingosync:toggleColors', (_data, callback) => {
+	try {
+		boardMetaRep.value.colorShown = !boardMetaRep.value.colorShown;
+        if (callback && !callback.handled) {
+            callback(null);
+        }
+	} catch (error) {
+        if (callback && !callback.handled) {
+            callback(error);
+        }
+	}
+});
+
 /*nodecg.listenFor('bingosync:toggleEmbiggen', (_data, callback) => {
 	try {
 		boardRep.value.embiggen = !boardRep.value.embiggen;
@@ -113,6 +126,13 @@ nodecg.listenFor('bingosync:toggleCard', (_data, callback) => {
         }
 	}
 });*/
+
+nodecg.listenFor('bingosync:setPlayerColor',(data: {idx: number, color: ("pink" | "red" | "orange" | "brown" | "yellow" | "green" | "teal" | "blue" | "navy" | "purple")}, callback) => {
+	boardMetaRep.value.playerColors[data.idx] = data.color;
+	if (callback && !callback.handled) {
+		callback();
+	}
+});
 
 recover().catch(error => {
 	log.error(`Failed to recover connection to room ${socketRep.value.roomCode}:`, error);
