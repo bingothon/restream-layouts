@@ -27,7 +27,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { nodecg, NodeCG } from "../../browser-util/nodecg";
 import { Bingoboard, BingosyncSocket, BingoboardMeta } from "../../../schemas";
-import { store, getReplicant } from "../_misc/state";
+import { store, getReplicant } from "../../browser-util/state";
 
 type ColorEnum = ("pink" | "red" | "orange" | "brown" | "yellow" | "green" | "teal" | "blue" | "navy" | "purple");
 

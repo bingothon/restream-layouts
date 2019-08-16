@@ -29,7 +29,7 @@ if (nodecg.bundleConfig && nodecg.bundleConfig.donationtracker && nodecg.bundleC
 					log.info(`donation total updated to ${data.total}`);
 				}
 			})
-			.error(err => {
+			.catch(err => {
 				log.error("error getting donation total: ", err);
 			});
 
@@ -41,7 +41,7 @@ if (nodecg.bundleConfig && nodecg.bundleConfig.donationtracker && nodecg.bundleC
 					log.info(`bids updated to ${JSON.stringify(data.results)}`);
 				}
 			})
-			.error(err => {
+			.catch(err => {
 				log.error("error getting bids: ", err);
 			});
 
@@ -55,7 +55,7 @@ if (nodecg.bundleConfig && nodecg.bundleConfig.donationtracker && nodecg.bundleC
 					log.info(`donations updated to ${JSON.stringify(data.results)}`);
 				}
 			})
-			.error(err => {
+			.catch(err => {
 				log.error("error getting donations: ", err);
 			});
 	}

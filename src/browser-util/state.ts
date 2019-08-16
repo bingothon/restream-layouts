@@ -2,8 +2,8 @@ import clone from 'clone';
 import { ReplicantBrowser } from 'nodecg/types/browser'; // eslint-disable-line
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { Bingoboard, BingoboardMeta, BingosyncSocket, DonationTotal, TrackerOpenBids, TrackerDonations } from "../../../schemas";
-import { RunDataActiveRun, RunDataArray } from "../../../speedcontrol-types";
+import { Bingoboard, BingoboardMeta, BingosyncSocket, DonationTotal, TrackerOpenBids, TrackerDonations } from "../../schemas";
+import { RunDataActiveRun, RunDataArray } from "../../speedcontrol-types";
 
 Vue.use(Vuex);
 
