@@ -1,6 +1,5 @@
 <template>
-	<div id="App">
-
+	<div>
 		<bingo-board style="width:500px;height:500px;" fontSize="30px"></bingo-board>
 		<test-game-container></test-game-container>
 	</div>

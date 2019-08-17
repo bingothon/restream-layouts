@@ -10,9 +10,6 @@
 
 export default Vue.extend({
   name: 'Example',
-  components: {
-	  "bingo-board": BingoBoard,
-  },
   data() {
     return {
       text: 'Example',
