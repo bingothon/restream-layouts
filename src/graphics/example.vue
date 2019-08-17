@@ -7,14 +7,11 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import BingoBoard from "./components/bingoboard.vue";
-	import PlayerContainer from "./components/playerContainer.vue";
-	import PlayerInfo from "./components/playerInfo.vue"
 
 export default Vue.extend({
   name: 'Example',
   components: {
 	  "bingo-board": BingoBoard,
-	  "player-container": PlayerContainer
   },
   data() {
     return {

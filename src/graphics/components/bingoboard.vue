@@ -143,7 +143,6 @@ export default class BingoBoard extends Vue {
     table {
         width: 100%;
         height: 100%;
-        position: absolute;
     }
 
     @keyframes bingo-splash {
