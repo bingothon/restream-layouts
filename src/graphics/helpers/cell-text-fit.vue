@@ -31,7 +31,6 @@ export default class CellTextFit extends Vue {
             const fittedContent = container.querySelector('#fittedContent');
             var scaleX = container.scrollWidth / fittedContent.scrollWidth;
             var scaleY = container.scrollHeight / fittedContent.scrollHeight;
-            console.log(`${scaleX}:${scaleY}`);
             const fontSize = window.getComputedStyle(fittedContent).fontSize;
             // limit recursion
             if (depth < 10 && scaleY < 0.8) {

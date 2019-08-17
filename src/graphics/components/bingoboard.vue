@@ -99,7 +99,9 @@ export default class BingoBoard extends Vue {
     mounted() {
         store.watch((state) => state.bingoboard, this.onBingoBoardUpdate);
         // trigger update, otherwise the watcher isn't triggered on reload
-        //this.onBingoBoardUpdate(store.state.bingoboard);
+        if (store.state.bingoboard) {
+            this.onBingoBoardUpdate(store.state.bingoboard);
+        }
     }
 
     // watch for bingo changes
