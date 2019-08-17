@@ -9,21 +9,13 @@
 			<game-extra-info></game-extra-info>
 			<timer></timer>
 		</div>
-		<player-container id="PlayerContainer1"
-						  :team-index="0"
-						  single></player-container>
-		<player-container id="PlayerContainer2"
-						  :team-index="1"
-						  single></player-container>
+		<player-container id="PlayerContainer1"></player-container>
+		<player-container id="PlayerContainer2"></player-container>
 	</info-storage-box>
 
 	<info-storage-box id="InfoStorageBox2">
-		<player-container id="PlayerContainer3"
-						  :team-index="2"
-						  single></player-container>
-		<player-container id="PlayerContainer4"
-						  :team-index="3"
-						  single></player-container>
+		<player-container id="PlayerContainer3"></player-container>
+		<player-container id="PlayerContainer4"></player-container>
 		</div>
 </template>
 
