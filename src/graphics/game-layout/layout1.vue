@@ -37,13 +37,38 @@
 
 	@Component({})
 	export default class GameLayout extends Vue {
-		  components: {
+		components: {
 			PlayerContainer,
 			InfoStorageBox,
-  }
+  		}
 	}
 </script>
 
 <style>
-
+  #InfoStorageBox1 {
+    left: 626px;
+    top: 0px;
+    width: 668px;
+    height: 308px;
+  }
+  .PlayerContainer {
+    width: 580px;
+  }
+  .PlayerContainer >>> .PlayerInfoBox {
+    height: 40px;
+    font-size: 25px;
+  }
+  #PlayerContainer1, #PlayerContainer3 {
+    margin-right: 88px;
+  }
+  #PlayerContainer2, #PlayerContainer4 {
+    margin-top: 3px;
+    margin-left: 88px;
+  }
+  #InfoStorageBox2 {
+    left: 626px;
+    top: 633px;
+    width: 668px;
+    height: 307px;
+  }
 </style>

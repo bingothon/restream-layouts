@@ -1,12 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\schemas",
-    "\\speedcontrol-types",
     "\\src",
-    "\\src\\extension",
-    "\\src\\extension\\util"
+    "\\src\\extension\\util",
+    "\\src\\graphics",
+    "\\src\\graphics\\game-layout"
   ],
-  "SelectedNode": "\\src\\extension\\streams.ts",
+  "SelectedNode": "\\src\\graphics\\game-layout.ts",
   "PreviewInSolutionExplorer": false
 }
