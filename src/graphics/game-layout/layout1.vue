@@ -34,13 +34,16 @@
 	import { store, getReplicant } from "../../browser-util/state";
 	import PlayerContainer from "../components/playerContainer.vue";
 	import PlayerInfo from "../components/playerInfo.vue";
+	import BingoBoard from "../components/bingoboard.vue";
 
-	@Component({})
-	export default class GameLayout extends Vue {
-		  components: {
+	@Component({
+		components: {
 			PlayerContainer,
-			InfoStorageBox,
-  }
+			BingoBoard,
+		}
+	})
+	export default class GameLayout extends Vue {
+
 	}
 </script>
 
