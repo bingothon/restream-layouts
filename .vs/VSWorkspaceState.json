@@ -2,10 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\schemas",
+    "\\speedcontrol-types",
     "\\src",
     "\\src\\extension",
     "\\src\\extension\\util"
   ],
-  "SelectedNode": "\\src\\extension\\gdq-donationtracker.ts",
+  "SelectedNode": "\\src\\extension\\streams.ts",
   "PreviewInSolutionExplorer": false
 }
