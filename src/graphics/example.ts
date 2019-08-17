@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import App from './example.vue';
+import {create} from '../browser-util/state';
 
-new Vue({
-  el: '#App',
-  render: h => h(App),
+create().then(() => {
+  new Vue({
+    el: '#App',
+    render: h => h(App),
+  });
 });

@@ -37,7 +37,6 @@
 
 <script>
 import SpeedcontrolUtil from 'speedcontrol-util';
-import { serverBus } from '../main';
 
 const twitchIconImg = require('../../../static/twitch-icon.png');
 

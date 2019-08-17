@@ -15,7 +15,7 @@
 <script>
 	import SpeedcontrolUtil from 'speedcontrol-util';
 	import clone from 'clone';
-	import PlayerInfo from './PlayerInfo.vue';
+	import PlayerInfo from './playerInfo.vue';
 	const sc = new SpeedcontrolUtil(nodecg);
 	export default {
 		name: 'PlayerContainer',

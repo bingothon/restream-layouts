@@ -21,8 +21,6 @@ import { Bingoboard, BingosyncSocket, BingoboardMeta } from "../../../schemas";
 import { store, getReplicant } from "../../browser-util/state";
 import CellTextFit from "../helpers/cell-text-fit.vue";
 
-import "./bingosync-style.css";
-
 type ColorEnum = ("pink" | "red" | "orange" | "brown" | "yellow" | "green" | "teal" | "blue" | "navy" | "purple");
 
 interface BingoCell {
@@ -141,6 +139,7 @@ export default class BingoBoard extends Vue {
 </script>
 
 <style>
+    @import url(./bingosync-style.css);
     table {
         width: 100%;
         height: 100%;
