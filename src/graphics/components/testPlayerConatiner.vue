@@ -15,13 +15,16 @@ import { METHODS } from "http";
 @Component({})
 export default class TestPlayerContainer extends Vue {
     index = 0;
-    players = [];
-    
-    store.state.runDataActiveRun.teams.forEach(team => {
+
+    get players(): string[] {
+      const playerRes = [];
+      store.state.runDataActiveRun.teams.forEach(team => {
         team.players.forEach(runner => {
-            players.push(runner.runnerName);
+            playerRes.push(runner.name);
         });
-    });
+      });
+      return playerRes;
+    }
 
     changePlayer(init) {
       if (!init) {
