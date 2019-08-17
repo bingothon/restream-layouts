@@ -11,7 +11,7 @@ import { store, getReplicant } from "../../browser-util/state";
 @Component({name:"cell-text-fit"})
 export default class CellTextFit extends Vue {
     @Prop({required: true})
-    text: string = "";
+    text: string;
     @Prop({})
     fontSize: string;
     optimizedFontSize: string = this.fontSize;
