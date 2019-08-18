@@ -1,0 +1,19 @@
+:root {
+    --container-background-color: #3b5d7e;
+    --container-border-color: #941111;
+    --font-color: #fff;
+}
+
+.FlexContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+/* global animation stuff */
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to {
+    opacity: 0;
+}

@@ -21,6 +21,8 @@ const nodecgSpeedcontrolReplicantNames = [
 ]
 const replicants: Map<string,ReplicantBrowser<any>> = new Map();
 
+var playerAlternateInterval = null;
+
 export const store = new Vuex.Store({
   state: {
     // bingothon
@@ -33,13 +35,31 @@ export const store = new Vuex.Store({
     // nodecg-speedcontrol
     runDataActiveRun: {} as RunDataActiveRun,
     runDataArray: [] as RunDataArray,
+    // timer
+    playerAlternate: true,
   },
   mutations: {
     updateReplicant(state, { name, value }) {
       Vue.set(state, name, value);
     },
+    startPlayerAlternateInterval(state, interval) {
+      if (playerAlternateInterval) {
+        clearInterval(playerAlternateInterval);
+      }
+      playerAlternateInterval = setInterval(() => {
+        Vue.set(state, 'playerAlternate', !state.playerAlternate);
+      }, interval);
+    },
+    stopPlayerAlternateInterval(state) {
+      if (playerAlternateInterval) {
+        clearInterval(playerAlternateInterval);
+      }
+      playerAlternateInterval = null;
+    }
   },
 });
+
+store.commit('startPlayerAlternateInterval', 10000);
 
 /**
  * Gets the raw replicant, only intended for modifications, to use values use state

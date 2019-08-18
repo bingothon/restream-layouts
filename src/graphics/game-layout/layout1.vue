@@ -2,6 +2,8 @@
 	<div>
 		<bingo-board style="width:500px;height:500px;" fontSize="30px"></bingo-board>
 		<test-game-container></test-game-container>
+    <player-info :player="teams[0].players[0]" playerIndex="0" style="width:500px"></player-info>
+    <player-info :player="teams[1].players[0]" playerIndex="1" style="width:500px"></player-info>
 	</div>
 </template>
 
@@ -12,16 +14,22 @@
 	import { store, getReplicant } from "../../browser-util/state";
 
 	import TestGameContainer from "../components/testGameContainer.vue";
-	import BingoBoard from "../components/bingoboard.vue";
+  import BingoBoard from "../components/bingoboard.vue";
+  import PlayerInfo from "../components/playerInfo.vue";
+import { RunDataPlayer, RunDataTeam } from "../../../speedcontrol-types";
 
 	@Component({
 		components: {
 			BingoBoard,
-			TestGameContainer,
+      TestGameContainer,
+      PlayerInfo,
 		}
 	})
 	
 	export default class GameLayout extends Vue {
+    get teams(): RunDataTeam[] {
+      return store.state.runDataActiveRun.teams;
+    }
 	}
 </script>
 

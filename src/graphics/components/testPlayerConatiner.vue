@@ -9,8 +9,6 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { store } from '../../browser-util/state';
-import { pathToFileURL } from "url";
-import { METHODS } from "http";
 
 @Component({})
 export default class TestPlayerContainer extends Vue {
