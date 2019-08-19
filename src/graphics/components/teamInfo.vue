@@ -3,7 +3,10 @@
     <div v-if="bingoColorShown" class="BingoColor FlexContainer" :class="`bingo-${bingoColor}`">
       <span v-if="bingoCountShown">{{bingoGoalCount}}</span>
     </div>
-    <div class="TeamNameContainer">Team: {{name}}</div>
+    <div class="TeamNameContainer">
+      <text-fit :text="`Team: ${name}`">
+      </text-fit>
+    </div>
   </div>
 </template>
 
@@ -11,8 +14,13 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { RunDataTeam } from "../../../speedcontrol-types";
 import { store } from "../../browser-util/state";
+import TextFit from "../helpers/text-fit.vue";
 
-@Component({})
+@Component({
+  components:{
+    TextFit,
+  }
+})
 export default class TeamInfo extends Vue {
     @Prop({required: true})
     teamIndex: number;
@@ -62,7 +70,12 @@ export default class TeamInfo extends Vue {
   }
 
   .TeamInfoBox > .TeamNameContainer {
-      flex-grow: 1;
+    flex-grow: 1;
+    flex-shrink: 0;
+    height: 100%;
+    position: relative;
+    white-space: nowrap;
+    justify-content: left;
   }
 
   .TeamInfoBox > .BingoColor {

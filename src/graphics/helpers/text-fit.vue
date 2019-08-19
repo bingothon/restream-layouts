@@ -1,0 +1,60 @@
+<template>
+    <div id="TextContainer">
+        <div id="FittedTextContent" :style="{transform, top}">{{text}}</div>
+    </div>
+</template>
+
+<script lang="ts">
+import { Component, Vue, Watch, Prop } from "vue-property-decorator";
+
+@Component({name:"text-fit"})
+export default class TextFit extends Vue {
+    @Prop({required: true})
+    text: string;
+    transform: string = "scaleX(1)";
+    top: string = "0";
+
+    mounted() {
+        this.$watch('text', ()=> {
+            this.fit();
+        });
+        if (this.transform == "scaleX(1)") {
+            this.fit();
+        }
+    }
+
+    fit() {
+        this.transform = `scaleX(1)`;
+        this.top = "0";
+        this.$nextTick(()=> {
+            // get width height of parent and text container to calc scaling
+            const container = this.$el;
+            const fittedContent = container.querySelector('#FittedTextContent');
+            var scaleX = container.scrollWidth / fittedContent.scrollWidth;
+            console.log(container);
+            console.log(`${container.scrollWidth}:${fittedContent.scrollWidth}`);
+            // limit max scale to 1
+            scaleX = Math.min(1,scaleX);
+            // center if overflow
+            var toLeft = (container.scrollWidth - fittedContent.scrollWidth) / 2;
+            if (scaleX == 1) {
+                toLeft = 0;
+            }
+            this.transform = `translateY(-50%) translateX(${toLeft}px) scaleX(${scaleX})`;
+            this.top = "50%";
+        });
+    }
+}
+</script>
+
+<style>
+    #TextContainer {
+        height: 100%;
+        width: 100%;
+        white-space: nowrap;
+    }
+    #FittedTextContent {
+        position: absolute;
+        left: 0;
+    }
+</style>

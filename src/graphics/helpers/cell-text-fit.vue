@@ -6,7 +6,6 @@
 
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from "vue-property-decorator";
-import { store, getReplicant } from "../../browser-util/state";
 
 @Component({name:"cell-text-fit"})
 export default class CellTextFit extends Vue {

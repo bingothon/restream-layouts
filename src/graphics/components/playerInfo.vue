@@ -14,11 +14,13 @@
         >
       </transition>
     </div>
-    <div class="PlayerName FlexContainer">
+    <div class="PlayerName">
       <transition name="fade">
-        <div :key="text">
+        <text-fit :key="text" :text="text">
+        </text-fit>
+        <!--<div :key="text">
           <span>{{ text }}</span>
-        </div>
+        </div>-->
       </transition>
     </div>
     <div class="Flag FlexContainer">
@@ -40,12 +42,16 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { store } from "../../browser-util/state";
 import { RunDataPlayer } from "../../../speedcontrol-types";
-import { setInterval } from "timers";
+import TextFit from "../helpers/text-fit.vue";
 
 const playerSoloImg = require('../_misc/player-solo.png');
 const twitchIconImg = require('../_misc/twitch-icon.png');
 
-@Component({})
+@Component({
+  components: {
+    TextFit,
+  }
+})
 export default class PlayerInfo extends Vue {
   @Prop({required: true})
   player: RunDataPlayer;
@@ -109,7 +115,7 @@ export default class PlayerInfo extends Vue {
 
   .PlayerInfoBox > .CurrentIcon {
     height: 100%;
-    width: 100px;
+    width: 80px;
     text-align: left;
     position: relative;
   }
@@ -121,13 +127,11 @@ export default class PlayerInfo extends Vue {
   }
 
   .PlayerInfoBox > .PlayerName {
-    flex: 1;
+    flex-grow: 1;
+    flex-shrink: 0;
+    height: 100%;
     justify-content: flex-start;
     position: relative;
-  }
-
-  .PlayerInfoBox > .PlayerName > div {
-    position: absolute;
   }
 
   /*.PlayerInfoBox > .PlayerName > div > .FinishTime {
