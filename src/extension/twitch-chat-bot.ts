@@ -1,12 +1,13 @@
-'use-strict'
+'use-strict';
 
-import * as TwitchJS from "twitch-js";
-import {definitions as bingoDefinitions} from "./bingodefinitions";
-import { RunDataActiveRun, RunDataPlayer } from "../../speedcontrol-types";
-import { Configschema } from "../../configschema";
+import * as TwitchJS from 'twitch-js';
+import { Replicant } from 'nodecg/types/server';
+import { definitions as bingoDefinitions } from './bingodefinitions';
+import { RunDataActiveRun, RunDataPlayer } from '../../speedcontrol-types';
+import { Configschema } from '../../configschema';
 
-import * as nodecgApiContext from "./util/nodecg-api-context";
-import { Replicant } from "nodecg/types/server";
+import * as nodecgApiContext from './util/nodecg-api-context';
+
 const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger(`${nodecg.bundleName}:twitch-chat-bot`);
 
@@ -14,9 +15,9 @@ const log = new nodecg.Logger(`${nodecg.bundleName}:twitch-chat-bot`);
 // var chatCommandsRep = nodecg.Replicant('chatCommands', {defaultValue: {}});
 
 // keep track of cooldowns
-const cooldowns = {runner:{lastUsed:0, cooldown:15}, bingo:{lastUsed:0, cooldown:15}};
+const cooldowns = { runner: { lastUsed: 0, cooldown: 15 }, bingo: { lastUsed: 0, cooldown: 15 } };
 // in case the cooldowns need to be adjusted
-/*nodecg.listenFor('setCommandCooldown',data=>{
+/* nodecg.listenFor('setCommandCooldown',data=>{
     if (!data || !data.command || !data.cooldown) {
         log.error("can't set cooldown if command and/or cooldown are missing, got:",data);
     } else {
@@ -25,7 +26,7 @@ const cooldowns = {runner:{lastUsed:0, cooldown:15}, bingo:{lastUsed:0, cooldown
             com.cooldown = data.cooldown;
         }
     }
-})*/
+}) */
 
 // Setting up replicants.
 const accessToken = nodecg.Replicant<string>('twitchAccessToken', 'nodecg-speedcontrol');
@@ -34,47 +35,47 @@ const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun
 const bundleConfig = nodecg.bundleConfig as Configschema;
 
 function waitForReplicants(replicants: Replicant<any>[], callback: Function) {
-    var count = 0;
-    replicants.forEach(r => {
-        r.once('change',() => {
-            count++;
-            if (count == replicants.length) {
-                callback();
-            }
-        });
+  let count = 0;
+  replicants.forEach((r) => {
+    r.once('change', () => {
+      count++;
+      if (count == replicants.length) {
+        callback();
+      }
     });
+  });
 }
 
 if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.chatBot) {
-    nodecg.listenFor('twitchAPIReady', 'nodecg-speedcontrol', () => {
-    waitForReplicants([twitchChannelNameRep, runDataActiveRunRep, accessToken],() => {
-        log.info("Twitch chat bot is enabled.");
+  nodecg.listenFor('twitchAPIReady', 'nodecg-speedcontrol', () => {
+    waitForReplicants([twitchChannelNameRep, runDataActiveRunRep, accessToken], () => {
+      log.info('Twitch chat bot is enabled.');
 
-        var options = {
-            options: {
-                //debug: true,  // might want to turn off when in production
-            },
-            connection: {
-                secure: true,
-                reconnect: true,
-            },
-            identity: {
-                username: twitchChannelNameRep.value,
-                password: accessToken.value,
-            }
-        };
+      const options = {
+        options: {
+          // debug: true,  // might want to turn off when in production
+        },
+        connection: {
+          secure: true,
+          reconnect: true,
+        },
+        identity: {
+          username: twitchChannelNameRep.value,
+          password: accessToken.value,
+        },
+      };
 
-        var client = new TwitchJS.client(options);
-        
-        // message handler function
-        function messageHandler(channel: string, user: {[key:string]:string}, message: string, self: any) {
-            // only listen to commands in chat
-            if (self) return;
-            if (user['message-type'] != 'chat') return;
-            if (!message.startsWith('!')) return;
-            var parts = message.split(' ', 3);
-            // check mod only commands, currently not used
-            /*if ((user.mod || 'broadcaster' in user.badges) && parts.length >= 2) {
+      const client = new TwitchJS.client(options);
+
+      // message handler function
+      function messageHandler(channel: string, user: {[key: string]: string}, message: string, self: any) {
+        // only listen to commands in chat
+        if (self) return;
+        if (user['message-type'] != 'chat') return;
+        if (!message.startsWith('!')) return;
+        const parts = message.split(' ', 3);
+        // check mod only commands, currently not used
+        /* if ((user.mod || 'broadcaster' in user.badges) && parts.length >= 2) {
                 // name of the command to edit
                 var commandname = parts[1];
                 if (parts.length == 2) {
@@ -125,53 +126,53 @@ if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.cha
                         }
                     }
                 }
-            }*/
-            var userCommandName = parts[0].slice(1);
-            var now = new Date().getTime();
-            if (userCommandName == "runner" || userCommandName == "runners" || userCommandName == "r") {
-                // check cooldown to not spam chat
-                if (now - cooldowns.runner.lastUsed < cooldowns.runner.cooldown) {
-                    return;
+            } */
+        const userCommandName = parts[0].slice(1);
+        const now = new Date().getTime();
+        if (userCommandName == 'runner' || userCommandName == 'runners' || userCommandName == 'r') {
+          // check cooldown to not spam chat
+          if (now - cooldowns.runner.lastUsed < cooldowns.runner.cooldown) {
+            return;
+          }
+          cooldowns.runner.lastUsed = now;
+          // Grab current runners and format them & their twitch
+          let playerCount = 1;
+          // should never happen
+          if (!runDataActiveRunRep.value) {
+            return;
+          }
+          // rip flatMap
+          let players: RunDataPlayer[] = [];
+          runDataActiveRunRep.value.teams.forEach(t => players = players.concat(t.players));
+          const runersStr = players.map(p => `Player ${playerCount++}: ${p.name} ( twitch.tv/${p.social.twitch} )`).join('. ');
+          if (runersStr) {
+            client.say(channel, `Follow the runners! ${runersStr}`)
+              .catch(e => log.error('', e));
+          }
+          return;
+        }
+        if (userCommandName == 'bingo') {
+          // check cooldown to not spam chat
+          if (now - cooldowns.bingo.lastUsed < cooldowns.bingo.cooldown) {
+            return;
+          }
+          cooldowns.bingo.lastUsed = now;
+          if (runDataActiveRunRep.value && runDataActiveRunRep.value.customData) {
+            const bingotype = runDataActiveRunRep.value.customData.Bingotype;
+            if (bingotype) {
+              const isCoop = runDataActiveRunRep.value.teams[0].players.length > 1;
+              let explanation = bingoDefinitions[bingotype];
+              if (explanation) {
+                if (isCoop) {
+                  explanation += bingoDefinitions.coop;
                 }
-                cooldowns.runner.lastUsed = now;
-                // Grab current runners and format them & their twitch
-                var playerCount = 1;
-                // should never happen
-                if (!runDataActiveRunRep.value) {
-                    return;
-                }
-                // rip flatMap
-                var players: RunDataPlayer[] = [];
-                runDataActiveRunRep.value.teams.forEach(t => players = players.concat(t.players));
-                var runersStr = players.map(p => `Player ${playerCount++}: ${p.name} ( twitch.tv/${p.social.twitch} )`).join('. ');
-                if (runersStr) {
-                    client.say(channel, 'Follow the runners! '+runersStr)
-                        .catch(e=>log.error('',e));
-                }
-                return;
+                client.say(channel, explanation)
+                  .catch(e => log.error('', e));
+              }
             }
-            if (userCommandName == "bingo") {
-                // check cooldown to not spam chat
-                if (now - cooldowns.bingo.lastUsed < cooldowns.bingo.cooldown) {
-                    return;
-                }
-                cooldowns.bingo.lastUsed = now;
-                if (runDataActiveRunRep.value && runDataActiveRunRep.value.customData) {
-                    var bingotype = runDataActiveRunRep.value.customData.Bingotype;
-                    if (bingotype) {
-                        var isCoop = runDataActiveRunRep.value.teams[0].players.length > 1;
-                        var explanation = bingoDefinitions[bingotype];
-                        if (explanation) {
-                            if (isCoop) {
-                                explanation += bingoDefinitions.coop;
-                            }
-                            client.say(channel, explanation)
-                                .catch(e=>log.error('',e));
-                        }
-                    }
-                }
-            }
-            /* also custom chatbot stuff not used
+          }
+        }
+        /* also custom chatbot stuff not used
             if (chatCommandsRep.value.hasOwnProperty(userCommandName)) {
                 var userCommand = chatCommandsRep.value[userCommandName];
                 if (userCommand &&
@@ -180,19 +181,19 @@ if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.cha
                         client.say(channel, userCommand.response);
                         userCommand.lastUsed = new Date().getTime();
                 }
-            }*/
-        }
-        client.connect()
-            .catch(e=>log.error('',e))
-            .then(()=>{
-                client.on('message', messageHandler);
-                client.join(twitchChannelNameRep.value)
-                    .catch(reason => {
-                        log.error("Couldn't join channel: "+reason);
-                    }).then(data=>{
-                        log.info("Joined channel: "+data);
-                    });
+            } */
+      }
+      client.connect()
+        .catch(e => log.error('', e))
+        .then(() => {
+          client.on('message', messageHandler);
+          client.join(twitchChannelNameRep.value)
+            .catch((reason) => {
+              log.error(`Couldn't join channel: ${reason}`);
+            }).then((data) => {
+              log.info(`Joined channel: ${data}`);
             });
+        });
     });
-    });
+  });
 }

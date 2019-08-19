@@ -1,4 +1,5 @@
 import { NodeCG } from 'nodecg/types/server';
+
 let context: NodeCG;
 
 export function get(): NodeCG {
