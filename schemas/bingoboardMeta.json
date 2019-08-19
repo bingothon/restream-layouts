@@ -25,6 +25,10 @@
         "colorShown": {
             "type":"boolean",
             "default":true
+        },
+        "countShown": {
+            "type":"boolean",
+            "default":true
         }
     }    
 }

@@ -22,7 +22,7 @@
     "watch:browser": "npm run bundle",
     "watch:extension": "trash extension && npx tsc -b tsconfig.extension.json -w",
     "autofix": "run-s autofix:*",
-    "autofix:browser": "npx eslint --fix --ext .ts,.vue,.html src/dashboard && eslint --fix --ext .js,.vue src/graphics",
+    "autofix:browser": "npx eslint --fix --ext .ts,.vue,.html src/dashboard && eslint --fix --ext .ts,.vue src/graphics",
     "autofix:extension": "npx eslint --fix --ext .ts src/extension",
     "typeschemas": "node script/typeschemas.js"
   },

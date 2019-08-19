@@ -30,8 +30,8 @@
         >
       </transition>
     </div>
-    <div v-if="bingoColorShown" class="BingoColor FlexContainer" :style="{'background-color':bingoColor}">
-      {{bingoGoalCount}}
+    <div v-if="bingoColorShown === true" class="BingoColor FlexContainer" :class="`bingo-${bingoColor}`">
+      <span v-if="bingoCountShown === true">{{bingoGoalCount}}</span>
     </div>
   </div>
 </template>
@@ -56,11 +56,8 @@ export default class PlayerInfo extends Vue {
   @Prop({default: true})
   showFlag: boolean;
 
-  showInterval: NodeJS.Timeout;
-
-  mounted() {
-
-  }
+  @Prop({default: true})
+  showColor: boolean;
 
   get show(): boolean {
     return store.state.playerAlternate;
@@ -83,7 +80,7 @@ export default class PlayerInfo extends Vue {
   }
 
   get bingoColor(): string {
-    return store.state.bingoboardMeta.playerColors[this.playerIndex] || "white";
+    return store.state.bingoboardMeta.playerColors[this.playerIndex] || "red";
   }
 
   get bingoGoalCount(): number {
@@ -91,7 +88,11 @@ export default class PlayerInfo extends Vue {
   }
 
   get bingoColorShown(): boolean {
-    return store.state.bingoboardMeta.colorShown;
+    return store.state.bingoboardMeta.colorShown && this.showColor;
+  }
+
+  get bingoCountShown(): boolean {
+    return store.state.bingoboardMeta.countShown;
   }
 }
 </script>
@@ -140,13 +141,6 @@ export default class PlayerInfo extends Vue {
     position: relative;
   }
 
-  .PlayerInfoBox > .Flag {
-    height: 100%;
-    width: 100px;
-    justify-content: flex-end;
-    position: relative;
-  }
-
   .PlayerInfoBox > .Flag > img {
     visibility: visible;
     position: absolute;
@@ -156,9 +150,52 @@ export default class PlayerInfo extends Vue {
 
   .PlayerInfoBox > .BingoColor {
     justify-content: center;
-    height: 100%;
+    height: 55px;
     width: 55px;
     margin-left: 29px;
     font-size: 40px;
+    border-radius: 10%;
+    border: 1px white solid;
+  }
+
+  /* Bingosync styled gradients */
+  .PlayerInfoBox > .BingoColor.bingo-green {
+    background-image: linear-gradient(#31D814, #00B500 60%, #20A00A);
+  }
+
+  .PlayerInfoBox > .BingoColor.bingo-red {
+    background-image: linear-gradient(#FF4944, #DA4440 60%, #CE302C);
+  }
+
+  .PlayerInfoBox > .BingoColor.bingo-orange {
+    background-image: linear-gradient(#FF9C12, #F98E1E 60%, #D0800F);
+  }
+
+  .PlayerInfoBox > .BingoColor.bingo-blue {
+    background-image: linear-gradient(#409CFF, #37A1DE 60%, #088CBD);
+  }
+
+  .PlayerInfoBox > .BingoColor.bingo-purple {
+    background-image: linear-gradient(#822dbf, #7120ab);
+  }
+
+  .PlayerInfoBox > .BingoColor.bingo-pink {
+    background-image: linear-gradient(#ed86aa, #cc6e8f);
+  }
+
+  .PlayerInfoBox > .BingoColor.bingo-brown {
+    background-image: linear-gradient(#ab5c23, #6d3811);
+  }
+
+  .PlayerInfoBox > .BingoColor.bingo-teal {
+    background-image: linear-gradient(#419695, #2e7372);
+  }
+
+  .PlayerInfoBox > .BingoColor.bingo-navy {
+    background-image: linear-gradient(#0d48b5, #022b75);
+  }
+
+  .PlayerInfoBox > .BingoColor.bingo-yellow {
+    background-image: linear-gradient(#d8d014, #c1ba0b);
   }
 </style>

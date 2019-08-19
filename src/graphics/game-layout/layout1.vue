@@ -2,8 +2,7 @@
 	<div>
 		<bingo-board style="width:500px;height:500px;" fontSize="30px"></bingo-board>
 		<test-game-container></test-game-container>
-    <player-info :player="teams[0].players[0]" playerIndex="0" style="width:500px"></player-info>
-    <player-info :player="teams[1].players[0]" playerIndex="1" style="width:500px"></player-info>
+    <player-team-container teamIndex="0" style="width:600px;"></player-team-container>
 	</div>
 </template>
 
@@ -16,13 +15,17 @@
 	import TestGameContainer from "../components/testGameContainer.vue";
   import BingoBoard from "../components/bingoboard.vue";
   import PlayerInfo from "../components/playerInfo.vue";
-import { RunDataPlayer, RunDataTeam } from "../../../speedcontrol-types";
+  import TeamInfo from "../components/teamInfo.vue";
+  import PlayerTeamContainer from "../components/playerTeamContainer.vue";
+  import { RunDataPlayer, RunDataTeam } from "../../../speedcontrol-types";
 
 	@Component({
 		components: {
 			BingoBoard,
       TestGameContainer,
       PlayerInfo,
+      TeamInfo,
+      PlayerTeamContainer,
 		}
 	})
 	

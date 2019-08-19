@@ -12,4 +12,5 @@ export interface BingoboardMeta {
     [k: string]: any;
   };
   colorShown: boolean;
+  countShown?: boolean;
 }
