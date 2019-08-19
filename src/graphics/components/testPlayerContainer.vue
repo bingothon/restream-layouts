@@ -31,12 +31,6 @@ export default class TestPlayerContainer extends Vue {
           this.index = 0;
         }
       }
-      this.text = this.players[this.index].name;
-      if (this.players[this.index].country) {
-        this.showFlag = true;
-      } else {
-        this.showFlag = false;
-      }
     }
 }
 

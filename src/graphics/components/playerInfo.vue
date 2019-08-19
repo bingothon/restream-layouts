@@ -128,11 +128,18 @@ export default class PlayerInfo extends Vue {
 
   .PlayerInfoBox > .PlayerName > div {
     position: absolute;
+    width: 380px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /*.PlayerInfoBox > .PlayerName > div > .FinishTime {
     color: var(--font-colour);
   }*/
+
+  .PlayerInfoBox {
+   background-image: linear-gradient(#0b1b1d, #23575e)
+  }
 
   .PlayerInfoBox > .Flag {
     height: 100%;
