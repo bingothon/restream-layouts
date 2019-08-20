@@ -31,8 +31,8 @@ export default class TextFit extends Vue {
             const container = this.$el;
             const fittedContent = container.querySelector('#FittedTextContent');
             var scaleX = container.scrollWidth / fittedContent.scrollWidth;
-            console.log(container);
-            console.log(`${container.scrollWidth}:${fittedContent.scrollWidth}`);
+            // console.log(container);
+            // console.log(`${container.scrollWidth}:${fittedContent.scrollWidth}`);
             // limit max scale to 1
             scaleX = Math.min(1,scaleX);
             // center if overflow
