@@ -4,7 +4,7 @@
     v-if="show"
     id="TimerBox"
     class="RunInfoBox FlexContainer"
-    :style="textColor"
+    :style="{color:textColor}"
     v-html="time"
   />
   <!-- eslint-enable -->
@@ -13,49 +13,47 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { store } from '../../browser-util/state';
-import { METHODS } from "http";
 import { Timer } from "../../../speedcontrol-types";
 
 @Component({})
 export default class TestTimerContainer extends Vue {
+    show = true;
+    backupTimerTO: NodeJS.Timer = null;
+    time = '';
+    textColor = 'white';
+    updateDataUnwatch;
+
+    mounted() {
+        // save callback for unwatch
+        this.updateDataUnwatch = store.watch((state) => state.timer, this.updateData);
+    }
+
+    destroyed() {
+      this.updateDataUnwatch();
+    }
+
     get estimate(): string {
         return store.state.runDataActiveRun.estimate
     }
-
-    get timer(): Timer {
-        return store.state.timer
-    }
-
-    data() {
-        return {
-            show: false,
-            time: '',
-            backupTimerTO: <any>setTimeout("0"),
-            textColor: {
-                color: 'white',
-            },
-        };
-    }
-
   
-    updateData(timer) {
-      timer.show = true;
-      timer.time = this.splitStringToSpans(timer.time);
+    updateData(timer: Timer) {
+      console.log('updated');
+      this.time = this.splitStringToSpans(timer.time);
       switch (timer.state) {
       default:
       case 'running':
-        timer.textColor.color = getComputedStyle(document.documentElement).getPropertyValue('--timer-colour');
+        this.textColor = getComputedStyle(document.documentElement).getPropertyValue('--timer-colour') || 'red';
         break;
       case 'paused':
       case 'stopped':
-        timer.textColor.color = getComputedStyle(document.documentElement).getPropertyValue('--timer-paused-colour');
+        this.textColor = getComputedStyle(document.documentElement).getPropertyValue('--timer-paused-colour') || 'grey';
         break;
       case 'finished':
-        timer.textColor.color = getComputedStyle(document.documentElement).getPropertyValue('--timer-finish-colour');
+        this.textColor = getComputedStyle(document.documentElement).getPropertyValue('--timer-finish-colour') || 'blue';
       }
       // Backup timer (see below).
-      clearTimeout(timer.backupTimerTO);
-      timer.backupTimerTO = setTimeout(timer.backupTimer, 1000);
+      clearTimeout(this.backupTimerTO);
+      this.backupTimerTO = setTimeout(this.backupTimer, 1000);
     }
     splitStringToSpans(string) {
       return string.replace(/\S/g, '<span>$&</span>');
@@ -64,11 +62,12 @@ export default class TestTimerContainer extends Vue {
     // Based on the last timestamp that was received.
     // When the connection is restored, the server timer will recover and take over again.
     backupTimer() {
-      this.data().backupTimerTO = setTimeout(this.backupTimer, 200);
-      if (this.timer.state === 'running') {
-        const missedTime = Date.now() - this.timer.timestamp;
-        const timeOffset = this.timer.milliseconds + missedTime;
-        this.timer.time = this.splitStringToSpans(this.msToDuration(timeOffset));
+      this.backupTimerTO = setTimeout(this.backupTimer, 200);
+      const timer = store.state.timer;
+      if (timer.state === 'running') {
+        const missedTime = Date.now() - timer.timestamp;
+        const timeOffset = timer.milliseconds + missedTime;
+        this.time = this.splitStringToSpans(this.msToDuration(timeOffset));
       }
     }
     msToDuration(ms) {
