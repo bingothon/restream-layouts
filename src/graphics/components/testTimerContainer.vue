@@ -4,7 +4,7 @@
     v-if="show"
     id="TimerBox"
     class="RunInfoBox FlexContainer"
-    :style="{color:textColor}"
+    :class="timerStateClass"
     v-html="time"
   />
   <!-- eslint-enable -->
@@ -20,7 +20,7 @@ export default class TestTimerContainer extends Vue {
     show = true;
     backupTimerTO: NodeJS.Timer = null;
     time = '';
-    textColor = 'white';
+    timerStateClass = 'running';
     updateDataUnwatch;
 
     mounted() {
@@ -39,7 +39,7 @@ export default class TestTimerContainer extends Vue {
     updateData(timer: Timer) {
       console.log('updated');
       this.time = this.splitStringToSpans(timer.time);
-      switch (timer.state) {
+      /*switch (timer.state) {
       default:
       case 'running':
         this.textColor = getComputedStyle(document.documentElement).getPropertyValue('--timer-colour') || 'red';
@@ -50,7 +50,8 @@ export default class TestTimerContainer extends Vue {
         break;
       case 'finished':
         this.textColor = getComputedStyle(document.documentElement).getPropertyValue('--timer-finish-colour') || 'blue';
-      }
+      }*/
+      this.timerStateClass = timer.state || 'stopped';
       // Backup timer (see below).
       clearTimeout(this.backupTimerTO);
       this.backupTimerTO = setTimeout(this.backupTimer, 1000);
@@ -81,3 +82,17 @@ export default class TestTimerContainer extends Vue {
     }
 }
 </script>
+
+<style>
+    #TimerBox.running {
+      color: red;
+    }
+
+    #TimerBox.paused, #TimerBox.stopped {
+      color: gray;
+    }
+
+    #TimerBox.finished {
+      color: blue;
+    }
+</style>
