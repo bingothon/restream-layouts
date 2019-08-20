@@ -2,6 +2,7 @@
 	<div>
 		<bingo-board style="width:500px;height:500px;" fontSize="30px"></bingo-board>
 		<test-game-container></test-game-container>
+    <test-timer-container></test-timer-container>
     <player-team-container teamIndex="0" style="width:600px;"></player-team-container>
 	</div>
 </template>
@@ -11,7 +12,7 @@
 	import { nodecg, NodeCG } from "../../browser-util/nodecg";
 	import { Bingoboard, BingosyncSocket, BingoboardMeta } from "../../../schemas";
 	import { store, getReplicant } from "../../browser-util/state";
-
+  import TestTimerContainer from "../components/testTimerContainer.vue";
 	import TestGameContainer from "../components/testGameContainer.vue";
   import BingoBoard from "../components/bingoboard.vue";
   import PlayerInfo from "../components/playerInfo.vue";
@@ -26,6 +27,7 @@
       PlayerInfo,
       TeamInfo,
       PlayerTeamContainer,
+      TestTimerContainer,
 		}
 	})
 	

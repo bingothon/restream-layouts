@@ -3,7 +3,7 @@ import { ReplicantBrowser } from 'nodecg/types/browser'; // eslint-disable-line
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { Bingoboard, BingoboardMeta, BingosyncSocket, DonationTotal, TrackerOpenBids, TrackerDonations } from "../../schemas";
-import { RunDataActiveRun, RunDataArray } from "../../speedcontrol-types";
+import { RunDataActiveRun, RunDataArray, Timer } from "../../speedcontrol-types";
 
 Vue.use(Vuex);
 
@@ -18,6 +18,7 @@ const replicantNames = [
 const nodecgSpeedcontrolReplicantNames = [
   'runDataActiveRun',
   'runDataArray',
+  'timer'
 ]
 const replicants: Map<string,ReplicantBrowser<any>> = new Map();
 
@@ -35,6 +36,7 @@ export const store = new Vuex.Store({
     // nodecg-speedcontrol
     runDataActiveRun: {} as RunDataActiveRun,
     runDataArray: [] as RunDataArray,
+    timer: {} as Timer,
     // timer
     playerAlternate: true,
   },
