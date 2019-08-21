@@ -1,11 +1,11 @@
 <template>
 	<div>
     <div id="fillleft" class="flexContainer"></div>
-    <player-team-container id="ptc1" teamIndex="0" style="width:600px;"></player-team-container>
+    <player-team-container id="ptc1" teamIndex="0" style="width:600px;" height="40px"></player-team-container>
 		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="bingo" style="width:500px;height:500px;" fontSize="30px"></bingo-board>
-    <player-team-container id="ptc2" teamIndex="1" style="width:600px;"></player-team-container>
+    <player-team-container id="ptc2" teamIndex="1" style="width:600px;" height="60px"></player-team-container>
 	</div>
 </template>
 

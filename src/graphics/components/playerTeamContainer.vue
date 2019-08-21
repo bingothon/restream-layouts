@@ -1,13 +1,13 @@
 <template>
     <div class="PlayerTeamContainer FlexContainer">
         <div class="PlayerInfo1">
-            <player-info :player="team.players[0]" :playerIndex="playerIndex" :showColor="false"></player-info>
+            <player-info :player="team.players[0]" :playerIndex="playerIndex" :showColor="false" :height="height"></player-info>
         </div>
         <div class="TeamInfo">
-            <team-info :teamIndex="teamIndex"></team-info>
+            <team-info :teamIndex="teamIndex" :height="height"></team-info>
         </div>
         <div class="PlayerInfo2">
-            <player-info :player="team.players[1]" :playerIndex="playerIndex+1" :showColor="false"></player-info>
+            <player-info :player="team.players[1]" :playerIndex="playerIndex+1" :showColor="false" :height="height"></player-info>
         </div>
     </div>
 </template>
@@ -29,6 +29,9 @@ import { store } from "../../browser-util/state";
 export default class PlayerTeamContainer extends Vue {
     @Prop({required: true})
     teamIndex: number;
+
+    @Prop({default: "55px"})
+    height: string;
 
     get team(): RunDataTeam {
         return store.state.runDataActiveRun.teams[this.teamIndex];

@@ -1,6 +1,13 @@
 <template>
-  <div class="FlexContainer TeamInfoBox">
-    <div v-if="bingoColorShown" class="BingoColor FlexContainer" :class="`bingo-${bingoColor}`">
+  <div class="FlexContainer TeamInfoBox"
+    :style="{'height' : height}"
+  >
+    <div
+      v-if="bingoColorShown"
+      class="BingoColor FlexContainer"
+      :class="`bingo-${bingoColor}`"
+      :style="{'height' : height, 'width' : height}"
+    >
       <span v-if="bingoCountShown">{{bingoGoalCount}}</span>
     </div>
     <div class="TeamNameContainer">
@@ -30,6 +37,9 @@ export default class TeamInfo extends Vue {
 
     @Prop({default: true})
     showColor: boolean;
+
+    @Prop({default: "55px"})
+    height: string;
 
     get name(): string {
         return store.state.runDataActiveRun.teams[this.teamIndex].name;
