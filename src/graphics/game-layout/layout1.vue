@@ -1,9 +1,11 @@
 <template>
 	<div>
-		<bingo-board style="width:500px;height:500px;" fontSize="30px"></bingo-board>
-		<test-game-container></test-game-container>
-    <test-timer-container></test-timer-container>
-    <player-team-container teamIndex="0" style="width:600px;"></player-team-container>
+    <div id="fillleft" class="flexContainer"></div>
+    <player-team-container id="ptc1" teamIndex="0" style="width:600px;"></player-team-container>
+		<test-game-container id="game"></test-game-container>
+    <test-timer-container id="timer"></test-timer-container>
+    <bingo-board id="bingo" style="width:500px;height:500px;" fontSize="30px"></bingo-board>
+    <player-team-container id="ptc2" teamIndex="1" style="width:600px;"></player-team-container>
 	</div>
 </template>
 
@@ -38,8 +40,9 @@
 	}
 </script>
 
-<style>
+<style scoped>
   #InfoStorageBox1 {
+    position: absolute;
     left: 626px;
     top: 0px;
     width: 668px;
@@ -60,9 +63,45 @@
     margin-left: 88px;
   }
   #InfoStorageBox2 {
+    position: absolute;
     left: 626px;
     top: 633px;
     width: 668px;
     height: 307px;
+  }
+  #ptc1 {
+    position: absolute;
+    top: 0px;
+    left: 660px;
+  }
+  #ptc2 {
+    position: absolute;
+    top: 860px;
+    left: 660px;
+  }
+  #bingo {
+    position: absolute;
+    top: 360px;
+    left: 710px;
+  }
+  #game {
+    background: grey;
+    position: absolute;
+    top: 220px;
+    left: 660px;
+  }
+  #fillleft {
+    position: absolute;
+    top: 0px;
+    height: 1080px;
+    left: 0px;
+    width: 660px;
+    background-color: gray;
+  }
+  #timer{
+    position: absolute;
+    top: 320px;
+    left: 660px;
+    background-color: gray;
   }
 </style>

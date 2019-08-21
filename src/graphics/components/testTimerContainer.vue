@@ -86,7 +86,23 @@ export default class TestTimerContainer extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
+
+  #TimerBox {
+    font-weight: 500;
+    font-size: 100px;
+    transition: 1s;
+  }
+  /* Each character in the timer is in a span; setting width so the numbers appear monospaced. */
+  #TimerBox >>> span {
+    display: inline-block;
+    width: 0.45em;
+    text-align: center;
+  }
+  #TimerBox >>> span:nth-of-type(3), #TimerBox >>> span:nth-of-type(6) {
+    width: 0.22em;
+    margin-top: -0.15em; /* Make the colon appear more towards the centre. */
+  }
     #TimerBox.running {
       color: red;
     }
