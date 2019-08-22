@@ -1,11 +1,17 @@
 <template>
 	<div>
     <div id="fillleft" class="flexContainer"></div>
-    <player-team-container id="ptc1" teamIndex="0" style="width:600px;"></player-team-container>
+    <div id="fillright" class="flexContainer"></div>
+    <div id="fillul" class="flexContainer"></div>
+    <div id="fillur" class="flexContainer"></div>
+    <div id="filldl" class="flexContainer"></div>
+    <div id="filldr" class="flexContainer"></div>
+    <div id="fillbar" class="flexContainer"></div>
+    <player-team-container id="ptc1" teamIndex="0"></player-team-container>
 		<test-game-container id="game"></test-game-container>
-    <test-timer-container id="TimerBox"></test-timer-container>
-    <bingo-board id="bingo-board" style="width:500px;height:500px;" fontSize="30px"></bingo-board>
-    <player-team-container id="ptc2" teamIndex="1" style="width:600px;"></player-team-container>
+    <test-timer-container id="timer"></test-timer-container>
+    <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
+    <player-team-container id="ptc2" teamIndex="1"></player-team-container>
 	</div>
 </template>
 
@@ -41,6 +47,51 @@
 </script>
 
 <style scoped>
+  #fillul {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 667px;
+    height: 500px;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px blue solid;
+  }
+  #fillur {
+    position: absolute;
+    top: 0px;
+    left: 1253px;
+    width: 667px;
+    height: 500px;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px blue solid;
+  }
+  #filldl {
+    position: absolute;
+    top: 500px;
+    left: 0px;
+    width: 667px;
+    height: 500px;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px blue solid;
+  }
+  #filldr {
+    position: absolute;
+    top: 500px;
+    left: 1253px;
+    width: 667px;
+    height: 500px;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px blue solid;
+  }
+  #fillbar {
+    position: absolute;
+    top: 1000px;
+    left: 0px;
+    width: 1920px;
+    height: 80px;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px blue solid;
+  }
   #InfoStorageBox1 {
     position: absolute;
     left: 626px;
@@ -72,23 +123,32 @@
   #ptc1 {
     position: absolute;
     top: 0px;
-    left: 660px;
+    left: 667px;
+    border: 2px blue solid;
+    width: 586px;
   }
   #ptc2 {
     position: absolute;
-    top: 860px;
-    left: 660px;
+    top: 780px;
+    left: 667px;
+    border: 2px blue solid;
+    width: 586px;
   }
-  #bingo {
+  #Bingo-board {
     position: absolute;
-    top: 360px;
-    left: 710px;
+    top: 410px;
+    left: 667px;
+    border: 2px blue solid;
+    width:586px;
+    height:370px;
   }
   #game {
-    background: grey;
+    background-image: url("../../../static/middle-info-background.png");
     position: absolute;
     top: 220px;
-    left: 660px;
+    left: 667px;
+    width: 584px;
+    border: 2px blue solid;
   }
   #fillleft {
     position: absolute;
@@ -96,12 +156,24 @@
     height: 1080px;
     left: 0px;
     width: 660px;
-    background-color: gray;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px blue solid;
+  }
+  #fillright {
+    position: absolute;
+    top: 0px;
+    height: 1080px;
+    left: 1260px;
+    width: 660px;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px blue solid;
   }
   #timer{
     position: absolute;
-    top: 320px;
-    left: 660px;
-    background-color: gray;
+    top: 310px;
+    left: 667px;
+    background-image: url("../../../static/middle-info-background.png");
+    width: 584px;
+    border: 2px blue solid;
   }
 </style>

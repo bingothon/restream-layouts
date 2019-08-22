@@ -1,7 +1,7 @@
 <template>
   <div>
-      <div id="name">{{gameName}}</div>
-      <div id="extra">{{gameCategory}}|{{gameSystem}}</div>
+      <div id="name" class="FlexContainer">{{gameName}}</div>
+      <div id="extra" class="FlexContainer">{{gameCategory}}|{{gameSystem}}</div>
   </div>
 </template>
 
@@ -29,10 +29,12 @@ export default class TestGameContainer extends Vue {
 #name {
     font-weight: 500;
     font-size: 40px;
+    align-content: center;
 }
 
 #extra {
     font-size: 35px;
+    align-content: center;
 }
 
 </style>
