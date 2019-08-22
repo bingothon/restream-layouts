@@ -98,7 +98,7 @@ export default class TestTimerContainer extends Vue {
     width: 0.45em;
     text-align: center;
   }
-  .TimerBox >>> span:nth-of-type(3), #TimerBox >>> span:nth-of-type(6) {
+  .TimerBox >>> span:nth-of-type(3), .TimerBox >>> span:nth-of-type(6) {
     width: 0.22em;
     margin-top: -0.15em; /* Make the colon appear more towards the centre. */
   }
@@ -106,7 +106,7 @@ export default class TestTimerContainer extends Vue {
     color: red;
   }
 
-  .TimerBox.paused, #TimerBox.stopped {
+  .TimerBox.paused, .TimerBox.stopped {
     color: gray;
   }
 
