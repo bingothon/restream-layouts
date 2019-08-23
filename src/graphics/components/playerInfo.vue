@@ -5,8 +5,11 @@
 <template>
   <div
     class="FlexContainer PlayerInfoBox"
+    :style="{'height':height}"
   >
-    <div class="CurrentIcon">
+    <div class="CurrentIcon"
+      :style="{ 'width' : `calc(${height} * 1.5)` }"
+    >
       <transition name="fade">
         <img
           :key="currentIcon"
@@ -23,7 +26,9 @@
         </div>-->
       </transition>
     </div>
-    <div class="Flag FlexContainer">
+    <div class="Flag FlexContainer"
+      :style="{'width' : `calc(${height} * 1.9)`}"
+    >
       <transition name="fade">
         <img
           :key="player.country"
@@ -32,7 +37,12 @@
         >
       </transition>
     </div>
-    <div v-if="bingoColorShown === true" class="BingoColor FlexContainer" :class="`bingo-${bingoColor}`">
+    <div
+      v-if="bingoColorShown === true"
+      class="BingoColor FlexContainer"
+      :class="`bingo-${bingoColor}`"
+      :style="{ 'width' : height, 'height': height }"
+      >
       <span v-if="bingoCountShown === true">{{bingoGoalCount}}</span>
     </div>
   </div>
@@ -64,6 +74,9 @@ export default class PlayerInfo extends Vue {
 
   @Prop({default: true})
   showColor: boolean;
+
+  @Prop({default: "55px"})
+  height: string;
 
   get show(): boolean {
     return store.state.playerAlternate;
@@ -110,12 +123,10 @@ export default class PlayerInfo extends Vue {
     padding: 7px;
     font-weight: 500;
     font-size: 30px;
-    height: 55px;
   }
 
   .PlayerInfoBox > .CurrentIcon {
     height: 100%;
-    width: 80px;
     text-align: left;
     position: relative;
   }
@@ -140,7 +151,6 @@ export default class PlayerInfo extends Vue {
 
   .PlayerInfoBox > .Flag {
     height: 100%;
-    width: 100px;
     justify-content: flex-end;
     position: relative;
   }
@@ -154,8 +164,6 @@ export default class PlayerInfo extends Vue {
 
   .PlayerInfoBox > .BingoColor {
     justify-content: center;
-    height: 55px;
-    width: 55px;
     margin-left: 29px;
     font-size: 40px;
     border-radius: 10%;

@@ -7,11 +7,12 @@
     <div id="filldl" class="flexContainer"></div>
     <div id="filldr" class="flexContainer"></div>
     <div id="fillbar" class="flexContainer"></div>
-    <player-team-container id="ptc1" teamIndex="0"></player-team-container>
+    <div id="fillvoice" class="flexContainer"></div>
+    <player-team-container id="ptc1" teamIndex="0" height="40px"></player-team-container>
 		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
-    <player-team-container id="ptc2" teamIndex="1"></player-team-container>
+    <player-team-container id="ptc2" teamIndex="1" height="40px"></player-team-container>
 	</div>
 </template>
 
@@ -92,6 +93,15 @@
     background-image: url("../../../static/middle-info-background.png");
     border: 2px blue solid;
   }
+  #fillvoice {
+    position: absolute;
+    top: 170px;
+    left: 1053px;
+    width: 200px;
+    height: 290px;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px blue solid;
+  }
   #InfoStorageBox1 {
     position: absolute;
     left: 626px;
@@ -129,14 +139,14 @@
   }
   #ptc2 {
     position: absolute;
-    top: 780px;
+    top: 830px;
     left: 667px;
     border: 2px blue solid;
     width: 586px;
   }
   #Bingo-board {
     position: absolute;
-    top: 410px;
+    top: 460px;
     left: 667px;
     border: 2px blue solid;
     width:586px;
@@ -145,10 +155,11 @@
   #game {
     background-image: url("../../../static/middle-info-background.png");
     position: absolute;
-    top: 220px;
+    top: 170px;
     left: 667px;
-    width: 584px;
+    width: 386px;
     border: 2px blue solid;
+    height: 145px;
   }
   #fillleft {
     position: absolute;
@@ -170,10 +181,11 @@
   }
   #timer{
     position: absolute;
-    top: 310px;
+    top: 315px;
     left: 667px;
     background-image: url("../../../static/middle-info-background.png");
-    width: 584px;
+    width: 386px;
     border: 2px blue solid;
+    height: 145px;
   }
 </style>

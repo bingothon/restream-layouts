@@ -1,13 +1,13 @@
 <template>
     <div class="PlayerTeamContainer FlexContainer">
         <div class="PlayerInfo1">
-            <player-info :player="team.players[0]" :playerIndex="playerIndex" :showColor="false"></player-info>
+            <player-info :player="team.players[0]" :playerIndex="playerIndex" :showColor="false" :height="height"></player-info>
         </div>
         <div class="TeamInfo">
-            <team-info :teamIndex="teamIndex"></team-info>
+            <team-info :teamIndex="teamIndex" :height="height"></team-info>
         </div>
         <div class="PlayerInfo2">
-            <player-info :player="team.players[1]" :playerIndex="playerIndex+1" :showColor="false"></player-info>
+            <player-info :player="team.players[1]" :playerIndex="playerIndex+1" :showColor="false" :height="height"></player-info>
         </div>
     </div>
 </template>
@@ -30,6 +30,9 @@ export default class PlayerTeamContainer extends Vue {
     @Prop({required: true})
     teamIndex: number;
 
+    @Prop({default: "55px"})
+    height: string;
+
     get team(): RunDataTeam {
         return store.state.runDataActiveRun.teams[this.teamIndex];
     }
@@ -47,7 +50,7 @@ export default class PlayerTeamContainer extends Vue {
 <style>
 .PlayerTeamContainer {
     flex-direction: column;
-    background-color: #536075;
+    background-image: linear-gradient(#536075, #0b1b1d, rgba(255, 255, 255, 0.2), #23575e);
 }
 
 .PlayerTeamContainer > .PlayerInfo1,
@@ -57,13 +60,13 @@ export default class PlayerTeamContainer extends Vue {
 }
 
 .PlayerTeamContainer > .PlayerInfo1 > div {
-    margin-left: 20px;
+    margin-right: 20px;
     border: 2px var(--container-border-color) solid;
 }
 
 
 .PlayerTeamContainer > .PlayerInfo2 > div {
-    margin-right: 20px;
+    margin-left: 20px;
     border: 2px var(--container-border-color) solid;
 }
 
