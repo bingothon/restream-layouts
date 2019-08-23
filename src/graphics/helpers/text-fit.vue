@@ -11,6 +11,8 @@ import { Component, Vue, Watch, Prop } from "vue-property-decorator";
 export default class TextFit extends Vue {
     @Prop({required: true})
     text: string;
+    @Prop({default: "left"})
+    align: ("left" | "right" | "center");
     transform: string = "scaleX(1)";
     top: string = "0";
 
@@ -38,7 +40,13 @@ export default class TextFit extends Vue {
             // center if overflow
             var toLeft = (container.scrollWidth - fittedContent.scrollWidth) / 2;
             if (scaleX == 1) {
-                toLeft = 0;
+                if (this.align == "left") {
+                    toLeft = 0;
+                } else if(this.align == "center") {
+                    toLeft = toLeft;
+                } else {
+                    toLeft = toLeft*2;
+                }
             }
             this.transform = `translateY(-50%) translateX(${toLeft}px) scaleX(${scaleX})`;
             this.top = "50%";
@@ -55,6 +63,5 @@ export default class TextFit extends Vue {
     }
     #FittedTextContent {
         position: absolute;
-        left: 0;
     }
 </style>

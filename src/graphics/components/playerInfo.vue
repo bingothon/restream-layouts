@@ -5,9 +5,10 @@
 <template>
   <div
     class="FlexContainer PlayerInfoBox"
+    :class="{'ReverseOrder':reverseOrder}"
     :style="{'height':height}"
   >
-    <div class="CurrentIcon"
+    <div class="CurrentIcon FlexContainer"
       :style="{ 'width' : `calc(${height} * 1.5)` }"
     >
       <transition name="fade">
@@ -19,7 +20,7 @@
     </div>
     <div class="PlayerName">
       <transition name="fade">
-        <text-fit :key="text" :text="text">
+        <text-fit :key="text" :text="text" :align="reverseOrder?'right':'left'">
         </text-fit>
         <!--<div :key="text">
           <span>{{ text }}</span>
@@ -78,6 +79,9 @@ export default class PlayerInfo extends Vue {
   @Prop({default: "55px"})
   height: string;
 
+  @Prop({default: false})
+  reverseOrder: boolean;
+
   get show(): boolean {
     return store.state.playerAlternate;
   }
@@ -125,6 +129,10 @@ export default class PlayerInfo extends Vue {
     font-size: 30px;
   }
 
+  .PlayerInfoBox.ReverseOrder {
+    flex-direction: row-reverse;
+  }
+
   .PlayerInfoBox > .CurrentIcon {
     height: 100%;
     text-align: left;
@@ -141,6 +149,8 @@ export default class PlayerInfo extends Vue {
     flex-grow: 1;
     flex-shrink: 0;
     height: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
     justify-content: flex-start;
     position: relative;
   }
@@ -155,6 +165,10 @@ export default class PlayerInfo extends Vue {
     position: relative;
   }
 
+  .PlayerInfoBox.ReverseOrder > .Flag {
+    justify-content: flex-start;
+  }
+
   .PlayerInfoBox > .Flag > img {
     visibility: visible;
     position: absolute;
@@ -164,7 +178,7 @@ export default class PlayerInfo extends Vue {
 
   .PlayerInfoBox > .BingoColor {
     justify-content: center;
-    margin-left: 29px;
+    /*margin-left: 29px;*/
     font-size: 40px;
     border-radius: 10%;
     border: 1px white solid;

@@ -7,7 +7,7 @@
             <team-info :teamIndex="teamIndex" :height="height"></team-info>
         </div>
         <div class="PlayerInfo2">
-            <player-info :player="team.players[1]" :playerIndex="playerIndex+1" :showColor="false" :height="height"></player-info>
+            <player-info :player="team.players[1]" :playerIndex="playerIndex+1" :showColor="false" :height="height" :reverseOrder="true"></player-info>
         </div>
     </div>
 </template>
