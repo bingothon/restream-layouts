@@ -228,7 +228,7 @@ async function joinRoom(roomCode: string, passphrase: string) {
     fullUpdate().catch((error) => {
       log.error('Failed to fullUpdate:', error);
     });
-  }, 15 * 1000);
+  }, 60 * 1000);
   fullUpdateInterval = thisInterval;
 
   await fullUpdate();
