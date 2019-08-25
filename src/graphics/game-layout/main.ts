@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Layout1 from './layout1.vue';
 import { create } from "../../browser-util/state";
+import * as Layouts from "./layout-list.vue"
 
 Vue.use(VueRouter);
 

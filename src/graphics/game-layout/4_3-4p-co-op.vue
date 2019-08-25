@@ -8,13 +8,11 @@
     <div id="filldr" class="flexContainer"></div>
     <div id="fillbar" class="flexContainer"></div>
     <div id="fillvoice" class="flexContainer"></div>
-    <player-info id="pi1" :player="teams[0].players[0]" playerIndex="0" height=45px></player-info>
-    <player-info id="pi2" :player="teams[1].players[0]" playerIndex="1" height=25px></player-info>
-    <player-info id="pi3" :player="teams[2].players[0]" playerIndex="2" height=45px></player-info>
-    <player-info id="pi4" :player="teams[3].players[0]" playerIndex="3" height=25px></player-info>
+    <player-team-container id="ptc1" teamIndex="0" height="40px"></player-team-container>
 		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
+    <player-team-container id="ptc2" teamIndex="1" height="40px"></player-team-container>
 	</div>
 </template>
 
@@ -52,19 +50,19 @@
 <style scoped>
   #fillul {
     position: absolute;
-    top: 60px;
+    top: 0px;
     left: 0px;
-    width: 782px;
-    height: 440px;
+    width: 667px;
+    height: 500px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px blue solid;
   }
   #fillur {
     position: absolute;
-    top: 60px;
-    left: 1138px;
-    width: 782px;
-    height: 440px;
+    top: 0px;
+    left: 1253px;
+    width: 667px;
+    height: 500px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px blue solid;
   }
@@ -72,17 +70,17 @@
     position: absolute;
     top: 500px;
     left: 0px;
-    width: 782px;
-    height: 440px;
+    width: 667px;
+    height: 500px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px blue solid;
   }
   #filldr {
     position: absolute;
     top: 500px;
-    left: 1138px;
-    width: 782px;
-    height: 440px;
+    left: 1253px;
+    width: 667px;
+    height: 500px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px blue solid;
   }
@@ -132,37 +130,19 @@
     width: 668px;
     height: 307px;
   }
-  #pi1 {
+  #ptc1 {
     position: absolute;
     top: 0px;
-    left: 0px;
+    left: 667px;
     border: 2px blue solid;
-    width: 818px;
-    height: 40px;
+    width: 586px;
   }
-  #pi2 {
+  #ptc2 {
     position: absolute;
-    top: 0px;
-    left: 1102px;
+    top: 830px;
+    left: 667px;
     border: 2px blue solid;
-    width: 818px;
-    height: 40px;
-  }
-  #pi3 {
-    position: absolute;
-    top: 940px;
-    left: 0px;
-    border: 2px blue solid;
-    width: 818px;
-    height: 40px;
-  }
-  #pi4 {
-    position: absolute;
-    top: 940px;
-    left: 1102px;
-    border: 2px blue solid;
-    width: 818px;
-    height: 40px;
+    width: 586px;
   }
   #Bingo-board {
     position: absolute;
