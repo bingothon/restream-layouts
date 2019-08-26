@@ -1,5 +1,6 @@
 /*eslint-disable*/
-import testLayout from "./4_3-4p-co-op.vue";
-import layout from "./layout1.vue";
+import Layout_4x3_4p_CoOp from "./4_3-4p-co-op.vue";
+import Layout_16x9_4p from "./16_9-4p.vue";
+import TestLayout from "./layout1.vue";
 
-export { layout, testLayout };
+export { Layout_16x9_4p, Layout_4x3_4p_CoOp, TestLayout };

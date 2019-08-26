@@ -178,7 +178,7 @@ export default class PlayerInfo extends Vue {
 
   .PlayerInfoBox > .BingoColor {
     justify-content: center;
-    /*margin-left: 29px;*/
+    margin-left: 29px;
     font-size: 40px;
     border-radius: 10%;
     border: 1px white solid;
