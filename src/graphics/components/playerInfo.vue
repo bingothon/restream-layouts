@@ -64,10 +64,7 @@ const twitchIconImg = require('../_misc/twitch-icon.png');
   }
 })
 export default class PlayerInfo extends Vue {
-  @Prop({required: true})
-  player: RunDataPlayer;
-
-  @Prop({required: true})
+  @Prop({default: -1})
   playerIndex: number;
 
   @Prop({default: true})
@@ -81,6 +78,36 @@ export default class PlayerInfo extends Vue {
 
   @Prop({default: false})
   reverseOrder: boolean;
+
+  get player(): RunDataPlayer {
+    let idx = 0;
+    let correctPlayer;
+    console.log(this.playerIndex);
+    for (let i = 0; i < store.state.runDataActiveRun.teams.length; i++) {
+      const team = store.state.runDataActiveRun.teams[i];
+      for (let j =0; j < team.players.length; j++) {
+        if (idx == this.playerIndex) {
+          correctPlayer = team.players[j];
+          // break out of both loops
+          i = 100;
+          break;
+        }
+        idx++;
+      }
+    }
+    if (!correctPlayer) {
+      return {
+        name: "test2",
+        id: "-1",
+        teamID: "-1",
+        country: "eu",
+        social: {
+          twitch: ""
+        }
+      };
+    }
+    return correctPlayer;
+  }
 
   get show(): boolean {
     return store.state.playerAlternate;

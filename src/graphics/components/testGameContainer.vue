@@ -2,7 +2,7 @@
   <div>
       <div id="name" class="FlexContainer">{{gameName}}</div>
       <div id="extra" class="FlexContainer">{{gameCategory}} | {{gameSystem}}</div>
-      <div id="est" class="FlexContainer">Estimate: {{gamesEstimate}}</div>
+      <div id="est" class="FlexContainer">Estimate: {{gameEstimate}}</div>
   </div>
 </template>
 

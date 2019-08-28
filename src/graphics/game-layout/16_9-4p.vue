@@ -7,10 +7,10 @@
     <div id="filldr" class="flexContainer"></div>
     <div id="fillbar" class="flexContainer"></div>
     <div id="fillvoice" class="flexContainer"></div>
-    <player-info id="pi1" :player="teams[0].players[0]" playerIndex="0" height=45px></player-info>
-    <player-info id="pi2" :player="teams[1].players[0]" playerIndex="1" height=45px></player-info>
-    <player-info id="pi3" :player="teams[2].players[0]" playerIndex="2" height=45px></player-info>
-    <player-info id="pi4" :player="teams[3].players[0]" playerIndex="3" height=45px></player-info>
+    <player-info id="pi1" playerIndex="0" height=45px></player-info>
+    <player-info id="pi2" playerIndex="1" height=45px></player-info>
+    <player-info id="pi3" playerIndex="2" height=45px></player-info>
+    <player-info id="pi4" playerIndex="3" height=45px></player-info>
 		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
