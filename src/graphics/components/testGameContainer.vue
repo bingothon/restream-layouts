@@ -2,6 +2,7 @@
   <div>
       <div id="name" class="FlexContainer">{{gameName}}</div>
       <div id="extra" class="FlexContainer">{{gameCategory}} | {{gameSystem}}</div>
+      <div id="est" class="FlexContainer">Estimate: {{gamesEstimate}}</div>
   </div>
 </template>
 
@@ -22,6 +23,10 @@ export default class TestGameContainer extends Vue {
     get gameSystem(): string {
         return store.state.runDataActiveRun.system;
     }
+
+    get gameEstimate(): string {
+        return store.state.runDataActiveRun.estimate;
+    }
 }
 </script>
 
@@ -36,6 +41,13 @@ export default class TestGameContainer extends Vue {
 }
 
 #extra {
+    font-size: 20px;
+    align-content: center;
+    color: white;
+    text-align: center;
+}
+
+#est {
     font-size: 20px;
     align-content: center;
     color: white;

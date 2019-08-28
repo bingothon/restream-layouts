@@ -5,7 +5,7 @@
     class="TimerBox RunInfoBox FlexContainer"
     :class="timerStateClass"
     v-html="time"
-  >{{estimate}}</div>
+  ><div id="est">Estimate: {{estimate}}</div></div>
   <!-- eslint-enable -->
 </template>
 
@@ -86,7 +86,10 @@ export default class TestTimerContainer extends Vue {
 </script>
 
 <style scoped>
-
+  #est{
+    color: white;
+    font-size: 50px;
+  }
   .TimerBox {
     font-weight: 500;
     font-size: 75px;
