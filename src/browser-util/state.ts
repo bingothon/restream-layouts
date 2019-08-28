@@ -22,7 +22,7 @@ const nodecgSpeedcontrolReplicantNames = [
 ]
 const replicants: Map<string,ReplicantBrowser<any>> = new Map();
 
-var playerAlternateInterval = null;
+var playerAlternateInterval: NodeJS.Timeout | null = null;
 
 export const store = new Vuex.Store({
   state: {

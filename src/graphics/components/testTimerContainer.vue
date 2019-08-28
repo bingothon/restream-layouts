@@ -2,10 +2,19 @@
   <!-- eslint-disable vue/no-v-html -->
   <div
     v-if="show"
-    class="TimerBox RunInfoBox FlexContainer"
-    :class="timerStateClass"
-    v-html="time"
-  ><div id="est">Estimate: {{estimate}}</div></div>
+    class="TimerContainer RunInfoBox FlexContainer"
+  >
+    <div
+      class="TimerBox RunInfoBox FlexContainer"
+      :class="timerStateClass"
+      v-html="time"
+    ></div>
+    <div
+      class="EstimateBox FlexContainer"
+    >
+      Est: {{estimate}}
+    </div>
+    </div>
   <!-- eslint-enable -->
 </template>
 
@@ -86,9 +95,9 @@ export default class TestTimerContainer extends Vue {
 </script>
 
 <style scoped>
-  #est{
+  .TimerContainer {
+    flex-direction: column;
     color: white;
-    font-size: 50px;
   }
   .TimerBox {
     font-weight: 500;
@@ -119,5 +128,9 @@ export default class TestTimerContainer extends Vue {
 
   .TimerBox.finished {
     color: blue;
+  }
+
+  .EstimateBox {
+    font-size: 30px;
   }
 </style>
