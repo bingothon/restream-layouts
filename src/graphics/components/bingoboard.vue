@@ -31,9 +31,6 @@ interface BingoCell {
         style: string,
     }[],
 }
-
-//TODO
-const skewAngle = Math.atan(1);
 // used from bingosync
 const translatePercent = {
     2: ['0', '0'],
@@ -93,8 +90,12 @@ export default class BingoBoard extends Vue {
     bingoCells: BingoCell[][] = defaultBingoBoard();
     @Prop({default: "10px"})
     fontSize: string;
+    skewAngle = 1;
     
     mounted() {
+        const height = this.$el.scrollHeight;
+        const width = this.$el.scrollWidth;
+        this.skewAngle = Math.atan(width/height);
         store.watch((state) => state.bingoboard, this.onBingoBoardUpdate);
         // trigger update, otherwise the watcher isn't triggered on reload
         if (store.state.bingoboard) {
@@ -123,7 +124,7 @@ export default class BingoBoard extends Vue {
                         for(var i = 1;i<colors.length;i++) {
                             // how bingosync handles the backgrounds, set style here to simply bind it to html later
                             newColors.push({color: colors[i], style:
-                                `transform: skew(-${skewAngle}rad) translateX(${translations[i]}%); border-right: solid 1.5px #444444`
+                                `transform: skew(-${this.skewAngle}rad) translateX(${translations[i]}%); border-right: solid 1.5px #444444`
                             });
                         }
                         Vue.set(this.bingoCells[rowIndex][columnIndex],'colors', newColors);
