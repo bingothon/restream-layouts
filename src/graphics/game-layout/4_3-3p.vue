@@ -48,7 +48,7 @@
 <style scoped>
   #fillul {
     position: absolute;
-    top: 60px;
+    top: 0px;
     left: 0px;
     width: 640px;
     height: 480px;
@@ -57,7 +57,7 @@
   }
   #fillum {
     position: absolute;
-    top: 60px;
+    top: 0px;
     left: 640px;
     width: 640px;
     height: 480px;
@@ -66,7 +66,7 @@
   }
   #fillur {
     position: absolute;
-    top: 60px;
+    top: 0px;
     left: 1280px;
     width: 640px;
     height: 480px;
@@ -93,21 +93,21 @@
   }
   #pi1 {
     position: absolute;
-    top: 0px;
+    top: 480px;
     left: 0px;
     border: 2px blue solid;
     width: 625px;
   }
   #pi2 {
     position: absolute;
-    top: 0px;
+    top: 480px;
     left: 640px;
     border: 2px blue solid;
     width: 625px;
   }
   #pi3 {
     position: absolute;
-    top: 0px;
+    top: 480px;
     left: 1280px;
     border: 2px blue solid;
     width: 625px;

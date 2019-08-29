@@ -1,11 +1,9 @@
 <template>
 	<div>
-    <div id="fillul" class="flexContainer"></div>
     <div id="fillur" class="flexContainer"></div>
     <div id="fillbar" class="flexContainer"></div>
     <div id="fillvoice" class="flexContainer"></div>
     <player-info id="pi1" :player="teams[0].players[0]" playerIndex="0" height=45px></player-info>
-    <player-info id="pi2" :player="teams[1].players[0]" playerIndex="1" height=45px></player-info>
 		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
@@ -44,21 +42,12 @@
 </script>
 
 <style scoped>
-  #fillul {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 960px;
-    height: 720px;
-    background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
-  }
   #fillur {
     position: absolute;
     top: 0px;
-    left: 960px;
-    width: 960px;
-    height: 720px;
+    left: 400px;
+    width: 1520px;
+    height: 855px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px blue solid;
   }
@@ -73,51 +62,44 @@
   }
   #fillvoice {
     position: absolute;
-    top: 780px;
-    left: 1280px;
-    width: 250px;
-    height: 220px;
+    top: 560px;
+    left: 0px;
+    width: 400px;
+    height: 440px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px blue solid;
   }
   #pi1 {
     position: absolute;
-    top: 720px;
+    top: 0px;
     left: 0px;
     border: 2px blue solid;
-    width: 625px;
-  }
-  #pi2 {
-    position: absolute;
-    top: 720px;
-    left: 1280px;
-    border: 2px blue solid;
-    width: 625px;
+    width: 382px;
   }
   #Bingo-board {
     position: absolute;
-    top: 720px;
-    left: 640px;
+    top: 60px;
+    left: 0px;
     border: 2px blue solid;
-    width: 640px;
-    height: 280px;
+    width: 400px;
+    height: 500px;
   }
   #game {
     background-image: url("../../../static/middle-info-background.png");
     position: absolute;
-    top: 780px;
-    left: 0px;
-    width: 640px;
+    top: 855px;
+    left: 400px;
+    width: 760px;
     border: 2px blue solid;
-    height: 220px;
+    height: 145px;
   }
   #timer{
     position: absolute;
-    top: 780px;
-    left: 1530px;
+    top: 855px;
+    left: 1160px;
     background-image: url("../../../static/middle-info-background.png");
-    width: 390px;
+    width: 760px;
     border: 2px blue solid;
-    height: 220px;
+    height: 145px;
   }
 </style>
