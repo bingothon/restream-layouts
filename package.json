@@ -96,6 +96,9 @@
     "runtimeCompiler": true
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.22",
+    "@fortawesome/free-solid-svg-icons": "^5.10.2",
+    "@fortawesome/vue-fontawesome": "^0.1.6",
     "cheerio": "^1.0.0-rc.3",
     "deep-equal": "^1.0.1",
     "discord.js": "^11.5.1",

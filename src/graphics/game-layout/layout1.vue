@@ -14,6 +14,7 @@
 		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
+    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="115px"/>
 	</div>
 </template>
 
@@ -28,6 +29,7 @@
   import PlayerInfo from "../components/playerInfo.vue";
   import TeamInfo from "../components/teamInfo.vue";
   import PlayerTeamContainer from "../components/playerTeamContainer.vue";
+  import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
   import { RunDataPlayer, RunDataTeam } from "../../../speedcontrol-types";
 
 	@Component({
@@ -38,6 +40,7 @@
       TeamInfo,
       PlayerTeamContainer,
       TestTimerContainer,
+      DiscordVoiceDisplay,
 		}
 	})
 	
@@ -165,5 +168,12 @@
     width: 356px;
     border: 2px blue solid;
     height: 145px;
+  }
+  #discord-voice {
+    position: absolute;
+    top: 354px;
+    left: 785px;
+    width: 351px;
+    height: 142px;
   }
 </style>
