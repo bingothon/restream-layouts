@@ -6,7 +6,9 @@
                 <td class="square" :key="i+''+j" v-for="(cell,j) in column">
                     <div :key="color.name" v-for="color in cell.colors" :class="'bg-color '+color.color+'square'" :style="color.style"></div>
                     <div class="shadow"></div>
-                    <CellTextFit :text="cell.name" :fontSize="fontSize"/>
+                    <div class="CellTextFitContainer">
+                        <CellTextFit :text="cell.name" :fontSize="fontSize"/>
+                    </div>
                 </td>
             </tr>
           </tbody>
@@ -198,5 +200,11 @@ export default class BingoBoard extends Vue {
         right: 0px;
         top: 50%;
         transform: translateY(-50%);
+    }
+    .CellTextFitContainer {
+        height: calc(100% - 4px);
+        width: calc(100% - 4px);
+        position: absolute;
+        margin: 2px;
     }
 </style>
