@@ -42,10 +42,18 @@ export default class TeamInfo extends Vue {
     height: string;
 
     get name(): string {
-        return store.state.runDataActiveRun.teams[this.teamIndex].name;
+        const team = store.state.runDataActiveRun.teams[this.teamIndex];
+        if (!team) {
+          return "";
+        }
+        return team.name;
     }
 
     get playerIndex(): number {
+        const team = store.state.runDataActiveRun.teams[this.teamIndex];
+        if (!team) {
+          return -1;
+        }
         var idx = 0;
         for (let i = 0; i < this.teamIndex; i++) {
             idx += store.state.runDataActiveRun.teams[i].players.length;
