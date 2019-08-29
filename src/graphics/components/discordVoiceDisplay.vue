@@ -72,10 +72,10 @@ export default class DiscordVoiceDisplay extends Vue {
 
     .DiscordVoiceDisplay > .Member > .AvatarContainer > .MicIcon {
         position: absolute;
-        width: 17px;
-        height: 17px;
-        top: 0;
-        right: 0;
+        width: 25px;
+        height: 25px;
+        top: -7px;
+        right: -7px;
         background-color: blue;
         border-radius: 100%;
 
@@ -87,6 +87,7 @@ export default class DiscordVoiceDisplay extends Vue {
     }
 
     .DiscordVoiceDisplay > .Member > div.Name {
+        font-size: 22px;
         margin-left: 8px;
         margin-right: 8px;
         color: white;
