@@ -16,6 +16,7 @@ export interface Configschema {
     serverID: string;
     commandChannelID: string;
     voiceChannelID: string;
+    ignoredUsers?: string[];
   };
   donationtracker: {
     enable: boolean;

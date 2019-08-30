@@ -88,7 +88,10 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
 
     memberArray.forEach((voiceMember) => {
       // Hide our bot and muted members cause that is the restreamer
-      if (voiceMember.user.tag != 'Bingothon Bot#9456' && !voiceMember.selfMute) {
+      if (config.discord.ignoredUsers && config.discord.ignoredUsers.includes(voiceMember.user.tag)) {
+        return;
+      }
+      if (!voiceMember.selfMute) {
         let userAvatar = voiceMember.user.avatarURL;
 
         if (!userAvatar || userAvatar == null) {
