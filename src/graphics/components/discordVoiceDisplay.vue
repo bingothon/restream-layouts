@@ -60,6 +60,10 @@ export default class DiscordVoiceDisplay extends Vue {
         flex-wrap: wrap;
     }
 
+    .DiscordVoiceDisplay > .Member {
+        margin: 5px 0 0 5px;
+    }
+
     .DiscordVoiceDisplay > .Member > .AvatarContainer {
         position: relative;
     }
@@ -74,8 +78,8 @@ export default class DiscordVoiceDisplay extends Vue {
         position: absolute;
         width: 25px;
         height: 25px;
-        top: -7px;
-        right: -7px;
+        top: -4px;
+        right: -4px;
         background-color: blue;
         border-radius: 100%;
 
