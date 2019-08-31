@@ -22,7 +22,15 @@
 				"token": {"type": "string", "default": "DISCORD_BOT_TOKEN"},
 				"serverID": {"type": "string", "default": "DISCORD_SERVER_ID"},
 				"commandChannelID": {"type": "string", "default": "DISCORD_COMMAND_CHANNEL_ID"},
-				"voiceChannelID": {"type": "string", "default": "DISCORD_VC_ID"}
+				"voiceChannelID": {"type": "string", "default": "DISCORD_VC_ID"},
+				"ignoredUsers": {
+					"type":"array",
+					"default":[],
+					"$comment": "discord tags of users that won't show up in the layout (for the bot), example `Bot#1234`",
+					"items": {
+						"type": "string"
+					}
+				}
 			}
 		},
 		"donationtracker": {
