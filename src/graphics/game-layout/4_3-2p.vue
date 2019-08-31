@@ -9,6 +9,7 @@
 		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
+    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="125px"/>
 	</div>
 </template>
 
@@ -23,6 +24,7 @@
   import PlayerInfo from "../components/playerInfo.vue";
   import TeamInfo from "../components/teamInfo.vue";
   import PlayerTeamContainer from "../components/playerTeamContainer.vue";
+  import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
   import { RunDataPlayer, RunDataTeam } from "../../../speedcontrol-types";
 
 	@Component({
@@ -33,6 +35,7 @@
       TeamInfo,
       PlayerTeamContainer,
       TestTimerContainer,
+      DiscordVoiceDisplay
 		}
 	})
 	
@@ -71,7 +74,7 @@
     background-image: url("../../../static/middle-info-background.png");
     border: 2px blue solid;
   }
-  #fillvoice {
+  #discord-voice {
     position: absolute;
     top: 780px;
     left: 1280px;

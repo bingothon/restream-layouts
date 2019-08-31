@@ -3,12 +3,12 @@
     <div id="fillul" class="flexContainer"></div>
     <div id="fillur" class="flexContainer"></div>
     <div id="fillbar" class="flexContainer"></div>
-    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"/>
     <player-info id="pi1" playerIndex="0" height=45px></player-info>
     <player-info id="pi2" playerIndex="1" height=45px></player-info>
 		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
+    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"/>
 	</div>
 </template>
 

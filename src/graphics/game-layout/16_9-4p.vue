@@ -14,6 +14,7 @@
 		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
+    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"/>
 	</div>
 </template>
 
@@ -28,6 +29,7 @@
   import PlayerInfo from "../components/playerInfo.vue";
   import TeamInfo from "../components/teamInfo.vue";
   import PlayerTeamContainer from "../components/playerTeamContainer.vue";
+  import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
   import { RunDataPlayer, RunDataTeam } from "../../../speedcontrol-types";
 
 	@Component({
@@ -38,6 +40,7 @@
       TeamInfo,
       PlayerTeamContainer,
       TestTimerContainer,
+      DiscordVoiceDisplay,
 		}
 	})
 	
@@ -94,7 +97,7 @@
     background-image: url("../../../static/middle-info-background.png");
     border: 2px blue solid;
   }
-  #fillvoice {
+  #discord-voice {
     position: absolute;
     top: 350px;
     left: 782px;
@@ -146,24 +149,24 @@
     left: 782px;
     border: 2px blue solid;
     width:356px;
-    height:440px;
+    height:500px;
   }
   #game {
     background-image: url("../../../static/middle-info-background.png");
     position: absolute;
-    top: 60px;
+    top: 0px;
     left: 782px;
     width: 356px;
     border: 2px blue solid;
-    height: 145px;
+    height: 175px;
   }
   #timer{
     position: absolute;
-    top: 205px;
+    top: 175px;
     left: 782px;
     background-image: url("../../../static/middle-info-background.png");
     width: 356px;
     border: 2px blue solid;
-    height: 145px;
+    height: 175px;
   }
 </style>
