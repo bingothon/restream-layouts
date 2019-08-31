@@ -3,7 +3,7 @@
     <div id="fillul" class="flexContainer"></div>
     <div id="fillur" class="flexContainer"></div>
     <div id="fillbar" class="flexContainer"></div>
-    <div id="fillvoice" class="flexContainer"></div>
+    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"/>
     <player-info id="pi1" playerIndex="0" height=45px></player-info>
     <player-info id="pi2" playerIndex="1" height=45px></player-info>
 		<test-game-container id="game"></test-game-container>
@@ -23,6 +23,7 @@
   import PlayerInfo from "../components/playerInfo.vue";
   import TeamInfo from "../components/teamInfo.vue";
   import PlayerTeamContainer from "../components/playerTeamContainer.vue";
+  import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
   import { RunDataPlayer, RunDataTeam } from "../../../speedcontrol-types";
 
 	@Component({
@@ -33,6 +34,7 @@
       TeamInfo,
       PlayerTeamContainer,
       TestTimerContainer,
+      DiscordVoiceDisplay,
 		}
 	})
 	
@@ -71,7 +73,7 @@
     background-image: url("../../../static/middle-info-background.png");
     border: 2px blue solid;
   }
-  #fillvoice {
+  #discord-voice {
     position: absolute;
     top: 600px;
     left: 1280px;
