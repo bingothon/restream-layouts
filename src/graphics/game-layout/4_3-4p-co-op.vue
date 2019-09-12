@@ -44,9 +44,7 @@
 	})
 	
 	export default class GameLayout extends Vue {
-    get teams(): RunDataTeam[] {
-      return store.state.runDataActiveRun.teams;
-    }
+    
 	}
 </script>
 

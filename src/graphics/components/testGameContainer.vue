@@ -1,8 +1,8 @@
 <template>
-  <div>
-      <div id="name" class="FlexContainer">{{gameName}}</div>
-      <div id="extra" class="FlexContainer">{{gameCategory}} | {{gameSystem}}</div>
-  </div>
+    <div class="GameContainer FlexContainer">
+        <div class="GameName FlexContainer">{{gameName}}</div>
+        <div class="GameExtra FlexContainer">{{gameCategory}} | {{gameSystem}}</div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -30,7 +30,13 @@ export default class TestGameContainer extends Vue {
 </script>
 
 <style>
-#name {
+.GameContainer {
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.GameContainer > .GameName {
     font-weight: 500;
     font-size: 30px;
     align-content: center;
@@ -40,7 +46,7 @@ export default class TestGameContainer extends Vue {
     margin: 5px;
 }
 
-#extra {
+.GameContainer > .GameExtra {
     font-size: 18px;
     font-weight: thin;
     align-content: center;
@@ -48,11 +54,11 @@ export default class TestGameContainer extends Vue {
     text-align: center;
 }
 
-#est {
+/*#est {
     font-size: 20px;
     align-content: center;
     color: white;
     text-align: center;
-}
+}*/
 
 </style>
