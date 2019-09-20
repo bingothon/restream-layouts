@@ -4,7 +4,6 @@
 // Packages
 import * as RequestPromise from 'request-promise';
 import WebSocket from 'ws';
-import * as cheerio from 'cheerio';
 
 // Ours
 import * as nodecgApiContext from './util/nodecg-api-context';
@@ -55,6 +54,7 @@ nodecg.listenFor('bingosync:leaveRoom', (_data, callback) => {
     clearInterval(fullUpdateInterval);
     destroyWebsocket();
     socketRep.value.status = 'disconnected';
+    log.info('Left room');
     if (callback && !callback.handled) {
       callback(null);
     }
@@ -148,8 +148,7 @@ async function recover() {
     socketRep.value.status = 'disconnected';
   }
   // Restore previous connection on startup
-  const { roomCode } = socketRep.value;
-  const { passphrase } = socketRep.value;
+  const { roomCode, passphrase } = socketRep.value;
   if (roomCode && passphrase) {
     log.info(`Recovering connection to room ${socketRep.value.roomCode}`);
     await joinRoom(roomCode, passphrase);
@@ -162,67 +161,19 @@ async function joinRoom(roomCode: string, passphrase: string) {
   clearInterval(fullUpdateInterval);
   destroyWebsocket();
 
-  log.info('Attempting to load room page.');
-  const roomUrl = `${siteUrl}/room/${roomCode}`;
-  let $ = await request.get({
-    uri: roomUrl,
-    transform(body) {
-      return cheerio.load(body);
+  log.info('Fetching bingosync socket key...');
+  let data = await request.post({
+    uri: `${siteUrl}/api/join-room`,
+    followAllRedirects: true,
+    json: {
+      room: roomCode,
+      nickname: 'bingothon',
+      password: passphrase,
     },
   });
 
-  // If input[name="csrfmiddlewaretoken"] exists on the page, then we must be on the "Join Room" form.
-  // Else, we must be in the actual game room.
-  const csrfTokenInput = $('input[name="csrfmiddlewaretoken"]');
-  if (csrfTokenInput) {
-    log.info('Joining room...');
-
-    // POST to join the room.
-    await request.post({
-      uri: roomUrl,
-      form: {
-        room_name: $('input[name="room_name"]').val(),
-        encoded_room_uuid: $('input[name="encoded_room_uuid"]').val(),
-        creator_name: $('input[name="creator_name"]').val(),
-        game_name: $('input[name="game_name"]').val(),
-        player_name: 'bingothon',
-        is_spectator: 'on',
-        passphrase,
-        csrfmiddlewaretoken: csrfTokenInput.val(),
-      },
-      headers: {
-        Referer: roomUrl,
-      },
-      resolveWithFullResponse: true,
-      simple: false,
-    });
-
-    log.info('Joined room.');
-    log.info('Loading room page...');
-
-    // Request the room page again, so that we can extract the socket token from it.
-    $ = await request.get({
-      uri: roomUrl,
-      transform(body) {
-        return cheerio.load(body);
-      },
-    });
-  }
-
-  log.info('Loaded room page.');
-
-  // Socket stuff
-  const matches = $.html().match(SOCKET_KEY_REGEX);
-  if (!matches) {
-    log.error('Socket key not found on page.');
-    return;
-  }
-
-  const socketKey = matches[1];
-  if (!socketKey) {
-    log.error('Socket key not found on page.');
-    return;
-  }
+  const socketKey = data['socket_key'];
+  log.info('Got bingosync socket key!');
 
   const thisInterval = setInterval(() => {
     fullUpdate().catch((error) => {
@@ -236,7 +187,7 @@ async function joinRoom(roomCode: string, passphrase: string) {
 
   async function fullUpdate() {
     const newBoardState = await request.get({
-      uri: `${roomUrl}/board`,
+      uri: `${siteUrl}/room/${roomCode}/board`,
       json: true,
     });
 
