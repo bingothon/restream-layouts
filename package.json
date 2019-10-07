@@ -12,6 +12,7 @@
   },
   "license": "MIT",
   "author": "zoton2",
+  "contributors": ["lepelog","floha258"],
   "scripts": {
     "build": "run-s build:*",
     "build:browser": "trash .cache && cross-env NODE_ENV=production npm run bundle",
@@ -102,6 +103,7 @@
     "cheerio": "^1.0.0-rc.3",
     "deep-equal": "^1.0.1",
     "discord.js": "^11.5.1",
+    "gsap": "^2.1.3",
     "request-promise": "^4.2.4",
     "twitch-js": "^1.2.17",
     "vuex": "^3.1.1",
