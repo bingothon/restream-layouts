@@ -23,11 +23,10 @@ const peLogo = require('../BingothonPureEarth.png');
 
 @Component({})
 export default class RotatingLogos extends Vue{
-  @Prop({default: undefined})
-  logo;//what type is this?
+  logo: string = wide;
 
   mounted(): void {
-    this.changeLogo;
+    this.changeLogo();
   }
 
   changeLogo() : void {

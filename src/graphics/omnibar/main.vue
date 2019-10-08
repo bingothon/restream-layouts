@@ -6,9 +6,8 @@
     <divider></divider>
     <total></total>
     <divider></divider>
-    <!--<ticker></ticker>-->
-    <divider></divider>
-    <!--<clock></clock>-->
+    <!--<ticker></ticker>
+    <divider></divider>-->
   </div>
 </template>
 
@@ -18,7 +17,6 @@ import RotatingLogos from './components/RotatingLogos.vue';
 import StaticLogo from './components/StaticLogo.vue';
 import Total from './components/DonationTotal.vue';
 //import Ticker from './components/Ticker.vue';
-//import Clock from './components/Clock.vue';
 import Divider from './components/Divider.vue';
 
 @Component({
@@ -27,7 +25,6 @@ import Divider from './components/Divider.vue';
     RotatingLogos,
     Total,
 //    Ticker,
-//    Clock,
     Divider,
   },
 })
@@ -37,8 +34,10 @@ export default class Omnibar extends Vue {}
 <style>
   #Omnibar {
     position: fixed;
+    display: flex;
     width: 1920px;
     height: 80px;
     justify-content: flex-start;
+    background: var(--lighter-main-color);
   }
 </style>

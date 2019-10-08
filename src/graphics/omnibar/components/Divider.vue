@@ -15,6 +15,6 @@ export default class Divider extends Vue {
     height: 100%;
     width: 3px;
     min-width: 3px;
-    background-color: #fff073;
+    background-color: white;
   }
 </style>
