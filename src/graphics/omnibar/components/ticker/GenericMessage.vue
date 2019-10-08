@@ -8,18 +8,20 @@
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 
+@Component({})
 export default class GenericMessage extends Vue{
-  data: {msg: string, size: number, time: number} = {msg : '', size : 33, time: 25}
+  @Prop()
+  data: {msg: string, size: number, time: number};
 
-  cssProps() {
+  get cssProps() {
     return {
-      '--font-size': `${this.normalisedData().size}px`,
+      '--font-size': `${this.normalisedData.size}px`,
     };
   }
     
-  normalisedData() {
+  get normalisedData() {
     return Object.assign({
       size: 33,
       time: 25,
@@ -27,7 +29,7 @@ export default class GenericMessage extends Vue{
   }
 
   mounted() {
-    setTimeout(() => this.$emit('end'), this.normalisedData().time * 1000);
+    setTimeout(() => this.$emit('end'), this.normalisedData.time * 1000);
   }
 };
 </script>

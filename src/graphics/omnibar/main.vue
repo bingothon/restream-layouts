@@ -6,8 +6,7 @@
     <divider></divider>
     <total></total>
     <divider></divider>
-    <!--<ticker></ticker>
-    <divider></divider>-->
+    <ticker></ticker>
   </div>
 </template>
 
@@ -16,7 +15,7 @@ import { Component, Vue, Watch, Prop } from "vue-property-decorator";
 import RotatingLogos from './components/RotatingLogos.vue';
 import StaticLogo from './components/StaticLogo.vue';
 import Total from './components/DonationTotal.vue';
-//import Ticker from './components/Ticker.vue';
+import Ticker from './components/Ticker.vue';
 import Divider from './components/Divider.vue';
 
 @Component({
@@ -24,7 +23,7 @@ import Divider from './components/Divider.vue';
     StaticLogo,
     RotatingLogos,
     Total,
-//    Ticker,
+    Ticker,
     Divider,
   },
 })

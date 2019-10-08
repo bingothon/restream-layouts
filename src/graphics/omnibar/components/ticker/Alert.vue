@@ -4,11 +4,6 @@
     class="FlexContainer"
   >
     <div class="Line1">
-      <img
-        v-if="tweet"
-        class="TwitterLogo"
-        src="./twitter.png"
-      >
       {{ line1 }}
     </div>
     <div
@@ -25,16 +20,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import { TweenLite, Linear } from 'gsap';
 // eslint-disable-next-line no-unused-vars
 import ScrollToPlugin from 'gsap/umd/ScrollToPlugin';
-import { Prop } from 'vue-property-decorator';
+import { Prop, Vue, Component } from 'vue-property-decorator';
 
+@Component({})
 export default class Alert extends Vue {
 
     @Prop({})
-    data: {line1Text: string, line2Text: string, isTweet: boolean} = {line1Text : '', line2Text : '', isTweet: false}
+    data: {line1Text: string, line2Text: string} = {line1Text : '', line2Text : ''}
 
     @Prop({default: 0})
     width: number;
@@ -52,7 +47,6 @@ export default class Alert extends Vue {
     const fallback = setTimeout(() => this.$emit('end'), 5000);
     const originalWidth = this.$parent.$el.clientWidth - 34;
     this.line1 = this.data.line1Text;
-    this.tweet = this.data.isTweet;
     if (!this.data.line2Text) {
         setTimeout(() => this.$emit('end'), 10 * 1000);
     } else {

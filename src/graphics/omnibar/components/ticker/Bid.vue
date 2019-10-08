@@ -20,7 +20,7 @@
         width: (width > 0) ? `${width}px` : 'inherit'
       }"
     >
-      {{ bid.name }} :
+      {{ bid.bid }} :
       <span v-if="bid.goal">
         {{ formatUSD(bid.amount_raised) }}/{{ formatUSD(bid.goal) }}
       </span>
@@ -48,43 +48,36 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import clone from 'clone';
-import { Prop } from 'vue-property-decorator';
+import { Prop, Component, Vue } from 'vue-property-decorator';
 import { TweenLite, Linear } from 'gsap';
 // eslint-disable-next-line no-unused-vars
-import ScrollToPlugin from 'gsap/umd/ScrollToPlugin';
+import 'gsap/ScrollToPlugin';
 
-const bids = nodecg.Replicant('trackerOpenBids');
-let bid;
+import { store } from "../../../../browser-util/state";
+import { TrackerOpenBid } from "../../../../../types";
 
+@Component({})
 export default class Bid extends Vue {
-
     @Prop({default: null})
     data: Object;
 
-    @Prop({default: undefined})
-    bid: Object;
+    bid: TrackerOpenBid;
 
-    @Prop({default: null})
-    lastBidID: number;
-
-    @Prop({default: 0})
-    width: number;
+    width: number=1;
 
     created() {
-        const chosenBid = this.getRandomBid();
-        if (!chosenBid) {
+      const chosenBid = this.getRandomBid();
+      if (!chosenBid) {
         this.$emit('end');
-        } else {
-        bid = clone(chosenBid);
-        }
+      } else {
+        this.bid = clone(chosenBid);
+      }
     }
 
     mounted() {
       const fallback = setTimeout(() => this.$emit('end'), 5000);
       const originalWidth = this.$parent.$el.clientWidth - 34;
-      this.bid = bid;
       Vue.nextTick().then(() => {
         this.width = originalWidth;
         setTimeout(() => {
@@ -108,28 +101,19 @@ export default class Bid extends Vue {
       return `$${amount.toFixed(2)}`;
     }
 
-    getRandomBid() {//this whole function is currently broken, need to see how we do this
-      const bidChoices = [];
-      let totalWeight = 1;
-      let randomValue = Math.random();
-      const bidToReturn = bidChoices.find((option) => {
-        // the actual chance is the relative weight divided by the total weight
-        const chance = option.weight / totalWeight;
-        if (chance >= randomValue) {
-          this.lastBidID = option.bid.id;
-          return true;
-        }
-        randomValue -= chance;
-        return false;
-      });
-      if (bidToReturn) return bidToReturn.bid;
-      return null;
+    getRandomBid(): TrackerOpenBid {
+      // TODO: select next
+      let allBids = store.state.trackerOpenBids;
+      if (allBids.length) {
+        return allBids[Math.floor(Math.random() * allBids.length)];
+      } else {
+        return null;
+      }
     }
 }
 </script>
 
 <style scoped>
-  @import url('../../../_misc/components/FlexContainer.css');
   #Bid {
     padding: 0 17px;
     height: 100%;
