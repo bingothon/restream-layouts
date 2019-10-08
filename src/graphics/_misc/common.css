@@ -4,6 +4,8 @@
     --container-background-color: #3b5d7e;
     --container-border-color: #0381a0;
     --font-color: #fff;
+    --darker-main-color: #315091;
+    --lighter-main-color: #5c88bc;
 }
 
 body {
