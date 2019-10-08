@@ -2,55 +2,41 @@
   <div
     id="Total"
   >
-    <span
-      v-for="char in totalSplitString"
-      :key="char"
-      :class="(char === ',' ? 'Comma' : undefined)"
-    >
-      {{ char }}
-    </span>
+    {{ totalString }}
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch} from "vue-property-decorator";
 import { TweenLite } from "gsap";
-const totalRep = nodecg.Replicant('donationTotal');
+import { store } from '../../../browser-util/state';
 
+@Component({})
 export default class DonationTotal extends Vue {
 
-  @Prop({default: false})
-  init: boolean;
+  init: boolean = false;
+  tweenedTotal: number = -1;
 
-  @Prop({default: -1})
-  total: number;
-
-  @Prop({default: 0})
-  tweenedTotal: number;
+  get donationTotal(): number {
+    return store.state.donationTotal;
+  }
   
-  @Prop({default: []})
-  totalSplitString;//for some reason it's complaining when i declare Type string, so i don't
-  
-  @Watch('total')
-  OnTotalChanged(val) {
+  @Watch('donationTotal')
+  onTotalChanged() {
     if (this.init) {
-      TweenLite.to(this.$data, 5, { tweenedTotal: val });
+      TweenLite.to(this.$data, 5, { tweenedTotal: this.donationTotal });
     } else {
-      this.tweenedTotal = this.total;
+      this.tweenedTotal = this.donationTotal;
       this.init = true;
     }
   }
 
-  @Watch('tweenedTotal')
-  OnTweenedTotalChanged(val): void {
-    const string = `$${val.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
-    this.totalSplitString = string.split('');
+  get totalString(): string {
+    return `$${this.tweenedTotal.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
   }
   
   mounted() {
-    totalRep.on('change', (newVal: number) => {
-      this.total = newVal;
-    });
+    this.onTotalChanged();
   }
 };
 </script>
@@ -62,16 +48,6 @@ export default class DonationTotal extends Vue {
     font-weight: 500;
     min-width: 50px;
     text-align: center;
-  }
-  /* Each character in the total is in a span; setting width so the numbers appear monospaced. */
-  #Total > span {
-    display: inline-block;
-    width: 0.45em;
-    text-align: center;
-  }
-  #Total > .Comma {
-    display: inline-block;
-    width: 0.22em;
-    text-align: center;
+    font-variant-numeric: tabular-nums;
   }
 </style>

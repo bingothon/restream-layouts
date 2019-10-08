@@ -18,9 +18,10 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-const wide = require('../hashtag-text.png');
+const wide = require('../logo-winter-wide.png');
 const peLogo = require('../BingothonPureEarth.png');
 
+@Component({})
 export default class RotatingLogos extends Vue{
   @Prop({default: undefined})
   logo;//what type is this?

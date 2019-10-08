@@ -12,7 +12,10 @@
   },
   "license": "MIT",
   "author": "zoton2",
-  "contributors": ["lepelog","floha258"],
+  "contributors": [
+    "lepelog",
+    "floha258"
+  ],
   "scripts": {
     "build": "run-s build:*",
     "build:browser": "trash .cache && cross-env NODE_ENV=production npm run bundle",
@@ -84,6 +87,11 @@
         "file": "game-layout.html",
         "width": 1920,
         "height": 1080
+      },
+      {
+        "file": "omnibar.html",
+        "width": 1920,
+        "height": 80
       }
     ],
     "mount": [

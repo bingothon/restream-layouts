@@ -6,18 +6,19 @@
     <divider></divider>
     <total></total>
     <divider></divider>
-    <ticker></ticker>
+    <!--<ticker></ticker>-->
     <divider></divider>
-    <clock></clock>
+    <!--<clock></clock>-->
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from "vue-property-decorator";
 import RotatingLogos from './components/RotatingLogos.vue';
-import Total from './components/Total.vue';
-import Ticker from './components/Ticker.vue';
-import Clock from './components/Clock.vue';
+import StaticLogo from './components/StaticLogo.vue';
+import Total from './components/DonationTotal.vue';
+//import Ticker from './components/Ticker.vue';
+//import Clock from './components/Clock.vue';
 import Divider from './components/Divider.vue';
 
 @Component({
@@ -25,12 +26,11 @@ import Divider from './components/Divider.vue';
     StaticLogo,
     RotatingLogos,
     Total,
-    Ticker,
-    Clock,
+//    Ticker,
+//    Clock,
     Divider,
   },
 })
-
 export default class Omnibar extends Vue {}
 </script>
 
