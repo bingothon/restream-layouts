@@ -4,6 +4,6 @@ export * from './bingosyncSocket';
 export * from './donationTotal';
 export * from './trackerDonations';
 export * from './trackerOpenBids';
+export * from './trackerPrizes';
 export * from './twitchStreams';
 export * from './voiceActivity';
-export * from './trackerPrizes';

@@ -5,4 +5,9 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type TrackerPrizes = any[];
+export type TrackerPrizes = {
+  name: string;
+  provider: string;
+  minDonation?: number;
+  endTime?: string;
+}[];
