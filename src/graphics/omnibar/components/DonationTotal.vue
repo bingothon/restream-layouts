@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop} from "vue-property-decorator";
+import { Vue, Component, Prop, Watch} from "vue-property-decorator";
 import { TweenLite } from "gsap";
 const totalRep = nodecg.Replicant('donationTotal');
 
@@ -29,23 +29,22 @@ export default class DonationTotal extends Vue {
   tweenedTotal: number;
   
   @Prop({default: []})
-  totalSplitString: String;
-
-  watch: {
+  totalSplitString;//for some reason it's complaining when i declare Type string, so i don't
   
-    total(val) {
-      if (this.init) {
-        TweenLite.to(this.$data, 5, { tweenedTotal: val });
-      } else {
-        this.tweenedTotal = this.total;
-        this.init = true;
-      }
+  @Watch('total')
+  OnTotalChanged(val) {
+    if (this.init) {
+      TweenLite.to(this.$data, 5, { tweenedTotal: val });
+    } else {
+      this.tweenedTotal = this.total;
+      this.init = true;
     }
+  }
 
-    tweenedTotal(val): void {
-      const string = `$${val.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
-      this.totalSplitString = string.split('');
-    }
+  @Watch('tweenedTotal')
+  OnTweenedTotalChanged(val): void {
+    const string = `$${val.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+    this.totalSplitString = string.split('');
   }
   
   mounted() {
