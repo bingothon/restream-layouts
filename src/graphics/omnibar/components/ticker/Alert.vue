@@ -61,7 +61,8 @@ export default class Alert extends Vue {
         this.width = originalWidth;
         setTimeout(() => {
             clearTimeout(fallback);
-            const amountToScroll = this.$refs.Line2.scrollWidth - originalWidth;
+            var Line2 = this.$refs.Line2 as Element;
+            const amountToScroll = Line2.scrollWidth - originalWidth;
             const timeToScroll = (amountToScroll * 13) / 1000;
             const timeToShow = (timeToScroll > 10) ? timeToScroll : 6;
             TweenLite.to(this.$refs.Line2, timeToShow, {
