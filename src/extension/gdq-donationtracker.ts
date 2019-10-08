@@ -5,7 +5,7 @@
 
 import * as RequestPromise from 'request-promise';
 import * as nodecgApiContext from './util/nodecg-api-context';
-import { TrackerOpenBids, TrackerDonations, DonationTotal } from '../../schemas';
+import { TrackerOpenBids, TrackerDonations, DonationTotal, TrackerPrizes } from '../../schemas';
 
 import equal = require('deep-equal');
 
@@ -19,6 +19,7 @@ if (nodecg.bundleConfig && nodecg.bundleConfig.donationtracker && nodecg.bundleC
   const donationTotalReplicant = nodecg.Replicant <DonationTotal>('donationTotal');
   const openBidsReplicant = nodecg.Replicant<TrackerOpenBids>('trackerOpenBids');
   const donationsReplicant = nodecg.Replicant <TrackerDonations>('trackerDonations');
+  const prizesReplicant = nodecg.Replicant<TrackerPrizes>('trackerPrizes');
   const feedUrl = nodecg.bundleConfig.donationtracker.url;
   const { eventSlug } = nodecg.bundleConfig.donationtracker;
   function doUpdate() {
@@ -59,6 +60,17 @@ if (nodecg.bundleConfig && nodecg.bundleConfig.donationtracker && nodecg.bundleC
       .catch((err) => {
         log.error('error getting donations: ', err);
       });
+      //get prizes
+      /*client.get(`${feedUrl}/feed/prizes/${eventSlug}`, { json: true })
+      .then((data) => {
+        if (!equal(prizesReplicant.value, data.results)) {
+          prizesReplicant.value = data.results;
+          log.info(`prizes updated to ${JSON.stringify(data.results)}`);
+        }
+      })
+      .catch((err) => {
+        log.error('error getting prizes: ', err);
+      });*/
   }
   doUpdate();
   setInterval(doUpdate, 30000);

@@ -6,3 +6,4 @@ export * from './trackerDonations';
 export * from './trackerOpenBids';
 export * from './twitchStreams';
 export * from './voiceActivity';
+export * from './trackerPrizes';
