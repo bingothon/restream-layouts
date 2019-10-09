@@ -71,6 +71,8 @@ if (nodecg.bundleConfig && nodecg.bundleConfig.donationtracker && nodecg.bundleC
       .catch((err) => {
         log.error('error getting prizes: ', err);
       });*/
+      prizesReplicant.value = [{endTime: 1570702210000, minDonation: 10, name: "Epic Tr1cks Mug", provider: "The Tr1cks"},
+      {endTime: undefined, minDonation: 200, name: "Something", provider: "Someone"}];
   }
   doUpdate();
   setInterval(doUpdate, 30000);

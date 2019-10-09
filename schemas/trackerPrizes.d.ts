@@ -9,5 +9,5 @@ export type TrackerPrizes = {
   name: string;
   provider: string;
   minDonation?: number;
-  endTime?: string;
+  endTime?: number;
 }[];

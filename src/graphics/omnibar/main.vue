@@ -37,6 +37,7 @@ export default class Omnibar extends Vue {}
     width: 1920px;
     height: 80px;
     justify-content: flex-start;
-    background: var(--lighter-main-color);
+    color: white;
+    background: linear-gradient(to bottom, var(--lighter-main-color), var(--darker-main-color));
   }
 </style>

@@ -10,7 +10,7 @@
       "name": {"type":"string"},
       "provider": {"type": "string"},
       "minDonation": {"type": "number"},
-      "endTime": {"type": "string"}
+      "endTime": {"type": "number"}
     }
   }
 }

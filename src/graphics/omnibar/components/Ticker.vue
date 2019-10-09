@@ -23,7 +23,7 @@ import { TrackerDonations, TrackerOpenBids } from "../../../../schemas";
 import { TrackerDonation, TrackerOpenBid } from "../../../../types";
 import GenericMessage from './ticker/GenericMessage.vue';
 //import UpcomingRun from './ticker/UpcomingRun.vue';
-//import Prize from './ticker/Prize.vue';
+import Prize from './ticker/Prize.vue';
 import Bid from './ticker/Bid.vue';
 import Alert from './ticker/Alert.vue';
 const newDonations: TrackerDonations = [];
@@ -37,7 +37,7 @@ interface TickerMessage {
     components: {
         GenericMessage,
         //UpcomingRun,
-        //Prize,
+        Prize,
         Bid,
         Alert,
     }
@@ -67,6 +67,7 @@ export default class Ticker extends Vue {
     }
 
     showNextMsg() {
+        console.log("nextMsg");
         let currentComponent: TickerMessage;
         // give new donations priority
         if (newDonations.length) {
@@ -75,9 +76,9 @@ export default class Ticker extends Vue {
             switch (this.currentState) {
                 // temp solution until they are all implemented
                 //case 0: currentComponent = this.upcomingRun(); break;
-                //case 1: currentComponent = this.prize(); break;
-                default: this.currentState+=2; currentComponent = this.bid(); break;
-                //case 3: currentComponent = this.staticMessages[Math.floor(Math.random() * this.staticMessages.length)]; break;
+                case 1: currentComponent = this.prize(); break;
+                case 2: currentComponent = this.bid(); break;
+                default: currentComponent = this.staticMessages[Math.floor(Math.random() * this.staticMessages.length)]; break;
             }
             this.currentState = (this.currentState + 1) % 4;
         }
@@ -87,10 +88,10 @@ export default class Ticker extends Vue {
 
     /*upcomingRun() {
       return { name: UpcomingRun.name };
-    },
-    prize() {
-      return { name: Prize };
     },*/
+    prize() {
+      return { name: Prize.name, data: {} };
+    },
     bid(): TickerMessage {
       return { name: Bid.name, data: {} };
     }
@@ -121,6 +122,7 @@ export default class Ticker extends Vue {
   #Ticker {
     height: 100%;
     flex: 1;
+    display: flex;
   }
   .fade-enter-active, .fade-leave-active {
     transition: opacity .5s;

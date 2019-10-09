@@ -43,11 +43,13 @@ export default class RotatingLogos extends Vue{
   }
   #LogoWrapper {
     position: relative;
+    top: 50%;
     width: 230px;
   }
   #LogoWrapper > img {
     position: absolute;
     max-width: 100%;
+    transform: translateY(-50%);
   }
   .fade-enter-active, .fade-leave-active {
     transition: opacity 1s;

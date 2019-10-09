@@ -48,6 +48,7 @@ export default class DonationTotal extends Vue {
     font-weight: 500;
     min-width: 50px;
     text-align: center;
+    align-self: center;
     font-variant-numeric: tabular-nums;
   }
 </style>

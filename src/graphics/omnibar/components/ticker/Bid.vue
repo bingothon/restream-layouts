@@ -62,7 +62,7 @@ export default class Bid extends Vue {
     @Prop({default: null})
     data: Object;
 
-    bid: TrackerOpenBid;
+    bid: TrackerOpenBid = null;
 
     width: number=1;
 
@@ -102,10 +102,19 @@ export default class Bid extends Vue {
     }
 
     getRandomBid(): TrackerOpenBid {
-      // TODO: select next
-      let allBids = store.state.trackerOpenBids;
-      if (allBids.length) {
-        return allBids[Math.floor(Math.random() * allBids.length)];
+      let openBids = store.state.trackerOpenBids.filter(bid => {
+        // goal is null for bid wars
+        if (bid.goal == null) {
+          // bid wars are closed manually
+          return bid.state == "OPENED";
+        } else {
+          // Incentives close as soon as the needed amount is reached
+          // we still want to display them until the run starts
+          return !bid.run_started;
+        }
+      });
+      if (openBids.length) {
+        return openBids[Math.floor(Math.random() * openBids.length)];
       } else {
         return null;
       }
