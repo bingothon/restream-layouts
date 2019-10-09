@@ -22,7 +22,7 @@ import { store } from "../../../browser-util/state";
 import { TrackerDonations, TrackerOpenBids } from "../../../../schemas";
 import { TrackerDonation, TrackerOpenBid } from "../../../../types";
 import GenericMessage from './ticker/GenericMessage.vue';
-//import UpcomingRun from './ticker/UpcomingRun.vue';
+import UpcomingRun from './ticker/UpcomingRun.vue';
 import Prize from './ticker/Prize.vue';
 import Bid from './ticker/Bid.vue';
 import Alert from './ticker/Alert.vue';
@@ -36,7 +36,7 @@ interface TickerMessage {
 @Component({
     components: {
         GenericMessage,
-        //UpcomingRun,
+        UpcomingRun,
         Prize,
         Bid,
         Alert,
@@ -74,8 +74,7 @@ export default class Ticker extends Vue {
             currentComponent = this.donation(newDonations.shift());
         } else {
             switch (this.currentState) {
-                // temp solution until they are all implemented
-                //case 0: currentComponent = this.upcomingRun(); break;
+                case 0: currentComponent = this.upcomingRun(); break;
                 case 1: currentComponent = this.prize(); break;
                 case 2: currentComponent = this.bid(); break;
                 default: currentComponent = this.staticMessages[Math.floor(Math.random() * this.staticMessages.length)]; break;
@@ -86,9 +85,9 @@ export default class Ticker extends Vue {
         this.timestamp = Date.now();
     }
 
-    /*upcomingRun() {
-      return { name: UpcomingRun.name };
-    },*/
+    upcomingRun() {
+      return { name: UpcomingRun.name, data: {} };
+    },
     prize() {
       return { name: Prize.name, data: {} };
     },
