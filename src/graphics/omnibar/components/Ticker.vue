@@ -53,6 +53,7 @@ export default class Ticker extends Vue {
             this.genericMessage('This is Bingothon Winter 2019, enjoy your stay!'),
             this.genericMessage('#BingothonW2019 benefits Pure Earth!'),
             this.genericMessage('Donate @ TODO'),
+            this.genericMessage("Can't get enough of Bingothon? Join the Bingothon Discord at discord.bingothon.com"),
         ];
         this.showNextMsg();
     }

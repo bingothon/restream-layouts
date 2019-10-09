@@ -65,3 +65,7 @@ typings/
 /dashboard/
 /extension/
 /graphics/
+
+#VS settings
+.vs
+.vscode
