@@ -8,7 +8,7 @@
     ></run-upcoming>
     <rotation></rotation>
     <info-storage-box
-      id="ReaderAndMusic"
+      id="ReaderAndMusic"rm
     >
       <reader></reader>
       <music></music>
@@ -17,44 +17,47 @@
 </template>
 
 <script lang="ts">
-import SpeedcontrolUtil from 'speedcontrol-util';
 import { Component, Vue} from "vue-property-decorator";
+import Logo from './components/Logo.vue';
+import Rotation from './components/Rotation.vue';
+import {store} from "../../browser-util/state";
 /*import CutBackground from '../_misc/cut_bg';
 import InfoStorageBox from '../_misc/components/InfoStorageBox.vue';
-import Logo from './components/Logo.vue';
 import Music from './components/Music.vue';
 import Reader from './components/Reader.vue';
 import RunUpcoming from './components/RunUpcoming.vue';
-import Rotation from './components/Rotation.vue';*/
-const sc = new SpeedcontrolUtil(nodecg);
+*/
+
+const curRunRep = nodecg.Replicant('RunDataActiveRun', 'nodecg-speedcontrol');
 
 @Component({
     components: {
+        Logo,
+        Rotation,
       /*SponsorLogos,
       InfoStorageBox,
       Capture,
-      Logo,
       Music,
       Reader,
       RunUpcoming,
-      Rotation,
       AdTimer,*/
     },
 })
 
 export default class Intermission extends Vue{
   nextRun = undefined;
-  
+
   created() {
-    NodeCG.waitForReplicants(sc.runDataActiveRun).then(() => this.refreshUpcomingRun());
+    NodeCG.waitForReplicants(curRunRep).then(() => this.refreshUpcomingRun());
     nodecg.listenFor('forceRefreshIntermission', this.refreshUpcomingRun);
   }
 
   refreshUpcomingRun() {
-    const nextRun = sc.getNextRuns(1);
-    if (nextRun.length) {
-      [this.nextRun] = nextRun;
-    }
+      const curRun = store.state.runDataActiveRun;
+		const nextRun = store.state.runDataArray[curRun.id + 1];
+		if (nextRun) {
+		  this.nextRun = nextRun;
+		}
   }
 };
 </script>

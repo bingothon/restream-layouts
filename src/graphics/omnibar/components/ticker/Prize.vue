@@ -17,7 +17,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { store } from "../../../../browser-util/state";
-import { TrackerPrizes } from "../../../../../schemas";
 import { TrackerPrize } from "../../../../../types";
 import clone from 'clone';
 import moment from 'moment';
