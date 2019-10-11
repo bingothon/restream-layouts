@@ -7,7 +7,7 @@
 </template>
 
 <script>
-	import { Vue } from 'vue-property-decorator'
+    import {Prop, Vue} from 'vue-property-decorator'
     export default class Logo extends Vue {
 	};
 </script>

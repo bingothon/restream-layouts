@@ -18,7 +18,6 @@
     import {Component, Vue} from "vue-property-decorator";
     import {store} from "../../../browser-util/state";
     import {RunData} from "../../../../speedcontrol-types";
-    const runDataRep = nodecg.Replicant("RunDataActiveRun", "nodecg-speedcontrol");
     const curRun = store.state.runDataActiveRun;
 
     @Component({})
@@ -33,10 +32,8 @@
 		nextRuns: RunData[]
 
         mounted() {
-            NodeCG.waitForReplicants(runDataRep).then(() => {
-                this.updateNextRuns();
-                this.showNextMsg();
-            });
+			this.updateNextRuns();
+			this.showNextMsg();
             nodecg.listenFor('forceRefreshIntermission', () => this.updateNextRuns());
         }
 

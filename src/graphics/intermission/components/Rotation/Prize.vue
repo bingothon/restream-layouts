@@ -35,6 +35,9 @@
 
     export default class Prize extends Vue{
         @Prop({default: undefined})
+        data;
+
+        @Prop({default: undefined})
 		prize : TrackerPrize
 
         mounted() {
