@@ -30,11 +30,13 @@
     import clone from 'clone';
     import { TrackerPrize } from "../../../../../types";
     import {store} from "../../../../browser-util/state";
-    import {Vue} from "vue-property-decorator";
+    import {Prop, Vue} from "vue-property-decorator";
     const prizes = store.state.trackerPrizes;
 
     export default class Prize extends Vue{
-        prize : TrackerPrize
+        @Prop({default: undefined})
+		prize : TrackerPrize
+
         mounted() {
             if (!prizes.length) {
                 this.$emit('end');

@@ -17,10 +17,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue} from "vue-property-decorator";
+    import {Component, Prop, Vue} from "vue-property-decorator";
 import Logo from './components/Logo.vue';
 import Rotation from './components/Rotation.vue';
 import {store} from "../../browser-util/state";
+import RunUpcoming from "./components/RunUpcoming.vue";
+import {RunData} from "../../../speedcontrol-types";
 /*import CutBackground from '../_misc/cut_bg';
 import InfoStorageBox from '../_misc/components/InfoStorageBox.vue';
 import Music from './components/Music.vue';
@@ -34,18 +36,20 @@ const curRunRep = nodecg.Replicant('RunDataActiveRun', 'nodecg-speedcontrol');
     components: {
         Logo,
         Rotation,
+        RunUpcoming
       /*SponsorLogos,
       InfoStorageBox,
       Capture,
       Music,
       Reader,
-      RunUpcoming,
+      ,
       AdTimer,*/
     },
 })
 
 export default class Intermission extends Vue{
-  nextRun = undefined;
+  @Prop({default: undefined})
+  nextRun: RunData;
 
   created() {
     NodeCG.waitForReplicants(curRunRep).then(() => this.refreshUpcomingRun());
@@ -54,10 +58,10 @@ export default class Intermission extends Vue{
 
   refreshUpcomingRun() {
       const curRun = store.state.runDataActiveRun;
-		const nextRun = store.state.runDataArray[curRun.id + 1];
-		if (nextRun) {
-		  this.nextRun = nextRun;
-		}
+	  const nextRun = store.state.runDataArray[curRun.id + 1];
+	  if (nextRun) {
+	      this.nextRun = nextRun;
+	  }
   }
 };
 </script>
