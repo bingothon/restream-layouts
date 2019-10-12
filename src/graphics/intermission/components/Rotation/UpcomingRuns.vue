@@ -11,13 +11,21 @@
 <script lang="ts">
     import clone from 'clone';
     import RunUpcoming from '../RunUpcoming.vue';
+    import { store } from "../../../../browser-util/state";
     import {Component, Prop, Vue} from "vue-property-decorator";
+    import { RunData } from '../../../../../speedcontrol-types';
+    
     @Component({
-		RunUpcoming
+        components: {
+            RunUpcoming
+        }
 	})
     export default class UpcomingRuns extends Vue{
-		nextRuns : Array = [];
-        runs: Array = [];
+
+        @Prop({required: true})
+        nextRuns: RunData[];
+
+        runs: RunData[] = [];
         whenTotal: number = 0;
 
         mounted() {
@@ -35,7 +43,7 @@
                 }
             }
             setTimeout(() => this.$emit('end'), 20 * 1000);
-        },
+        }
     };
 </script>
 

@@ -6,8 +6,9 @@
 	</div>
 </template>
 
-<script>
-    import {Prop, Vue} from 'vue-property-decorator'
+<script lang="ts">
+	import {Prop, Vue, Component} from 'vue-property-decorator'
+	@Component({})
     export default class Logo extends Vue {
 	};
 </script>

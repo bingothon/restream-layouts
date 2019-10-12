@@ -13,13 +13,13 @@
 				:src="prize.image"
 			>
 			<div class="Title">
-				{{ prize.name }} provided by {{ prize.provided }}
+				{{ prize.name }} provided by {{ prize.provider }}
 			</div>
 			<div class="MinAmount">
-				Minimum donation amount: {{ formatUSD(prize.minimum_bid) }}
+				Minimum donation amount: {{ formatUSD(prize.minDonation) }}
 			</div>
 			<div class="Deadline">
-				Donate in the next {{ getPrizeTimeUntilString(prize) }}
+				{{ getPrizeTimeUntilString(prize) }}
 			</div>
 		</div>
 	</div>
@@ -30,17 +30,17 @@
     import clone from 'clone';
     import { TrackerPrize } from "../../../../../types";
     import {store} from "../../../../browser-util/state";
-    import {Prop, Vue} from "vue-property-decorator";
-    const prizes = store.state.trackerPrizes;
+    import {Prop, Vue, Component} from "vue-property-decorator";
 
+	@Component({})
     export default class Prize extends Vue{
         @Prop({default: undefined})
         data;
 
-        @Prop({default: undefined})
-		prize : TrackerPrize
+		prize : TrackerPrize = null;
 
         mounted() {
+    		const prizes = store.state.trackerPrizes;
             if (!prizes.length) {
                 this.$emit('end');
             }
@@ -53,13 +53,16 @@
 			return `$${amount.toFixed(2)}`;
 		}
 
-		getPrizeTimeUntilString(prize) {
-			let timeUntil = moment(prize.end_timestamp).fromNow(true);
-			timeUntil = timeUntil.replace('an ', ''); // Dirty fix for "Donate in the next an hour".
-			timeUntil = timeUntil.replace('a ', ''); // Dirty fix for "Donate in the next a day".
-			return timeUntil;
-		}
-	};
+		getPrizeTimeUntilString(prize: TrackerPrize) {
+        if (prize.endTime) {
+            let timeUntil = moment(prize.endTime).fromNow(true);
+            timeUntil = timeUntil.replace('an ', ''); // Dirty fix for "Donate in the next an hour".
+            timeUntil = timeUntil.replace('a ', ''); // Dirty fix for "Donate in the next a day".
+            return `Donate in the next ${timeUntil}`;
+        } else {
+            return `Donate until the end of the event`;
+        }
+	}
 </script>
 
 <style>

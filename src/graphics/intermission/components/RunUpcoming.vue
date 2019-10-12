@@ -36,10 +36,12 @@
 
 <script lang="ts">
     import moment from 'moment';
-    import {Prop, Vue} from "vue-property-decorator";
+		import {Prop, Vue, Component} from "vue-property-decorator";
+
+		@Component({})
     export default class RunUpcoming extends Vue {
         @Prop({default: undefined})
-		data: Object;
+				data: Object;
 
         formPlayerNamesString(run) {
             const namesArray = [];

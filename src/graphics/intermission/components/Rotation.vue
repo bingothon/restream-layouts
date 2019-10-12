@@ -20,16 +20,22 @@
     import {RunData} from "../../../../speedcontrol-types";
     const curRun = store.state.runDataActiveRun;
 
-    @Component({})
+    @Component({
+		compontents: {
+			UpcomingRuns,
+			Bid,
+			Prize
+		}
+	})
 	export default class Rotation extends Vue {
-		currentComponent: undefined
+		currentComponent = null;
 		componentArray: Array = [
                     UpcomingRuns,
                     Bid,
                     Prize
                 ]
 		index: number = 0
-		nextRuns: RunData[]
+		nextRuns: RunData[] = [];
 
         mounted() {
 			this.updateNextRuns();
