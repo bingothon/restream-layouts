@@ -8,8 +8,12 @@
     ></run-upcoming>
     <rotation></rotation>
     <info-storage-box
-      id="ReaderAndMusic"rm
+      id="ReaderAndMusic"
     >
+		<div class="Mic">
+			<img src="components/Mic.png">
+		</div>
+		<DiscordVoiceDisplay></DiscordVoiceDisplay>
       <!--<reader></reader>
       <music></music>-->
     </info-storage-box>
@@ -24,6 +28,7 @@ import {store} from "../../browser-util/state";
 import RunUpcoming from "./components/RunUpcoming.vue";
 import {RunData} from "../../../speedcontrol-types";
 import InfoStorageBox from "../_misc/components/InfoStorageBox.vue";
+import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
 /*import CutBackground from '../_misc/cut_bg';
 import Music from './components/Music.vue';
 import Reader from './components/Reader.vue';
@@ -36,7 +41,8 @@ const curRunRep = nodecg.Replicant('RunDataActiveRun', 'nodecg-speedcontrol');
         Logo,
         Rotation,
         RunUpcoming,
-		InfoStorageBox
+		InfoStorageBox,
+		DiscordVoiceDisplay
       /*SponsorLogos,
       InfoStorageBox,
       Capture,
@@ -75,20 +81,6 @@ export default class Intermission extends Vue{
     width: 609px;
     height: 276px;
   }
-  #SponsorLogo {
-    left: 26px;
-    top: 741px;
-    width: 662px;
-    height: 259px;
-  }
-  #IntermissionCamera {
-    justify-content: flex-end;
-    align-items: flex-end;
-    left: 30px;
-    top: 370px;
-    width: 655px;
-    height: 368px;
-  }
   #ComingUpNext {
     position: fixed;
     left: 718px;
@@ -112,4 +104,27 @@ export default class Intermission extends Vue{
     height: 60px;
     font-size: 30px;
   }
+
+  .DiscordVoiceDisplay {
+	  width: 1172px;
+	  left: 750px;
+	  top: 920px;
+  }
+  .Mic {
+	  background-color: #627fbe;
+	  top: 910px;
+	  height: 60px;
+	  padding: 5px;
+  }
+  .Mic > img {
+	  top: 910px;
+	  height: 60px;
+	  height: 100%;
+	  object-fit: contain;
+  }
+
+	body {
+		/*background-image: radial-gradient(#627fbe, #3e3f93, rgba(0, 0, 0, 0.3));*/
+		background-color: rgba(98, 127, 190, 0.5)
+	}
 </style>
