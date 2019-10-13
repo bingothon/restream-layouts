@@ -17,6 +17,11 @@
       <!--<reader></reader>
       <music></music>-->
     </info-storage-box>
+	  <div class="HostingBingo">
+		  Hosting Bingo
+		  <div class="CardPlaceholder">
+		  </div>
+	  </div>
   </div>
 </template>
 
@@ -111,7 +116,7 @@ export default class Intermission extends Vue{
 	  top: 920px;
   }
   .Mic {
-	  background-color: #627fbe;
+	  background-color: var(--lighter-main-color);
 	  top: 910px;
 	  height: 60px;
 	  padding: 5px;
@@ -124,7 +129,22 @@ export default class Intermission extends Vue{
   }
 
 	body {
-		/*background-image: radial-gradient(#627fbe, #3e3f93, rgba(0, 0, 0, 0.3));*/
-		background-color: rgba(98, 127, 190, 0.5)
+		background: linear-gradient(var(--lighter-main-color), var(--darker-main-color));
+		/*background-color: rgba(98, 127, 190, 0.5)*/
+	}
+
+	.CardPlaceholder {
+		bottom: 1000px;
+		left: 0px;
+		height: 700px;
+		width: 700px;
+		background-color: var(--container-background-color);
+	}
+
+	.HostingBingo {
+		bottom: 1000px;
+		left: 0px;
+		height: 750px;
+		width: 700px;
 	}
 </style>
