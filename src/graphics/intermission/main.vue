@@ -71,11 +71,19 @@ export default class Intermission extends Vue{
 
   refreshUpcomingRun() {
       const curRun = store.state.runDataActiveRun;
-	  const nextRun = store.state.runDataArray[curRun.id + 1];
+	  const nextRun = store.state.runDataArray[this.findRunIndex(curRun) + 1];
 	  if (nextRun) {
 	      this.nextRun = nextRun;
 	  }
   }
+
+    findRunIndex(run : RunData): number {
+        let curRunID = run.id;
+        if (!curRunID) {
+            return -1;
+        }
+        return store.state.runDataArray.findIndex(run => run.id === curRunID);
+    }
 };
 </script>
 
@@ -124,7 +132,6 @@ export default class Intermission extends Vue{
   .Mic > img {
 	  top: 910px;
 	  height: 60px;
-	  height: 100%;
 	  object-fit: contain;
   }
 
