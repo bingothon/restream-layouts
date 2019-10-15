@@ -18,7 +18,6 @@
     import {Component, Vue} from "vue-property-decorator";
     import {store} from "../../../browser-util/state";
     import {RunData} from "../../../../speedcontrol-types";
-    const curRun = store.state.runDataActiveRun;
 
     @Component({
 		compontents: {
@@ -56,7 +55,7 @@
 		}
 
         findRunIndex(): number {
-            let curRunID = curRun.id;
+            let curRunID = store.state.runDataActiveRun.id;
             if (!curRunID) {
                 return -1;
             }

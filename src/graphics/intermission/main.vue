@@ -39,8 +39,6 @@ import Music from './components/Music.vue';
 import Reader from './components/Reader.vue';
 */
 
-const curRunRep = nodecg.Replicant('RunDataActiveRun', 'nodecg-speedcontrol');
-
 @Component({
     components: {
         Logo,
@@ -62,10 +60,13 @@ export default class Intermission extends Vue{
   @Prop({default: undefined})
   data;
 
-  @Prop({default: undefined})
-  nextRun: RunData;
+  nextRun: RunData = null;
 
   created() {
+    this.refreshUpcomingRun();
+  }
+
+  mounted() {
     nodecg.listenFor('forceRefreshIntermission', this.refreshUpcomingRun);
   }
 
