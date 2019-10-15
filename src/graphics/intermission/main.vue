@@ -13,7 +13,7 @@
 		<div class="Mic">
 			<img src="components/Mic.png">
 		</div>
-		<DiscordVoiceDisplay></DiscordVoiceDisplay>
+		<DiscordVoiceDisplay voiceHighlightColor="var(--darker-main-color)"></DiscordVoiceDisplay>
       <!--<reader></reader>
       <music></music>-->
     </info-storage-box>

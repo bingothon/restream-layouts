@@ -1,7 +1,7 @@
 <template>
     <div
         class="DiscordVoiceDisplay FlexContainer"
-        :style="{'--icon-height':iconHeight, '--name-width':nameWidth}"
+        :style="{'--icon-height':iconHeight, '--name-width':nameWidth, '--voice-highlight-color': voiceHighlightColor}"
     >
         <div
             class="Member FlexContainer"
@@ -42,6 +42,8 @@ export default class DiscordVoiceDisplay extends Vue {
     iconHeight: string;
     @Prop({default: "100px"})
     nameWidth: string;
+    @Prop({default: "blue"})
+    voiceHighlightColor: string;
 
     get voiceActivityMembers(): VoiceActivityMember[] {
         return store.state.voiceActivity.members;
@@ -80,7 +82,7 @@ export default class DiscordVoiceDisplay extends Vue {
         height: 25px;
         top: -4px;
         right: -4px;
-        background-color: blue;
+        background-color: var(--voice-highlight-color);
         border-radius: 100%;
 
         opacity: 0;
@@ -100,6 +102,6 @@ export default class DiscordVoiceDisplay extends Vue {
     }
 
     .DiscordVoiceDisplay > .Member.Active > div.Name {
-        text-shadow: 0px 0px 15px  #0384da;
+        text-shadow: 0px 0px 15px var(--voice-highlight-color);
     }
 </style>
