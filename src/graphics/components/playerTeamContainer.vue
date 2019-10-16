@@ -46,7 +46,7 @@ export default class PlayerTeamContainer extends Vue {
 <style>
 .PlayerTeamContainer {
     flex-direction: column;
-    background-image: linear-gradient(#536075, #0b1b1d, rgba(255, 255, 255, 0.2), #23575e);
+    background-image: linear-gradient(var(--container-border-color), var(--darker-main-color));
 }
 
 .PlayerTeamContainer > .PlayerInfo1,

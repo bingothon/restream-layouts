@@ -43,7 +43,7 @@
       DiscordVoiceDisplay,
 		}
 	})
-	
+
 	export default class GameLayout extends Vue {
     get teams(): RunDataTeam[] {
       return store.state.runDataActiveRun.teams;
@@ -59,7 +59,7 @@
     width: 782px;
     height: 440px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #fillur {
     position: absolute;
@@ -68,7 +68,7 @@
     width: 782px;
     height: 440px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #filldl {
     position: absolute;
@@ -77,7 +77,7 @@
     width: 782px;
     height: 440px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #filldr {
     position: absolute;
@@ -86,7 +86,7 @@
     width: 782px;
     height: 440px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #fillbar {
     position: absolute;
@@ -95,7 +95,7 @@
     width: 1920px;
     height: 80px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #discord-voice {
     position: absolute;
@@ -104,7 +104,7 @@
     width: 356px;
     height: 150px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #fillmiddle {
     background-image: url("../../../static/middle-info-background.png");
@@ -112,42 +112,42 @@
     top: 0px;
     left: 782px;
     width: 356px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     height: 1080px;
   }
   #pi1 {
     position: absolute;
     top: 0px;
     left: 0px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     width: 769px;
   }
   #pi2 {
     position: absolute;
     top: 0px;
     left: 1138px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     width: 769px;
   }
   #pi3 {
     position: absolute;
     top: 940px;
     left: 0px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     width: 769px;
   }
   #pi4 {
     position: absolute;
     top: 940px;
     left: 1138px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     width: 769px;
   }
   #Bingo-board {
     position: absolute;
     top: 500px;
     left: 782px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     width:356px;
     height:500px;
   }
@@ -157,7 +157,7 @@
     top: 0px;
     left: 782px;
     width: 356px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     height: 175px;
   }
   #timer{
@@ -166,7 +166,7 @@
     left: 782px;
     background-image: url("../../../static/middle-info-background.png");
     width: 356px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     height: 175px;
   }
 </style>

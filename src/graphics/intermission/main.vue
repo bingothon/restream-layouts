@@ -101,12 +101,14 @@ export default class Intermission extends Vue{
     top: 31px;
     width: 1172px;
     height: 199px;
+	color: white;
   }
   #Rotation {
     left: 718px;
     top: 240px;
     width: 1172px;
     height: 660px;
+	color: white;
   }
   #ReaderAndMusic {
     justify-content: flex-start;
@@ -142,17 +144,20 @@ export default class Intermission extends Vue{
 	}
 
 	.CardPlaceholder {
-		bottom: 1000px;
+		position: fixed;
+		top: 350px;
 		left: 0px;
-		height: 700px;
-		width: 700px;
+		height: 650px;
+		width: 650px;
 		background-color: var(--container-background-color);
 	}
 
 	.HostingBingo {
-		bottom: 1000px;
-		left: 0px;
+		position: fixed;
+		color: white;
+		top: 290px;
 		height: 750px;
-		width: 700px;
+		width: 650px;
+		font-size: 50px;
 	}
 </style>

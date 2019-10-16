@@ -149,7 +149,7 @@ export default class PlayerInfo extends Vue {
 
 <style>
   .PlayerInfoBox {
-    background-image: linear-gradient(#0b1b1d, #23575e);
+    background-image: linear-gradient(#5C88BC, #315091);
     color: var(--font-color);
     padding: 7px;
     font-weight: 500;
