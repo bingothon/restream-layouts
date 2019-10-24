@@ -39,4 +39,5 @@ export = (nodecg: NodeCG): void => {
   require('./twitch-chat-bot');
   require('./gdq-donationtracker');
   require('./streams');
+  require('./util/obs');
 };

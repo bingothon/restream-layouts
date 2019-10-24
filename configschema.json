@@ -45,9 +45,11 @@
 		},
 		"obs": {
             "type":"object",
-            "required": ["discordAudio","nodecgAudio"],
+            "required": ["discordAudio","nodecgAudio","address","password"],
             "additionalProperties": false,
 			"properties": {
+				"address": { "type": "string", "default": "localhost:4444" },
+				"password": { "type": "string", "default": "" },
 				"discordAudio": {"type":"string", "default":"Discord-Audio"},
 				"nodecgAudio": {"type":"string", "default":"Desktop-Audio"}
 			}
