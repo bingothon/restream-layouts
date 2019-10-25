@@ -288,12 +288,16 @@
 <style scoped>
 
 	body {
+		height: 100%;
+		width: 100%;
+		background-color: black;
+	}
+
+	#HostDashboard {
+		color: white;
+		background-color: black;
 		height: 1080px;
 		width: 1920px;
-		font-family: 'Montserrat', sans-serif;
-		color: white;
-		background-color: #212121;
-		overflow: hidden;
 	}
 
 	#columnsWrapper {
