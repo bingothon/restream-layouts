@@ -3,7 +3,7 @@
 	<div id="columnsWrapper">
 		<div id="column1" class="column">
 			<div id="bidsHeader">Upcoming Goals/Bidwars:</div>
-			<div id="bidsContainer"></div>
+			<div id="bidsContainer">{{bids}}</div>
 		</div>
 		<div id="column2" class="column">
 			<div id="scheduleHeader">Run Schedule:</div>
@@ -25,11 +25,11 @@
     import {store} from "../../browser-util/state";
     import {TrackerPrize} from "../../../types";
     import moment from 'moment';
+    import {TrackerOpenBids} from "../../../schemas";
 
     @Component({})
 
     export default class HostDashboard extends Vue {
-        donationTotal : string = '';
        /* $(() => {
         // JQuery selectors.
         var donationTotalElement = $('#donationTotal');
@@ -43,67 +43,74 @@
         var runHTML = $('<div class="run"><span class="justMissed">YOU HAVE JUST WATCHED<br></span><span class="gameName"></span><br><span class="gameCategory"></span><br><span class="gameConsole"></span><br><span class="gameRunners"></span><br><span class="gameTime"></span><br><span class="gameFinal"></span></div>');
 */
        get donationTotal() {
-           return formatDollarAmount(store.state.donationTotal, true);
+           return this.formatDollarAmount(store.state.donationTotal, true);
 	   }
 
 	   get prizes() {
            return this.formatPrizes(store.state.trackerPrizes);//probably needs to be formatted
 	   }
 
-    // Keep prizes updated.
-		formatPrizes(trackerPrizes : TrackerPrize[]) {
-           trackerPrizes.forEach(prize => {
-               return (prize.name +
-				   " provided by " +
-				   prize.provider +
-				   " minimum donation " +
-				   formatDollarAmount(prize.minDonation, true) +
-				   getPrizeTimeUntilString(prize)
-			   );
-        });
+	   get bids() {
+           return this.formatBids(store.state.trackerOpenBids);//format?
+	   }
 
+	   // Keep prizes updated.
+		formatPrizes(trackerPrizes : TrackerPrize[]) :string {
+           	let prizes : String = "";
+            trackerPrizes.forEach(prize => {
+                prizes += (prize.name +
+                    " provided by " +
+                    prize.provider +
+                    " minimum donation " +
+                    this.formatDollarAmount(prize.minDonation, true) +
+                    this.getPrizeTimeUntilString(prize) + '\n\n'
+                );
+            });
+            return prizes;
+        }
 
+        // Formats dollar amounts to the correct string.
+		formatDollarAmount(amount :number, forceRemoveCents : boolean) : string {
+              // We drop the cents and add a comma over $1000.
+            if (amount < 1000 && !forceRemoveCents)
+                return '$' + amount.toFixed(2);
+            else
+                return '$' + Math.floor(amount).toLocaleString('en-US', { minimumFractionDigits: 0 });
+        }
 
-    // Keep bids updated.
-    var bids = nodecg.Replicant('bids');
-    bids.on('change', newVal => {
-        var i = 0;
-        bidsContainer.html('');
-        newVal.forEach(bid => {
-            if (i >= 2) return;
-            var bidElement = bidHTML.clone();
-            $('.bidGame', bidElement).html(bid.game+' - '+bid.category);
-            $('.bidName', bidElement).html(bid.name);
-            // Donation Goal
-            if (!bid.war) {
-                var bidLeft = bid.goal - bid.total;
-                bidElement.append('<br>'+formatDollarAmount(bid.total)+'/'+formatDollarAmount(bid.goal));
-                bidElement.append('<br>'+formatDollarAmount(bidLeft)+' to goal');
-            }
-            // Bid War
-            else {
-                if (bid.options.length) {
-                    bid.options.forEach(option => {
-                        bidElement.append('<br>'+option.name+' ('+formatDollarAmount(option.total)+')')
-                    });
-
-                    if (bid.allow_user_options)
-                        bidElement.append('<br><i>Users can submit their own options.</i>')
+        formatBids(trackerBids : TrackerOpenBids) : string {
+            let bids : String = '';
+            let i : number = 0;
+            trackerBids.forEach(bid => {
+                if (i <= 2) {
+                    bids += bid.game + ' - ' + bid.bid + '\n';
+                    if (bid.goal) {
+                        bids += this.formatDollarAmount(bid.amount_raised, true) + '/'
+							+ this.formatDollarAmount(bid.goal, true) + '\n';
+                        bids += this.formatDollarAmount(bid.goal - bid.amount_raised, true) + ' left to go' + '\n\n';
+                    } else {
+                        if (bid.options.length) {
+                            bid.options.forEach(option => {
+                                bids += option.name + ' - ' + option.amount_raised + '\n';
+                            })
+                            if (bid.allow_custom_options) {
+                                bids += 'Users can submit their own options\n\n';
+                            } else {
+                                bids += '\n';
+                            }
+                        } else {
+                            bids += 'No options submitted yet.\n\n'
+                        }
+                    }
                 }
-                else
-                    bidElement.append('<br><i>No options submitted yet.</i>')
-            }
-            bidsContainer.append(bidElement);
-            i++;
-        });
-    });
-
-    var runDataArray = nodecg.Replicant('runDataArray', 'nodecg-speedcontrol');
-    var runDataActiveRun = nodecg.Replicant('runDataActiveRun', 'nodecg-speedcontrol');
-    var runFinishTimes = nodecg.Replicant('runFinishTimes', 'nodecg-speedcontrol');
-    var runFinishTimesInit = false;
+                i++;
+		    })
+		    return bids;
+		}
+    /*//var runFinishTimes = store.state.runDataActiveRun.
+    //var runFinishTimesInit = false;
     var runDataActiveRunInit = false;
-    var runsInit = false;
+    /*var runsInit = false;
     runFinishTimes.on('change', newVal => {
         runFinishTimesInit = true;
         if (!runsInit && runFinishTimesInit && runDataActiveRunInit) {
@@ -117,20 +124,12 @@
             setRuns();
             runsInit = true;
         }
-    });
+    });*/
 
-    // Formats dollar amounts to the correct string.
-    function formatDollarAmount(amount :number, forceRemoveCents : boolean) : string {
-        // We drop the cents and add a comma over $1000.
-        if (amount < 1000 && !forceRemoveCents)
-            return '$' + amount.toFixed(2);
-        else
-            return '$' + Math.floor(amount).toLocaleString('en-US', { minimumFractionDigits: 0 });
-    }
-
-    function setRuns() {
-        runsContainer.html('');
-        var indexOfCurrentRun = findIndexInRunDataArray(runDataActiveRun.value);
+    /*function setRuns() {
+        var runDataArray = store.state.runDataArray;
+        var runDataActiveRun = store.state.runDataActiveRun;
+        var indexOfCurrentRun = findIndexInRunDataArray(runDataActiveRun);
         for (var i = -1; i < 2; i++) {
             var run = runDataArray.value[indexOfCurrentRun+i];
             if (run) {
@@ -222,11 +221,12 @@
     // Find array index of current run based on it's ID.
     function findIndexInRunDataArray(run) {
         var indexOfRun = -1;
+        var runDataArray = store.state.runDataArray;
 
         // Completely skips this if the run variable isn't defined.
         if (run) {
-            for (var i = 0; i < runDataArray.value.length; i++) {
-                if (run.id === runDataArray.value[i].id) {
+            for (var i = 0; i < runDataArray.length; i++) {
+                if (run.id === runDataArray[i].id) {
                     indexOfRun = i; break;
                 }
             }
@@ -249,12 +249,12 @@
     function getTextWidth(text, size) {
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext('2d');
-        ctx.font = size + 'px "Barlow Condensed"'; /* Change if layout is changed. */
+        ctx.font = size + 'px "Barlow Condensed"'; // Change if layout is changed.
         return ctx.measureText(text).width;
-    }
+    }*/
 
     // calculate the time until the prize period ends and render it as a human readable string ("an hour", "20 minutes")
-	function getPrizeTimeUntilString(prize: TrackerPrize) {
+	getPrizeTimeUntilString(prize: TrackerPrize) {
         if (prize.endTime) {
             let timeUntil = moment(prize.endTime).fromNow(true);
             timeUntil = timeUntil.replace('an ', ''); // Dirty fix for "Donate in the next an hour".
@@ -264,7 +264,7 @@
             return `Donate until the end of the event`;
         }
     }
-
+/*
     // Change if an element is visible or not.
     function changeVisibility(elem, isVisible) {
         $(elem).css({
@@ -281,15 +281,15 @@
         });
         return newArr;
     }
-    });
+    });*/
     }
 </script>
 
 <style scoped>
 
 	body {
-		height: 90vh;
-		width: 90hw;
+		height: 1080px;
+		width: 1920px;
 		font-family: 'Montserrat', sans-serif;
 		color: white;
 		background-color: #212121;
