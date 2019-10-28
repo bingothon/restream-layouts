@@ -23,11 +23,9 @@
   import TeamInfo from "../components/teamInfo.vue";
   import PlayerTeamContainer from "../components/playerTeamContainer.vue";
   import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
-    import TestNextGameContainer from "../components/testNextGameContainer.vue";
 
 	@Component({
 		components: {
-            TestNextGameContainer,
 			BingoBoard,
       TestGameContainer,
       PlayerInfo,

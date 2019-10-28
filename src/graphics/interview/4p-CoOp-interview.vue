@@ -8,7 +8,6 @@
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
     <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"/>
-	<test-next-game-container id="nextGame"></test-next-game-container>
 	</div>
 </template>
 
@@ -21,11 +20,9 @@
   import TeamInfo from "../components/teamInfo.vue";
   import PlayerTeamContainer from "../components/playerTeamContainer.vue";
   import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
-    import TestNextGameContainer from "../components/testNextGameContainer.vue";
 
 	@Component({
 		components: {
-            TestNextGameContainer,
 			BingoBoard,
       TestGameContainer,
       PlayerInfo,
