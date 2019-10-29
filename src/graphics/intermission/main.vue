@@ -89,11 +89,10 @@ export default class Intermission extends Vue{
 </script>
 
 <style>
-  .Logo {
-    left: 53px;
-    top: 43px;
-    width: 609px;
-    height: 276px;
+  logo {
+	position: absolute;
+    left: 10px;
+    top: 21px;
   }
   #ComingUpNext {
     position: fixed;

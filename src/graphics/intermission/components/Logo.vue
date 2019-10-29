@@ -18,8 +18,8 @@
 		position: fixed;
 	}
 	.Logo > img {
-		width: 100%;
-		height: 100%;
+		width: 20%;
+		height: 20%;
 		object-fit: contain;
 	}
 </style>
