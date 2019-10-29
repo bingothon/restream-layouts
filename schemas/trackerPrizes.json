@@ -9,6 +9,7 @@
     "properties": {
       "name": {"type":"string"},
       "provider": {"type": "string"},
+      "image": {"type": "string"},
       "minDonation": {"type": "number"},
       "endTime": {"type": "number"}
     }
