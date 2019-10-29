@@ -1,8 +1,9 @@
-'use strict';
+/*'use strict';
 
-const nodecg = require('./util/nodecg-api-context').get();
-const mpd = require('mpd');
+import * as nodecgApiContext from './util/nodecg-api-context';
+import * as mpd from 'mpd';
 
+const nodecg = nodecgApiContext.get();
 var mpdConfig = nodecg.bundleConfig.mpd || {};
 var volume = mpdConfig.volume || 10;
 var currentVolume = volume;
@@ -190,3 +191,4 @@ function fadeIn() {
 
 	fadeInterval = setInterval(loop, 200);
 }
+*/
