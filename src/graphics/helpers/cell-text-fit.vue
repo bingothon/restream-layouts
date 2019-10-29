@@ -1,6 +1,6 @@
 <template>
     <div id="container">
-        <div id="fittedContent" :style="{transform, top, 'font-size':optimizedFontSize}">{{text}}</div>
+        <div id="fittedContent" :style="{transform, top, 'font-size':optimizedFontSize}" v-html="text"></div>
     </div>
 </template>
 
@@ -32,7 +32,7 @@ export default class CellTextFit extends Vue {
             var scaleY = container.scrollHeight / fittedContent.scrollHeight;
             const fontSize = window.getComputedStyle(fittedContent).fontSize;
             // limit recursion
-            if (depth < 10 && scaleY < 0.8) {
+            if (depth < 10 && (scaleY < 0.8 || scaleX < 0.5)) {
                 this.optimizedFontSize = `calc(${fontSize} * 0.9)`;
                 this._fit(depth+1);
                 return;
@@ -58,5 +58,8 @@ export default class CellTextFit extends Vue {
     #fittedContent {
         position: absolute;
         left: 0;
+    }
+    span.underline {
+        text-decoration: underline;
     }
 </style>

@@ -7,6 +7,7 @@ export = (nodecg: NodeCG): void => {
   nodecg.log.info('Extension code working!');
   require('./bingosync');
   require('./bingoColors');
+  require('./oriBingoBoard');
   if (nodecg.bundleConfig.discord) {
     if (!nodecg.bundleConfig.discord.test) {
       require('./discord');

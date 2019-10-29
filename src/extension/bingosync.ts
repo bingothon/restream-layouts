@@ -54,6 +54,8 @@ nodecg.listenFor('bingosync:leaveRoom', (_data, callback) => {
     clearInterval(fullUpdateInterval);
     destroyWebsocket();
     socketRep.value.status = 'disconnected';
+    socketRep.value.passphrase = '';
+    socketRep.value.roomCode = '';
     log.info('Left room');
     if (callback && !callback.handled) {
       callback(null);
