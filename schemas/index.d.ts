@@ -7,3 +7,4 @@ export * from './trackerOpenBids';
 export * from './trackerPrizes';
 export * from './twitchStreams';
 export * from './voiceActivity';
+export * from './songData';

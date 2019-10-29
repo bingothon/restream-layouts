@@ -2,7 +2,7 @@ import clone from 'clone';
 import { ReplicantBrowser } from 'nodecg/types/browser'; // eslint-disable-line
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { Bingoboard, BingoboardMeta, BingosyncSocket, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes } from "../../schemas";
+import { Bingoboard, BingoboardMeta, BingosyncSocket, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData } from "../../schemas";
 import { RunDataActiveRun, RunDataArray, Timer } from "../../speedcontrol-types";
 
 Vue.use(Vuex);
@@ -15,7 +15,8 @@ const replicantNames = [
   'trackerDonations',
   'trackerOpenBids',
   'trackerPrizes',
-  'voiceActivity'
+  'voiceActivity',
+  'songData'
 ];
 const nodecgSpeedcontrolReplicantNames = [
   'runDataActiveRun',
@@ -37,6 +38,7 @@ export const store = new Vuex.Store({
     trackerOpenBids: [] as TrackerOpenBids,
     trackerPrizes: [] as TrackerPrizes,
     voiceActivity: {} as VoiceActivity,
+	songData: {} as SongData,
     // nodecg-speedcontrol
     runDataActiveRun: {} as RunDataActiveRun,
     runDataArray: [] as RunDataArray,

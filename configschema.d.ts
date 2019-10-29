@@ -24,6 +24,8 @@ export interface Configschema {
     eventSlug: string;
   };
   obs: {
+    address: string;
+    password: string;
     discordAudio: string;
     nodecgAudio: string;
   };
