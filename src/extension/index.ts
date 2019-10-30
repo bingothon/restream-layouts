@@ -1,10 +1,12 @@
 import { NodeCG } from 'nodecg/types/server'; // eslint-disable-line
 import * as nodecgApiContext from './util/nodecg-api-context';
-import { VoiceActivity } from '../../schemas';
+import { VoiceActivity, SongData } from '../../schemas';
+import { Configschema } from '../../configschema';
 
 export = (nodecg: NodeCG): void => {
   nodecgApiContext.set(nodecg);
   nodecg.log.info('Extension code working!');
+  const bundleConfig: Configschema = nodecg.bundleConfig;
   require('./bingosync');
   require('./bingoColors');
   require('./oriBingoBoard');
@@ -41,4 +43,10 @@ export = (nodecg: NodeCG): void => {
   require('./gdq-donationtracker');
   require('./streams');
   require('./util/obs');
+  if (bundleConfig.mpd && bundleConfig.mpd.enable) {
+    require('./music');
+  } else {
+    nodecg.log.warn('MPD integration is disabled, no music!');
+    nodecg.Replicant<SongData>('songData', { persistent: false, defaultValue: {playing: false, title: "No Track Playing"} });
+  }
 };

@@ -54,6 +54,16 @@
 				"nodecgAudio": {"type":"string", "default":"Desktop-Audio"}
 			}
 		},
+		"mpd": {
+			"type":"object",
+			"required": ["enable","address","port"],
+			"additionalProperties": false,
+			"properties": {
+				"enable": {"type":"boolean", "default": false},
+				"address": {"type": "string", "default": "localhost"},
+				"port": {"type": "number", "default": 6600}
+			}
+		},
 		"esaRepeaterPostKey": {"type": "string", "default": "DEFAULT_KEY"}
 	}
 }

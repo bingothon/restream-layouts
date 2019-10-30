@@ -29,6 +29,11 @@ export interface Configschema {
     discordAudio: string;
     nodecgAudio: string;
   };
+  mpd?: {
+    enable: boolean;
+    address: string;
+    port: number;
+  };
   esaRepeaterPostKey: string;
   [k: string]: any;
 }
