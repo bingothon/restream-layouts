@@ -75,8 +75,7 @@ async function onReady() {
 	clearInterval(shuffleInterval);
 	shuffleInterval = setInterval(shufflePlaylist, 21600000);
 
-	await updatePlaybackStatus();
-	await updateCurrentSong();
+	await updatePlaybackStatusAndSong();
 }
 
 function onEnd() {
@@ -92,27 +91,23 @@ function onError(err: MPDError) {
 
 // Update stuff when the player status changes.
 async function onSystemPlayer() {
-	await updatePlaybackStatus();
-	await updateCurrentSong();
+	await updatePlaybackStatusAndSong();
 }
 
-// Used to update the replicant to say if there is a song playing or not.
-async function updatePlaybackStatus() {
+// Used to update the replicant to say if there is a song playing or not
+// also updates the title
+async function updatePlaybackStatusAndSong() {
 	const status = await client.status.status();
 	if (status.state !== 'play') {
 		songData.value.playing = false;
 		songData.value.title = 'No Track Playing';
 	} else {
 		songData.value.playing = true;
-	}
-}
-
-// Used to update the replicant to include the title/artist.
-async function updateCurrentSong() {
-	const currentSong = await client.status.currentSong();
-	var songTitle = currentSong.title+' - '+currentSong.artist;
-	if (songTitle !== songData.value.title && songData.value.playing) {
-		songData.value.title = songTitle;
+		const currentSong = await client.status.currentSong();
+		var songTitle = currentSong.title+' - '+currentSong.artist;
+		if (songTitle !== songData.value.title) {
+			songData.value.title = songTitle;
+		}
 	}
 }
 
