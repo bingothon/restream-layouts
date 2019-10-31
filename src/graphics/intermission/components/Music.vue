@@ -4,7 +4,7 @@
 		class="Music FlexContainer"
 	>
 		<div class="MCat">
-			<img src="MCat_Logo.png">
+			<img src="music.png">
 		</div>
 		<div class="Name">
 			{{ name }}
@@ -14,27 +14,25 @@
 
 <script lang="ts">
     import {store} from "../../../browser-util/state";
-
-    const song = store.state
+    import {SongData} from "../../../../schemas";
+    import {Prop, Vue} from "vue-property-decorator";
 
     export default class Music extends Vue {
-        name: 'Music',
-        data() {
-            return {
-                show: false,
-                name: '',
-            };
-        },
+		show: boolean = false;
+		name: string = '';
+
         mounted() {
-            song.on('change', (newVal) => {
-                if (newVal && newVal.playing) {
-                    this.name = newVal.title;
-                    this.show = true;
-                } else {
-                    this.show = false;
-                }
-            });
-        },
+            store.watch((state) => state.songData, this.onSongDataUpdate)
+        }
+
+		onSongDataUpdate(newSong : SongData | undefined) {
+            if (newSong && newSong.playing) {
+                this.name = newSong.title;
+                this.show = true;
+            } else {
+                this.show = false;
+            }
+        }
     };
 </script>
 

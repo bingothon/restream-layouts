@@ -14,8 +14,8 @@
 			<img src="components/Mic.png">
 		</div>
 		<DiscordVoiceDisplay voiceHighlightColor="var(--darker-main-color)"></DiscordVoiceDisplay>
-      <!--<reader></reader>
-      <music></music>-->
+      <!--<reader></reader>-->
+      <music></music>
     </info-storage-box>
 	  <div class="HostingBingo">
 		  Hosting Bingo
@@ -34,8 +34,8 @@ import RunUpcoming from "./components/RunUpcoming.vue";
 import {RunData} from "../../../speedcontrol-types";
 import InfoStorageBox from "../_misc/components/InfoStorageBox.vue";
 import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
-/*import CutBackground from '../_misc/cut_bg';
 import Music from './components/Music.vue';
+/*import CutBackground from '../_misc/cut_bg';
 import Reader from './components/Reader.vue';
 */
 
@@ -45,11 +45,11 @@ import Reader from './components/Reader.vue';
         Rotation,
         RunUpcoming,
 		InfoStorageBox,
+        Music,
 		DiscordVoiceDisplay
       /*SponsorLogos,
       InfoStorageBox,
       Capture,
-      Music,
       Reader,
       ,
       AdTimer,*/
