@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "array",
+    "default": [],
+    "additionalProperties": false,
+    "items": {
+        "type":"object",
+        "additionalProperties": false,
+        "required": ["name","path"],
+        "properties": {
+            "name": {
+                "type": "string"
+            },
+            "path": {
+                "type":"string"
+            }
+        }
+    }
+}

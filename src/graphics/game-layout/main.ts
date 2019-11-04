@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { create } from "../../browser-util/state";
+import { create, getReplicant } from "../../browser-util/state";
 import * as Layouts from "./layout-list";
+import { AllGameLayouts, CurrentGameLayout } from '../../../schemas';
 
 Vue.use(VueRouter);
 
@@ -18,8 +19,18 @@ const routes = [
   {path: "*", redirect: "/test-layout"},
 ];
 
+// put all of the game layouts in the replicant
+const allGameLayouts = routes.map(r => { return {name: r.name || "", path: r.path || ""}}).filter(r => !!r.name);
+getReplicant<AllGameLayouts>('allGameLayouts').value = allGameLayouts;
+
 const router = new VueRouter({
   routes,
+});
+
+// if the replicant changes, update the game layouts route
+getReplicant<CurrentGameLayout>('currentGameLayout').on('change',newVal => {
+  console.log('switching to',newVal);
+  router.push({name: newVal.name});
 });
 
 create().then(()=> {

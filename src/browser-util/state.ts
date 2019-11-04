@@ -2,15 +2,17 @@ import clone from 'clone';
 import { ReplicantBrowser } from 'nodecg/types/browser'; // eslint-disable-line
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { Bingoboard, BingoboardMeta, BingosyncSocket, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData } from "../../schemas";
+import { AllGameLayouts, Bingoboard, BingoboardMeta, BingosyncSocket, CurrentGameLayout, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData } from "../../schemas";
 import { RunDataActiveRun, RunDataArray, Timer } from "../../speedcontrol-types";
 
 Vue.use(Vuex);
 
 const replicantNames = [
+  'allGameLayouts',
   'bingoboard',
   'bingoboardMeta',
   'bingosyncSocket',
+  'currentGameLayout',
   'donationTotal',
   'trackerDonations',
   'trackerOpenBids',
@@ -30,15 +32,17 @@ var playerAlternateInterval: NodeJS.Timeout | null = null;
 export const store = new Vuex.Store({
   state: {
     // bingothon
+    allGameLayouts: [] as AllGameLayouts,
     bingoboard: [] as Bingoboard,
     bingoboardMeta: {} as BingoboardMeta,
     bingosyncSocket: {} as BingosyncSocket,
+    currentGameLayout: {} as CurrentGameLayout,
     donationTotal: 0 as DonationTotal,
     trackerDonations: [] as TrackerDonations,
     trackerOpenBids: [] as TrackerOpenBids,
     trackerPrizes: [] as TrackerPrizes,
     voiceActivity: {} as VoiceActivity,
-	songData: {} as SongData,
+    songData: {} as SongData,
     // nodecg-speedcontrol
     runDataActiveRun: {} as RunDataActiveRun,
     runDataArray: [] as RunDataArray,

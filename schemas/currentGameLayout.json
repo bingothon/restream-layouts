@@ -1,0 +1,16 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type":"object",
+    "additionalProperties": false,
+    "required": ["name","path"],
+    "properties": {
+        "name": {
+            "type":"string",
+            "default": "Test Scene"
+        },
+        "path": {
+            "type":"string",
+            "default": "/test-layout"
+        }
+    }
+}

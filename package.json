@@ -70,6 +70,12 @@
         "title": "Bingo Control",
         "file": "bingo-control.html",
         "width": 2
+      },
+      {
+        "name": "layout-control",
+        "title": "Layout Control",
+        "file": "layout-control.html",
+        "width": 2
       }
     ],
     "graphics": [
