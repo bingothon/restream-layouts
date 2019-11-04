@@ -27,14 +27,15 @@
         </div>-->
       </transition>
     </div>
-    <div class="Flag FlexContainer"
+    <div v-if="!!player.country"
+      class="Flag FlexContainer"
       :style="{'width' : `calc(${height} * 1.9)`}"
     >
       <transition name="fade">
         <img
           :key="player.country"
           :style="{ 'visibility' : showFlag ? 'visbile' : 'hidden' }"
-          :src="`/bundles/bingothon-layouts/static/flags/${player.country}.png`"
+          :src="getPlayerFlag(player.country)"
         >
       </transition>
     </div>
@@ -143,6 +144,10 @@ export default class PlayerInfo extends Vue {
 
   get bingoCountShown(): boolean {
     return store.state.bingoboardMeta.countShown;
+  }
+
+  getPlayerFlag(rawFlag: string | undefined): string {
+    return `/bundles/bingothon-layouts/static/flags/${rawFlag}.png`
   }
 }
 </script>
