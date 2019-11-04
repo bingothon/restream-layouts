@@ -53,7 +53,7 @@
     width: 960px;
     height: 540px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #fillur {
     position: absolute;
@@ -62,7 +62,7 @@
     width: 960px;
     height: 540px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #fillbar {
     position: absolute;
@@ -71,7 +71,7 @@
     width: 1920px;
     height: 80px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #discord-voice {
     position: absolute;
@@ -80,27 +80,27 @@
     width: 250px;
     height: 400px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #pi1 {
     position: absolute;
     top: 540px;
     left: 0px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     width: 625px;
   }
   #pi2 {
     position: absolute;
     top: 540px;
     left: 1280px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     width: 625px;
   }
   #Bingo-board {
     position: absolute;
     top: 540px;
     left: 640px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     width: 640px;
     height: 460px;
   }
@@ -110,7 +110,7 @@
     top: 600px;
     left: 0px;
     width: 640px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     height: 400px;
   }
   #timer{
@@ -119,7 +119,7 @@
     left: 1530px;
     background-image: url("../../../static/middle-info-background.png");
     width: 390px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     height: 400px;
   }
 </style>

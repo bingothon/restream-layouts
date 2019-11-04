@@ -56,7 +56,7 @@
     width: 667px;
     height: 500px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #fillur {
     position: absolute;
@@ -65,7 +65,7 @@
     width: 667px;
     height: 500px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #filldl {
     position: absolute;
@@ -74,7 +74,7 @@
     width: 667px;
     height: 500px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #filldr {
     position: absolute;
@@ -83,7 +83,7 @@
     width: 667px;
     height: 500px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #fillbar {
     position: absolute;
@@ -92,7 +92,7 @@
     width: 1920px;
     height: 80px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #discord-voice {
     position: absolute;
@@ -101,7 +101,7 @@
     width: 200px;
     height: 290px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #InfoStorageBox1 {
     position: absolute;
@@ -135,21 +135,21 @@
     position: absolute;
     top: 0px;
     left: 667px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     width: 586px;
   }
   #ptc2 {
     position: absolute;
     top: 830px;
     left: 667px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     width: 586px;
   }
   #Bingo-board {
     position: absolute;
     top: 460px;
     left: 667px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     width:586px;
     height:370px;
   }
@@ -159,7 +159,7 @@
     top: 170px;
     left: 667px;
     width: 386px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     height: 145px;
   }
   #fillleft {
@@ -169,7 +169,7 @@
     left: 0px;
     width: 660px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #fillright {
     position: absolute;
@@ -178,7 +178,7 @@
     left: 1260px;
     width: 660px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #timer{
     position: absolute;
@@ -186,7 +186,7 @@
     left: 667px;
     background-image: url("../../../static/middle-info-background.png");
     width: 386px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     height: 145px;
   }
 </style>

@@ -56,7 +56,7 @@
     width: 640px;
     height: 480px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #fillum {
     position: absolute;
@@ -65,7 +65,7 @@
     width: 640px;
     height: 480px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #fillur {
     position: absolute;
@@ -74,7 +74,7 @@
     width: 640px;
     height: 480px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #fillbar {
     position: absolute;
@@ -83,7 +83,7 @@
     width: 1920px;
     height: 80px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #discord-voice {
     position: absolute;
@@ -92,34 +92,34 @@
     width: 640px;
     height: 200px;
     background-image: url("../../../static/middle-info-background.png");
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
   }
   #pi1 {
     position: absolute;
     top: 480px;
     left: 0px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     width: 625px;
   }
   #pi2 {
     position: absolute;
     top: 480px;
     left: 640px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     width: 625px;
   }
   #pi3 {
     position: absolute;
     top: 480px;
     left: 1280px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     width: 625px;
   }
   #Bingo-board {
     position: absolute;
     top: 540px;
     left: 640px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     width: 640px;
     height: 460px;
   }
@@ -129,7 +129,7 @@
     top: 540px;
     left: 0px;
     width: 640px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     height: 460px;
   }
   #timer{
@@ -138,7 +138,7 @@
     left: 1280px;
     background-image: url("../../../static/middle-info-background.png");
     width: 640px;
-    border: 2px blue solid;
+    border: 2px var(--container-border-color) solid;
     height: 260px;
   }
 </style>
