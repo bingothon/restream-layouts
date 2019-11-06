@@ -5,8 +5,13 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type Bingoboard = {
-  name: string;
-  slot: string;
-  colors: string;
-}[];
+export interface Bingoboard {
+  colorCounts: {
+    [k: string]: any;
+  };
+  cells: {
+    name: string;
+    slot: string;
+    colors: string;
+  }[];
+}

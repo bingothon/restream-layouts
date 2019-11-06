@@ -66,7 +66,8 @@ export default class TeamInfo extends Vue {
     }
 
     get bingoGoalCount(): number {
-        return store.state.bingoboardMeta.colorCounts[store.state.bingoboardMeta.playerColors[this.playerIndex] || "red"];
+        const bingoboard = store.state[store.state.currentMainBingoboard.boardReplicant];
+        return bingoboard.colorCounts[store.state.bingoboardMeta.playerColors[this.playerIndex] || "red"];
     }
 
     get bingoColorShown(): boolean {

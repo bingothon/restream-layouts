@@ -1,13 +1,13 @@
 <template>
   <div id="App">
-    <ul>
+    <!--<ul>
       <li
         v-for="(count,i) in colorCounts"
         :key="i"
       >
         {{ count["color"] }}:{{ count["count"] }}
       </li>
-    </ul>
+    </ul>-->
     <div
       v-for="(color,i) in playerColors"
       :key="i"
@@ -25,21 +25,34 @@
         </option>
       </select>
     </div>
-    <div>
-      Room Code: <input v-model="roomCode">
-    </div>
-    <div>
-      Passphrase: <input v-model="passphrase">
-    </div>
-    <div>
-      <button
-        :disabled="!canDoConnectAction"
-        @click="connectAction"
+    Select Board:
+    <select v-model="currentBoardRep">
+      <option
+        v-for="(boardRep, i) in allBingoReps"
+        :key="i"
+        :value="boardRep"
       >
-        {{ connectActionText }}
-      </button>
+        {{ boardRep }}
+      </option>
+    </select>
+    <div v-if="showExtraBingosyncOptions">
+      <div>
+        Room Code: <input v-model="roomCode">
+      </div>
+      <div>
+        Passphrase: <input v-model="passphrase">
+      </div>
+      <div>
+        <button
+          :disabled="!canDoConnectAction"
+          @click="connectAction"
+        >
+          {{ connectActionText }}
+        </button>
+      </div>
     </div>
     <div>
+      <button @click="switchAction">Switch</button>
       <button @click="toggleCard">
         {{ toggleCardText }}
       </button>
@@ -56,10 +69,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { nodecg, NodeCG } from '../../browser-util/nodecg';
-import { Bingoboard, BingosyncSocket, BingoboardMeta } from '../../../schemas';
+import { Bingoboard, BingosyncSocket, BingoboardMeta, CurrentMainBingoboard } from '../../../schemas';
 import { store, getReplicant } from '../../browser-util/state';
 
 type ColorEnum = ('pink' | 'red' | 'orange' | 'brown' | 'yellow' | 'green' | 'teal' | 'blue' | 'navy' | 'purple');
+type BingoRepEnum = ("bingoboard"|"oriBingoboard"|"hostingBingoboard"|"explorationBingoboard");
 
 @Component({})
 export default class BingoControl extends Vue {
@@ -67,7 +81,17 @@ export default class BingoControl extends Vue {
 
     passphrase: string = '';
 
+    currentBoardRep: string = '';
+
     allColors = Object.freeze(['pink', 'red', 'orange', 'brown', 'yellow', 'green', 'teal', 'blue', 'navy', 'purple']);
+    allBingoReps: readonly BingoRepEnum[] = Object.freeze(["bingoboard","oriBingoboard","hostingBingoboard","explorationBingoboard"]);
+
+    mounted() {
+      store.watch(state => state.currentMainBingoboard, newVal => {
+        this.currentBoardRep = newVal.boardReplicant;
+      });
+      this.currentBoardRep = store.state.currentMainBingoboard.boardReplicant;
+    }
 
     // --- computed properties
     get connectActionText(): string {
@@ -120,8 +144,12 @@ export default class BingoControl extends Vue {
       }
     }
 
+    get showExtraBingosyncOptions(): boolean {
+      return this.currentBoardRep == 'bingoboard';
+    }
+
     // test
-    get colorCounts(): Array<{color: string, count: number}> {
+    /*get colorCounts(): Array<{color: string, count: number}> {
       const counts = store.state.bingoboardMeta.colorCounts;
       const countArray = [];
       for (const key in counts) {
@@ -133,18 +161,26 @@ export default class BingoControl extends Vue {
         }
       }
       return countArray;
-    }
+    }*/
 
     // --- handlers
 
     connectAction() {
-      switch (store.state.bingosyncSocket.status) {
-        case 'connected':
-          nodecg.sendMessage('bingosync:leaveRoom');
-          return;
-        case 'disconnected':
-          nodecg.sendMessage('bingosync:joinRoom', { roomCode: this.roomCode, passphrase: this.passphrase });
+      // only expanded options for the bingosync connection, otherwise something else is there to handle the board
+      if (this.showExtraBingosyncOptions) {
+        switch (store.state.bingosyncSocket.status) {
+          case 'connected':
+            nodecg.sendMessage('bingosync:leaveRoom');
+            return;
+          case 'disconnected':
+            getReplicant<CurrentMainBingoboard>('currentMainBingoboard').value.boardReplicant = this.currentBoardRep as BingoRepEnum;
+            nodecg.sendMessage('bingosync:joinRoom', { roomCode: this.roomCode, passphrase: this.passphrase, name: this.currentBoardRep });
+        }
       }
+    }
+
+    switchAction() {
+      getReplicant<CurrentMainBingoboard>('currentMainBingoboard').value.boardReplicant = this.currentBoardRep as BingoRepEnum;
     }
 
     updatePlayerColor(idx: number, evt: any) {

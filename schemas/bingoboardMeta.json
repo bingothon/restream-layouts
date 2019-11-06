@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "type": "object",
     "additionalProperties": false,
-    "required": ["boardHidden","playerColors","colorCounts","colorShown"],
+    "required": ["boardHidden","playerColors","colorShown"],
     "properties": {
         "boardHidden": {
             "type":"boolean",
@@ -16,11 +16,6 @@
                 "type":"string",
                 "enum": ["pink", "red", "orange", "brown", "yellow", "green", "teal", "blue", "navy", "purple"]
             }
-        },
-        "colorCounts": {
-            "default": {"pink":0, "red":0, "orange":0, "brown":0, "yellow":0, "green":0, "teal":0, "blue":0, "navy":0, "purple":0},
-            "$comment": "How many fields of each color are  marked on the board",
-            "type":"object"
         },
         "colorShown": {
             "type":"boolean",

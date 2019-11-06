@@ -5,9 +5,11 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface BingoboardMeta {
-  boardHidden: boolean;
-  playerColors: ("pink" | "red" | "orange" | "brown" | "yellow" | "green" | "teal" | "blue" | "navy" | "purple")[];
-  colorShown: boolean;
-  countShown?: boolean;
+export interface HostingBingosocket {
+  status: "connected" | "connecting" | "disconnected" | "error";
+  siteUrl?: string;
+  socketUrl?: string;
+  playerName?: string;
+  roomCode?: string;
+  passphrase?: string;
 }

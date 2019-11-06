@@ -93,15 +93,25 @@ export default class BingoBoard extends Vue {
     @Prop({default: "10px"})
     fontSize: string;
     skewAngle = 1;
+    //@Prop({default: null})
+    //bingoboardRep: string | null;
+    // function to call when to drop the watch for the bingoboard, used to change boards
+    bingoboardWatch: () => void;
     
     mounted() {
         const height = this.$el.scrollHeight;
         const width = this.$el.scrollWidth;
         this.skewAngle = Math.atan(width/height);
-        store.watch((state) => state.bingoboard, this.onBingoBoardUpdate);
+        store.watch(state => state.currentMainBingoboard, newBoard => {
+            if (this.bingoboardWatch) {
+                this.bingoboardWatch();
+            }
+            this.bingoboardWatch = store.watch(state => state[newBoard.boardReplicant], this.onBingoBoardUpdate);
+            this.onBingoBoardUpdate(store.state[newBoard.boardReplicant]);
+        });
         // trigger update, otherwise the watcher isn't triggered on reload
-        if (store.state.bingoboard) {
-            this.onBingoBoardUpdate(store.state.bingoboard);
+        if (store.state.currentMainBingoboard) {
+            this.onBingoBoardUpdate(store.state[store.state.currentMainBingoboard.boardReplicant]);
         }
     }
 
@@ -111,12 +121,12 @@ export default class BingoBoard extends Vue {
         this.bingoCells.forEach((row, rowIndex)=>{
             row.forEach((cell,columnIndex)=>{
                 // update cell with goal name, if changed
-                var newCell = newGoals[idx];
-                if (!oldGoals || !oldGoals.length || newCell.name != oldGoals[idx].name) {
+                const newCell = newGoals.cells[idx];
+                if (!oldGoals || !oldGoals.cells.length || newCell.name != oldGoals.cells[idx].name) {
                     Vue.set(this.bingoCells[rowIndex][columnIndex],'name', newCell.name);
                 }
                 // update cell with color backgrounds, if changed
-                if (!oldGoals || !oldGoals.length || newCell.colors != oldGoals[idx].colors) {
+                if (!oldGoals || !oldGoals.cells.length || newCell.colors != oldGoals.cells[idx].colors) {
                     var colors = newCell.colors.split(' ');
                     if (colors[0]!="blank") {
                         colors = sortColors(colors);
