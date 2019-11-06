@@ -93,8 +93,8 @@ export default class BingoBoard extends Vue {
     @Prop({default: "10px"})
     fontSize: string;
     skewAngle = 1;
-    //@Prop({default: null})
-    //bingoboardRep: string | null;
+    @Prop({default: null})
+    bingoboardRep: string | null;
     // function to call when to drop the watch for the bingoboard, used to change boards
     bingoboardWatch: () => void;
     
@@ -102,16 +102,23 @@ export default class BingoBoard extends Vue {
         const height = this.$el.scrollHeight;
         const width = this.$el.scrollWidth;
         this.skewAngle = Math.atan(width/height);
-        store.watch(state => state.currentMainBingoboard, newBoard => {
-            if (this.bingoboardWatch) {
-                this.bingoboardWatch();
+        // no specific bingoboardRep means use the replicant
+        if (this.bingoboardRep == null) {
+            store.watch(state => state.currentMainBingoboard, newBoard => {
+                if (this.bingoboardWatch) {
+                    this.bingoboardWatch();
+                }
+                this.bingoboardWatch = store.watch(state => state[newBoard.boardReplicant], this.onBingoBoardUpdate);
+                this.onBingoBoardUpdate(store.state[newBoard.boardReplicant]);
+            });
+            // trigger update, otherwise the watcher isn't triggered on reload
+            if (store.state.currentMainBingoboard) {
+                this.onBingoBoardUpdate(store.state[store.state.currentMainBingoboard.boardReplicant]);
             }
-            this.bingoboardWatch = store.watch(state => state[newBoard.boardReplicant], this.onBingoBoardUpdate);
-            this.onBingoBoardUpdate(store.state[newBoard.boardReplicant]);
-        });
-        // trigger update, otherwise the watcher isn't triggered on reload
-        if (store.state.currentMainBingoboard) {
-            this.onBingoBoardUpdate(store.state[store.state.currentMainBingoboard.boardReplicant]);
+        } else {
+            // got a specific one, watch it
+            this.bingoboardWatch = store.watch(state => state[this.bingoboardRep], this.onBingoBoardUpdate);
+            this.onBingoBoardUpdate(store.state[this.bingoboardRep]);
         }
     }
 

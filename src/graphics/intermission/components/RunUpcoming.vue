@@ -41,7 +41,7 @@
 		@Component({})
     export default class RunUpcoming extends Vue {
         @Prop({default: undefined})
-				data: Object;
+				data: any;
 
         formPlayerNamesString(run) {
             const namesArray = [];

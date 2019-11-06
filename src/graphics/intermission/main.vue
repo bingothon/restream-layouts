@@ -19,8 +19,7 @@
     </info-storage-box>
 	  <div class="HostingBingo">
 		  Hosting Bingo
-		  <div class="CardPlaceholder">
-		  </div>
+		  <bingo-board class="BingoBoard" bingoboardRep="hostingBingoboard" fontSize="20px"></bingo-board>
 	  </div>
   </div>
 </template>
@@ -34,6 +33,7 @@ import RunUpcoming from "./components/RunUpcoming.vue";
 import {RunData} from "../../../speedcontrol-types";
 import InfoStorageBox from "../_misc/components/InfoStorageBox.vue";
 import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
+import BingoBoard from "../components/bingoboard.vue";
 import Music from './components/Music.vue';
 /*import CutBackground from '../_misc/cut_bg';
 import Reader from './components/Reader.vue';
@@ -46,7 +46,8 @@ import Reader from './components/Reader.vue';
         RunUpcoming,
 		InfoStorageBox,
         Music,
-		DiscordVoiceDisplay
+    DiscordVoiceDisplay,
+    BingoBoard,
       /*SponsorLogos,
       InfoStorageBox,
       Capture,
@@ -90,7 +91,7 @@ export default class Intermission extends Vue{
 
 <style>
   logo {
-	position: absolute;
+	  position: fixed;
     left: 10px;
     top: 21px;
   }
@@ -139,6 +140,7 @@ export default class Intermission extends Vue{
 
 	body {
 		background: linear-gradient(var(--lighter-main-color), var(--darker-main-color));
+    height: 1080px;
 		/*background-color: rgba(98, 127, 190, 0.5)*/
 	}
 
@@ -159,4 +161,9 @@ export default class Intermission extends Vue{
 		width: 650px;
 		font-size: 50px;
 	}
+
+  .HostingBingo > .BingoBoard {
+		height: 650px;
+		width: 650px;
+  }
 </style>

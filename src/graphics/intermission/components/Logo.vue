@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="Logo FlexContainer"
+		class="Logo"
 	>
 		<img src="logo-winter.png">
 	</div>
@@ -14,12 +14,7 @@
 </script>
 
 <style scoped>
-	.Logo {
-		position: fixed;
-	}
 	.Logo > img {
-		width: 20%;
-		height: 20%;
-		object-fit: contain;
+		width: 307px;
 	}
 </style>
