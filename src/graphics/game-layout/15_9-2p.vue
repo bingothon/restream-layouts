@@ -78,7 +78,7 @@
     top: 636px;
     left: 1280px;
     width: 250px;
-    height: 400px;
+    height: 364px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px var(--container-border-color) solid;
   }
@@ -102,7 +102,7 @@
     left: 640px;
     border: 2px var(--container-border-color) solid;
     width: 640px;
-    height: 460px;
+    height: 424px;
   }
   #game {
     background-image: url("../../../static/middle-info-background.png");
@@ -111,7 +111,7 @@
     left: 0px;
     width: 640px;
     border: 2px var(--container-border-color) solid;
-    height: 400px;
+    height: 364px;
   }
   #timer{
     position: absolute;
@@ -120,6 +120,6 @@
     background-image: url("../../../static/middle-info-background.png");
     width: 390px;
     border: 2px var(--container-border-color) solid;
-    height: 400px;
+    height: 364px;
   }
 </style>
