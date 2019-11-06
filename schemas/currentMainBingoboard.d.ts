@@ -5,9 +5,6 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface BingoboardMeta {
-  boardHidden: boolean;
-  playerColors: ("pink" | "red" | "orange" | "brown" | "yellow" | "green" | "teal" | "blue" | "navy" | "purple")[];
-  colorShown: boolean;
-  countShown?: boolean;
+export interface CurrentMainBingoboard {
+  boardReplicant?: "bingoboard" | "oriBingoboard" | "hostingBingoboard" | "explorationBingoboard";
 }

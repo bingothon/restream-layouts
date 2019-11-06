@@ -1,13 +1,12 @@
 import * as RequestPromise from 'request-promise';
 
 import * as nodecgApiContext from './util/nodecg-api-context';
-import { BingoboardMeta, Bingoboard, BingosyncSocket } from '../../schemas';
+import { OriBingoboard } from '../../schemas';
 
 const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger(`${nodecg.bundleName}:oriBingo`);
 const request = RequestPromise.defaults({ jar: true }); // <= Automatically saves and re-uses cookies.
-const boardRep = nodecg.Replicant<Bingoboard>('bingoboard');
-const boardMetaRep = nodecg.Replicant<BingoboardMeta>('bingoboardMeta');
+const boardRep = nodecg.Replicant<OriBingoboard>('oriBingoboard');
 const oriBingoMeta = nodecg.Replicant('oriBingoMeta', {defaultValue: {active: false, boardID: 4235, playerIDs:[221]}});
 
 const emphasisRegex = /\*([^\*]+)\*/;
@@ -25,17 +24,22 @@ boardRep.once('change',() => {
 });
 async function oriBingoUpdateLoop() {
     let oldBoard: OriField[] | null = null;
+    if (boardRep.value.cells.length == 0) {
+        for (let i = 0; i < 25; i++) {
+            boardRep.value.cells.push({name: "", colors:"blank", slot: "slot"+i})
+        }
+    }
     while(oriBingoMeta.value.active) {
         try {
             const oriBoard: OriField[] = await request.get(`https://orirando.com/bingo/bingothon/${oriBingoMeta.value.boardID}/player/${oriBingoMeta.value.playerIDs[0]}`, {json: true});
             oriBoard.forEach((field, idx) => {
                 if (!oldBoard || oldBoard[idx].name != field.name) {
-                    boardRep.value[idx].name = processStyling(field.name);
+                    boardRep.value.cells[idx].name = processStyling(field.name);
                 }
                 if (field.completed) {
-                    boardRep.value[idx].colors = "red";
+                    boardRep.value.cells[idx].colors = "red";
                 } else {
-                    boardRep.value[idx].colors = "blank";
+                    boardRep.value.cells[idx].colors = "blank";
                 }
             });
             oldBoard = oriBoard;
