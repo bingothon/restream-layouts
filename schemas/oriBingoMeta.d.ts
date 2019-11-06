@@ -5,6 +5,8 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface CurrentMainBingoboard {
-  boardReplicant: "bingoboard" | "oriBingoboard" | "hostingBingoboard" | "explorationBingoboard";
+export interface OriBingoMeta {
+  active: boolean;
+  boardID: number;
+  playerID: number;
 }

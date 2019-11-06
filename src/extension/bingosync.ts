@@ -57,6 +57,7 @@ class BingosyncManager {
           log.info(`Successfully recovered connection to room ${this.socketRep.value.roomCode}`);
         })
         .catch(e => {
+          this.socketRep.value.status = 'error';
           log.error(`Couldn't join room ${this.socketRep.value.roomCode}`, e);
         });
     }

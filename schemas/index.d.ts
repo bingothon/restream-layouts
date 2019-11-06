@@ -7,6 +7,7 @@ export * from './currentMainBingoboard';
 export * from './donationTotal';
 export * from './hostingBingoboard';
 export * from './hostingBingosocket';
+export * from './oriBingoMeta';
 export * from './oriBingoboard';
 export * from './songData';
 export * from './trackerDonations';

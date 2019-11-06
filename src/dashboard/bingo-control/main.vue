@@ -8,6 +8,7 @@
         {{ count["color"] }}:{{ count["count"] }}
       </li>
     </ul>-->
+    <span @click="errorMessage=''" class="error-warning"> {{ errorMessage }}</span>
     <div
       v-for="(color,i) in playerColors"
       :key="i"
@@ -51,6 +52,15 @@
         </button>
       </div>
     </div>
+    <div v-if="showExtraOriOptions">
+      <div>
+        BoardID: <input v-model="oriBoardID">
+      </div>
+      <div>
+        PlayerID: <input v-model="oriPlayerID">
+      </div>
+      <button @click="toggleOriActivate" :disabled="!oriCanActivate">{{ toggleOriText }}</button>
+    </div>
     <div>
       <button @click="switchAction">Switch</button>
       <button @click="toggleCard">
@@ -75,13 +85,20 @@ import { store, getReplicant } from '../../browser-util/state';
 type ColorEnum = ('pink' | 'red' | 'orange' | 'brown' | 'yellow' | 'green' | 'teal' | 'blue' | 'navy' | 'purple');
 type BingoRepEnum = ("bingoboard"|"oriBingoboard"|"hostingBingoboard"|"explorationBingoboard");
 
+const BOARD_TO_SOCKET_REP = {bingoboard: "bingosyncSocket", hostingBingoboard: "hostingBingosocket"};
+
 @Component({})
 export default class BingoControl extends Vue {
     roomCode: string = '';
 
     passphrase: string = '';
 
-    currentBoardRep: string = '';
+    currentBoardRep: BingoRepEnum = 'bingoboard';
+
+    oriBoardID: string = '';
+    oriPlayerID: string = '';
+
+    errorMessage: string = '';
 
     allColors = Object.freeze(['pink', 'red', 'orange', 'brown', 'yellow', 'green', 'teal', 'blue', 'navy', 'purple']);
     allBingoReps: readonly BingoRepEnum[] = Object.freeze(["bingoboard","oriBingoboard","hostingBingoboard","explorationBingoboard"]);
@@ -95,15 +112,18 @@ export default class BingoControl extends Vue {
 
     // --- computed properties
     get connectActionText(): string {
-      switch (store.state.bingosyncSocket.status) {
+      const socketRepName = BOARD_TO_SOCKET_REP[this.currentBoardRep];
+      if (!socketRepName) {
+        return "invalid";
+      }
+      switch (store.state[socketRepName].status) {
         case 'connected':
           return 'disconnect';
         case 'disconnected':
+        case 'error':
           return 'connect';
         case 'connecting':
           return 'connecting...';
-        case 'error':
-          return 'ERROR!';
       }
     }
 
@@ -128,24 +148,44 @@ export default class BingoControl extends Vue {
       return 'Show Goalcount';
     }
 
+    get toggleOriText(): string {
+      if (store.state.oriBingoMeta.active) {
+        return 'Deactivate';
+      } else {
+        return 'Activate';
+      }
+    }
+
+    get oriCanActivate(): boolean {
+      return !!this.oriBoardID && !!this.oriPlayerID;
+    }
+
     get playerColors(): Array<ColorEnum> {
       return store.state.bingoboardMeta.playerColors;
     }
 
     get canDoConnectAction(): boolean {
-      switch (store.state.bingosyncSocket.status) {
+      const socketRepName = BOARD_TO_SOCKET_REP[this.currentBoardRep];
+      if (!socketRepName) {
+        return false;
+      }
+      switch (store.state[socketRepName].status) {
         case 'connected':
           return true;
         case 'disconnected':
+        case 'error':
           return (!!this.roomCode && !!this.passphrase);
         case 'connecting':
-        case 'error':
           return false;
       }
     }
 
     get showExtraBingosyncOptions(): boolean {
-      return this.currentBoardRep == 'bingoboard';
+      return ['bingoboard', 'hostingBingoboard'].includes(this.currentBoardRep);
+    }
+
+    get showExtraOriOptions(): boolean {
+      return this.currentBoardRep == 'oriBingoboard';
     }
 
     // test
@@ -168,14 +208,39 @@ export default class BingoControl extends Vue {
     connectAction() {
       // only expanded options for the bingosync connection, otherwise something else is there to handle the board
       if (this.showExtraBingosyncOptions) {
-        switch (store.state.bingosyncSocket.status) {
+        const socketRepName = BOARD_TO_SOCKET_REP[this.currentBoardRep];
+        if (!socketRepName) {
+          throw new Error("unreachable");
+        }
+        switch (store.state[socketRepName].status) {
           case 'connected':
-            nodecg.sendMessage('bingosync:leaveRoom');
+            nodecg.sendMessage('bingosync:leaveRoom', { name: this.currentBoardRep })
+              .catch(error => {
+                nodecg.log.error(error);
+                this.errorMessage = error.message;
+              });;
             return;
           case 'disconnected':
+          case 'error':
             getReplicant<CurrentMainBingoboard>('currentMainBingoboard').value.boardReplicant = this.currentBoardRep as BingoRepEnum;
-            nodecg.sendMessage('bingosync:joinRoom', { roomCode: this.roomCode, passphrase: this.passphrase, name: this.currentBoardRep });
+            nodecg.sendMessage('bingosync:joinRoom', { roomCode: this.roomCode, passphrase: this.passphrase, name: this.currentBoardRep })
+              .catch(error => {
+                nodecg.log.error(error);
+                this.errorMessage = error.message;
+              });
         }
+      }
+    }
+
+    toggleOriActivate() {
+      if (store.state.oriBingoMeta.active) {
+        nodecg.sendMessage('oriBingo:deactivate');
+      } else {
+        nodecg.sendMessage('oriBingo:activate', {boardID: this.oriBoardID, playerID: this.oriPlayerID})
+          .catch(error => {
+            nodecg.log.error(error);
+            this.errorMessage = error.message;
+          });;
       }
     }
 
@@ -202,5 +267,8 @@ export default class BingoControl extends Vue {
 </script>
 
 <style>
-
+  .error-warning {
+    color: red;
+    font-size: small;
+  }
 </style>

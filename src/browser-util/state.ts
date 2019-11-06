@@ -2,7 +2,7 @@ import clone from 'clone';
 import { ReplicantBrowser } from 'nodecg/types/browser'; // eslint-disable-line
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { AllGameLayouts, Bingoboard, BingoboardMeta, BingosyncSocket, CurrentGameLayout, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData, CurrentMainBingoboard, HostingBingoboard, HostingBingosocket, OriBingoboard } from "../../schemas";
+import { AllGameLayouts, Bingoboard, BingoboardMeta, BingosyncSocket, CurrentGameLayout, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData, CurrentMainBingoboard, HostingBingoboard, HostingBingosocket, OriBingoboard, OriBingoMeta } from "../../schemas";
 import { RunDataActiveRun, RunDataArray, Timer } from "../../speedcontrol-types";
 
 Vue.use(Vuex);
@@ -18,6 +18,7 @@ const replicantNames = [
   'hostingBingoboard',
   'hostingBingosocket',
   'oriBingoboard',
+  'oriBingoMeta',
   'trackerDonations',
   'trackerOpenBids',
   'trackerPrizes',
@@ -46,6 +47,7 @@ export const store = new Vuex.Store({
     hostingBingoboard: {} as HostingBingoboard,
     hostingBingosocket: {} as HostingBingosocket,
     oriBingoboard: {} as OriBingoboard,
+    oriBingoMeta: {} as OriBingoMeta,
     trackerDonations: [] as TrackerDonations,
     trackerOpenBids: [] as TrackerOpenBids,
     trackerPrizes: [] as TrackerPrizes,
