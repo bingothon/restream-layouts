@@ -61,7 +61,7 @@ if (nodecg.bundleConfig && nodecg.bundleConfig.donationtracker && nodecg.bundleC
         log.error('error getting donations: ', err);
       });
       //get prizes
-      /*client.get(`${feedUrl}/feed/prizes/${eventSlug}`, { json: true })
+      client.get(`${feedUrl}/feed/prizes/${eventSlug}`, { json: true })
       .then((data) => {
         if (!equal(prizesReplicant.value, data.results)) {
           prizesReplicant.value = data.results;
@@ -70,9 +70,9 @@ if (nodecg.bundleConfig && nodecg.bundleConfig.donationtracker && nodecg.bundleC
       })
       .catch((err) => {
         log.error('error getting prizes: ', err);
-      });*/
-      prizesReplicant.value = [{endTime: 1570702210000, minDonation: 10, name: "Epic Tr1cks Mug", provider: "The Tr1cks", image: "https://www.bingothon.com/pictures/logo-winter.png"},
-      {endTime: undefined, minDonation: 200, name: "Something", provider: "Someone", image: "https://www.bingothon.com/pictures/logo.jpg"}];
+      });
+      //prizesReplicant.value = [{endtime: 1570702210000, minDonation: 10, name: "Epic Tr1cks Mug", provider: "The Tr1cks", image: "https://www.bingothon.com/pictures/logo-winter.png"},
+      //{endtime: undefined, minDonation: 200, name: "Something", provider: "Someone", image: "https://www.bingothon.com/pictures/logo.jpg"}];
   }
   doUpdate();
   setInterval(doUpdate, 30000);

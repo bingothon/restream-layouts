@@ -9,6 +9,7 @@ export type TrackerPrizes = {
   name: string;
   provider: string;
   image?: string;
-  minDonation?: number;
-  endTime?: number;
+  minDonation?: number | null;
+  endtime?: number | null;
+  starttime?: number | null;
 }[];

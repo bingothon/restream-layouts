@@ -255,8 +255,8 @@
 
     // calculate the time until the prize period ends and render it as a human readable string ("an hour", "20 minutes")
 	getPrizeTimeUntilString(prize: TrackerPrize) {
-        if (prize.endTime) {
-            let timeUntil = moment(prize.endTime).fromNow(true);
+        if (prize.endtime) {
+            let timeUntil = moment(prize.endtime).fromNow(true);
             timeUntil = timeUntil.replace('an ', ''); // Dirty fix for "Donate in the next an hour".
             timeUntil = timeUntil.replace('a ', ''); // Dirty fix for "Donate in the next a day".
             return `Donate in the next ${timeUntil}`;

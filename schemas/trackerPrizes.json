@@ -10,8 +10,9 @@
       "name": {"type":"string"},
       "provider": {"type": "string"},
       "image": {"type": "string"},
-      "minDonation": {"type": "number"},
-      "endTime": {"type": "number"}
+      "minDonation": {"type": ["number","null"]},
+      "endtime": {"type": ["number","null"]},
+      "starttime": {"type": ["number","null"]}
     }
   }
 }
