@@ -69,6 +69,7 @@ function init() {
 // recover the room at server restart
 function recover() {
     oriBingoMeta.once('change', async newVal => {
+        if (!newVal.active) return;
         const boardID = newVal.boardID;
         const playerID = newVal.playerID;
         try {
