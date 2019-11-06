@@ -54,14 +54,15 @@
 		}
 
 		getPrizeTimeUntilString(prize: TrackerPrize) {
-        if (prize.endtime) {
-            let timeUntil = moment(prize.endtime).fromNow(true);
-            timeUntil = timeUntil.replace('an ', ''); // Dirty fix for "Donate in the next an hour".
-            timeUntil = timeUntil.replace('a ', ''); // Dirty fix for "Donate in the next a day".
-            return `Donate in the next ${timeUntil}`;
-        } else {
-            return `Donate until the end of the event`;
-        }
+			if (prize.endtime) {
+				let timeUntil = moment(prize.endtime).fromNow(true);
+				timeUntil = timeUntil.replace('an ', ''); // Dirty fix for "Donate in the next an hour".
+				timeUntil = timeUntil.replace('a ', ''); // Dirty fix for "Donate in the next a day".
+				return `Donate in the next ${timeUntil}`;
+			} else {
+				return `Donate until the end of the event`;
+			}
+		}
 	}
 </script>
 

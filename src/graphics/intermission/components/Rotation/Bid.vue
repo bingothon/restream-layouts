@@ -7,7 +7,7 @@
       <span v-if="bid.goal">
         Upcoming Goal
       </span>
-			<span v-else>
+	  <span v-else>
         Upcoming Bid War
       </span>
 		</div>
@@ -16,13 +16,13 @@
 				{{ bid.game }} - {{ bid.category }}
 			</div>
 			<div class="BidName">
-				{{ bid.name }}
+				{{ bid.bid }}
 			</div>
 			<div
-				v-if="!bid.war"
+				v-if="bid.goal!=null"
 				class="BidAmount"
 			>
-				{{ formatUSD(bid.total) }}/{{ formatUSD(bid.goal) }}
+				{{ formatUSD(bid.amount_raised) }}/{{ formatUSD(bid.goal) }}
 			</div>
 			<div
 				v-else
@@ -31,15 +31,15 @@
 				<div v-if="bid.options.length">
 					<div
 						v-for="option in bid.options"
-						:key="`${option.name}${option.total}`"
+						:key="`${option.name}${option.amount_raised}`"
 					>
-						{{ option.name }} ({{ formatUSD(option.total) }})
+						{{ option.name }} ({{ formatUSD(option.amount_raised) }})
 					</div>
-					<div v-if="bid.allow_user_options">
+					<div v-if="bid.allow_custom_options">
 						...or you could submit your own idea!
 					</div>
 				</div>
-				<div v-else-if="bid.allow_user_options">
+				<div v-else-if="bid.allow_custom_options">
 					No options submitted yet, be the first!
 				</div>
 			</div>

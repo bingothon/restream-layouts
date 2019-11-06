@@ -56,7 +56,7 @@
 
 	   // Keep prizes updated.
 		formatPrizes(trackerPrizes : TrackerPrize[]) :string {
-           	let prizes : String = "";
+           	let prizes : string = "";
             trackerPrizes.forEach(prize => {
                 prizes += (prize.name +
                     " provided by " +
@@ -79,7 +79,7 @@
         }
 
         formatBids(trackerBids : TrackerOpenBids) : string {
-            let bids : String = '';
+            let bids : string = '';
             let i : number = 0;
             trackerBids.forEach(bid => {
                 if (i <= 2) {
