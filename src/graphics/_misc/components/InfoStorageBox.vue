@@ -15,7 +15,7 @@
 
 <style scoped>
 	.InfoStorageBox {
-		position: fixed;
+		position: absolute;
 		box-sizing: border-box;
 		justify-content: flex-start;
 		flex-direction: column;

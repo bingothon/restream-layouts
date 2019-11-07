@@ -90,13 +90,17 @@ export default class Intermission extends Vue{
 </script>
 
 <style>
+  #Intermission {
+    height: 900px;
+    overflow: hidden;
+  }
   logo {
-	  position: fixed;
+	  position: absolute;
     left: 10px;
     top: 21px;
   }
   #ComingUpNext {
-    position: fixed;
+    position: absolute;
     left: 718px;
     top: 31px;
     width: 1172px;
@@ -122,7 +126,7 @@ export default class Intermission extends Vue{
   }
 
   .DiscordVoiceDisplay {
-	  width: 1172px;
+	  flex: 1;
 	  left: 750px;
 	  top: 920px;
   }
@@ -139,13 +143,12 @@ export default class Intermission extends Vue{
   }
 
 	body {
-		background: linear-gradient(var(--lighter-main-color), var(--darker-main-color));
-    height: 1080px;
+		background: linear-gradient(var(--lighter-main-color), var(--darker-main-color) 80%, var(--lighter-main-color));
 		/*background-color: rgba(98, 127, 190, 0.5)*/
 	}
 
 	.CardPlaceholder {
-		position: fixed;
+		position: absolute;
 		top: 350px;
 		left: 0px;
 		height: 650px;
@@ -154,7 +157,7 @@ export default class Intermission extends Vue{
 	}
 
 	.HostingBingo {
-		position: fixed;
+		position: absolute;
 		color: white;
 		top: 290px;
 		height: 750px;

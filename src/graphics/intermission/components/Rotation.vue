@@ -23,12 +23,12 @@
 		compontents: {
 			UpcomingRuns,
 			Bid,
-			Prize
-		}
+			Prize,
+		},
 	})
 	export default class Rotation extends Vue {
 		currentComponent = null;
-		componentArray: Array = [
+		componentArray: Array<any> = [
                     UpcomingRuns,
                     Bid,
                     Prize
@@ -61,12 +61,12 @@
             }
             return store.state.runDataArray.findIndex(run => run.id === curRunID);
         }
-    };
+    }
 </script>
 
 <style>
 	#Rotation {
-		position: fixed;
+		position: absolute;
 	}
 	.fade-enter-active, .fade-leave-active {
 		transition: opacity 1s;
