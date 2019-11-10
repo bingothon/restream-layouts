@@ -83,23 +83,23 @@
             let i : number = 0;
             trackerBids.forEach(bid => {
                 if (i <= 2) {
-                    bids += bid.game + ' - ' + bid.bid + '\n';
+                    bids += '<div class="bid"> ' + bid.game + ' - ' + bid.bid + '</div>';
                     if (bid.goal) {
-                        bids += this.formatDollarAmount(bid.amount_raised, true) + '/'
-							+ this.formatDollarAmount(bid.goal, true) + '\n';
-                        bids += this.formatDollarAmount(bid.goal - bid.amount_raised, true) + ' left to go' + '\n\n';
+                        bids += '<div class="bidRaised"> ' + this.formatDollarAmount(bid.amount_raised, true) + '/'
+							+ this.formatDollarAmount(bid.goal, true) + '</div>';
+                        bids += '<div class="bidLeft"> ' + this.formatDollarAmount(bid.goal - bid.amount_raised, true) + ' left to go' + '</div>';
                     } else {
                         if (bid.options.length) {
                             bid.options.forEach(option => {
-                                bids += option.name + ' - ' + option.amount_raised + '\n';
+                                bids += '<div class="bidOption"> ' + option.name + ' - ' + option.amount_raised + '</div>';
                             })
                             if (bid.allow_custom_options) {
-                                bids += 'Users can submit their own options\n\n';
-                            } else {
+                                bids += '<div class="customOptions"> Users can submit their own options </div>';
+                            }/* else {
                                 bids += '\n';
-                            }
+                            }*/
                         } else {
-                            bids += 'No options submitted yet.\n\n'
+                            bids += '<div class="NoOptions"> No options submitted yet.</div>'
                         }
                     }
                 }
