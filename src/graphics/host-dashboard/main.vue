@@ -311,8 +311,11 @@
 	#HostDashboard {
 		color: white;
 		background-color: black;
-		height: 1080px;
+		height: 2000px;
 		width: 1920px;
+		position: absolute;
+		left: 0px;
+		top: 0px;
 	}
 
 	#columnsWrapper {
