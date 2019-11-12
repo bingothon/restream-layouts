@@ -33,11 +33,7 @@ export default class TestTimerContainer extends Vue {
 
     mounted() {
         // save callback for unwatch
-        this.updateDataUnwatch = store.watch((state) => state.timer, this.updateData);
-        // trigger update, otherwise the watcher isn't triggered on reload
-        if (store.state.timer) {
-            this.updateData(store.state.timer);
-        }
+        this.updateDataUnwatch = store.watch((state) => state.timer, this.updateData, {immediate: true});
     }
 
     destroyed() {

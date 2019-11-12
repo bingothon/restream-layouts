@@ -41,10 +41,7 @@
 		scrollingEffect: boolean = false;
 
         mounted() {
-			store.watch((state) => state.songData, this.onSongDataUpdate)
-			if (store.state.songData) {
-				this.onSongDataUpdate(store.state.songData);
-			}
+			store.watch((state) => state.songData, this.onSongDataUpdate, {immediate: true})
 			//this.onSongDataUpdate({title: "Epic bingothon Rap Remix - Flo & Tr1cks", playing: true});
         }
 

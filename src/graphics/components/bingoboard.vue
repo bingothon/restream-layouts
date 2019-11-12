@@ -107,23 +107,20 @@ export default class BingoBoard extends Vue {
             store.watch(state => state.currentMainBingoboard, newBoard => {
                 if (this.bingoboardWatch) {
                     this.bingoboardWatch();
+                    this.bingoboardWatch = null;
                 }
-                this.bingoboardWatch = store.watch(state => state[newBoard.boardReplicant], this.onBingoBoardUpdate);
-                this.onBingoBoardUpdate(store.state[newBoard.boardReplicant]);
-            });
-            // trigger update, otherwise the watcher isn't triggered on reload
-            if (store.state.currentMainBingoboard) {
-                this.onBingoBoardUpdate(store.state[store.state.currentMainBingoboard.boardReplicant]);
-            }
+                this.bingoboardWatch = store.watch(state => state[newBoard.boardReplicant], this.onBingoBoardUpdate, {immediate: true});
+            }, {immediate: true});
         } else {
             // got a specific one, watch it
-            this.bingoboardWatch = store.watch(state => state[this.bingoboardRep], this.onBingoBoardUpdate);
+            this.bingoboardWatch = store.watch(state => state[this.bingoboardRep], this.onBingoBoardUpdate, {immediate: true});
             this.onBingoBoardUpdate(store.state[this.bingoboardRep]);
         }
     }
 
     // watch for bingo changes
     onBingoBoardUpdate(newGoals: Bingoboard, oldGoals?: Bingoboard | undefined) {
+        if (!newGoals) return;
         let idx = 0;
         this.bingoCells.forEach((row, rowIndex)=>{
             row.forEach((cell,columnIndex)=>{

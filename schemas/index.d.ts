@@ -5,6 +5,7 @@ export * from './bingosyncSocket';
 export * from './currentGameLayout';
 export * from './currentMainBingoboard';
 export * from './donationTotal';
+export * from './explorationBingoboard';
 export * from './hostingBingoboard';
 export * from './hostingBingosocket';
 export * from './oriBingoMeta';

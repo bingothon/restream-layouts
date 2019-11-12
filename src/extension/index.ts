@@ -10,6 +10,7 @@ export = (nodecg: NodeCG): void => {
   require('./bingosync');
   require('./bingoColors');
   require('./oriBingoBoard');
+  require('./explorationBingo');
   if (nodecg.bundleConfig.discord) {
     if (!nodecg.bundleConfig.discord.test) {
       require('./discord');

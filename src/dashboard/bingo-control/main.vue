@@ -61,6 +61,13 @@
       </div>
       <button @click="toggleOriActivate" :disabled="!oriCanActivate">{{ toggleOriText }}</button>
     </div>
+    <div v-if="showExtraExplorationOptions">
+      <div>
+        <input v-model="explorationCustomBoard">
+      </div>
+      <button @click="updateExploration">Update Exploration</button>
+      <button @click="resetExploration">Reset Exploration</button>
+    </div>
     <div>
       <button @click="switchAction">Switch</button>
       <button @click="toggleCard">
@@ -98,6 +105,8 @@ export default class BingoControl extends Vue {
     oriBoardID: string = '';
     oriPlayerID: string = '';
 
+    explorationCustomBoard: string = ''
+
     errorMessage: string = '';
 
     allColors = Object.freeze(['pink', 'red', 'orange', 'brown', 'yellow', 'green', 'teal', 'blue', 'navy', 'purple']);
@@ -106,8 +115,7 @@ export default class BingoControl extends Vue {
     mounted() {
       store.watch(state => state.currentMainBingoboard, newVal => {
         this.currentBoardRep = newVal.boardReplicant;
-      });
-      this.currentBoardRep = store.state.currentMainBingoboard.boardReplicant;
+      }, {immediate: true});
     }
 
     // --- computed properties
@@ -188,6 +196,10 @@ export default class BingoControl extends Vue {
       return this.currentBoardRep == 'oriBingoboard';
     }
 
+    get showExtraExplorationOptions(): boolean {
+      return this.currentBoardRep == 'explorationBingoboard';
+    }
+
     // test
     /*get colorCounts(): Array<{color: string, count: number}> {
       const counts = store.state.bingoboardMeta.colorCounts;
@@ -242,6 +254,24 @@ export default class BingoControl extends Vue {
             this.errorMessage = error.message;
           });;
       }
+    }
+
+    updateExploration() {
+      try {
+        const goals = JSON.parse(this.explorationCustomBoard);
+        const onlyNames = goals.map(g => g.name);
+        nodecg.sendMessageToBundle('exploration:newGoals','bingothon-layouts',onlyNames)
+          .catch(e => {
+            this.errorMessage = e.message;
+            console.error(e);
+          })
+      } catch(e) {
+        this.errorMessage = "Couln't parse the board";
+      }
+    }
+
+    resetExploration() {
+      nodecg.sendMessageToBundle('exploration:resetBoard','bingothon-layouts');
     }
 
     switchAction() {
