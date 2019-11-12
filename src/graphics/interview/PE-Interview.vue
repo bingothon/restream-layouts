@@ -3,12 +3,22 @@
 	<img src="../../../static/logo-winter-wide.png" id="logo">
     <div id="fillcamPE" class="flexContainer"></div>
 	<div id="fillcamIVW1" class="flexContainer"></div>
-	<div id="fillcamIVW2" class="flexContainer"></div>
-	<div id="info" class="flexContainer">
-		<div id="name"> Jen Marracino </div>
-		<div id="occupation"> Senior Director of Development at Pure Earth New York</div>
+	<div id="infoIVW1" class="flexContainer">
+		<div id="nameIVW1">Pikastroff</div>
 	</div>
-	<test-timer-container id="timer"></test-timer-container>
+	<div id="fillcamIVW2" class="flexContainer"></div>
+	<div id="infoIVW2" class="flexContainer">
+		<div id="nameIVW2">Palmy</div>
+	</div>
+	<div id="info" class="flexContainer">
+		<div id="infotext">
+			<div id="name"> Jen Marracino </div>
+			<div id="occupation"> Senior Director of Development at Pure Earth New York</div>
+		</div>
+		<div id="pe-logo">
+			<img src="../../../static/PE-logo-oulined.png">
+		</div>
+	</div>
 	</div>
 </template>
 
@@ -24,13 +34,6 @@
 
 	@Component({
 		components: {
-			BingoBoard,
-      		TestGameContainer,
-      		PlayerInfo,
-      		TeamInfo,
-      		PlayerTeamContainer,
-      		TestTimerContainer,
-      		DiscordVoiceDisplay,
 		}
 	})
 
@@ -39,7 +42,13 @@
 </script>
 
 <style scoped>
+	body{
+		background: linear-gradient(var(--darker-main-color), var(--lighter-main-color));
+	}
 	.Interview {
+		position: absolute;
+		top: 0px;
+		left: 0px;
 		width: 1920px;
 		height: 1080px;
 		background: linear-gradient(var(--darker-main-color), var(--lighter-main-color));
@@ -64,7 +73,7 @@
 
 	#fillcamIVW2 {
 		position: absolute;
-		top: 500px;
+		top: 619px;
 		left: 1300px;
 		width: 500px;
 		height: 281px;
@@ -79,41 +88,61 @@
 	  height: 200px;
   }
   #info {
-	  position: absolute;
 	  top: 850px;
+	  position: absolute;
 	  left: 50px;
 	  width: 1200px;
 	  height: 100px;
-	  background-image: linear-gradient(#5C88BC, #315091);
+	  background-image: linear-gradient(#373d6f, #2a2a54);
 	  color: var(--font-color);
   }
   #name {
+	  top: 850px;
 	  font-size: 60px;
+	  margin-left: 10px;
   }
   #occupation {
+	  top: 910px;
 	  font-size: 20px;
+	  margin-left: 10px;
   }
-  #Bingo-board {
-    position: absolute;
-    top: 410px;
-    left: 710px;
-    width: 500px;
-    height: 500px;
+  #infoIVW1 {
+	  position: absolute;
+	  top: 456px;
+	  left: 1300px;
+	  height: 50px;
+	  width: 500px;
+	  background-image: linear-gradient(#373d6f, #2a2a54);
+	  color: var(--font-color);
+	  font-size: 40px;
   }
-  #game {
-    background-color: var(--container-background-color);
-    position: absolute;
-    top: 150px;
-    left: 460px;
-    width: 1000px;
-    height: 100px;
+
+  #infoIVW2 {
+	  position: absolute;
+	  top: 900px;
+	  left: 1300px;
+	  height: 50px;
+	  width: 500px;
+	  background-image: linear-gradient(#373d6f, #2a2a54);
+	  color: var(--font-color);
+	  font-size: 40px;
   }
-  #timer{
-    position: absolute;
-    top: 850px;
-    left: 1300px;
-    background-color: var(--container-background-color);
-    width: 500px;
-    height: 150px;
+  #nameIVW1 {
+	  margin-left: 10px;
+  }
+  #nameIVW2 {
+	  margin-left: 10px;
+  }
+  #pe-logo > img {
+	  object-fit: contain;
+	  height: 100px;
+  }
+  #pe-logo {
+	  position: absolute;
+	  left: 800px;
+  }
+  #infotext {
+	  position: absolute;
+	  left: 0px;
   }
 </style>
