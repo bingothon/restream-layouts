@@ -17,8 +17,9 @@ export default class CellTextFit extends Vue {
     transform: string = "scaleX(1) scaleY(1)";
     top: string = "0";
 
-    @Watch("text")
+    @Watch("text", {immediate: true})
     fit() {
+        this.optimizedFontSize = this.fontSize;
         this._fit(0);
     }
     _fit(depth) {
@@ -32,7 +33,7 @@ export default class CellTextFit extends Vue {
             var scaleY = container.scrollHeight / fittedContent.scrollHeight;
             const fontSize = window.getComputedStyle(fittedContent).fontSize;
             // limit recursion
-            if (depth < 10 && (scaleY < 0.8 || scaleX < 0.5)) {
+            if (depth < 10 && (scaleY < 0.8 || scaleX < 0.7)) {
                 this.optimizedFontSize = `calc(${fontSize} * 0.9)`;
                 this._fit(depth+1);
                 return;

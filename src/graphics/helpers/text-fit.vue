@@ -19,7 +19,7 @@ export default class TextFit extends Vue {
     mounted() {
         this.$watch('text', ()=> {
             this.fit();
-        });
+        }, {immediate: true});
         if (this.transform == "scaleX(1)") {
             this.fit();
         }

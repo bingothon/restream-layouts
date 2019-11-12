@@ -21,7 +21,7 @@ export default class DonationTotal extends Vue {
     return store.state.donationTotal;
   }
   
-  @Watch('donationTotal')
+  @Watch('donationTotal', {immediate: true})
   onTotalChanged() {
     if (this.init) {
       TweenLite.to(this.$data, 5, { tweenedTotal: this.donationTotal });
