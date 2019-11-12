@@ -3,7 +3,38 @@
 	<div id="columnsWrapper">
 		<div id="column1" class="column">
 			<div id="bidsHeader">Upcoming Goals/Bidwars:</div>
-			<div id="bidsContainer">{{bids}}</div>
+			<div id="bidsContainer">
+                <div
+                    class="bid"
+                    v-for="(bid,i) in bids"
+                    :key="i"
+                >
+                {{bid.game}} - {{bid.bid}}
+                    <div
+                        v-if="bid.goal"
+                    >
+                        <div class="bidRaised">
+                            {{formatDollarAmount(bid.amount_raised, true)}} / {{formatDollarAmount(bid.goal, true)}}
+                        </div>
+                        <div class="bidLeft">
+                            {{formatDollarAmount(bid.goal - bid.amount_raised, true)}} left to go!
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div v-if="bid.options.length">
+                            <div
+                                class="bidOption"
+                                v-for="(option, j) in bid.options"
+                                :key="i + ' ' + j"
+                            >
+                                {{option.name}} - {{option.amount_raised}}
+                            </div>
+                            <div v-if="bid.allow_custom_options" class="customOptions"> Users can submit their own options </div>
+                        </div>
+                        <div v-else class="NoOptions"> No options submitted yet.</div>
+                    </div>
+                </div>
+            </div>
 		</div>
 		<div id="column2" class="column">
 			<div id="scheduleHeader">Run Schedule:</div>
@@ -51,7 +82,7 @@
 	   }
 
 	   get bids() {
-           return this.formatBids(store.state.trackerOpenBids);//format?
+           return store.state.trackerOpenBids;
 	   }
 
 	   // Keep prizes updated.
