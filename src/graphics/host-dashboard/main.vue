@@ -27,7 +27,7 @@
                                 v-for="(option, j) in bid.options"
                                 :key="i + ' ' + j"
                             >
-                                {{option.name}} - {{option.amount_raised}}
+                                {{option.name}} - {{formatDollarAmount(option.amount_raised, true)}}
                             </div>
                             <div v-if="bid.allow_custom_options" class="customOptions"> Users can submit their own options </div>
                         </div>
@@ -38,14 +38,52 @@
 		</div>
 		<div id="column2" class="column">
 			<div id="scheduleHeader">Run Schedule:</div>
-			<div id="runsContainer"></div>
+			<div id="runsContainer">
+					<div id="currentRunInfo" class="run">
+						Running right now:
+						<div>
+							{{currentRun.game}} - {{currentRun.category}}
+							<div class="teamname"
+								 v-for="(team, l) in currentRun.teams"
+								 :key="l"
+							>
+								Team: {{team.name}}
+								<div class="runnername"
+									 v-for="(runner, m) in team.players"
+									 :key="l + ' ' + m"
+									 >
+									{{runner.name}}
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
 		</div>
 		<div id="column3" class="column">
 			<div id="donationTotalHeader">Donation Total:</div>
 			<div id="donationTotal">{{donationTotal}}</div>
 			<br>
 			<div id="prizesHeader">Currently Available Prizes:</div>
-			<div id="prizesContainer">{{prizes}}</div>
+			<div id="prizesContainer">
+				<div
+					class="prize"
+					v-for="(prize,k) in prizes"
+					:key="k"
+				>
+					<div class="prizeName">
+						{{prize.name}}
+					</div>
+					<div class="prizeInfo">
+						Provided by {{prize.provider}}
+					</div>
+					<div class="prizeInfo">
+						Minimum Donation: {{formatDollarAmount(prize.minDonation, true)}}
+					</div>
+					<div class="prizeInfo">
+						{{getPrizeTimeUntilString(prize)}}
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	</div>
@@ -56,49 +94,26 @@
     import {store} from "../../browser-util/state";
     import {TrackerPrize} from "../../../types";
     import moment from 'moment';
-    import {TrackerOpenBids} from "../../../schemas";
 
     @Component({})
 
     export default class HostDashboard extends Vue {
-       /* $(() => {
-        // JQuery selectors.
-        var donationTotalElement = $('#donationTotal');
-        var prizesContainer = $('#prizesContainer');
-        var bidsContainer = $('#bidsContainer');
-        var runsContainer = $('#runsContainer');*/
 
-        // Declaring variables.
-        /*
-        var bidHTML = $('<div class="bid"><span class="bidGame"></span><br><span class="bidName"></span></div>')
-        var runHTML = $('<div class="run"><span class="justMissed">YOU HAVE JUST WATCHED<br></span><span class="gameName"></span><br><span class="gameCategory"></span><br><span class="gameConsole"></span><br><span class="gameRunners"></span><br><span class="gameTime"></span><br><span class="gameFinal"></span></div>');
-*/
-       get donationTotal() {
+        get donationTotal() {
            return this.formatDollarAmount(store.state.donationTotal, true);
 	   }
 
 	   get prizes() {
-           return this.formatPrizes(store.state.trackerPrizes);//probably needs to be formatted
+           return store.state.trackerPrizes;//probably needs to be formatted
 	   }
 
 	   get bids() {
            return store.state.trackerOpenBids;
 	   }
 
-	   // Keep prizes updated.
-		formatPrizes(trackerPrizes : TrackerPrize[]) :string {
-           	let prizes : string = "";
-            trackerPrizes.forEach(prize => {
-                prizes += (prize.name +
-                    " provided by " +
-                    prize.provider +
-                    " minimum donation " +
-                    this.formatDollarAmount(prize.minDonation, true) +
-                    this.getPrizeTimeUntilString(prize) + '\n\n'
-                );
-            });
-            return prizes;
-        }
+	   get currentRun() {
+            return store.state.runDataActiveRun;
+	   }
 
         // Formats dollar amounts to the correct string.
 		formatDollarAmount(amount :number, forceRemoveCents : boolean) : string {
@@ -109,35 +124,6 @@
                 return '$' + Math.floor(amount).toLocaleString('en-US', { minimumFractionDigits: 0 });
         }
 
-        formatBids(trackerBids : TrackerOpenBids) : string {
-            let bids : string = '';
-            let i : number = 0;
-            trackerBids.forEach(bid => {
-                if (i <= 2) {
-                    bids += '<div class="bid"> ' + bid.game + ' - ' + bid.bid + '</div>';
-                    if (bid.goal) {
-                        bids += '<div class="bidRaised"> ' + this.formatDollarAmount(bid.amount_raised, true) + '/'
-							+ this.formatDollarAmount(bid.goal, true) + '</div>';
-                        bids += '<div class="bidLeft"> ' + this.formatDollarAmount(bid.goal - bid.amount_raised, true) + ' left to go' + '</div>';
-                    } else {
-                        if (bid.options.length) {
-                            bid.options.forEach(option => {
-                                bids += '<div class="bidOption"> ' + option.name + ' - ' + option.amount_raised + '</div>';
-                            })
-                            if (bid.allow_custom_options) {
-                                bids += '<div class="customOptions"> Users can submit their own options </div>';
-                            }/* else {
-                                bids += '\n';
-                            }*/
-                        } else {
-                            bids += '<div class="NoOptions"> No options submitted yet.</div>'
-                        }
-                    }
-                }
-                i++;
-		    })
-		    return bids;
-		}
     /*//var runFinishTimes = store.state.runDataActiveRun.
     //var runFinishTimesInit = false;
     var runDataActiveRunInit = false;
@@ -319,8 +305,6 @@
 <style scoped>
 
 	body {
-		height: 100%;
-		width: 100%;
 		background-color: black;
 	}
 
@@ -375,7 +359,7 @@
 
 	.prize, .bid, .run {
 		width: 100%;
-		font-size: 40px;
+		font-size: 30px;
 		padding: 20px 0;
 		text-align: center;
 		border-bottom: 5px solid white;
