@@ -28,7 +28,8 @@
     "autofix": "run-s autofix:*",
     "autofix:browser": "npx eslint --fix --ext .ts,.vue,.html src/dashboard && eslint --fix --ext .ts,.vue src/graphics",
     "autofix:extension": "npx eslint --fix --ext .ts src/extension",
-    "typeschemas": "node script/typeschemas.js"
+    "typeschemas": "node script/typeschemas.js",
+    "tscver": "tsc --version"
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.13",

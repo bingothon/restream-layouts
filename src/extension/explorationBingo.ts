@@ -67,7 +67,7 @@ nodecg.listenFor('exploration:goalClicked',(goal: any, callback) => {
         }
     }
     if (explorationBoardRep.value.cells[index].colors == 'blank') {
-        explorationBoardRep.value.cells[index].colors = playerColor;
+        explorationBoardRep.value.cells[index].colors = playerColor || "red";
     } else {
         explorationBoardRep.value.cells[index].colors = 'blank';
     }
