@@ -88,10 +88,12 @@ export default class Ticker extends Vue {
 
     upcomingRun() {
       return { name: UpcomingRun.name, data: {} };
-    },
+    }
+
     prize() {
       return { name: Prize.name, data: {} };
-    },
+    }
+    
     bid(): TickerMessage {
       return { name: Bid.name, data: {} };
     }
