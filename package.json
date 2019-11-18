@@ -73,6 +73,12 @@
         "width": 2
       },
       {
+        "name": "interview-control",
+        "title": "Interview Control",
+        "file": "interview-control.html",
+        "width": 2
+      },
+      {
         "name": "layout-control",
         "title": "Layout Control",
         "file": "layout-control.html",

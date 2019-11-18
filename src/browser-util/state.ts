@@ -2,17 +2,19 @@ import clone from 'clone';
 import { ReplicantBrowser } from 'nodecg/types/browser'; // eslint-disable-line
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { AllGameLayouts, Bingoboard, BingoboardMeta, BingosyncSocket, CurrentGameLayout, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData, CurrentMainBingoboard, HostingBingoboard, HostingBingosocket, OriBingoboard, OriBingoMeta, ExplorationBingoboard } from "../../schemas";
+import { AllGameLayouts, AllInterviews, Bingoboard, BingoboardMeta, BingosyncSocket, CurrentGameLayout, CurrentInterview, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData, CurrentMainBingoboard, HostingBingoboard, HostingBingosocket, OriBingoboard, OriBingoMeta, ExplorationBingoboard } from "../../schemas";
 import { RunDataActiveRun, RunDataArray, Timer } from "../../speedcontrol-types";
 
 Vue.use(Vuex);
 
 const replicantNames = [
   'allGameLayouts',
+  'allInterviews',
   'bingoboard',
   'bingoboardMeta',
   'bingosyncSocket',
   'currentGameLayout',
+  'currentInterview',
   'currentMainBingoboard',
   'donationTotal',
   'explorationBingoboard',
@@ -39,10 +41,12 @@ export const store = new Vuex.Store({
   state: {
     // bingothon
     allGameLayouts: [] as AllGameLayouts,
+	allInterviews: [] as AllInterviews,
     bingoboard: {} as Bingoboard,
     bingoboardMeta: {} as BingoboardMeta,
     bingosyncSocket: {} as BingosyncSocket,
     currentGameLayout: {} as CurrentGameLayout,
+	currentInterview: {} as CurrentInterview,
     currentMainBingoboard: {} as CurrentMainBingoboard,
     donationTotal: 0 as DonationTotal,
     explorationBingoboard: {} as ExplorationBingoboard,
