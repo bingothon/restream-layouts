@@ -5,9 +5,10 @@ import {MPC, MPDError} from 'mpc-js';
 import { SongData } from '../../schemas';
 
 const nodecg = nodecgApiContext.get();
+const logger = new nodecg.Logger(`${nodecg.bundleName}:mpd`);
 var mpdConfig = nodecg.bundleConfig.mpd || {};
-var volume = mpdConfig.volume || 10;
-var currentVolume = volume;
+var volume = mpdConfig.volume || 80;
+var currentVolume: number = volume;
 var fadeInterval: NodeJS.Timeout;
 var shuffleInterval: NodeJS.Timeout;
 var connected = false;
@@ -58,35 +59,39 @@ nodecg.listenFor('pausePlaySong', () => {
 nodecg.listenFor('skipSong', skipSong);
 
 async function onReady() {
-	connected = true;
-	var playList = await client.currentPlaylist.playlistInfo();
-	if (playList.length <= 0) {
-		nodecg.log.info('Doing initial MPD configuration.');
-		await client.currentPlaylist.add("/");
-		await client.playbackOptions.setRepeat(true);
-		await shufflePlaylist();
-		await client.playback.play();
+	try {
+		connected = true;
+		var playList = await client.currentPlaylist.playlistInfo();
+		if (playList.length <= 0) {
+			logger.info('Doing initial MPD configuration.');
+			await client.currentPlaylist.add("/");
+			await client.playbackOptions.setRepeat(true);
+			await shufflePlaylist();
+			await client.playback.play();
+		}
+		// Always set volume on connection just in case, but we need to wait a little for some reason (probably for playback to commence).
+		setTimeout(setVolume, 2000);
+
+		// Shuffle the playlist every 6 hours.
+		// (We're only playing music in intermissions; doesn't need to be frequent).
+		clearInterval(shuffleInterval);
+		shuffleInterval = setInterval(shufflePlaylist, 21600000);
+
+		await updatePlaybackStatusAndSong();
+	} catch(e) {
+		logger.error('',e);
 	}
-	// Always set volume on connection just in case, but we need to wait a little for some reason (probably for playback to commence).
-	setTimeout(setVolume, 2000);
-
-	// Shuffle the playlist every 6 hours.
-	// (We're only playing music in intermissions; doesn't need to be frequent).
-	clearInterval(shuffleInterval);
-	shuffleInterval = setInterval(shufflePlaylist, 21600000);
-
-	await updatePlaybackStatusAndSong();
 }
 
 function onEnd() {
 	connected = false;
-	nodecg.log.warn('MPD connection lost, retrying in 5 seconds.');
+	logger.warn('MPD connection lost, retrying in 5 seconds.');
 	setTimeout(connect, 5000);
 }
 
 function onError(err: MPDError) {
-	nodecg.log.warn('MPD connection error.', err);
-	nodecg.log.debug('MPD connection error:', err);
+	logger.warn('MPD connection error.', err);
+	logger.debug('MPD connection error:', err);
 }
 
 // Update stuff when the player status changes.
@@ -97,36 +102,46 @@ async function onSystemPlayer() {
 // Used to update the replicant to say if there is a song playing or not
 // also updates the title
 async function updatePlaybackStatusAndSong() {
-	const status = await client.status.status();
-	if (status.state !== 'play') {
-		songData.value.playing = false;
-		songData.value.title = 'No Track Playing';
-	} else {
-		songData.value.playing = true;
-		const currentSong = await client.status.currentSong();
-		var songTitle = currentSong.title+' - '+currentSong.artist;
-		if (songTitle !== songData.value.title) {
-			songData.value.title = songTitle;
+	try {
+		const status = await client.status.status();
+		if (status.state !== 'play') {
+			songData.value.playing = false;
+			songData.value.title = 'No Track Playing';
+		} else {
+			songData.value.playing = true;
+			const currentSong = await client.status.currentSong();
+			var songTitle = currentSong.title+' - '+currentSong.artist;
+			if (songTitle !== songData.value.title) {
+				songData.value.title = songTitle;
+			}
 		}
+	} catch(e) {
+		logger.error('',e);
 	}
 }
 
 // Can be used to skip to the next song.
 async function skipSong() {
-	client.playback.next();
+	await client.playback.next()
+		.catch(e => logger.error('',e));
 }
 
 // Used to shuffle the currently playing list *correctly*.
 // Actual shuffle is the same *every time* so let's add some randomness here!
 async function shufflePlaylist() {
-	var random = Math.floor(Math.random()*Math.floor(20));
-	for (var i = 0; i < random; i++)
-		await client.currentPlaylist.shuffle();
+	try {
+		var random = Math.floor(Math.random()*Math.floor(20));
+		for (var i = 0; i < random; i++)
+			await client.currentPlaylist.shuffle();
+	} catch(e) {
+		logger.error('',e);
+	}
 }
 
 // Used to set the player volume to whatever the variable is set to.
 async function setVolume() {
-	await client.playbackOptions.setVolume(currentVolume);
+	await client.playbackOptions.setVolume(currentVolume)
+		.catch(e => logger.error('',e));
 }
 
 // Used to fade out and pause the song.
@@ -142,7 +157,8 @@ async function fadeOut() {
 		await setVolume();
 		if (currentVolume <= 0) {
 			clearInterval(fadeInterval);
-			client.playback.pause(true);
+			client.playback.pause(true)
+				.catch(e => logger.error('',e));
 		}
 	}
 
@@ -155,7 +171,8 @@ async function fadeIn() {
 
 	clearInterval(fadeInterval);
 	currentVolume = 0;
-	await client.playback.pause(false);
+	await client.playback.pause(false)
+		.catch(e => logger.error('',e));
 	await setVolume();
 
 	async function loop() {
