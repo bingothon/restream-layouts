@@ -39,10 +39,11 @@
 
 <style scoped>
 	.Interview {
+		position: absolute;
 		left: 0px;
 		top: 0px;
-		width: 1920px;
-		height: 1080px;
+		width: 1935px;
+		height: 1090px;
 		background: linear-gradient(var(--darker-main-color), var(--lighter-main-color));
 	}
   #discord-voice {
