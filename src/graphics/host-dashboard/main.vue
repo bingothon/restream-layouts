@@ -2,6 +2,12 @@
 	<div id="HostDashboard">
 	<div id="columnsWrapper">
 		<div id="column1" class="column">
+			<div id="PEFacts">
+				<div class="fact">
+					{{peFacts[factIndex]}}
+				</div>
+				<button v-on:click="updateFactIndex()">Update Text</button>
+			</div>
 			<div id="bidsHeader">Upcoming Goals/Bidwars:</div>
 			<div id="bidsContainer">
                 <div
@@ -43,7 +49,7 @@
 						Running right now:
 						<div>
 							{{currentRun.game}} - {{currentRun.category}}
-							<div class="teamname"
+							<div v-if="team.players.length>1" class="teamname"
 								 v-for="(team, l) in currentRun.teams"
 								 :key="l"
 							>
@@ -54,6 +60,12 @@
 									 >
 									{{runner.name}}
 								</div>
+							</div>
+							<div v-else
+								 v-for="(team, n) in currentRun.teams"
+								 :key="n"
+								 >
+								{{team.players[0].name}} {{n}}
 							</div>
 						</div>
 					</div>
@@ -94,10 +106,12 @@
     import {store} from "../../browser-util/state";
     import {TrackerPrize} from "../../../types";
     import moment from 'moment';
+    import fs = require('fs');
 
     @Component({})
 
     export default class HostDashboard extends Vue {
+        private factIndex: number = 0;
 
         get donationTotal() {
            return this.formatDollarAmount(store.state.donationTotal, true);
@@ -123,6 +137,15 @@
             else
                 return '$' + Math.floor(amount).toLocaleString('en-US', { minimumFractionDigits: 0 });
         }
+
+        get peFacts() : String[]{
+            const text = fs.readFileSync('src/graphics/host-dashboard/pefacts.txt', 'utf-8');
+            return text.split('\n');
+		}
+
+		updateFactIndex() {
+            this.factIndex = (this.factIndex + 1) % (this.peFacts.length - 1);
+		}
 
     /*//var runFinishTimes = store.state.runDataActiveRun.
     //var runFinishTimesInit = false;
@@ -351,13 +374,25 @@
 		padding-bottom: 20px;
 	}
 
-	#prizesContainer, #bidsContainer, #runsContainer, #unReadDonationsContainer {
+	#prizesContainer, #bidsContainer, #runsContainer, #PEFacts {
 		width: 100%;
 	}
 
 	.prize:first-child, .bid:first-child, .run:first-child {
 		margin-top: 10px;
 		border-top: 5px solid white;
+	}
+
+	.fact {
+		width: 100%;
+		font-size: 30px;
+		padding: 20px 0;
+		text-align: center;
+	}
+
+	button {
+		font-size: 15px;
+		text-align: center;
 	}
 
 	.prize, .bid, .run {
