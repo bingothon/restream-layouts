@@ -52,9 +52,11 @@ currentScene.on('change', (newVal, oldVal) => {
 // Listen for NodeCG messages from dashboard/layouts.
 nodecg.listenFor('pausePlaySong', () => {
 	if (songData.value.playing)
-		fadeOut();
+		// fadeOut();
+		client.playback.stop();
 	else
-		fadeIn();
+		// fadeIn();
+		client.playback.play();
 });
 nodecg.listenFor('skipSong', skipSong);
 
@@ -70,7 +72,7 @@ async function onReady() {
 			await client.playback.play();
 		}
 		// Always set volume on connection just in case, but we need to wait a little for some reason (probably for playback to commence).
-		setTimeout(setVolume, 2000);
+		// setTimeout(setVolume, 2000);
 
 		// Shuffle the playlist every 6 hours.
 		// (We're only playing music in intermissions; doesn't need to be frequent).
