@@ -79,7 +79,7 @@ async function onReady() {
 
 		await updatePlaybackStatusAndSong();
 	} catch(e) {
-		logger.error(e);
+		logger.error('',e);
 	}
 }
 
@@ -116,14 +116,14 @@ async function updatePlaybackStatusAndSong() {
 			}
 		}
 	} catch(e) {
-		logger.error(e);
+		logger.error('',e);
 	}
 }
 
 // Can be used to skip to the next song.
 async function skipSong() {
 	await client.playback.next()
-		.catch(e => logger.error(e));
+		.catch(e => logger.error('',e));
 }
 
 // Used to shuffle the currently playing list *correctly*.
@@ -134,14 +134,14 @@ async function shufflePlaylist() {
 		for (var i = 0; i < random; i++)
 			await client.currentPlaylist.shuffle();
 	} catch(e) {
-		logger.error(e);
+		logger.error('',e);
 	}
 }
 
 // Used to set the player volume to whatever the variable is set to.
 async function setVolume() {
 	await client.playbackOptions.setVolume(currentVolume)
-		.catch(e => logger.error(e));
+		.catch(e => logger.error('',e));
 }
 
 // Used to fade out and pause the song.
@@ -158,7 +158,7 @@ async function fadeOut() {
 		if (currentVolume <= 0) {
 			clearInterval(fadeInterval);
 			client.playback.pause(true)
-				.catch(e => logger.error(e));
+				.catch(e => logger.error('',e));
 		}
 	}
 
@@ -172,7 +172,7 @@ async function fadeIn() {
 	clearInterval(fadeInterval);
 	currentVolume = 0;
 	await client.playback.pause(false)
-		.catch(e => logger.error(e));
+		.catch(e => logger.error('',e));
 	await setVolume();
 
 	async function loop() {
