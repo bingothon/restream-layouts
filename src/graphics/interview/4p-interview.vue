@@ -42,6 +42,8 @@
 
 <style scoped>
 	.Interview {
+		left: 0px;
+		top: 0px;
 		width: 1920px;
 		height: 1080px;
 		background: linear-gradient(var(--darker-main-color), var(--lighter-main-color));
@@ -63,25 +65,25 @@
   }
   #pi1 {
     position: absolute;
-    top: 350px;
+    top: 450px;
     left: 0px;
     width: 500px;
   }
   #pi2 {
     position: absolute;
-    top: 350px;
+    top: 450px;
     left: 1420px;
     width: 500px;
   }
   #pi3 {
     position: absolute;
-    top: 450px;
+    top: 550px;
     left: 0px;
     width: 500px;
   }
   #pi4 {
     position: absolute;
-    top: 450px;
+    top: 550px;
     left: 1420px;
     width: 500px;
   }

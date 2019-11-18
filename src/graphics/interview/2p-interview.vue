@@ -2,12 +2,13 @@
 	<div class="Interview">
 	<img src="../../../static/logo-winter-wide.png" id="logo">
     <div id="fillvoice" class="flexContainer"></div>
-	<player-team-container id="ptc0" teamIndex="0" height="40px"></player-team-container>
-    <player-team-container id="ptc1" teamIndex="1" height="40px"></player-team-container>
-	<test-game-container id="game"></test-game-container>
+    <player-info id="pi1" playerIndex="0" height=45px></player-info>
+    <player-info id="pi2" playerIndex="1" height=45px></player-info>
+		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
     <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"/>
+	<test-next-game-container id="nextGame"></test-next-game-container>
 	</div>
 </template>
 
@@ -39,6 +40,8 @@
 
 <style scoped>
 	.Interview {
+		left: 0px;
+		top: 0px;
 		width: 1920px;
 		height: 1080px;
 		background: linear-gradient(var(--darker-main-color), var(--lighter-main-color));
@@ -58,15 +61,15 @@
 	  width: 666px;
 	  height: 200px;
   }
-  #ptc0 {
+  #pi1 {
     position: absolute;
-    top: 450px;
+    top: 500px;
     left: 0px;
     width: 500px;
   }
-  #ptc1 {
+  #pi2 {
     position: absolute;
-    top: 450px;
+    top: 500px;
     left: 1420px;
     width: 500px;
   }
