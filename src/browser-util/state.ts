@@ -2,7 +2,7 @@ import clone from 'clone';
 import { ReplicantBrowser } from 'nodecg/types/browser'; // eslint-disable-line
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { AllGameLayouts, AllInterviews, Bingoboard, BingoboardMeta, BingosyncSocket, CurrentGameLayout, CurrentInterview, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData, CurrentMainBingoboard, HostingBingoboard, HostingBingosocket, OriBingoboard, OriBingoMeta, ExplorationBingoboard } from "../../schemas";
+import { AllGameLayouts, AllInterviews, Bingoboard, BingoboardMeta, BingosyncSocket, CurrentGameLayout, CurrentInterview, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData, CurrentMainBingoboard, HostingBingoboard, HostingBingosocket, OriBingoboard, OriBingoMeta, ExplorationBingoboard, TwitchStreams, SoundOnTwitchStream } from "../../schemas";
 import { RunDataActiveRun, RunDataArray, Timer } from "../../speedcontrol-types";
 
 Vue.use(Vuex);
@@ -22,9 +22,11 @@ const replicantNames = [
   'hostingBingosocket',
   'oriBingoboard',
   'oriBingoMeta',
+  'soundOnTwitchStream',
   'trackerDonations',
   'trackerOpenBids',
   'trackerPrizes',
+  'twitchStreams',
   'voiceActivity',
   'songData'
 ];
@@ -54,9 +56,11 @@ export const store = new Vuex.Store({
     hostingBingosocket: {} as HostingBingosocket,
     oriBingoboard: {} as OriBingoboard,
     oriBingoMeta: {} as OriBingoMeta,
+    soundOnTwitchStream: 0 as SoundOnTwitchStream,
     trackerDonations: [] as TrackerDonations,
     trackerOpenBids: [] as TrackerOpenBids,
     trackerPrizes: [] as TrackerPrizes,
+    twitchStreams: [] as TwitchStreams,
     voiceActivity: {} as VoiceActivity,
     songData: {} as SongData,
     // nodecg-speedcontrol
