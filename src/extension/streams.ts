@@ -1,6 +1,7 @@
 import * as nodecgApiContext from './util/nodecg-api-context';
 import { TwitchStreams } from '../../schemas';
 import { RunDataActiveRun } from '../../speedcontrol-types';
+import { TwitchStream } from '../../types';
 
 const nodecg = nodecgApiContext.get();
 
@@ -49,7 +50,7 @@ streamsReplicant.once('change', () => {
       team.players.forEach((player) => {
         // in case the replicant changed, but this stream wasn't affected, don't reset cropping
         // fill everything with defaults
-        let current = {
+        let current: TwitchStream = {
           channel: 'esamarathon',
           quality: 'chunked',
           widthPercent: 100,
@@ -58,9 +59,8 @@ streamsReplicant.once('change', () => {
           leftPercent: 0,
           volume: 1,
           paused: false,
-          hidden: true,
           delay: -1,
-          availableQualities: [] as string[],
+          availableQualities: [],
         };
         current.widthPercent = cropping.widthPercent;
         current.heightPercent = cropping.heightPercent;
@@ -69,12 +69,10 @@ streamsReplicant.once('change', () => {
         if (!player.social || !player.social.twitch) {
           nodecg.log.error(`Twitch name for player ${player.name} missing!`);
           current.paused = true;
-          current.hidden = true;
         } else {
           const oldStream = streamsReplicant.value[idx];
           if (!oldStream || player.social.twitch != oldStream.channel) {
             current.channel = player.social.twitch;
-            current.hidden = false;
           } else {
             current = oldStream;
           }
@@ -85,4 +83,44 @@ streamsReplicant.once('change', () => {
     });
     streamsReplicant.value = newStreams;
   });
+});
+
+nodecg.listenFor('streams:setSoundOnTwitchStream', (streamNr: number, callback) => {
+  soundOnTwitchStream.value = streamNr;
+  if (callback && !callback.handled) {
+    callback();
+  }
+});
+
+nodecg.listenFor('streams:toggleStreamPlayPause', (streamNr: number, callback) => {
+  if (streamNr >= 0 && streamNr < streamsReplicant.value.length) {
+    streamsReplicant.value[streamNr].paused = !streamsReplicant.value[streamNr].paused;
+  }
+  if (callback && !callback.handled) {
+    callback();
+  }
+});
+
+nodecg.listenFor('streams:setStreamVolume', (data: {id: number, volume: number}, callback) => {
+  if (data.volume > 1 || data.volume < 0) {
+    if (callback && !callback.handled) {
+      callback('volume has to be between 0 and 1!');
+    }
+    return;
+  }
+  if (data.id >= 0 && data.id < streamsReplicant.value.length) {
+    streamsReplicant.value[data.id].volume = data.volume;
+  }
+  if (callback && !callback.handled) {
+    callback();
+  }
+});
+
+nodecg.listenFor('streams:setStreamQuality', (data: {id: number, quality: string}, callback) => {
+  if (data.id >= 0 && data.id < streamsReplicant.value.length) {
+    streamsReplicant.value[data.id].quality = data.quality;
+  }
+  if (callback && !callback.handled) {
+    callback();
+  }
 });

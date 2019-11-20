@@ -14,7 +14,9 @@ export type TwitchStreams = {
   quality: string;
   volume: number;
   paused: boolean;
-  hidden: boolean;
   delay: number;
-  availableQualities: string[];
+  availableQualities: {
+    name: string;
+    group: string;
+  }[];
 }[];

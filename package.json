@@ -83,6 +83,12 @@
         "title": "Layout Control",
         "file": "layout-control.html",
         "width": 2
+      },
+      {
+        "name": "twitch-control",
+        "title": "Twitch Control",
+        "file": "twitch-control.html",
+        "width": 2
       }
     ],
     "graphics": [

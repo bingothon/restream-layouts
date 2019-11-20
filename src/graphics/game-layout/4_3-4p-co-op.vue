@@ -13,7 +13,11 @@
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
     <player-team-container id="ptc2" teamIndex="1" height="40px"></player-team-container>
-    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="125px"/>
+    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="125px"></discord-voice-display>
+    <twitch-player id="player0" streamIndex="0"></twitch-player>
+    <twitch-player id="player1" streamIndex="1"></twitch-player>
+    <twitch-player id="player2" streamIndex="2"></twitch-player>
+    <twitch-player id="player3" streamIndex="3"></twitch-player>
 	</div>
 </template>
 
@@ -29,6 +33,7 @@
   import TeamInfo from "../components/teamInfo.vue";
   import PlayerTeamContainer from "../components/playerTeamContainer.vue";
   import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
+  import TwitchPlayer from "../components/twitchPlayer.vue";
   import { RunDataPlayer, RunDataTeam } from "../../../speedcontrol-types";
 
 	@Component({
@@ -40,6 +45,7 @@
       PlayerTeamContainer,
       TestTimerContainer,
       DiscordVoiceDisplay,
+      TwitchPlayer,
 		}
 	})
 	
@@ -188,5 +194,33 @@
     width: 386px;
     border: 2px var(--container-border-color) solid;
     height: 145px;
+  }
+  #player0 {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 667px;
+    height: 500px;
+  }
+  #player1 {
+    position: absolute;
+    top: 0px;
+    left: 1255px;
+    width: 667px;
+    height: 500px;
+  }
+  #player2 {
+    position: absolute;
+    top: 501px;
+    left: 0px;
+    width: 667px;
+    height: 500px;
+  }
+  #player3 {
+    position: absolute;
+    top: 501px;
+    left: 1255px;
+    width: 667px;
+    height: 500px;
   }
 </style>

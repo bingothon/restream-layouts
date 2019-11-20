@@ -5,7 +5,7 @@
 	"items": {
 			"type": "object",
 			"additionalProperties": false,
-			"required": ["channel","widthPercent","heightPercent","topPercent","leftPercent","quality","volume","paused","hidden","delay","availableQualities"],
+			"required": ["channel","widthPercent","heightPercent","topPercent","leftPercent","quality","volume","paused","delay","availableQualities"],
 		"properties": {
 			"channel": {
 				"type": "string",
@@ -39,10 +39,6 @@
 				"type": "boolean",
 				"default": "false"
 			},
-			"hidden": {
-				"type": "boolean",
-				"default": "true"
-			},
 			"delay": {
 				"type":"number",
 				"default":0
@@ -51,7 +47,13 @@
 				"type": "array",
 				"default": [],
 				"items": {
-					"type": "string"
+					"type": "object",
+					"additionalProperties": false,
+					"required": ["name","group"],
+					"properties": {
+						"name": {"type":"string"},
+						"group": {"type":"string"}
+					}
 				}
 			}
 		}
