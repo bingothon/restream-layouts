@@ -9,7 +9,9 @@
 		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
-    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="125px"/>
+    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="125px"></discord-voice-display>
+    <twitch-player id="player0" streamIndex="0"></twitch-player>
+    <twitch-player id="player1" streamIndex="1"></twitch-player>
 	</div>
 </template>
 
@@ -25,6 +27,7 @@
   import TeamInfo from "../components/teamInfo.vue";
   import PlayerTeamContainer from "../components/playerTeamContainer.vue";
   import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
+  import TwitchPlayer from "../components/twitchPlayer.vue";
   import { RunDataPlayer, RunDataTeam } from "../../../speedcontrol-types";
 
 	@Component({
@@ -35,7 +38,8 @@
       TeamInfo,
       PlayerTeamContainer,
       TestTimerContainer,
-      DiscordVoiceDisplay
+      DiscordVoiceDisplay,
+      TwitchPlayer,
 		}
 	})
 
@@ -122,5 +126,19 @@
     width: 390px;
     border: 2px var(--container-border-color) solid;
     height: 300px;
+  }
+  #player0 {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 960px;
+    height: 640px;
+  }
+  #player1 {
+    position: absolute;
+    top: 0px;
+    left: 961px;
+    width: 960px;
+    height: 640px;
   }
 </style>
