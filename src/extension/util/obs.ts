@@ -199,7 +199,7 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
 	nodecg.listenFor('obs:transition', (_data, callback) => {
 		logger.info('transitioning...')
 		//
-		obs.send("TransitionToProgram", {"with-transition":{name: "invalid"}}).then(() => {
+		obs.send("TransitionToProgram", {}).then(() => {
 			if (callback && !callback.handled) {
 				logger.info('transitioned!')
 				callback();
