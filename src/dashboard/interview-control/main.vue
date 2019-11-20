@@ -1,5 +1,5 @@
 <template>
-  <div id="App">
+  <div>
     Interview:
     <select
       v-model="selectedInterviewName"

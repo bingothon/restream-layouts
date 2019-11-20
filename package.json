@@ -89,6 +89,14 @@
         "title": "Twitch Control",
         "file": "twitch-control.html",
         "width": 2
+      },
+      {
+        "name": "twitch-resizer-dashboard",
+        "title": "Twitch Resizer",
+        "width": 10,
+        "file": "crop-control.html",
+        "headerColor": "#008BB9",
+        "workspace": "Twitch Resizing"
       }
     ],
     "graphics": [
