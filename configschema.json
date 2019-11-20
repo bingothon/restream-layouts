@@ -45,13 +45,15 @@
 		},
 		"obs": {
             "type":"object",
-            "required": ["discordAudio","nodecgAudio","address","password"],
+            "required": ["discordAudio","streamsAudio","mpdAudio","address","password","enable"],
             "additionalProperties": false,
 			"properties": {
+				"enable": {"type": "boolean", "default": false},
 				"address": { "type": "string", "default": "localhost:4444" },
 				"password": { "type": "string", "default": "" },
 				"discordAudio": {"type":"string", "default":"Discord-Audio"},
-				"nodecgAudio": {"type":"string", "default":"Desktop-Audio"}
+				"mpdAudio": {"type":"string", "default":"MPD-Audio"},
+				"streamsAudio": {"type":"string", "default":"Desktop-Audio"}
 			}
 		},
 		"mpd": {

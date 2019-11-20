@@ -24,10 +24,12 @@ export interface Configschema {
     eventSlug: string;
   };
   obs: {
+    enable: boolean;
     address: string;
     password: string;
     discordAudio: string;
-    nodecgAudio: string;
+    mpdAudio: string;
+    streamsAudio: string;
   };
   mpd?: {
     enable: boolean;

@@ -1,5 +1,5 @@
 <template>
-  <div id="App">
+  <div>
     <!--<ul>
       <li
         v-for="(count,i) in colorCounts"

@@ -4,6 +4,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import { AllGameLayouts, AllInterviews, Bingoboard, BingoboardMeta, BingosyncSocket, CurrentGameLayout, CurrentInterview, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData, CurrentMainBingoboard, HostingBingoboard, HostingBingosocket, OriBingoboard, OriBingoMeta, ExplorationBingoboard, TwitchStreams, SoundOnTwitchStream } from "../../schemas";
 import { RunDataActiveRun, RunDataArray, Timer } from "../../speedcontrol-types";
+import {Scene} from 'obs-websocket-js';
 
 Vue.use(Vuex);
 
@@ -20,6 +21,12 @@ const replicantNames = [
   'explorationBingoboard',
   'hostingBingoboard',
   'hostingBingosocket',
+  'obsMpdVolume',
+	'obsDiscordVolume',
+	'obsStreamsVolume',
+	'obsPreviewScene',
+	'obsCurrentScene',
+	'obsSceneList',
   'oriBingoboard',
   'oriBingoMeta',
   'soundOnTwitchStream',
@@ -54,6 +61,12 @@ export const store = new Vuex.Store({
     explorationBingoboard: {} as ExplorationBingoboard,
     hostingBingoboard: {} as HostingBingoboard,
     hostingBingosocket: {} as HostingBingosocket,
+    obsMpdVolume: null as null | number,
+    obsDiscordVolume: null as null | number,
+    obsStreamsVolume: null as null | number,
+    obsPreviewScene: null as null | string,
+    obsCurrentScene: null as null | string,
+    obsSceneList: null as null | Scene[],
     oriBingoboard: {} as OriBingoboard,
     oriBingoMeta: {} as OriBingoMeta,
     soundOnTwitchStream: 0 as SoundOnTwitchStream,

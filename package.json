@@ -91,6 +91,12 @@
         "width": 2
       },
       {
+        "name": "obs-control",
+        "title": "OBS Control",
+        "file": "obs-control.html",
+        "width": 2
+      },
+      {
         "name": "twitch-resizer-dashboard",
         "title": "Twitch Resizer",
         "width": 10,
