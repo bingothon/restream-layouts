@@ -1,6 +1,7 @@
 import obsWebsocketJs from 'obs-websocket-js';
 import * as nodecgApiContext from './nodecg-api-context';
 import { Configschema } from '../../../configschema';
+import { ObsSound } from '../../../types';
 
 const nodecg  = nodecgApiContext.get();
 const logger = new nodecg.Logger(`${nodecg.bundleName}:obs`);
@@ -59,9 +60,9 @@ const obs = new OBSUtility();
 if (bundleConfig.obs && bundleConfig.obs.enable) {
 	// local values to make sure there is no update loop
 
-	const obsMpdVolumeRep = nodecg.Replicant<number | null>('obsMpdVolume', {defaultValue: null});
-	const obsDiscordVolumeRep = nodecg.Replicant<number | null>('obsDiscordVolume', {defaultValue: null});
-	const obsStreamsVolumeRep = nodecg.Replicant<number | null>('obsStreamsVolume', {defaultValue: null});
+	const obsMpdSoundRep = nodecg.Replicant<ObsSound>('obsMpdSound');
+	const obsDiscordSoundRep = nodecg.Replicant<ObsSound>('obsDiscordSound');
+	const obsStreamsSoundRep = nodecg.Replicant<ObsSound>('obsStreamsSound');
 	const obsPreviewSceneRep = nodecg.Replicant<string | null>('obsPreviewScene', {defaultValue: null});
 	const obsCurrentSceneRep = nodecg.Replicant<string | null>('obsCurrentScene', {defaultValue: null});
 	const obsSceneListRep = nodecg.Replicant<obsWebsocketJs.Scene[] | null>('obsSceneList', {defaultValue: null});
@@ -83,24 +84,41 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
 
 			// check all info from OBS at startup, to not miss anything during disconnects
 			obs.getAudioVolume(bundleConfig.obs.discordAudio).then(volume => {
-				obsDiscordVolumeRep.value = volume;
-				logger.info('init vol update dicord');
+				obsDiscordSoundRep.value.volume = volume;
 			}).catch(err => {
 				logger.warn(`Cannot get volume [${bundleConfig.obs.discordAudio}]: ${err.error}`);
 			});
 
+			obs.send("GetMute", {source: bundleConfig.obs.discordAudio}).then(mute => {
+				obsDiscordSoundRep.value.muted = mute.muted;
+			}).catch(err => {
+				logger.warn(`Cannot get mute [${bundleConfig.obs.discordAudio}]: ${err.error}`);
+			});
+
 			obs.getAudioVolume(bundleConfig.obs.mpdAudio).then(volume => {
-				obsMpdVolumeRep.value = volume;
+				obsMpdSoundRep.value.volume = volume;
 				logger.info('init vol update mpd');
 			}).catch(err => {
 				logger.warn(`Cannot get volume [${bundleConfig.obs.mpdAudio}]: ${err.error}`);
 			});
 
+			obs.send("GetMute", {source: bundleConfig.obs.mpdAudio}).then(mute => {
+				obsMpdSoundRep.value.muted = mute.muted;
+			}).catch(err => {
+				logger.warn(`Cannot get mute [${bundleConfig.obs.mpdAudio}]: ${err.error}`);
+			});
+
 			obs.getAudioVolume(bundleConfig.obs.streamsAudio).then(volume => {
-				obsStreamsVolumeRep.value = volume;
+				obsStreamsSoundRep.value.volume = volume;
 				logger.info('init vol update streams');
 			}).catch(err => {
 				logger.warn(`Cannot get volume [${bundleConfig.obs.streamsAudio}]: ${err.error}`);
+			});
+
+			obs.send("GetMute", {source: bundleConfig.obs.streamsAudio}).then(mute => {
+				obsStreamsSoundRep.value.muted = mute.muted;
+			}).catch(err => {
+				logger.warn(`Cannot get mute [${bundleConfig.obs.streamsAudio}]: ${err.error}`);
 			});
 
 			obs.send("GetPreviewScene").then(scene => {
@@ -141,15 +159,25 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
 
 	obs.on("SourceVolumeChanged", data => {
 		const sourceName = data.sourceName;
-		logger.info('source volume changed:', data);
 		if (sourceName == bundleConfig.obs.discordAudio) {
-			obsDiscordVolumeRep.value = data.volume;
+			obsDiscordSoundRep.value.volume = data.volume;
 		} else if (sourceName == bundleConfig.obs.mpdAudio) {
-			obsMpdVolumeRep.value = data.volume;
+			obsMpdSoundRep.value.volume = data.volume;
 		} else if (sourceName == bundleConfig.obs.streamsAudio) {
-			obsStreamsVolumeRep.value = data.volume;
+			obsStreamsSoundRep.value.volume = data.volume;
 		}
 	});
+
+	obs.on("SourceMuteStateChanged", data => {
+		const sourceName = data.sourceName;
+		if (sourceName == bundleConfig.obs.discordAudio) {
+			obsDiscordSoundRep.value.muted = data.muted;
+		} else if (sourceName == bundleConfig.obs.mpdAudio) {
+			obsMpdSoundRep.value.muted = data.muted;
+		} else if (sourceName == bundleConfig.obs.streamsAudio) {
+			obsStreamsSoundRep.value.muted = data.muted;
+		}
+	})
 
 	obs.on("PreviewSceneChanged", data => {
 		obsPreviewSceneRep.value = data["scene-name"];
@@ -159,32 +187,55 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
 		obsCurrentSceneRep.value = data["scene-name"];
 	});
 
-	obsMpdVolumeRep.on('change', (newVal, old) => {
-		logger.info('volume update mpd');
+	obsMpdSoundRep.on('change', (newVal, old) => {
 		if (old === undefined || newVal == null || newVal == old) {
 			return;
 		}
-		obs.setAudioVolume(bundleConfig.obs.mpdAudio, newVal).catch(e => {
-			logger.warn(`Error setting MPD Volume: ${e.error}`);
-		});
+		if (newVal.volume != old.volume) {
+			obs.setAudioVolume(bundleConfig.obs.mpdAudio, newVal.volume).catch(e => {
+				logger.warn(`Error setting MPD Volume: ${e.error}`);
+			});
+		}
+
+		if (newVal.muted != old.muted) {
+			obs.send("SetMute", {source: bundleConfig.obs.mpdAudio, mute: newVal.muted}).catch(e => {
+				logger.warn(`Error setting MPD mute: ${e.error}`);
+			});
+		}
 	});
 
-	obsDiscordVolumeRep.on('change', (newVal, old) => {
+	obsDiscordSoundRep.on('change', (newVal, old) => {
 		if (old === undefined || newVal == null || newVal == old) {
 			return;
 		}
-		obs.setAudioVolume(bundleConfig.obs.discordAudio, newVal).catch(e => {
-			logger.warn(`Error setting discord Volume: ${e.error}`);
-		});
+		if (newVal.volume != old.volume) {
+			obs.setAudioVolume(bundleConfig.obs.discordAudio, newVal.volume).catch(e => {
+				logger.warn(`Error setting discord Volume: ${e.error}`);
+			});
+		}
+
+		if (newVal.muted != old.muted) {
+			obs.send("SetMute", {source: bundleConfig.obs.discordAudio, mute: newVal.muted}).catch(e => {
+				logger.warn(`Error setting discord mute: ${e.error}`);
+			});
+		}
 	});
 
-	obsStreamsVolumeRep.on('change', (newVal, old) => {
+	obsStreamsSoundRep.on('change', (newVal, old) => {
 		if (old === undefined || newVal == null || newVal == old) {
 			return;
 		}
-		obs.setAudioVolume(bundleConfig.obs.streamsAudio, newVal).catch(e => {
-			logger.warn(`Error setting streams Volume: ${e.error}`);
-		});
+		if (newVal.volume != old.volume) {
+			obs.setAudioVolume(bundleConfig.obs.streamsAudio, newVal.volume).catch(e => {
+				logger.warn(`Error setting streams Volume: ${e.error}`);
+			});
+		}
+
+		if (newVal.muted != old.muted) {
+			obs.send("SetMute", {source: bundleConfig.obs.streamsAudio, mute: newVal.muted}).catch(e => {
+				logger.warn(`Error setting streams mute: ${e.error}`);
+			});
+		}
 	});
 
 	obsPreviewSceneRep.on('change', (newVal, old) => {
