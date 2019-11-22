@@ -7,7 +7,7 @@
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
     <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"></discord-voice-display>
-    <twitch-player id="player0" streamIndex="0"></twitch-player>
+    <twitch-player id="stream1" streamIndex="0"></twitch-player>
 	</div>
 </template>
 
@@ -38,7 +38,7 @@
       TwitchPlayer,
 		}
 	})
-	
+
 	export default class GameLayout extends Vue {
     get teams(): RunDataTeam[] {
       return store.state.runDataActiveRun.teams;
@@ -107,7 +107,7 @@
     border: 2px var(--container-border-color) solid;
     height: 145px;
   }
-  #player0 {
+  #stream1 {
     position: absolute;
     top: 0px;
     left: 402px;

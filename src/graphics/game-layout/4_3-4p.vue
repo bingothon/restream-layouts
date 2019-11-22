@@ -1,10 +1,10 @@
 <template>
 	<div>
     <div id="fillmiddle" class="flexContainer"></div>
-    <div id="fillul" class="flexContainer"></div>
-    <div id="fillur" class="flexContainer"></div>
-    <div id="filldl" class="flexContainer"></div>
-    <div id="filldr" class="flexContainer"></div>
+		<twitch-player id="stream1" streamIndex="0"></twitch-player>
+		<twitch-player id="stream2" streamIndex="1"></twitch-player>
+		<twitch-player id="stream3" streamIndex="2"></twitch-player>
+		<twitch-player id="stream4" streamIndex="3"></twitch-player>
     <div id="fillbar" class="flexContainer"></div>
     <div id="fillvoice" class="flexContainer"></div>
     <player-info id="pi1" playerIndex="0" height=45px></player-info>
@@ -43,7 +43,7 @@
       DiscordVoiceDisplay,
 		}
 	})
-	
+
 	export default class GameLayout extends Vue {
     get teams(): RunDataTeam[] {
       return store.state.runDataActiveRun.teams;
@@ -52,7 +52,7 @@
 </script>
 
 <style scoped>
-  #fillul {
+  #stream1 {
     position: absolute;
     top: 60px;
     left: 0px;
@@ -61,7 +61,7 @@
     background-image: url("../../../static/middle-info-background.png");
     border: 2px blue solid;
   }
-  #fillur {
+  #stream2 {
     position: absolute;
     top: 60px;
     left: 1138px;
@@ -70,7 +70,7 @@
     background-image: url("../../../static/middle-info-background.png");
     border: 2px blue solid;
   }
-  #filldl {
+  #stream3 {
     position: absolute;
     top: 500px;
     left: 0px;
@@ -79,7 +79,7 @@
     background-image: url("../../../static/middle-info-background.png");
     border: 2px blue solid;
   }
-  #filldr {
+  #stream4 {
     position: absolute;
     top: 500px;
     left: 1138px;

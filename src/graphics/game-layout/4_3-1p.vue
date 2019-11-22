@@ -1,6 +1,6 @@
 <template>
 	<div>
-    <div id="fillur" class="flexContainer"></div>
+		<twitch-player id="stream1" streamIndex="0"></twitch-player>
     <div id="fillbar" class="flexContainer"></div>
     <div id="fillvoice" class="flexContainer"></div>
     <player-info id="pi1" playerIndex="0" height=45px></player-info>
@@ -39,7 +39,7 @@
       TwitchPlayer,
 		}
 	})
-	
+
 	export default class GameLayout extends Vue {
     get teams(): RunDataTeam[] {
       return store.state.runDataActiveRun.teams;
@@ -48,7 +48,7 @@
 </script>
 
 <style scoped>
-  #fillur {
+  #stream1 {
     position: absolute;
     top: 0px;
     left: 587px;
