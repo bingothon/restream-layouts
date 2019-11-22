@@ -27,6 +27,7 @@
   import PlayerTeamContainer from "../components/playerTeamContainer.vue";
   import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
   import { RunDataPlayer, RunDataTeam } from "../../../speedcontrol-types";
+    import TwitchPlayer from "../components/TwitchPlayer.vue";
 
 	@Component({
 		components: {
@@ -37,6 +38,7 @@
       PlayerTeamContainer,
       TestTimerContainer,
       DiscordVoiceDisplay,
+			TwitchPlayer
 		}
 	})
 
