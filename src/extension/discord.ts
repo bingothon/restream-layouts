@@ -5,6 +5,7 @@ import * as Discord from 'discord.js';
 import * as nodecgApiContext from './util/nodecg-api-context';
 import { VoiceActivity } from '../../schemas';
 import { Configschema } from '../../configschema';
+import { Logger } from 'nodecg/types/server';
 
 const nodecg = nodecgApiContext.get();
 
@@ -129,8 +130,10 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
         voiceChannelConnection = connection;
 
         UpdateCommentaryChannelMembers();
+        nodecg.log.info(`joined voice channel!`);
 
-        connection.on('speaking', (user, speaking) => {
+        connection.on('speaking', (user: Discord.User, speaking: boolean) => {
+          nodecg.log.info(`updating user ${user.tag} to speaking`);
           if (!voiceActivity.value.members || voiceActivity.value.members.length < 1) { return; }
           setTimeout(() => {
             voiceActivity.value.members.find((voiceMember) => {
