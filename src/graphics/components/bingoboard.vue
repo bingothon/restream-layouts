@@ -1,5 +1,5 @@
 <template>
-  <div id="App">
+  <div class="BingoBoard">
       <table class="bingo-table">
           <tbody>
             <tr :key="i" v-for="(column,i) in bingoCells">
@@ -13,6 +13,9 @@
             </tr>
           </tbody>
       </table>
+      <div class="bingo-board-hide" :hidden="!boardHidden"></div>
+      <!-- disabled cause it doesn't work properly
+      <div class="bingo-splash" :style="{color: bingoAnimColor}" :class="splashActivated">BINGO!</div>-->
   </div>
 </template>
 
@@ -97,6 +100,9 @@ export default class BingoBoard extends Vue {
     bingoboardRep: string | null;
     // function to call when to drop the watch for the bingoboard, used to change boards
     bingoboardWatch: () => void;
+
+    splashActivated: string = "";
+    bingoAnimColor: string = "black";
     
     mounted() {
         const height = this.$el.scrollHeight;
@@ -116,6 +122,24 @@ export default class BingoBoard extends Vue {
             this.bingoboardWatch = store.watch(state => state[this.bingoboardRep], this.onBingoBoardUpdate, {immediate: true});
             this.onBingoBoardUpdate(store.state[this.bingoboardRep]);
         }
+        nodecg.listenFor('showBingoAnimation','bingothon-layouts',this.showBingoSplash);
+    }
+
+    destroyed() {
+        nodecg.unlisten('showBingoAnimation', 'bingothon-layouts', this.showBingoSplash);
+    }
+
+    showBingoSplash(data: {color?: string}) {
+        // if the animation is currently running do nothing
+        if (this.splashActivated != "") return;
+        nodecg.log.info('BINGo',data);
+        this.bingoAnimColor = colorToGradient[data.color] || "black";
+        this.splashActivated = "activated";
+        setTimeout(()=>this.splashActivated="",4000);
+    }
+
+    get boardHidden(): boolean {
+        return store.state.bingoboardMeta.boardHidden;
     }
 
     // watch for bingo changes
@@ -160,6 +184,7 @@ export default class BingoBoard extends Vue {
     table {
         width: 100%;
         height: 100%;
+        position: absolute;
     }
 
     @keyframes bingo-splash {
@@ -169,19 +194,19 @@ export default class BingoBoard extends Vue {
         100% {transform: rotate(1800deg) translateY(30%); opacity: 0; font-size: 90px;text-shadow: -5px -5px 50px white, 5px -5px 50px white, -5px 5px 50px white, 5px 5px 50px white;}
     }
 
-    #bingo-board-hide {
+    .bingo-board-hide {
         width: 100%;
         height: 100%;
         background: black;
         position: absolute;
     }
 
-    #bingo-splash {
+    .bingo-splash {
         position: absolute;
         opacity: 0;
     }
 
-    #bingo-splash.activated {
+    .bingo-splash.activated {
         animation: bingo-splash 4s;
     }
 
