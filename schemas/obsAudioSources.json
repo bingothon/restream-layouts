@@ -1,0 +1,15 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type":"object",
+    "default": {},
+    "additionalProperties": {
+        "type":"object",
+        "required": ["volume","muted","delay"],
+        "additionalProperties": false,
+        "properties": {
+            "volume": {"type":"number"},
+            "muted": {"type":"boolean"},
+            "delay": {"type": "number", "$comment": "Time this audio source is delayed in milliseconds"}
+        }
+    }
+}

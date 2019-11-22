@@ -2,10 +2,9 @@ import clone from 'clone';
 import { ReplicantBrowser } from 'nodecg/types/browser'; // eslint-disable-line
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { AllGameLayouts, AllInterviews, Bingoboard, BingoboardMeta, BingosyncSocket, CurrentGameLayout, CurrentInterview, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData, CurrentMainBingoboard, HostingBingoboard, HostingBingosocket, OriBingoboard, OriBingoMeta, ExplorationBingoboard, TwitchStreams, SoundOnTwitchStream } from "../../schemas";
+import { AllGameLayouts, AllInterviews, Bingoboard, BingoboardMeta, BingosyncSocket, CurrentGameLayout, CurrentInterview, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData, CurrentMainBingoboard, HostingBingoboard, HostingBingosocket, OriBingoboard, OriBingoMeta, ExplorationBingoboard, TwitchStreams, SoundOnTwitchStream, ObsAudioSources, ObsDashboardAudioSources } from "../../schemas";
 import { RunDataActiveRun, RunDataArray, Timer } from "../../speedcontrol-types";
 import {Scene} from 'obs-websocket-js';
-import { ObsSound } from '../../types/ObsSound';
 
 Vue.use(Vuex);
 
@@ -22,9 +21,8 @@ const replicantNames = [
   'explorationBingoboard',
   'hostingBingoboard',
   'hostingBingosocket',
-  'obsMpdSound',
-	'obsDiscordSound',
-	'obsStreamsSound',
+  'obsAudioSources',
+  'obsDashboardAudioSources',
 	'obsPreviewScene',
 	'obsCurrentScene',
 	'obsSceneList',
@@ -62,9 +60,8 @@ export const store = new Vuex.Store({
     explorationBingoboard: {} as ExplorationBingoboard,
     hostingBingoboard: {} as HostingBingoboard,
     hostingBingosocket: {} as HostingBingosocket,
-    obsMpdSound: {} as ObsSound,
-    obsDiscordSound: {} as ObsSound,
-    obsStreamsSound: {} as ObsSound,
+    obsAudioSources: {} as ObsAudioSources,
+    obsDashboardAudioSources: {} as ObsDashboardAudioSources,
     obsPreviewScene: null as null | string,
     obsCurrentScene: null as null | string,
     obsSceneList: null as null | Scene[],

@@ -8,9 +8,18 @@
         :value="scene"
       >{{scene}}</option>
     </select>
-    <div>Streams Audio:<input v-model="streamsVolume" type="range"><button @click="toggleMuteStreams">{{streamsMuted?"Unmute":"Mute"}}</button></div>
-    <div>Discord Audio:<input v-model="discordVolume" type="range"><button @click="toggleMuteDiscord">{{discordMuted?"Unmute":"Mute"}}</button></div>
-    <div>MPD Audio:<input v-model="mpdVolume" type="range"><button @click="toggleMuteMpd">{{mpdMuted?"Unmute":"Mute"}}</button></div>
+    <div
+      v-for="(audio, i) in obsAudioSources"
+      :key="i"
+    >{{audio[0]}}:
+      <input
+        @change="updateAudioSourceBaseVolume(audio[0],$event)"
+        :value="audio[1].baseVolume*100" type="range">
+      <button
+        @click="toggleAudioFade(audio[0])"
+        :disabled="!canTriggerAudioFade(audio[1].fading)"
+      >{{toggleAudioFadeText(audio[1].fading)}}</button>
+    </div>
     <button @click="doTransition">Transition</button>
   </div>
 </template>
@@ -18,9 +27,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { nodecg, NodeCG } from '../../browser-util/nodecg';
-import { Bingoboard, BingosyncSocket, BingoboardMeta, CurrentMainBingoboard } from '../../../schemas';
+import { Bingoboard, BingosyncSocket, BingoboardMeta, CurrentMainBingoboard, ObsAudioSources, ObsDashboardAudioSources } from '../../../schemas';
 import { store, getReplicant } from '../../browser-util/state';
-import { ObsSound } from '../../../types';
+
+const bundleName = "bingothon-layouts";
 
 @Component({})
 export default class OBSControl extends Vue {
@@ -33,32 +43,11 @@ export default class OBSControl extends Vue {
     set previewScene(scene: string) {
       getReplicant('obsPreviewScene').value = scene;
     }
-    get streamsVolume(): string {
-      return ''+store.state.obsStreamsSound.volume*100;
+    get obsAudioSources(): [string, any][] {
+      return Object.entries(store.state.obsDashboardAudioSources);
     }
-    set streamsVolume(vol: string) {
-      getReplicant<ObsSound>('obsStreamsSound').value.volume = parseInt(vol)/100;
-    }
-    get streamsMuted(): boolean {
-      return store.state.obsStreamsSound.muted;
-    }
-    get discordVolume(): string {
-      return ''+store.state.obsDiscordSound.volume*100;
-    }
-    set discordVolume(vol: string) {
-      getReplicant<ObsSound>('obsDiscordSound').value.volume = parseInt(vol)/100;
-    }
-    get discordMuted(): boolean {
-      return store.state.obsDiscordSound.muted;
-    }
-    get mpdVolume(): string {
-      return ''+store.state.obsMpdSound.volume*100;
-    }
-    set mpdVolume(vol: string) {
-      getReplicant<ObsSound>('obsMpdSound').value.volume = parseInt(vol)/100;
-    }
-    get mpdMuted(): boolean {
-      return store.state.obsMpdSound.muted;
+    updateAudioSourceBaseVolume(audioSource: string, $event: any) {
+      getReplicant<ObsDashboardAudioSources>('obsDashboardAudioSources').value[audioSource].baseVolume = parseInt($event.target.value)/100;
     }
     get sceneNameList(): string[] {
       return store.state.obsSceneList.map(s => s.name);
@@ -66,14 +55,23 @@ export default class OBSControl extends Vue {
     doTransition() {
       nodecg.sendMessageToBundle('obs:transition', 'bingothon-layouts');
     }
-    toggleMuteStreams() {
-      getReplicant<ObsSound>('obsStreamsSound').value.muted = !store.state.obsStreamsSound.muted;
+    toggleAudioFade(source: string) {
+      if (store.state.obsDashboardAudioSources[source].fading == "muted") {
+        nodecg.sendMessageToBundle('obsRemotecontrol:fadeInAudio', bundleName, {source});
+      } else {
+        nodecg.sendMessageToBundle('obsRemotecontrol:fadeOutAudio', bundleName, {source});
+      }
     }
-    toggleMuteDiscord() {
-      getReplicant<ObsSound>('obsDiscordSound').value.muted = !store.state.obsDiscordSound.muted;
+    toggleAudioFadeText(fade: string): string {
+      switch(fade) {
+        case "fadein": return "Fading in...";
+        case "fadeout": return "Fading out...";
+        case "muted": return "Unmute";
+        case "unmuted": return "Mute";
+      }
     }
-    toggleMuteMpd() {
-      getReplicant<ObsSound>('obsMpdSound').value.muted = !store.state.obsMpdSound.muted;
+    canTriggerAudioFade(fade: string): boolean {
+      return ["muted","unmuted"].includes(fade);
     }
 }
 </script>

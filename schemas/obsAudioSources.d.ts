@@ -5,7 +5,10 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface ObsDiscordSound {
-  volume: number;
-  muted: boolean;
+export interface ObsAudioSources {
+  [k: string]: {
+    volume: number;
+    muted: boolean;
+    delay: number;
+  };
 }

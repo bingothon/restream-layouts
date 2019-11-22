@@ -1,7 +1,13 @@
 import obsWebsocketJs from 'obs-websocket-js';
 import * as nodecgApiContext from './nodecg-api-context';
 import { Configschema } from '../../../configschema';
-import { ObsSound } from '../../../types';
+import { ObsAudioSources } from '../../../schemas';
+
+// this module is used to communicate directly with OBS
+// and transparently handle:
+//  - audio volume/mute/delay
+//  - preview and current scene
+//  - transitions
 
 const nodecg  = nodecgApiContext.get();
 const logger = new nodecg.Logger(`${nodecg.bundleName}:obs`);
@@ -60,9 +66,7 @@ const obs = new OBSUtility();
 if (bundleConfig.obs && bundleConfig.obs.enable) {
 	// local values to make sure there is no update loop
 
-	const obsMpdSoundRep = nodecg.Replicant<ObsSound>('obsMpdSound');
-	const obsDiscordSoundRep = nodecg.Replicant<ObsSound>('obsDiscordSound');
-	const obsStreamsSoundRep = nodecg.Replicant<ObsSound>('obsStreamsSound');
+	const obsAudioSourcesRep = nodecg.Replicant<ObsAudioSources>('obsAudioSources');
 	const obsPreviewSceneRep = nodecg.Replicant<string | null>('obsPreviewScene', {defaultValue: null});
 	const obsCurrentSceneRep = nodecg.Replicant<string | null>('obsCurrentScene', {defaultValue: null});
 	const obsSceneListRep = nodecg.Replicant<obsWebsocketJs.Scene[] | null>('obsSceneList', {defaultValue: null});
@@ -82,43 +86,11 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
 				logger.error("Can't set studio mode", e);
 			});
 
-			// check all info from OBS at startup, to not miss anything during disconnects
-			obs.getAudioVolume(bundleConfig.obs.discordAudio).then(volume => {
-				obsDiscordSoundRep.value.volume = volume;
-			}).catch(err => {
-				logger.warn(`Cannot get volume [${bundleConfig.obs.discordAudio}]: ${err.error}`);
-			});
-
-			obs.send("GetMute", {source: bundleConfig.obs.discordAudio}).then(mute => {
-				obsDiscordSoundRep.value.muted = mute.muted;
-			}).catch(err => {
-				logger.warn(`Cannot get mute [${bundleConfig.obs.discordAudio}]: ${err.error}`);
-			});
-
-			obs.getAudioVolume(bundleConfig.obs.mpdAudio).then(volume => {
-				obsMpdSoundRep.value.volume = volume;
-				logger.info('init vol update mpd');
-			}).catch(err => {
-				logger.warn(`Cannot get volume [${bundleConfig.obs.mpdAudio}]: ${err.error}`);
-			});
-
-			obs.send("GetMute", {source: bundleConfig.obs.mpdAudio}).then(mute => {
-				obsMpdSoundRep.value.muted = mute.muted;
-			}).catch(err => {
-				logger.warn(`Cannot get mute [${bundleConfig.obs.mpdAudio}]: ${err.error}`);
-			});
-
-			obs.getAudioVolume(bundleConfig.obs.streamsAudio).then(volume => {
-				obsStreamsSoundRep.value.volume = volume;
-				logger.info('init vol update streams');
-			}).catch(err => {
-				logger.warn(`Cannot get volume [${bundleConfig.obs.streamsAudio}]: ${err.error}`);
-			});
-
-			obs.send("GetMute", {source: bundleConfig.obs.streamsAudio}).then(mute => {
-				obsStreamsSoundRep.value.muted = mute.muted;
-			}).catch(err => {
-				logger.warn(`Cannot get mute [${bundleConfig.obs.streamsAudio}]: ${err.error}`);
+			// default if they somehow not exist
+			[bundleConfig.obs.discordAudio, bundleConfig.obs.mpdAudio, bundleConfig.obs.streamsAudio].forEach(audioSource => {
+				if (!Object.getOwnPropertyNames(obsAudioSourcesRep.value).includes(audioSource)) {
+					obsAudioSourcesRep.value[audioSource] = {volume: 0.5, muted: false, delay: 0};
+				}
 			});
 
 			obs.send("GetPreviewScene").then(scene => {
@@ -138,7 +110,7 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
 			obs.send("GetSceneList").then(sceneList => {
 				obsSceneListRep.value = sceneList.scenes;
 			}).catch(err => {
-				logger.warn(`Cannot get scene list: ${err.error}`);
+				logger.warn(`Cannot get current scene list: ${err.error}`);
 			});
 		}).catch((err) => {
 			logger.warn('OBS connection error.');
@@ -157,8 +129,13 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
 		logger.debug('OBS connection error:', err);
 	});
 
+	/* Don't actually care if something changes on OBS, since everything should be handled over this
 	obs.on("SourceVolumeChanged", data => {
 		const sourceName = data.sourceName;
+		if (Object.getOwnPropertyNames(obsAudioSourcesRep.value).includes(sourceName)) {
+			if 
+			obsAudioSourcesRep.value[sourceName].volume = data.volume;
+		}
 		if (sourceName == bundleConfig.obs.discordAudio) {
 			obsDiscordSoundRep.value.volume = data.volume;
 		} else if (sourceName == bundleConfig.obs.mpdAudio) {
@@ -177,7 +154,7 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
 		} else if (sourceName == bundleConfig.obs.streamsAudio) {
 			obsStreamsSoundRep.value.muted = data.muted;
 		}
-	})
+	})*/
 
 	obs.on("PreviewSceneChanged", data => {
 		obsPreviewSceneRep.value = data["scene-name"];
@@ -187,55 +164,36 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
 		obsCurrentSceneRep.value = data["scene-name"];
 	});
 
-	obsMpdSoundRep.on('change', (newVal, old) => {
-		if (old === undefined || newVal == null || newVal == old) {
-			return;
-		}
-		if (newVal.volume != old.volume) {
-			obs.setAudioVolume(bundleConfig.obs.mpdAudio, newVal.volume).catch(e => {
-				logger.warn(`Error setting MPD Volume: ${e.error}`);
-			});
-		}
-
-		if (newVal.muted != old.muted) {
-			obs.send("SetMute", {source: bundleConfig.obs.mpdAudio, mute: newVal.muted}).catch(e => {
-				logger.warn(`Error setting MPD mute: ${e.error}`);
-			});
-		}
+	obs.on("ScenesChanged", () => {
+		obs.send("GetSceneList").then(sceneList => {
+			obsSceneListRep.value = sceneList.scenes;
+		}).catch(err => {
+			logger.warn(`Cannot get current scene list: ${err.error}`);
+		});
 	});
 
-	obsDiscordSoundRep.on('change', (newVal, old) => {
+	obsAudioSourcesRep.on('change', (newVal, old) => {
 		if (old === undefined || newVal == null || newVal == old) {
 			return;
 		}
-		if (newVal.volume != old.volume) {
-			obs.setAudioVolume(bundleConfig.obs.discordAudio, newVal.volume).catch(e => {
-				logger.warn(`Error setting discord Volume: ${e.error}`);
-			});
-		}
-
-		if (newVal.muted != old.muted) {
-			obs.send("SetMute", {source: bundleConfig.obs.discordAudio, mute: newVal.muted}).catch(e => {
-				logger.warn(`Error setting discord mute: ${e.error}`);
-			});
-		}
-	});
-
-	obsStreamsSoundRep.on('change', (newVal, old) => {
-		if (old === undefined || newVal == null || newVal == old) {
-			return;
-		}
-		if (newVal.volume != old.volume) {
-			obs.setAudioVolume(bundleConfig.obs.streamsAudio, newVal.volume).catch(e => {
-				logger.warn(`Error setting streams Volume: ${e.error}`);
-			});
-		}
-
-		if (newVal.muted != old.muted) {
-			obs.send("SetMute", {source: bundleConfig.obs.streamsAudio, mute: newVal.muted}).catch(e => {
-				logger.warn(`Error setting streams mute: ${e.error}`);
-			});
-		}
+		Object.entries(newVal).forEach(([source, sound]) => {
+			const oldSound = old[source];
+			if (!oldSound || oldSound.volume != sound.volume) {
+				obs.setAudioVolume(source, sound.volume).catch(e => {
+					logger.warn(`Error setting Volume for [${source}] to ${sound.volume}: ${e.error}`);
+				});
+			}
+			if (!oldSound || oldSound.muted != sound.muted) {
+				obs.send("SetMute", {source: source, mute: sound.muted}).catch(e => {
+					logger.warn(`Error setting mute for [${source}] to ${sound.muted}: ${e.error}`);
+				});
+			}
+			if (!oldSound || oldSound.delay != sound.delay) {
+				obs.send("SetSyncOffset", {source, offset: sound.delay * 1000}).catch(e => {
+					logger.warn(`Error setting audio delay for [${source}] to ${sound.delay}ms: ${e.error}`);
+				});
+			}
+		});
 	});
 
 	obsPreviewSceneRep.on('change', (newVal, old) => {

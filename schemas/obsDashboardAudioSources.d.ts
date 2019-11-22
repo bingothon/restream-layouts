@@ -5,7 +5,9 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface ObsStreamsSound {
-  volume: number;
-  muted: boolean;
+export interface ObsDashboardAudioSources {
+  [k: string]: {
+    baseVolume: number;
+    fading: "fadein" | "fadeout" | "muted" | "unmuted";
+  };
 }

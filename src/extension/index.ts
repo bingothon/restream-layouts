@@ -44,6 +44,7 @@ export = (nodecg: NodeCG): void => {
   require('./gdq-donationtracker');
   require('./streams');
   require('./util/obs');
+  require('./obsremotecontrol');
   if (bundleConfig.mpd && bundleConfig.mpd.enable) {
     require('./music');
   } else {
