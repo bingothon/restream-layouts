@@ -38,7 +38,7 @@
       PlayerTeamContainer,
       TestTimerContainer,
       DiscordVoiceDisplay,
-			TwitchPlayer
+			TwitchPlayer,
 		}
 	})
 
