@@ -2,7 +2,7 @@ import clone from 'clone';
 import { ReplicantBrowser } from 'nodecg/types/browser'; // eslint-disable-line
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { AllGameLayouts, AllInterviews, Bingoboard, BingoboardMeta, BingosyncSocket, CurrentGameLayout, CurrentInterview, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData, CurrentMainBingoboard, HostingBingoboard, HostingBingosocket, OriBingoboard, OriBingoMeta, ExplorationBingoboard, TwitchStreams, SoundOnTwitchStream, ObsAudioSources, ObsDashboardAudioSources } from "../../schemas";
+import { AllGameLayouts, AllInterviews, Bingoboard, BingoboardMeta, BingosyncSocket, CurrentGameLayout, CurrentInterview, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData, CurrentMainBingoboard, HostingBingoboard, HostingBingosocket, OriBingoboard, OriBingoMeta, ExplorationBingoboard, TwitchStreams, SoundOnTwitchStream, ObsAudioSources, ObsDashboardAudioSources, ObsConnection, DiscordDelayInfo } from "../../schemas";
 import { RunDataActiveRun, RunDataArray, Timer } from "../../speedcontrol-types";
 import {Scene} from 'obs-websocket-js';
 
@@ -18,10 +18,12 @@ const replicantNames = [
   'currentInterview',
   'currentMainBingoboard',
   'donationTotal',
+  'discordDelayInfo',
   'explorationBingoboard',
   'hostingBingoboard',
   'hostingBingosocket',
   'obsAudioSources',
+  'obsConnection',
   'obsDashboardAudioSources',
 	'obsPreviewScene',
 	'obsCurrentScene',
@@ -56,11 +58,13 @@ export const store = new Vuex.Store({
     currentGameLayout: {} as CurrentGameLayout,
 	currentInterview: {} as CurrentInterview,
     currentMainBingoboard: {} as CurrentMainBingoboard,
+    discordDelayInfo: {} as DiscordDelayInfo,
     donationTotal: 0 as DonationTotal,
     explorationBingoboard: {} as ExplorationBingoboard,
     hostingBingoboard: {} as HostingBingoboard,
     hostingBingosocket: {} as HostingBingosocket,
     obsAudioSources: {} as ObsAudioSources,
+    obsConnection: {} as ObsConnection,
     obsDashboardAudioSources: {} as ObsDashboardAudioSources,
     obsPreviewScene: null as null | string,
     obsCurrentScene: null as null | string,

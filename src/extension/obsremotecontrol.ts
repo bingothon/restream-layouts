@@ -2,7 +2,7 @@
 
 import * as nodecgApiContext from './util/nodecg-api-context';
 import { Configschema } from '../../configschema';
-import { ObsDashboardAudioSources, ObsAudioSources } from '../../schemas';
+import { ObsDashboardAudioSources, ObsAudioSources, ObsConnection, DiscordDelayInfo, TwitchStreams } from '../../schemas';
 
 // this handles dashboard utilities, all around automating the run setup process and setting everything in OBS properly ontransitions
 // this uses the transparent bindings form the obs.ts in util
@@ -13,6 +13,28 @@ const bundleConfig = nodecg.bundleConfig as Configschema;
 
 const obsDashboardAudioSourcesRep = nodecg.Replicant<ObsDashboardAudioSources>('obsDashboardAudioSources');
 const obsAudioSourcesRep = nodecg.Replicant<ObsAudioSources>('obsAudioSources');
+const obsConnectionRep = nodecg.Replicant<ObsConnection>('obsConnection');
+const discordDelayInfoRep = nodecg.Replicant<DiscordDelayInfo>('discordDelayInfo');
+
+const voiceDelayRep = nodecg.Replicant<number>('voiceDelay', { defaultValue: 0, persistent: true });
+const streamsReplicant = nodecg.Replicant <TwitchStreams>('twitchStreams', { defaultValue: [] });
+const soundOnTwitchStream = nodecg.Replicant<number>('soundOnTwitchStream', { defaultValue: -1 });
+
+// make sure we are connected to OBS before loading any of the functions that depend on OBS
+function waitTillConnected(): Promise<void> {
+    return new Promise((resolve, _) => {
+        function conWait(val: ObsConnection) {
+            if (val.status == "connected") {
+                obsConnectionRep.removeListener("change", conWait);
+                resolve();
+            }
+        }
+        obsConnectionRep.on("change", conWait);
+    });
+}
+waitTillConnected().then(() => {
+
+logger.info('connected to OBS, setting up remote control utils...');
 
 // default if they somehow not exist
 [bundleConfig.obs.discordAudio, bundleConfig.obs.mpdAudio, bundleConfig.obs.streamsAudio].forEach(audioSource => {
@@ -105,4 +127,48 @@ nodecg.listenFor('obsRemotecontrol:fadeInAudio',(data, callback) => {
         }
     }
     setTimeout(doFadeIn, 100);
+});
+
+// update discord display and audio delays to the stream leader delay for the specified delay info
+function updateDiscordDelays(streamLeaderDelayMs: number | null, discordDelayInfo: DiscordDelayInfo) {
+    if (discordDelayInfo.discordAudioDelaySyncStreamLeader && streamLeaderDelayMs != null) {
+        if (Math.abs(obsAudioSourcesRep.value[bundleConfig.obs.discordAudio].delay - streamLeaderDelayMs) > 1000) {
+            obsAudioSourcesRep.value[bundleConfig.obs.discordAudio].delay = streamLeaderDelayMs;
+            if (discordDelayInfo.discordDisplayDelaySyncStreamLeader) {
+                voiceDelayRep.value = streamLeaderDelayMs;
+            }
+        }
+    } else {
+        obsAudioSourcesRep.value[bundleConfig.obs.discordAudio].delay = discordDelayInfo.discordAudioDelayMs;
+    }
+    // already handled
+    if (discordDelayInfo.discordDisplayDelaySyncStreamLeader && !discordDelayInfo.discordAudioDelaySyncStreamLeader && streamLeaderDelayMs != null) {
+        voiceDelayRep.value = streamLeaderDelayMs;
+    } else {
+        voiceDelayRep.value = discordDelayInfo.discordDisplayDelayMs;
+    }
+}
+
+discordDelayInfoRep.on('change', newVal => {
+    let streamLeaderDelayMs = null;
+    if (soundOnTwitchStream.value != -1) {
+        streamLeaderDelayMs = streamsReplicant.value[soundOnTwitchStream.value].delay;
+    }
+    updateDiscordDelays(streamLeaderDelayMs, newVal);
+});
+
+soundOnTwitchStream.on('change', newVal => {
+    if (newVal == -1) {
+        return;
+    }
+    updateDiscordDelays(streamsReplicant.value[newVal].delay, discordDelayInfoRep.value);
+});
+
+streamsReplicant.on('change', newVal => {
+    if (soundOnTwitchStream.value == -1) {
+        return;
+    }
+    updateDiscordDelays(newVal[soundOnTwitchStream.value].delay, discordDelayInfoRep.value);
+})
+
 });

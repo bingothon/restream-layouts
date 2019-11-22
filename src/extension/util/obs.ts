@@ -1,7 +1,7 @@
 import obsWebsocketJs from 'obs-websocket-js';
 import * as nodecgApiContext from './nodecg-api-context';
 import { Configschema } from '../../../configschema';
-import { ObsAudioSources } from '../../../schemas';
+import { ObsAudioSources, ObsConnection } from '../../../schemas';
 
 // this module is used to communicate directly with OBS
 // and transparently handle:
@@ -61,6 +61,8 @@ class OBSUtility extends obsWebsocketJs {
 	}
 }
 
+const obsConnectionRep = nodecg.Replicant<ObsConnection>('obsConnection');
+
 const obs = new OBSUtility();
 
 if (bundleConfig.obs && bundleConfig.obs.enable) {
@@ -76,10 +78,12 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
 		password: bundleConfig.obs.password,
 	};
 	logger.info('Setting up OBS connection.');
+	obsConnectionRep.value.status = "disconnected";
 
 	function connect() {
 		obs.connect(settings).then(() => {
 			logger.info('OBS connection successful.');
+			obsConnectionRep.value.status = "connected";
 
 			// we need studio mode
 			obs.send("EnableStudioMode").catch(e => {
@@ -120,6 +124,7 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
 	connect();
 	obs.on('ConnectionClosed', () => {
 		logger.warn('OBS connection lost, retrying in 5 seconds.');
+		obsConnectionRep.value.status = "error";
 		setTimeout(connect, 5000);
 	});
 
@@ -127,6 +132,7 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
 	obs.on('error', (err) => {
 		logger.warn('OBS connection error.');
 		logger.debug('OBS connection error:', err);
+		obsConnectionRep.value.status = "error";
 	});
 
 	/* Don't actually care if something changes on OBS, since everything should be handled over this
@@ -189,7 +195,7 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
 				});
 			}
 			if (!oldSound || oldSound.delay != sound.delay) {
-				obs.send("SetSyncOffset", {source, offset: sound.delay * 1000}).catch(e => {
+				obs.send("SetSyncOffset", {source, offset: sound.delay * 1000000}).catch(e => {
 					logger.warn(`Error setting audio delay for [${source}] to ${sound.delay}ms: ${e.error}`);
 				});
 			}
@@ -222,6 +228,7 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
 	});
 } else {
 	logger.warn('OBS is disabled');
+	obsConnectionRep.value.status = "disabled";
 }
 
 
