@@ -2,14 +2,8 @@
   <div>
     <div class="Interview"></div>
     <img src="../../../static/logo-winter-wide.png" id="logo">
-    <div id="twitch-music-collab-screen" class="flexContainer"></div>
-    <div id="info" class="flexContainer">
-      <div id="infotext">
-        <div id="name"> JeannetteMusic & AlexGooVern </div>
-        <div id="occupation"> Musicians on Twitch doing a collab for Bingothon. Follow them!</div>
-      </div>
-    </div>
-    <test-game-container id="game"></test-game-container>
+	  <player-info id="pi1" playerIndex="0" height=45px></player-info>
+	  <player-info id="pi2" playerIndex="1" height=45px></player-info>
     <twitch-player id="stream1" streamIndex="0"></twitch-player>
 	</div>
 </template>
@@ -69,16 +63,8 @@
 		height: 1080px;
 		background: linear-gradient(var(--darker-main-color), var(--lighter-main-color));
 	}
-  #twitch-music-collab-screen {
-    position: absolute;
-    top: 175px;
-    left: 360px;
-    width: 1200px;
-    height: 675px;
-	background-color: var(--container-background-color);
-  }
 
-  
+
 
   #logo{
 	  position: absolute;
@@ -87,15 +73,23 @@
 	  width: 666px;
 	  height: 200px;
   }
-  #info {
-    position: absolute;
-	  top: 850px;
-    left: 360px;
-    width: 1200px;
-    height: 100px;
-	  background-image: linear-gradient(#373d6f, #2a2a54);
-	  color: var(--font-color);
-  }
+  #pi1 {
+	   position: absolute;
+	   top: 850px;
+	   left: 360px;
+	   width: 500px;
+	   background-image: linear-gradient(#373d6f, #2a2a54);
+	   color: var(--font-color);
+   }
+
+	#pi2 {
+		position: absolute;
+		top: 850px;
+		left: 1048px;
+		width: 500px;
+		background-image: linear-gradient(#373d6f, #2a2a54);
+		color: var(--font-color);
+	}
   #name {
 	  top: 850px;
 	  font-size: 60px;
