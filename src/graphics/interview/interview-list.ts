@@ -5,10 +5,14 @@ import Interview_3p from "./3p-interview.vue";
 import Interview_4p from "./4p-interview.vue";
 import Interview_4p_CoOp from "./4p-CoOp-interview.vue";
 import Interview_PureEarth from "./PE-Interview.vue";
+import Interview_HostBingoMusicCollab from "./host-bingo-music-collab.vue";
+
 
 export { Interview_1p,
 		Interview_2p,
 		Interview_3p,
 		Interview_4p,
 		Interview_4p_CoOp,
-		Interview_PureEarth};
+		Interview_PureEarth,
+		Interview_HostBingoMusicCollab
+	};
