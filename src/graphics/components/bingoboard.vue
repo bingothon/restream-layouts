@@ -98,6 +98,8 @@ export default class BingoBoard extends Vue {
     skewAngle = 1;
     @Prop({default: null})
     bingoboardRep: string | null;
+    @Prop({default: false})
+    alwaysShown: boolean;
     // function to call when to drop the watch for the bingoboard, used to change boards
     bingoboardWatch: () => void;
 
@@ -138,7 +140,7 @@ export default class BingoBoard extends Vue {
     }
 
     get boardHidden(): boolean {
-        return store.state.bingoboardMeta.boardHidden;
+        return store.state.bingoboardMeta.boardHidden && !this.alwaysShown;
     }
 
     // watch for bingo changes

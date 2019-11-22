@@ -5,12 +5,9 @@
 <template>
   <div
     class="FlexContainer PlayerInfoBox"
-    :class="[reverseOrder?'ReverseOrder':'', showSound?'ShowSound':'', soundIconPosition, extraContentSide]"
+    :class="{'ReverseOrder':reverseOrder}"
     :style="{'height':height}"
   >
-    <div class="SoundIndicator">
-      <img :src="'/bundles/bingothon-layouts/static/music-note.png'">
-    </div>
     <div class="CurrentIcon FlexContainer"
       :style="{ 'width' : `calc(${height} * 1.5)` }"
     >
@@ -41,6 +38,11 @@
           :src="getPlayerFlag(player.country)"
         >
       </transition>
+    </div>
+    <div v-if="showSound"
+      class="Sound"
+    >
+      <img :src="'/bundles/bingothon-layouts/static/music-note.png'">
     </div>
     <div
       v-if="bingoColorShown === true"
@@ -83,8 +85,8 @@ export default class PlayerInfo extends Vue {
   @Prop({default: false})
   reverseOrder: boolean;
 
-  @Prop({default: ""})
-  soundIconPosition: string;
+  @Prop({default: false})
+  hideSoundIcon: boolean;
 
   get player(): RunDataPlayer {
     let idx = 0;
@@ -154,11 +156,7 @@ export default class PlayerInfo extends Vue {
   }
 
   get showSound(): boolean {
-    return store.state.soundOnTwitchStream == this.playerIndex;
-  }
-
-  get extraContentSide(): string {
-    return this.soundIconPosition+'Side';
+    return this.playerIndex == store.state.soundOnTwitchStream && !this.hideSoundIcon;
   }
 
   getPlayerFlag(rawFlag: string | undefined): string {
@@ -210,6 +208,7 @@ export default class PlayerInfo extends Vue {
     height: 100%;
     justify-content: flex-end;
     position: relative;
+    margin-right: 15px;
   }
 
   .PlayerInfoBox.ReverseOrder > .Flag {
@@ -225,37 +224,14 @@ export default class PlayerInfo extends Vue {
 
   .PlayerInfoBox > .BingoColor {
     justify-content: center;
-    margin-left: 29px;
+    margin-left: 14px;
     font-size: 40px;
     border-radius: 10%;
     border: 1px white solid;
   }
 
-  .PlayerInfoBox > .SoundIndicator {
-    opacity: 0;
-    position: absolute;
-    transition: 1s opacity;
-  }
-
-  .PlayerInfoBox.ShowSound.topSide > .SoundIndicator {
-    opacity: 1;
-    left: 20px;
-    bottom: 100%;
-    background: var(--lighter-main-color);
-    border-radius: 5px 5px 0 0;
-  }
-
-  .PlayerInfoBox.ShowSound.bottomSide > .SoundIndicator {
-    opacity: 1;
-    left: 20px;
-    top: 100%;
-    background: var(--darker-main-color);
-    border-radius: 0 0 5px 5px;
-  }
-
-  .PlayerInfoBox > .SoundIndicator > img {
-    width: 20px;
-    padding: 5px;
+  .PlayerInfoBox > .Sound > img {
+    width: 30px;
   }
 
   /* Bingosync styled gradients */

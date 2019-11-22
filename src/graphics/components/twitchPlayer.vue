@@ -41,7 +41,7 @@ export default class TestGameContainer extends Vue {
         this.onCurrentStreamChange(this.currentStream, null);
         store.watch(state => state.soundOnTwitchStream, (newVal: number) => {
             if (this.player) {
-                this.player.setMuted(this.streamIndex == newVal);
+                this.player.setMuted(this.streamIndex != newVal);
             }
         });
         nodecg.listenFor('streams:refreshStream','bingothon-layouts', this.onRefreshStream);

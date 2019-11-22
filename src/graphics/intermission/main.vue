@@ -19,7 +19,7 @@
     </info-storage-box>
 	  <div class="HostingBingo">
 		  Hosting Bingo
-		  <bingo-board class="BingoBoard" bingoboardRep="hostingBingoboard" fontSize="20px"></bingo-board>
+		  <bingo-board class="BingoBoard" bingoboardRep="hostingBingoboard" :alwaysShown="true" fontSize="20px"></bingo-board>
 	  </div>
   </div>
 </template>

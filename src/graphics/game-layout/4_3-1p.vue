@@ -3,7 +3,7 @@
 		<twitch-player id="stream1" streamIndex="0"></twitch-player>
     <div id="fillbar" class="flexContainer"></div>
     <div id="fillvoice" class="flexContainer"></div>
-    <player-info id="pi1" playerIndex="0" height=45px></player-info>
+    <player-info id="pi1" playerIndex="0" height=45px hideSoundIcon="true"></player-info>
 		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
