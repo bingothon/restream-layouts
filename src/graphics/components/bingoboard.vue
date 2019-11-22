@@ -132,7 +132,6 @@ export default class BingoBoard extends Vue {
     showBingoSplash(data: {color?: string}) {
         // if the animation is currently running do nothing
         if (this.splashActivated != "") return;
-        nodecg.log.info('BINGo',data);
         this.bingoAnimColor = colorToGradient[data.color] || "black";
         this.splashActivated = "activated";
         setTimeout(()=>this.splashActivated="",4000);

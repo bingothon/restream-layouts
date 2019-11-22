@@ -7,10 +7,10 @@
 		<twitch-player id="stream4" streamIndex="3"></twitch-player>
     <div id="fillbar" class="flexContainer"></div>
     <div id="fillvoice" class="flexContainer"></div>
-    <player-info id="pi1" playerIndex="0" height=45px></player-info>
-    <player-info id="pi2" playerIndex="1" height=45px></player-info>
-    <player-info id="pi3" playerIndex="2" height=45px></player-info>
-    <player-info id="pi4" playerIndex="3" height=45px></player-info>
+    <player-info id="pi1" playerIndex="0" height=45px soundIconPosition="bottom"></player-info>
+    <player-info id="pi2" playerIndex="1" height=45px soundIconPosition="bottom"></player-info>
+    <player-info id="pi3" playerIndex="2" height=45px soundIconPosition="top"></player-info>
+    <player-info id="pi4" playerIndex="3" height=45px soundIconPosition="top"></player-info>
 		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
