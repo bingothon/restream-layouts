@@ -44,12 +44,7 @@ export default class TestGameContainer extends Vue {
                 this.player.setMuted(this.streamIndex == newVal);
             }
         });
-        nodecg.listenFor('streams:refreshStream','bingothon-layouts', id => {
-            if (id == this.streamIndex && this.player) {
-                // leave old stream purposely null so it's destroyed and recreated
-                this.onCurrentStreamChange(this.currentStream, null);
-            }
-        });
+        nodecg.listenFor('streams:refreshStream','bingothon-layouts', this.onRefreshStream);
         if (this.updateDelay) {
             // update delay in the replicant every 10 secs
             this.delayUpdateInterval = setInterval(() => {
@@ -75,6 +70,14 @@ export default class TestGameContainer extends Vue {
     destroyed() {
         if (this.delayUpdateInterval) {
             clearInterval(this.delayUpdateInterval);
+        }
+        nodecg.unlisten('streams:refreshStream','bingothon-layouts', this.onRefreshStream);
+    }
+
+    onRefreshStream(id: number) {
+        if (id == this.streamIndex && this.player) {
+            // leave old stream purposely null so it's destroyed and recreated
+            this.onCurrentStreamChange(this.currentStream, null);
         }
     }
 

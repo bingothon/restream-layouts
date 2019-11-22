@@ -10,8 +10,6 @@
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
     <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="125px"></discord-voice-display>
-    <twitch-player id="player0" streamIndex="0"></twitch-player>
-    <twitch-player id="player1" streamIndex="1"></twitch-player>
 	</div>
 </template>
 

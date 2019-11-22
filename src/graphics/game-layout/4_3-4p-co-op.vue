@@ -14,10 +14,6 @@
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
     <player-team-container id="ptc2" teamIndex="1" height="40px"></player-team-container>
     <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="125px"></discord-voice-display>
-    <twitch-player id="player0" streamIndex="0"></twitch-player>
-    <twitch-player id="player1" streamIndex="1"></twitch-player>
-    <twitch-player id="player2" streamIndex="2"></twitch-player>
-    <twitch-player id="player3" streamIndex="3"></twitch-player>
 	</div>
 </template>
 

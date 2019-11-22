@@ -10,8 +10,6 @@
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
     <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="125px"></discord-voice-display>
-    <twitch-player id="player0" streamIndex="0"></twitch-player>
-    <twitch-player id="player1" streamIndex="1"></twitch-player>
 	</div>
 </template>
 
@@ -126,19 +124,5 @@
     width: 390px;
     border: 2px var(--container-border-color) solid;
     height: 220px;
-  }
-  #player0 {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 960px;
-    height: 720px;
-  }
-  #player1 {
-    position: absolute;
-    top: 0px;
-    left: 961px;
-    width: 960px;
-    height: 720px;
   }
 </style>
