@@ -14,6 +14,7 @@
                     class="bid"
                     v-for="(bid,i) in bids"
                     :key="i"
+					v-if="bid.state === 'OPENED'"
                 >
                 {{bid.game}} - {{bid.bid}}
                     <div
@@ -49,23 +50,26 @@
 						Running right now:
 						<div>
 							{{currentRun.game}} - {{currentRun.category}}
-							<div v-if="team.players.length>1" class="teamname"
-								 v-for="(team, l) in currentRun.teams"
-								 :key="l"
-							>
-								Team: {{team.name}}
-								<div class="runnername"
-									 v-for="(runner, m) in team.players"
-									 :key="l + ' ' + m"
-									 >
-									{{runner.name}}
-								</div>
+							<div class="runners">
+								{{runnersToString(currentRun)}}
 							</div>
-							<div v-else
-								 v-for="(team, n) in currentRun.teams"
-								 :key="n"
-								 >
-								{{team.players[0].name}} {{n}}
+						</div>
+					</div>
+					<div id="comingUpInfo" class="run" v-if="comingUpRun">
+						Coming Up:
+						<div>
+							{{comingUpRun.game}} - {{comingUpRun.category}}
+							<div class="runners">
+								{{runnersToString(comingUpRun)}}
+							</div>
+						</div>
+					</div>
+					<div id="afterThatInfo" class="run" v-if="afterThatRun">
+						And next:
+						<div>
+							{{afterThatRun.game}} - {{afterThatRun.category}}
+							<div class="runners">
+								{{runnersToString(afterThatRun)}}
 							</div>
 						</div>
 					</div>
@@ -107,6 +111,7 @@
     import {TrackerPrize} from "../../../types";
     import moment from 'moment';
     import fs = require('fs');
+    import {RunData} from "../../../speedcontrol-types";
 
     @Component({})
 
@@ -129,6 +134,41 @@
             return store.state.runDataActiveRun;
 	   }
 
+	   get comingUpRun() : RunData {
+            return this.getNextRuns(this.currentRun, 1);
+	   }
+
+	   get afterThatRun() : RunData {
+            return this.getNextRuns(this.currentRun, 2);
+	   }
+
+
+	   runnersToString (run : RunData) : string {
+            let res = '';
+            let j = 0;
+            run.teams.forEach(team => {
+                if (team.name) {
+                    res = res + team.name + ': ';
+				}
+                let i = 0;
+                team.players.forEach(player => {
+                    res += player.name;
+                    if (i === (team.players.length - 1)) {//if current player is last player of team
+                        if (j === (run.teams.length - 1)) {//and last team of the run
+                            //do nothing
+                        } else {
+                            res += ' vs. ';//if not last team then addd vs.
+                        }
+                    } else {
+                        res += ' & '; //if not last player of team add &
+                    }
+                	i++;
+				})
+            	j++;
+			})
+            return res;
+	}
+
         // Formats dollar amounts to the correct string.
 		formatDollarAmount(amount :number, forceRemoveCents : boolean) : string {
               // We drop the cents and add a comma over $1000.
@@ -138,7 +178,7 @@
                 return '$' + Math.floor(amount).toLocaleString('en-US', { minimumFractionDigits: 0 });
         }
 
-        get peFacts() : String[]{
+        get peFacts() : String[] {
             const text = fs.readFileSync('src/graphics/host-dashboard/pefacts.txt', 'utf-8');
             return text.split('\n');
 		}
@@ -146,6 +186,30 @@
 		updateFactIndex() {
             this.factIndex = (this.factIndex + 1) % (this.peFacts.length - 1);
 		}
+
+        // Get the next Xth run in the schedule.
+        getNextRuns(runData : RunData, X : number) : RunData {
+            let runDataArray = store.state.runDataArray;
+            let indexOfCurrentRun = this.findIndexInRunDataArray(runData);
+            let nextRuns = runDataArray[indexOfCurrentRun + X];
+            return nextRuns;
+        }
+
+        // Find array index of current run based on it's ID.
+        findIndexInRunDataArray(run : RunData) : number {
+            let indexOfRun = -1;
+            let runDataArray = store.state.runDataArray;
+
+            // Completely skips this if the run variable isn't defined.
+            if (run) {
+                for (let i = 0; i < runDataArray.length; i++) {
+                    if (run.id === runDataArray[i].id) {
+                        indexOfRun = i; break;
+                    }
+                }
+            }
+            return indexOfRun;
+        }
 
     /*//var runFinishTimes = store.state.runDataActiveRun.
     //var runFinishTimesInit = false;
@@ -256,23 +320,6 @@
         var amount = 0;
         runData.teams.forEach(team => team.players.forEach(player => amount++));
         return amount;
-    }
-
-    // Find array index of current run based on it's ID.
-    function findIndexInRunDataArray(run) {
-        var indexOfRun = -1;
-        var runDataArray = store.state.runDataArray;
-
-        // Completely skips this if the run variable isn't defined.
-        if (run) {
-            for (var i = 0; i < runDataArray.length; i++) {
-                if (run.id === runDataArray[i].id) {
-                    indexOfRun = i; break;
-                }
-            }
-        }
-
-        return indexOfRun;
     }
 
     // Get a random integer, usually for selecting array elements.
@@ -393,6 +440,7 @@
 	button {
 		font-size: 15px;
 		text-align: center;
+		align-content: center;
 	}
 
 	.prize, .bid, .run {
