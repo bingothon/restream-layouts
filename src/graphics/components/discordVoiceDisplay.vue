@@ -57,8 +57,9 @@ export default class DiscordVoiceDisplay extends Vue {
 
 <style>
     .DiscordVoiceDisplay {
-        justify-content: flex-start;
-        align-content: start;
+        justify-content: center;
+		align-content: center;
+		text-align: center;
         flex-wrap: wrap;
     }
 
