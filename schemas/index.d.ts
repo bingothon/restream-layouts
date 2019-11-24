@@ -14,6 +14,7 @@ export * from './hostingBingosocket';
 export * from './obsAudioSources';
 export * from './obsConnection';
 export * from './obsDashboardAudioSources';
+export * from './obsStreamMode';
 export * from './oriBingoMeta';
 export * from './oriBingoboard';
 export * from './songData';

@@ -2,7 +2,7 @@
 
 import * as nodecgApiContext from './util/nodecg-api-context';
 import { Configschema } from '../../configschema';
-import { ObsDashboardAudioSources, ObsAudioSources, ObsConnection, DiscordDelayInfo, TwitchStreams } from '../../schemas';
+import { ObsDashboardAudioSources, ObsAudioSources, ObsConnection, DiscordDelayInfo, TwitchStreams, ObsStreamMode } from '../../schemas';
 
 // this handles dashboard utilities, all around automating the run setup process and setting everything in OBS properly ontransitions
 // this uses the transparent bindings form the obs.ts in util
@@ -11,9 +11,12 @@ const nodecg  = nodecgApiContext.get();
 const logger = new nodecg.Logger(`${nodecg.bundleName}:remotecontrol`);
 const bundleConfig = nodecg.bundleConfig as Configschema;
 
+
+const obsPreviewSceneRep = nodecg.Replicant<string | null>('obsPreviewScene');
 const obsDashboardAudioSourcesRep = nodecg.Replicant<ObsDashboardAudioSources>('obsDashboardAudioSources');
 const obsAudioSourcesRep = nodecg.Replicant<ObsAudioSources>('obsAudioSources');
 const obsConnectionRep = nodecg.Replicant<ObsConnection>('obsConnection');
+const obsStreamModeRep = nodecg.Replicant<ObsStreamMode>('obsStreamMode');
 const discordDelayInfoRep = nodecg.Replicant<DiscordDelayInfo>('discordDelayInfo');
 
 const voiceDelayRep = nodecg.Replicant<number>('voiceDelay', { defaultValue: 0, persistent: true });
@@ -78,6 +81,13 @@ nodecg.listenFor('obsRemotecontrol:fadeOutAudio',(data, callback) => {
         }
         return;
     }
+    // make sure the source exists
+    if (!Object.keys(obsDashboardAudioSourcesRep.value).includes(source)) {
+        if (callback && !callback.handled) {
+            callback(`Source ${source} doesn't exist!`);
+            return;
+        }
+    }
     // safety check to not have multiple fades
     if (["fadein", "fadeout"].includes(obsDashboardAudioSourcesRep.value[source].fading)) {
         if (callback && !callback.handled) {
@@ -112,6 +122,20 @@ nodecg.listenFor('obsRemotecontrol:fadeInAudio',(data, callback) => {
             callback("No source given!");
             return;
         }
+    }
+    // make sure the source exists
+    if (!Object.keys(obsDashboardAudioSourcesRep.value).includes(source)) {
+        if (callback && !callback.handled) {
+            callback(`Source ${source} doesn't exist!`);
+            return;
+        }
+    }
+    // safety check to not have multiple fades
+    if (["fadein", "fadeout"].includes(obsDashboardAudioSourcesRep.value[source].fading)) {
+        if (callback && !callback.handled) {
+            callback("already fading!");
+        }
+        return;
     }
     obsDashboardAudioSourcesRep.value[source].fading = "fadein";
     obsAudioSourcesRep.value[source].muted = false;
@@ -169,6 +193,64 @@ streamsReplicant.on('change', newVal => {
         return;
     }
     updateDiscordDelays(newVal[soundOnTwitchStream.value].delay, discordDelayInfoRep.value);
-})
+});
+
+function handleScreenStreamModeChange(streamMode: ObsStreamMode, nextSceneName: string) {
+    // depending on the next scene and which mode is used set some stuff automagically
+    if (streamMode == "external-commentary" || streamMode == "runner-commentary") {
+        // if commentary is external no delay is necessary
+        if (streamMode == "external-commentary") {
+            discordDelayInfoRep.value.discordAudioDelaySyncStreamLeader = false;
+            discordDelayInfoRep.value.discordDisplayDelaySyncStreamLeader = false;
+        }
+        // if going to a game screen, unmute the game, otherwise mute
+        // probably not needed anymore?
+        if (nextSceneName == "game") {
+            nodecg.sendMessage('fadeInAudio', {source: bundleConfig.obs.streamsAudio}, err => {
+                logger.warn(`Problem fading in streams during transition: ${err.error}`);
+            });
+        } else {
+            nodecg.sendMessage('fadeOutAudio', {source: bundleConfig.obs.streamsAudio}, err => {
+                logger.warn(`Problem fading out streams during transition: ${err.error}`);
+            });
+        }
+        // if the next scene isn't intermission unmute discord
+        if (nextSceneName == 'intermission') {
+            nodecg.sendMessage('fadeOutAudio', {source: bundleConfig.obs.discordAudio}, err => {
+                logger.warn(`Problem fading out discord during transition: ${err.error}`);
+            });
+        } else {
+            nodecg.sendMessage('fadeInAudio', {source: bundleConfig.obs.discordAudio}, err => {
+                logger.warn(`Problem fading in discord during transition: ${err.error}`);
+            });
+        }
+    } else if(streamMode == "racer-audio-only") {
+        // use player audio
+        /*if (nextSceneName.includes('x')) {
+            soundOnTwitchStream.value = 0;
+        } else {
+            soundOnTwitchStream.value = -1;
+        }*/
+        // discord muted exept for interview
+        if (nextSceneName == 'interview') {
+            nodecg.sendMessage('fadeOutAudio', {source: bundleConfig.obs.streamsAudio}, err => {
+                logger.warn(`Problem fading out streams during transition: ${err.error}`);
+            });
+        } else {
+            nodecg.sendMessage('fadeInAudio', {source: bundleConfig.obs.streamsAudio}, err => {
+                logger.warn(`Problem fading in streams during transition: ${err.error}`);
+            });
+        }
+    } else {
+        nodecg.log.error('Unknown stream configuration: '+streamMode);
+    }
+}
+
+obsStreamModeRep.on('change', (newVal, old)=>{
+    // no value is most likely server restart
+    if (!old) return;
+    // change in current scene
+    handleScreenStreamModeChange(newVal, obsPreviewSceneRep.value || "");
+});
 
 });
