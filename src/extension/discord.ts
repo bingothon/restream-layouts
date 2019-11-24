@@ -5,7 +5,7 @@ import * as Discord from 'discord.js';
 import * as nodecgApiContext from './util/nodecg-api-context';
 import { VoiceActivity } from '../../schemas';
 import { Configschema } from '../../configschema';
-import { Logger } from 'nodecg/types/server';
+import { Readable } from 'stream';
 
 const nodecg = nodecgApiContext.get();
 
@@ -40,6 +40,10 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
 
   // Connection
   bot.on('ready', () => {
+    if (!bot.user) {
+      log.error('bot user not set!!');
+      return;
+    }
     log.info('Logged in as %s - %s\n', bot.user.username, bot.user.id);
 
     botIsReady = true;
@@ -74,7 +78,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
   function UpdateCommentaryChannelMembers() {
     if (!voiceActivity || !voiceActivity.value) return;
 
-    const memberArray = Array.from(getVoiceChannelSafe(botServerID, botVoiceCommentaryChannelID).members.values());
+    const memberArray = getVoiceChannelSafe(botServerID, botVoiceCommentaryChannelID).members.array();
 
     if (!memberArray || memberArray.length < 1) {
       voiceActivity.value.members = [];
@@ -93,14 +97,14 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
       if (config.discord.ignoredUsers && config.discord.ignoredUsers.includes(voiceMember.user.tag)) {
         return;
       }
-      if (!voiceMember.selfMute) {
-        let userAvatar = voiceMember.user.avatarURL;
+      if (!voiceMember.voice.selfMute) {
+        let userAvatar = voiceMember.user.avatarURL();
 
         if (!userAvatar || userAvatar == null) {
           userAvatar = 'https://discordapp.com/assets/dd4dbc0016779df1378e7812eabaa04d.png';
         } // Default avatar
 
-        let speakStatus = voiceMember.speaking;
+        let speakStatus = voiceMember.voice.speaking;
 
         if (!speakStatus || speakStatus === null) {
           speakStatus = false;
@@ -128,17 +132,22 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
 
       voiceChannelConnection = getVoiceChannelSafe(botServerID, botVoiceCommentaryChannelID).join().then((connection) => {
         voiceChannelConnection = connection;
+        class Silence extends Readable {
+          _read(){
+              this.push(Buffer.from([0xF8, 0xFF, 0xFE]))
+          }
+       }
+       connection.play(new Silence());
 
         UpdateCommentaryChannelMembers();
         nodecg.log.info(`joined voice channel!`);
-
-        connection.on('speaking', (user: Discord.User, speaking: boolean) => {
+        connection.on('speaking', (user, speaking) => {
           nodecg.log.info(`updating user ${user.tag} to speaking`);
           if (!voiceActivity.value.members || voiceActivity.value.members.length < 1) { return; }
           setTimeout(() => {
             voiceActivity.value.members.find((voiceMember) => {
               if (voiceMember.id == user.id) {
-                voiceMember.isSpeaking = speaking; // Delay this by streamleader delay/current obs timeshift delay if its activated with setTimeout
+                voiceMember.isSpeaking = speaking.has(Discord.Speaking.FLAGS.SPEAKING); // Delay this by streamleader delay/current obs timeshift delay if its activated with setTimeout
                 return true;
               }
 
@@ -160,7 +169,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
   }
 
   // Message Handling
-  bot.on('message', (message) => {
+  bot.on('message', (message: Discord.Message) => {
     if (message.channel.id == botCommandChannelID) {
       commandChannel(message);
       return;
