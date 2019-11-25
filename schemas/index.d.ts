@@ -23,3 +23,4 @@ export * from './discordDelayInfo';
 export * from './obsAudioSources';
 export * from './obsConnection';
 export * from './obsDashboardAudioSources';
+export * from './hostsSpeakingDuringIntermission';
