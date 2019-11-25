@@ -18,7 +18,8 @@ const routes = [
   {name: "3p 16:9 Layout", path: "/3p-16_9-layout", component: Layouts.Layout_16x9_3p},
   {name: "2p 16:9 Layout", path: "/2p-16_9-layout", component: Layouts.Layout_16x9_2p},
   {name: "1p 16:9 Layout", path: "/1p-16_9-layout", component: Layouts.Layout_16x9_1p},
-  {name: "Twitch Music Collab", path: "/twitch-music-collab", component: Layouts.Layout_Twitch_Music_Collab},
+  {name: "Host Bingo Layout", path: "/host-bingo", component: Layouts.Layout_Host_Bingo},
+  {name: "Just Dance Layout", path: "/just-dance", component: Layouts.Layout_Just_Dance},
   {path: "*", redirect: "/4p-4_3-layout"},
 ];
 
