@@ -11,8 +11,8 @@
       "provider": {"type": "string"},
       "image": {"type": "string"},
       "minDonation": {"type": ["number","null"]},
-      "endtime": {"type": ["number","null"]},
-      "starttime": {"type": ["number","null"]}
+      "endtime": {"type": ["string","null"]},
+      "starttime": {"type": ["string","null"]}
     }
   }
 }

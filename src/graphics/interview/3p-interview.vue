@@ -66,19 +66,19 @@
   #pi1 {
     position: absolute;
     top: 450px;
-    left: 0px;
+    left: 90px;
     width: 500px;
   }
   #pi2 {
     position: absolute;
     top: 500px;
-    left: 1420px;
+    left: 1330px;
     width: 500px;
   }
   #pi3 {
     position: absolute;
     top: 550px;
-    left: 0px;
+    left: 90px;
     width: 500px;
   }
   #Bingo-board {
@@ -89,7 +89,6 @@
     height: 500px;
   }
   #game {
-    background-color: var(--container-background-color);
     position: absolute;
     top: 150px;
     left: 460px;
@@ -100,7 +99,6 @@
     position: absolute;
     top: 250px;
     left: 710px;
-    background-color: var(--container-background-color);
     width: 500px;
     height: 150px;
   }

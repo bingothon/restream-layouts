@@ -5,11 +5,6 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type TrackerPrizes = {
-  name: string;
-  provider: string;
-  image?: string;
-  minDonation?: number | null;
-  endtime?: string | null;
-  starttime?: string | null;
-}[];
+export interface HostsSpeakingDuringIntermission {
+  speaking: boolean;
+}
