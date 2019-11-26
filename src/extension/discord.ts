@@ -23,6 +23,7 @@ const voiceDelayRep = nodecg.Replicant<number>('voiceDelay', { defaultValue: 0, 
 
 // Discord API
 const bot = new Discord.Client();
+bot.on('debug', info => log.info('',info));
 
 // config
 const config = nodecg.bundleConfig as Configschema;
@@ -137,7 +138,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
               this.push(Buffer.from([0xF8, 0xFF, 0xFE]))
           }
        }
-       connection.play(new Silence());
+       connection.play(new Silence(), {type: 'opus'});
 
         UpdateCommentaryChannelMembers();
         nodecg.log.info(`joined voice channel!`);
