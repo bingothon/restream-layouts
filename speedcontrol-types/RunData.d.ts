@@ -16,7 +16,7 @@ export interface RunData {
   teams: RunDataTeam[];
   customData: {
 	  [key: string]: string;
-	  Layout: "16_9" | "15_9" | "4_3" | "10_9" | "3_2";
+	  Layout: "16:9" | "15:9" | "4:3" | "10:9" | "3:2" | "4:3 co-op";
   };
   id: string;
   hash?: string;

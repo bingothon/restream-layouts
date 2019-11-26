@@ -13,19 +13,22 @@ const streamsReplicant = nodecg.Replicant <TwitchStreams>('twitchStreams', { def
 const soundOnTwitchStream = nodecg.Replicant<number>('soundOnTwitchStream', { defaultValue: -1 });
 
 const aspectRatioToCropping = {
-  '16_9': {
+  '16:9': {
     widthPercent: 100, heightPercent: 100, topPercent: 0, leftPercent: 0,
   },
-  '15_9': {
+  '15:9': {
     widthPercent: 106.667, heightPercent: 100, topPercent: 0, leftPercent: 0,
   },
-  '4_3': {
+  '4:3': {
     widthPercent: 133.333, heightPercent: 100, topPercent: 0, leftPercent: 0,
   },
-  '3_2': {
+  '4:3 co-op': {
+    widthPercent: 133.333, heightPercent: 100, topPercent: 0, leftPercent: 0,
+  },
+  '3:2': {
     widthPercent: 118.5255, heightPercent: 100, topPercent: 0, leftPercent: 0,
   },
-  '10_9': {
+  '10:9': {
     widthPercent: 160, heightPercent: 100, topPercent: 0, leftPercent: 0,
   },
 };
