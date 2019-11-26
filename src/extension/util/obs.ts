@@ -212,8 +212,8 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
 	});
 	
 	nodecg.listenFor('obs:transition', (_data, callback) => {
-		logger.info('transitioning...')
-		//
+		logger.info('transitioning...');
+		nodecg.sendMessage('obs:startingTransition', {scene: obsPreviewSceneRep.value});
 		obs.send("TransitionToProgram", {}).then(() => {
 			if (callback && !callback.handled) {
 				logger.info('transitioned!')

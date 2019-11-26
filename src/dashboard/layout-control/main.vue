@@ -32,6 +32,7 @@ export default class LayoutControl extends Vue {
     mounted() {
       store.watch(state => state.currentGameLayout, (newValue) => {
         this.selectedLayoutName = newValue.name;
+        nodecg.log.info('updating to '+newValue.name);
       }, {immediate: true});
     }
     

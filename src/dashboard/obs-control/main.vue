@@ -1,5 +1,6 @@
 <template>
   <div>
+    <span v-if="hostsSpeakingDuringIntermission">Hosts are currently speaking!</span>
     <div v-if="obsConnectionStatus == 'disconnected'">
       Currently disconnected :(
     </div>
@@ -17,6 +18,14 @@
           :key="i"
           :value="scene"
         >{{scene}}</option>
+      </select>
+      Audio Preset:
+      <select v-model="obsStreamMode">
+        <option
+          v-for="(mode, i) in obsStreamModes"
+          :key="i"
+          :value="mode"
+        >{{mode}}</option>
       </select>
       <div
         v-for="(audio, i) in obsAudioSources"
@@ -52,13 +61,19 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { nodecg, NodeCG } from '../../browser-util/nodecg';
-import { Bingoboard, BingosyncSocket, BingoboardMeta, CurrentMainBingoboard, ObsAudioSources, ObsDashboardAudioSources, DiscordDelayInfo } from '../../../schemas';
+import { Bingoboard, BingosyncSocket, BingoboardMeta, CurrentMainBingoboard, ObsAudioSources, ObsDashboardAudioSources, DiscordDelayInfo, ObsStreamMode } from '../../../schemas';
 import { store, getReplicant } from '../../browser-util/state';
 
 const bundleName = "bingothon-layouts";
 
 @Component({})
 export default class OBSControl extends Vue {
+    get obsStreamModes(): ObsStreamMode[] {
+      return ["external-commentary", "runner-commentary", "racer-audio-only"];
+    }
+    get hostsSpeakingDuringIntermission(): boolean {
+      return store.state.hostsSpeakingDuringIntermission.speaking;
+    }
     get obsConnectionStatus(): string {
       return store.state.obsConnection.status;
     }
@@ -103,6 +118,12 @@ export default class OBSControl extends Vue {
     }
     set discordDisplayDelaySync(sync: boolean) {
       getReplicant<DiscordDelayInfo>('discordDelayInfo').value.discordDisplayDelaySyncStreamLeader = sync;
+    }
+    get obsStreamMode(): ObsStreamMode {
+      return store.state.obsStreamMode;
+    }
+    set obsStreamMode(mode: ObsStreamMode) {
+      getReplicant<ObsStreamMode>('obsStreamMode').value = mode;
     }
     doTransition() {
       nodecg.sendMessageToBundle('obs:transition', bundleName);
