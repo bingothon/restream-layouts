@@ -168,5 +168,6 @@ export default class Intermission extends Vue{
   .HostingBingo > .BingoBoard {
 		height: 650px;
 		width: 650px;
+    position: relative;
   }
 </style>
