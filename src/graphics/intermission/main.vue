@@ -92,7 +92,7 @@ export default class Intermission extends Vue{
     }
 };
 </script>
-
+ 
 <style>
   #Intermission {
     height: 900px;
@@ -185,8 +185,13 @@ export default class Intermission extends Vue{
 	}
 
   .HostingBingo > .BingoBoard {
+<<<<<<< HEAD
 		height: 670px;
 		width: 670px;
+=======
+		height: 650px;
+		width: 650px;
+>>>>>>> 0506da5e3cfbf4994d5095c6d034f0dea3fa5114
     position: relative;
   }
 </style>
