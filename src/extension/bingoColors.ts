@@ -1,6 +1,6 @@
 // not sure if a seperate file for this is needed, maybe refactor
 import * as nodecgApiContext from './util/nodecg-api-context';
-import { BingoboardMeta } from '../../schemas';
+import { BingoboardMeta, AllGameLayouts, AllInterviews, CurrentInterview, CurrentGameLayout } from '../../schemas';
 import { BoardColor } from '../../types';
 import { RunDataActiveRun } from "../../speedcontrol-types";
 
@@ -12,6 +12,9 @@ const log = new nodecg.Logger(`${nodecg.bundleName}:bingoColors`);
 
 const ALL_COLORS: BoardColor[] = ['pink', 'red', 'orange', 'brown', 'yellow', 'green', 'teal', 'blue', 'navy', 'purple'];
 
+nodecg.listenFor('timerStart', 'nodecg-speedcontrol', (data) => {
+    boardMetaRep.value.boardHidden = false;
+});
 boardMetaRep.once('change', () => {
     runDataActiveRunRep.on('change', (newValue, old) => {
         // bail on server restart
