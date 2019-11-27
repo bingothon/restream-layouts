@@ -26,6 +26,8 @@ export default class TextFit extends Vue {
         if (font) {
             document.fonts.load(font).then(() => {
                 this.fit();
+                // fuck you chrome
+                setTimeout(this.fit, 1000);
             });
         }
         this.$watch('text', ()=> {

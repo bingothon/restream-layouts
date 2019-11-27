@@ -27,6 +27,8 @@ export default class CellTextFit extends Vue {
         if (font) {
             document.fonts.load(font).then(() => {
                 this.fit();
+                // fuck you chrome
+                setTimeout(this.fit, 1000);
             });
         } else {
             this.fit();
