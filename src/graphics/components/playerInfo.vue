@@ -20,11 +20,8 @@
     </div>
     <div class="PlayerName">
       <transition name="fade">
-        <text-fit :key="text" :text="text" :align="reverseOrder?'right':'left'">
+        <text-fit :key="text" :text="finishTime+text" :align="reverseOrder?'right':'left'">
         </text-fit>
-        <!--<div :key="text">
-          <span>{{ text }}</span>
-        </div>-->
       </transition>
     </div>
     <div v-if="!!player.country"
@@ -88,6 +85,9 @@ export default class PlayerInfo extends Vue {
   @Prop({default: false})
   hideSoundIcon: boolean;
 
+  @Prop({default: false})
+  hideFinishTime: boolean;
+
   get player(): RunDataPlayer {
     let idx = 0;
     let correctPlayer;
@@ -136,6 +136,36 @@ export default class PlayerInfo extends Vue {
     } else {
       return "/"+this.player.social.twitch;
     }
+  }
+
+  get finishTime(): string {
+    // no individual finish time for one team runs
+    // also this is disabled for some layouts
+    if (this.hideFinishTime || store.state.runDataActiveRun.teams.length == 1) {
+      return '';
+    }
+    // get the team this player belongs to
+    if (this.teamID) {
+      const finishTime = store.state.timer.teamFinishTimes[this.teamID];
+      if (finishTime) {
+        return `[${finishTime.time}] `;
+      }
+    }
+    return '';
+  }
+
+  get teamID(): string | null {
+    let theTeamID = null;
+    let playerNum = 0;
+    store.state.runDataActiveRun.teams.forEach(t => {
+      t.players.forEach(p => {
+        if (playerNum == this.playerIndex) {
+          theTeamID = t.id;
+        }
+        playerNum++;
+      });
+    });
+    return theTeamID;
   }
 
   get bingoColor(): string {

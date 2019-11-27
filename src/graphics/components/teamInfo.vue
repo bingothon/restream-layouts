@@ -11,7 +11,7 @@
       <span v-if="bingoCountShown">{{bingoGoalCount}}</span>
     </div>
     <div class="TeamNameContainer">
-      <text-fit :text="`Team: ${name}`">
+      <text-fit :text="`${finishTime} Team: ${name}`">
       </text-fit>
     </div>
   </div>
@@ -76,6 +76,23 @@ export default class TeamInfo extends Vue {
 
     get bingoCountShown(): boolean {
         return store.state.bingoboardMeta.countShown;
+    }
+
+    get finishTime(): string {
+        // no individual finish time for one team runs
+        // also this is disabled for some layouts
+        if (store.state.runDataActiveRun.teams.length == 1) {
+            return '';
+        }
+        // get the team this player belongs to
+        const teamID = store.state.runDataActiveRun.teams[this.teamIndex].id;
+        if (teamID) {
+            const finishTime = store.state.timer.teamFinishTimes[teamID];
+            if (finishTime) {
+                return `[${finishTime.time}] `;
+            }
+        }
+        return '';
     }
 }
 </script>
