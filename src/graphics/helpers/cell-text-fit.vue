@@ -7,6 +7,11 @@
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from "vue-property-decorator";
 
+// stub cause fonts isn't known
+declare namespace document {
+    const fonts: any;
+}
+
 @Component({name:"cell-text-fit"})
 export default class CellTextFit extends Vue {
     @Prop({required: true})
@@ -17,7 +22,18 @@ export default class CellTextFit extends Vue {
     transform: string = "scaleX(1) scaleY(1)";
     top: string = "0";
 
-    @Watch("text", {immediate: true})
+    mounted() {
+        const font = window.getComputedStyle(this.$el.querySelector('#fittedContent')).font;
+        if (font) {
+            document.fonts.load(font).then(() => {
+                this.fit();
+            });
+        } else {
+            this.fit();
+        }
+    }
+
+    @Watch("text")
     fit() {
         this.optimizedFontSize = this.fontSize;
         this._fit(0);
@@ -29,8 +45,8 @@ export default class CellTextFit extends Vue {
             // get width height of parent and text container to calc scaling
             const container = this.$el;
             const fittedContent = container.querySelector('#fittedContent');
-            var scaleX = container.scrollWidth / fittedContent.scrollWidth;
-            var scaleY = container.scrollHeight / fittedContent.scrollHeight;
+            var scaleX = container.clientWidth / fittedContent.clientWidth;
+            var scaleY = container.clientHeight / fittedContent.clientHeight;
             const fontSize = window.getComputedStyle(fittedContent).fontSize;
             // limit recursion
             if (depth < 10 && (scaleY < 0.8 || scaleX < 0.7)) {
