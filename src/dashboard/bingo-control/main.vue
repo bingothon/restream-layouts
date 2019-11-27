@@ -63,13 +63,14 @@
     </div>
     <div v-if="showExtraExplorationOptions">
       <div>
+        Bingosync json:
         <input v-model="explorationCustomBoard">
       </div>
       <button @click="updateExploration">Update Exploration</button>
       <button @click="resetExploration">Reset Exploration</button>
     </div>
     <div>
-      <button @click="switchAction">Switch</button>
+      <button @click="switchAction" :disabled="currentBoardActive">{{currentBoardActive?"[Active] ":""}}Switch</button>
       <button @click="toggleCard">
         {{ toggleCardText }}
       </button>
@@ -198,6 +199,10 @@ export default class BingoControl extends Vue {
 
     get showExtraExplorationOptions(): boolean {
       return this.currentBoardRep == 'explorationBingoboard';
+    }
+
+    get currentBoardActive(): boolean {
+      return this.currentBoardRep == store.state.currentMainBingoboard.boardReplicant;
     }
 
     // test

@@ -1,0 +1,6 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type":"string",
+    "enum": ["external-commentary", "runner-commentary", "racer-audio-only"],
+    "default": "external-commentary"
+}

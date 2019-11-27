@@ -1,6 +1,7 @@
 <template>
   <div id="Intermission">
-    <logo></logo>
+    <img src="../../../static/logo-winter-wide.png" id="logo">
+    <div id="host-bingo-text">Host Blackout Bingo</div>
     <run-upcoming
       v-if="nextRun"
       id="ComingUpNext"
@@ -13,13 +14,12 @@
 		<div class="Mic">
 			<img src="components/Mic.png">
 		</div>
-		<DiscordVoiceDisplay voiceHighlightColor="var(--darker-main-color)"></DiscordVoiceDisplay>
+		<DiscordVoiceDisplay v-show="hostsSpeakingDuringIntermission" voiceHighlightColor="var(--darker-main-color)"></DiscordVoiceDisplay>
       <!--<reader></reader>-->
       <music></music>
     </info-storage-box>
 	  <div class="HostingBingo">
-		  Hosting Bingo
-		  <bingo-board class="BingoBoard" bingoboardRep="hostingBingoboard" :alwaysShown="true" fontSize="20px"></bingo-board>
+		  <bingo-board class="BingoBoard" id="Bingo-board" bingoboardRep="hostingBingoboard" :alwaysShown="true" fontSize="20px"></bingo-board>
 	  </div>
   </div>
 </template>
@@ -28,7 +28,7 @@
 import {Component, Prop, Vue} from "vue-property-decorator";
 import Logo from './components/Logo.vue';
 import Rotation from './components/Rotation.vue';
-import {store} from "../../browser-util/state";
+import {store, getReplicant} from "../../browser-util/state";
 import RunUpcoming from "./components/RunUpcoming.vue";
 import {RunData} from "../../../speedcontrol-types";
 import InfoStorageBox from "../_misc/components/InfoStorageBox.vue";
@@ -79,6 +79,10 @@ export default class Intermission extends Vue{
 	  }
   }
 
+  get hostsSpeakingDuringIntermission(): boolean {
+    return store.state.hostsSpeakingDuringIntermission.speaking;
+  }
+
     findRunIndex(run : RunData): number {
         let curRunID = run.id;
         if (!curRunID) {
@@ -94,10 +98,11 @@ export default class Intermission extends Vue{
     height: 900px;
     overflow: hidden;
   }
-  logo {
+  #logo {
 	  position: absolute;
-    left: 10px;
-    top: 21px;
+    left: 48px;
+    top: 56px;
+    width: 631px;
   }
   #ComingUpNext {
     position: absolute;
@@ -106,6 +111,19 @@ export default class Intermission extends Vue{
     width: 1172px;
     height: 199px;
 	color: white;
+  }
+  #host-bingo-text{
+    width: 100%;
+    font-weight: 500;
+    height: 60px;
+    line-height: 60px;
+    background-color: var(--border-colour);
+    color: #fff;
+    font-size: 41px;
+    text-transform: uppercase;
+    position: absolute;
+    left: 105px;
+    top: 237px;
   }
   #Rotation {
     left: 718px;
@@ -158,15 +176,17 @@ export default class Intermission extends Vue{
 
 	.HostingBingo {
 		position: absolute;
-		color: white;
-		top: 290px;
-		height: 750px;
-		width: 650px;
-		font-size: 50px;
+    color: #fff;
+    top: 300px;
+    height: 670px;
+    width: 670px;
+    font-size: 50px;
+    left: 33px;
 	}
 
   .HostingBingo > .BingoBoard {
-		height: 650px;
-		width: 650px;
+		height: 670px;
+		width: 670px;
+    position: relative;
   }
 </style>
