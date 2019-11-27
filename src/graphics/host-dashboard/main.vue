@@ -1,5 +1,6 @@
 <template>
 	<div id="HostDashboard">
+    <div id="intermission-live-warning" v-if="hostsSpeakingDuringIntermission">You are currently live on stream</div>
 	<div id="columnsWrapper">
 		<div id="column1" class="column">
 			<div id="PEFacts">
@@ -12,9 +13,8 @@
 			<div id="bidsContainer">
                 <div
                     class="bid"
-                    v-for="(bid,i) in bids"
+                    v-for="(bid,i) in openBids"
                     :key="i"
-					v-if="bid.state === 'OPENED'"
                 >
                 {{bid.game}} - {{bid.bid}}
                     <div
@@ -76,6 +76,11 @@
 			</div>
 		</div>
 		<div id="column3" class="column">
+            <div>Go live on stream during intermission:<br>
+                <button
+                    @click="toggleHostsSpeakingDuringIntermission"
+                    :disabled="!hostsCanGoLive"
+                >{{hostsSpeakingToggleButtonText}}</button></div>
 			<div id="donationTotalHeader">Donation Total:</div>
 			<div id="donationTotal">{{donationTotal}}</div>
 			<br>
@@ -107,11 +112,12 @@
 
 <script lang="ts">
 	import {Component, Vue} from "vue-property-decorator";
-    import {store} from "../../browser-util/state";
+    import {store, getReplicant} from "../../browser-util/state";
     import {TrackerPrize} from "../../../types";
     import moment from 'moment';
     import fs = require('fs');
     import {RunData} from "../../../speedcontrol-types";
+import { HostsSpeakingDuringIntermission } from "../../../schemas";
 
     @Component({})
 
@@ -126,8 +132,8 @@
            return store.state.trackerPrizes;//probably needs to be formatted
 	   }
 
-	   get bids() {
-           return store.state.trackerOpenBids;
+	   get openBids() {
+           return store.state.trackerOpenBids.filter(b => b.state === 'OPENED');
 	   }
 
 	   get currentRun() {
@@ -140,8 +146,30 @@
 
 	   get afterThatRun() : RunData {
             return this.getNextRuns(this.currentRun, 2);
-	   }
+       }
+       
+       get hostsSpeakingDuringIntermission(): boolean {
+           return store.state.hostsSpeakingDuringIntermission.speaking;
+       }
 
+       // only during intermission
+       get hostsCanGoLive(): boolean {
+           return store.state.obsCurrentScene == 'Intermission';
+       }
+
+       get hostsSpeakingToggleButtonText(): string {
+           if(!this.hostsCanGoLive) {
+               return "(Disabled)";
+           } else if (this.hostsSpeakingDuringIntermission) {
+               return "Mute";
+           } else {
+               return "Unmute on stream";
+           }
+       }
+
+       toggleHostsSpeakingDuringIntermission() {
+            getReplicant<HostsSpeakingDuringIntermission>('hostsSpeakingDuringIntermission').value.speaking = !store.state.hostsSpeakingDuringIntermission.speaking;
+       }
 
 	   runnersToString (run : RunData) : string {
             let res = '';
@@ -372,7 +400,7 @@
     }
 </script>
 
-<style scoped>
+<style>
 
 	body {
 		background-color: black;
@@ -466,5 +494,13 @@
 	.gameFinal:before {
 		content: 'FINAL TIME: '
 	}
+
+    #intermission-live-warning {
+        width:100%;
+        height: 50px;
+        background-color: red;
+        text-align: center;
+        font-size: 40px;
+    }
 
 </style>

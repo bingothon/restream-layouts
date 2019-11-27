@@ -13,7 +13,7 @@
 		<div class="Mic">
 			<img src="components/Mic.png">
 		</div>
-		<DiscordVoiceDisplay voiceHighlightColor="var(--darker-main-color)"></DiscordVoiceDisplay>
+		<DiscordVoiceDisplay v-show="hostsSpeakingDuringIntermission" voiceHighlightColor="var(--darker-main-color)"></DiscordVoiceDisplay>
       <!--<reader></reader>-->
       <music></music>
     </info-storage-box>
@@ -28,7 +28,7 @@
 import {Component, Prop, Vue} from "vue-property-decorator";
 import Logo from './components/Logo.vue';
 import Rotation from './components/Rotation.vue';
-import {store} from "../../browser-util/state";
+import {store, getReplicant} from "../../browser-util/state";
 import RunUpcoming from "./components/RunUpcoming.vue";
 import {RunData} from "../../../speedcontrol-types";
 import InfoStorageBox from "../_misc/components/InfoStorageBox.vue";
@@ -77,6 +77,10 @@ export default class Intermission extends Vue{
 	  if (nextRun) {
 	      this.nextRun = nextRun;
 	  }
+  }
+
+  get hostsSpeakingDuringIntermission(): boolean {
+    return store.state.hostsSpeakingDuringIntermission.speaking;
   }
 
     findRunIndex(run : RunData): number {

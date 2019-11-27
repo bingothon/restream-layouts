@@ -233,8 +233,8 @@ function handleScreenStreamModeChange(streamMode: ObsStreamMode, nextSceneName: 
     // depending on the next scene and which mode is used set some stuff automagically
     if (streamMode == "external-commentary" || streamMode == "runner-commentary") {
         // no discord delay in intermission
-            // if commentary is external no delay is necessary
-        if (nextSceneName != "intermission" || streamMode == "external-commentary") {
+        // if commentary is external no delay is necessary
+        if (nextSceneName == "intermission" || streamMode == "external-commentary") {
             discordDelayInfoRep.value.discordAudioDelaySyncStreamLeader = false;
             discordDelayInfoRep.value.discordDisplayDelaySyncStreamLeader = false;
         } else {
