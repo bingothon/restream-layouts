@@ -19,14 +19,16 @@
           :value="scene"
         >{{scene}}</option>
       </select>
-      Audio Preset:
-      <select v-model="obsStreamMode">
-        <option
-          v-for="(mode, i) in obsStreamModes"
-          :key="i"
-          :value="mode"
-        >{{mode}}</option>
-      </select>
+      <div>
+        Audio Preset:
+        <select v-model="obsStreamMode">
+          <option
+            v-for="(mode, i) in obsStreamModes"
+            :key="i"
+            :value="mode"
+          >{{mode}}</option>
+        </select>
+      </div>
       <div
         v-for="(audio, i) in obsAudioSources"
         :key="i"
@@ -53,7 +55,7 @@
           Discord display delay (in ms): <input type="number" v-model="discordDisplayDelay">
         </div>
       </div>
-      <button @click="doTransition">Transition</button>
+      <button @click="doTransition">Transition now</button>
     </div>
   </div>
 </template>

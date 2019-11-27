@@ -1,12 +1,13 @@
 import * as RequestPromise from 'request-promise';
 
 import * as nodecgApiContext from './util/nodecg-api-context';
-import { OriBingoboard, OriBingoMeta } from '../../schemas';
+import { OriBingoboard, OriBingoMeta, BingoboardMeta } from '../../schemas';
 
 const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger(`${nodecg.bundleName}:oriBingo`);
 const request = RequestPromise.defaults({ jar: true }); // <= Automatically saves and re-uses cookies.
 const boardRep = nodecg.Replicant<OriBingoboard>('oriBingoboard');
+const boardMetaRep = nodecg.Replicant<BingoboardMeta>('bingoboardMeta');
 // TEST: boardID: 4235, playerID:221
 const oriBingoMeta = nodecg.Replicant<OriBingoMeta>('oriBingoMeta');
 
@@ -90,7 +91,7 @@ async function oriBingoUpdate() {
                 boardRep.value.cells[idx].name = processStyling(field.name);
             }
             if (field.completed) {
-                boardRep.value.cells[idx].colors = "red";
+                boardRep.value.cells[idx].colors = boardMetaRep.value.playerColors[0] || "red";
             } else {
                 boardRep.value.cells[idx].colors = "blank";
             }
