@@ -51,8 +51,8 @@ export default class Ticker extends Vue {
     mounted() {
         this.staticMessages = [
             this.genericMessage('This is Bingothon Winter 2019, enjoy your stay!'),
-            this.genericMessage('#BingothonW2019 benefits Pure Earth!'),
-            this.genericMessage('Donate @ TODO'),
+            this.genericMessage('#Bingothon Winter 2019 benefits Pure Earth!'),
+            this.genericMessage('Donate @ donate.bingothon.com'),
             this.genericMessage("Can't get enough of Bingothon? Join the Bingothon Discord at discord.bingothon.com"),
         ];
         this.showNextMsg();
@@ -93,7 +93,7 @@ export default class Ticker extends Vue {
     prize() {
       return { name: Prize.name, data: {} };
     }
-    
+
     bid(): TickerMessage {
       return { name: Bid.name, data: {} };
     }
