@@ -7,6 +7,11 @@
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from "vue-property-decorator";
 
+// stub cause fonts isn't known
+declare namespace document {
+    const fonts: any;
+}
+
 @Component({name:"text-fit"})
 export default class TextFit extends Vue {
     @Prop({required: true})
@@ -17,12 +22,17 @@ export default class TextFit extends Vue {
     top: string = "0";
 
     mounted() {
+        const font = window.getComputedStyle(this.$el.querySelector('#FittedTextContent')).font;
+        if (font) {
+            document.fonts.load(font).then(() => {
+                this.fit();
+                // fuck you chrome
+                setTimeout(this.fit, 1000);
+            });
+        }
         this.$watch('text', ()=> {
             this.fit();
         }, {immediate: true});
-        if (this.transform == "scaleX(1)") {
-            this.fit();
-        }
     }
 
     fit() {

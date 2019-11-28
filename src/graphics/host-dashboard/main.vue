@@ -154,7 +154,7 @@ import { HostsSpeakingDuringIntermission } from "../../../schemas";
 
        // only during intermission
        get hostsCanGoLive(): boolean {
-           return store.state.obsCurrentScene == 'Intermission';
+           return store.state.obsCurrentScene == 'intermission';
        }
 
        get hostsSpeakingToggleButtonText(): string {

@@ -1,13 +1,13 @@
 <template>
     <div class="PlayerTeamContainer FlexContainer">
         <div class="PlayerInfo1">
-            <player-info :playerIndex="playerIndex" :showColor="false" :height="height"></player-info>
+            <player-info :playerIndex="playerIndex" :hideFinishTime="true" :showColor="false" :height="height"></player-info>
         </div>
         <div class="TeamInfo">
             <team-info :teamIndex="teamIndex" :height="height"></team-info>
         </div>
         <div class="PlayerInfo2">
-            <player-info :playerIndex="playerIndex+1" :showColor="false" :height="height" :reverseOrder="true"></player-info>
+            <player-info :playerIndex="playerIndex+1" :hideFinishTime="true" :showColor="false" :height="height" :reverseOrder="true"></player-info>
         </div>
     </div>
 </template>

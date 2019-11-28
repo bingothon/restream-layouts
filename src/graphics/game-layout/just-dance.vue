@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="bg"></div>
     <div class="just-dance-video-placeholder"></div>
 	<div class="discord-videocall-placeholder"></div>
     <img src="../../../static/logo-winter-wide.png" id="logo">
@@ -55,7 +56,7 @@
     width: 1200px;
     height: 675px;
   }
-	.just-dance-video-placeholder {
+	.bg {
 		position: absolute;
 		top: 0px;
 		left: 0px;
@@ -63,29 +64,37 @@
 		height: 1080px;
 		background: linear-gradient(var(--darker-main-color), var(--lighter-main-color));
 	}
+	.just-dance-video-placeholder {
+		position: absolute;
+		top: 300px;
+		left: 50px;
+		width: 875px;
+		height: 495px;
+		background: #333;
+	}
 
 	.discord-videocall-placeholder {
 		position: absolute;
-		top: 0px;
-		left: 0px;
-		width: 1920px;
-		height: 1080px;
-		background: linear-gradient(var(--darker-main-color), var(--lighter-main-color));
+		top: 300px;
+		left: 995px;
+		width: 880px;
+		height: 495px;
+		background: #3c3c3c;
 	}
 
 
 
   #logo{
 	  position: absolute;
-	  left: 650px;
-	  top: -30px;
+	  left: 630px;
+	  top: 42px;
 	  width: 666px;
 	  height: 200px;
   }
   #pi1 {
 	   position: absolute;
-	   top: 850px;
-	   left: 360px;
+	   top: 795px;
+	   left: 50px;
 	   width: 500px;
 	   background-image: linear-gradient(#373d6f, #2a2a54);
 	   color: var(--font-color);
@@ -93,8 +102,8 @@
 
 	#pi2 {
 		position: absolute;
-		top: 850px;
-		left: 1048px;
+		top: 795px;
+		left: 1361px;
 		width: 500px;
 		background-image: linear-gradient(#373d6f, #2a2a54);
 		color: var(--font-color);

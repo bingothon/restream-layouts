@@ -1,6 +1,7 @@
 <template>
   <div id="Intermission">
-    <logo></logo>
+    <img src="../../../static/logo-winter-wide.png" id="logo">
+    <div id="host-bingo-text">Host Blackout Bingo</div>
     <run-upcoming
       v-if="nextRun"
       id="ComingUpNext"
@@ -18,8 +19,7 @@
       <music></music>
     </info-storage-box>
 	  <div class="HostingBingo">
-		  Hosting Bingo
-		  <bingo-board class="BingoBoard" bingoboardRep="hostingBingoboard" :alwaysShown="true" fontSize="20px"></bingo-board>
+		  <bingo-board class="BingoBoard" id="Bingo-board" bingoboardRep="hostingBingoboard" :alwaysShown="true" fontSize="20px"></bingo-board>
 	  </div>
   </div>
 </template>
@@ -92,16 +92,17 @@ export default class Intermission extends Vue{
     }
 };
 </script>
-
+ 
 <style>
   #Intermission {
     height: 900px;
     overflow: hidden;
   }
-  logo {
+  #logo {
 	  position: absolute;
-    left: 10px;
-    top: 21px;
+    left: 48px;
+    top: 56px;
+    width: 631px;
   }
   #ComingUpNext {
     position: absolute;
@@ -110,6 +111,19 @@ export default class Intermission extends Vue{
     width: 1172px;
     height: 199px;
 	color: white;
+  }
+  #host-bingo-text{
+    width: 100%;
+    font-weight: 500;
+    height: 60px;
+    line-height: 60px;
+    background-color: var(--border-colour);
+    color: #fff;
+    font-size: 41px;
+    text-transform: uppercase;
+    position: absolute;
+    left: 105px;
+    top: 237px;
   }
   #Rotation {
     left: 718px;
@@ -130,7 +144,6 @@ export default class Intermission extends Vue{
   }
 
   .DiscordVoiceDisplay {
-	  flex: 1;
 	  left: 750px;
 	  top: 920px;
   }
@@ -144,6 +157,10 @@ export default class Intermission extends Vue{
 	  top: 910px;
 	  height: 60px;
 	  object-fit: contain;
+  }
+  .Music {
+    position: absolute;
+    left: 730px;
   }
 
 	body {
@@ -162,16 +179,17 @@ export default class Intermission extends Vue{
 
 	.HostingBingo {
 		position: absolute;
-		color: white;
-		top: 290px;
-		height: 750px;
-		width: 650px;
-		font-size: 50px;
+    color: #fff;
+    top: 300px;
+    height: 670px;
+    width: 670px;
+    font-size: 50px;
+    left: 33px;
 	}
 
   .HostingBingo > .BingoBoard {
-		height: 650px;
-		width: 650px;
+		height: 670px;
+		width: 670px;
     position: relative;
   }
 </style>
