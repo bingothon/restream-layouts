@@ -144,7 +144,6 @@ export default class Intermission extends Vue{
   }
 
   .DiscordVoiceDisplay {
-	  flex: 1;
 	  left: 750px;
 	  top: 920px;
   }
@@ -158,6 +157,10 @@ export default class Intermission extends Vue{
 	  top: 910px;
 	  height: 60px;
 	  object-fit: contain;
+  }
+  .Music {
+    position: absolute;
+    left: 730px;
   }
 
 	body {
