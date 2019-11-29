@@ -58,7 +58,7 @@ if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.cha
         reconnect: true,
       },
       identity: {
-        //username: twitchChannelNameRep.value,
+        username: twichAPIDataRep.value.channelName || '',
         password: twichAPIDataRep.value.accessToken,
       },
     };
@@ -71,6 +71,7 @@ if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.cha
       if (self) return;
       if (user['message-type'] != 'chat') return;
       if (!message.startsWith('!')) return;
+      channel = twichAPIDataRep.value.channelName || '';
       const parts = message.split(' ', 3);
       // check mod only commands, currently not used
       /* if ((user.mod || 'broadcaster' in user.badges) && parts.length >= 2) {
