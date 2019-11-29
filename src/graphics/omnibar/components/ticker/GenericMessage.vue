@@ -34,7 +34,7 @@ export default class GenericMessage extends Vue{
 };
 </script>
 
-<style scoped>
+<style>
   #GenericMessage {
     width: 100%;
     font-weight: 500;

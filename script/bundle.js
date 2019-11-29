@@ -9,6 +9,7 @@ fork('./node_modules/parcel-bundler/bin/cli.js', [
   'graphics',
   '--public-url',
   '.',
+  '--no-minify',
 ]);
 
 fork('./node_modules/parcel-bundler/bin/cli.js', [
@@ -18,4 +19,5 @@ fork('./node_modules/parcel-bundler/bin/cli.js', [
   'dashboard',
   '--public-url',
   '.',
+  '--no-minify',
 ]);

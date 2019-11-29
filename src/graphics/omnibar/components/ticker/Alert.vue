@@ -28,20 +28,16 @@ import { Prop, Vue, Component } from 'vue-property-decorator';
 @Component({})
 export default class Alert extends Vue {
 
-    @Prop({})
-    data: {line1Text: string, line2Text: string} = {line1Text : '', line2Text : ''}
+    @Prop({default: {line1Text: '', line2Text: ''}})
+    data: {line1Text: string, line2Text: string};
 
-    @Prop({default: 0})
-    width: number;
+    width: number = 0;
 
-    @Prop({default: ''})
-    line1: string;
+    line1: string = '';
 
-    @Prop({default: ''})
-    line2: string;
+    line2: string = '';
 
-    @Prop({default: false})
-    tweet: boolean;
+    tweet: boolean = false;
     
     mounted() {
     const fallback = setTimeout(() => this.$emit('end'), 5000);
@@ -73,7 +69,7 @@ export default class Alert extends Vue {
 }
 </script>
 
-<style scoped>
+<style>
   #Alert {
     padding: 0 17px;
     height: 100%;
@@ -82,15 +78,15 @@ export default class Alert extends Vue {
     align-items: flex-start;
     background-color: #ffffff38;
   }
-  .Line1 {
+  #Alert > .Line1 {
     font-size: 25px;
   }
-  .Line2 {
+  #Alert > .Line2 {
     font-size: 23px;
     white-space: nowrap;
     overflow: hidden;
   }
-  .Line1 > .TwitterLogo, .Line1 > .CrowdControlLogo {
+  #Alert > .Line1 > .TwitterLogo, #Alert > .Line1 > .CrowdControlLogo {
     height: 1.2em;
     margin: 0 .05em 0 .1em;
     vertical-align: -0.25em;

@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 import { store } from "../../../browser-util/state";
 import { TrackerDonations, TrackerOpenBids } from "../../../../schemas";
 import { TrackerDonation, TrackerOpenBid } from "../../../../types";
@@ -26,7 +26,6 @@ import UpcomingRun from './ticker/UpcomingRun.vue';
 import Prize from './ticker/Prize.vue';
 import Bid from './ticker/Bid.vue';
 import Alert from './ticker/Alert.vue';
-const newDonations: TrackerDonations = [];
 
 interface TickerMessage {
     name: string,
@@ -47,6 +46,8 @@ export default class Ticker extends Vue {
     staticMessages: TickerMessage[];
     currentComponent: TickerMessage = {name: '', data:{}};
     currentState: number = 0;
+    latestDonations: TrackerDonation[] = [];
+    lastDonationIndex: number = 0;
 
     mounted() {
         this.staticMessages = [
@@ -55,6 +56,9 @@ export default class Ticker extends Vue {
             this.genericMessage('Donate @ donate.bingothon.com'),
             this.genericMessage("Can't get enough of Bingothon? Join the Bingothon Discord at discord.bingothon.com"),
         ];
+        store.watch(state => state.trackerDonations, newVal => {
+          this.latestDonations = newVal.slice(0,4);
+        }, {immediate: true});
         this.showNextMsg();
     }
 
@@ -70,18 +74,14 @@ export default class Ticker extends Vue {
     showNextMsg() {
         console.log("nextMsg");
         let currentComponent: TickerMessage;
-        // give new donations priority
-        if (newDonations.length) {
-            currentComponent = this.donation(newDonations.shift());
-        } else {
-            switch (this.currentState) {
-                case 0: currentComponent = this.upcomingRun(); break;
-                case 1: currentComponent = this.prize(); break;
-                case 2: currentComponent = this.bid(); break;
-                default: currentComponent = this.staticMessages[Math.floor(Math.random() * this.staticMessages.length)]; break;
-            }
-            this.currentState = (this.currentState + 1) % 4;
+        switch (this.currentState) {
+            case 0: currentComponent = this.upcomingRun(); break;
+            case 1: currentComponent = this.prize(); break;
+            case 2: currentComponent = this.bid(); break;
+            case 3: currentComponent = this.showLatestDonation(); break;
+            default: currentComponent = this.staticMessages[Math.floor(Math.random() * this.staticMessages.length)]; break;
         }
+        this.currentState = (this.currentState + 1) % 4;
         this.currentComponent = currentComponent;
         this.timestamp = Date.now();
     }
@@ -96,6 +96,12 @@ export default class Ticker extends Vue {
 
     bid(): TickerMessage {
       return { name: Bid.name, data: {} };
+    }
+
+    showLatestDonation(): TickerMessage {
+      const msg = this.donation(this.latestDonations[this.lastDonationIndex]);
+      this.lastDonationIndex = (this.lastDonationIndex + 1) % this.latestDonations.length;
+      return msg;
     }
 
     donation(donation: TrackerDonation): TickerMessage {
@@ -120,16 +126,16 @@ export default class Ticker extends Vue {
 }
 </script>
 
-<style scoped>
+<style>
   #Ticker {
     height: 100%;
     flex: 1;
     display: flex;
   }
-  .fade-enter-active, .fade-leave-active {
+  #Ticker .fade-enter-active, #Ticker .fade-leave-active {
     transition: opacity .5s;
   }
-  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  #Ticker .fade-enter, #Ticker .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
   }
 </style>
