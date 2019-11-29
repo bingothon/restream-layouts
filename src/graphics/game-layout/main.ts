@@ -33,8 +33,13 @@ const router = new VueRouter({
 
 // if the replicant changes, update the game layouts route
 getReplicant<CurrentGameLayout>('currentGameLayout').on('change',newVal => {
-  console.log('switching to',newVal);
-  router.push({name: newVal.name});
+  // don't switch to invalid layouts
+  if (allGameLayouts.map(n => n.name).includes(newVal.name)) {
+    console.log('switching to',newVal);
+    router.push({name: newVal.name});
+  } else {
+    console.log('invalid layout:',newVal);
+  }
 });
 
 create().then(()=> {

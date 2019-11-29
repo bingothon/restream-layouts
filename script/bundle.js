@@ -1,6 +1,7 @@
 const { fork } = require('child_process');
 
-const command = process.env.NODE_ENV === 'production' ? 'build' : 'watch';
+const isProduction = process.env.NODE_ENV === 'production';
+const command = isProduction ? 'build' : 'watch';
 
 fork('./node_modules/parcel-bundler/bin/cli.js', [
   command,
@@ -9,7 +10,7 @@ fork('./node_modules/parcel-bundler/bin/cli.js', [
   'graphics',
   '--public-url',
   '.',
-  '--no-minify',
+  isProduction ? '--no-minify':'',
 ]);
 
 fork('./node_modules/parcel-bundler/bin/cli.js', [
@@ -19,5 +20,5 @@ fork('./node_modules/parcel-bundler/bin/cli.js', [
   'dashboard',
   '--public-url',
   '.',
-  '--no-minify',
+  isProduction ? '--no-minify':'',
 ]);
