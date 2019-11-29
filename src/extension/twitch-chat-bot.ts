@@ -1,6 +1,6 @@
 'use-strict';
 
-import * as TwitchJS from 'twitch-js';
+import * as tmi from 'tmi.js';
 import { Replicant } from 'nodecg/types/server';
 import { definitions as bingoDefinitions } from './bingodefinitions';
 import { RunDataActiveRun, RunDataPlayer, TwitchAPIData } from '../../speedcontrol-types';
@@ -63,7 +63,7 @@ if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.cha
       },
     };
 
-    const client = new TwitchJS.client(options);
+    const client = tmi.Client(options);
 
     // message handler function
     function messageHandler(channel: string, user: {[key: string]: string}, message: string, self: any) {
