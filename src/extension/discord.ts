@@ -35,8 +35,8 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
   log.error('botToken, botServerID, botCommandChannelID, botVoiceCommentaryChannelID all have to be set!');
 } else {
   // Variables
-  let botIsReady = false;
-  let voiceChannelConnection: any;
+  let voiceStatus: 'disconnected' | 'connecting' | 'connected' = 'disconnected';
+  let voiceChannelConnection: Discord.VoiceConnection | null = null;
 
   // Connection
   bot.on('ready', () => {
@@ -45,13 +45,11 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
       return;
     }
     log.info('Logged in as %s - %s\n', bot.user.username, bot.user.id);
-
-    botIsReady = true;
   });
   bot.on('error', () => {
     log.error('The bot encountered a connection error!!');
 
-    botIsReady = false;
+    voiceStatus = 'disconnected';
 
     setTimeout(() => {
       bot.login(botToken);
@@ -61,7 +59,8 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
   bot.on('disconnect', () => {
     log.error('The bot disconnected!!');
 
-    botIsReady = false;
+    voiceChannelConnection = null;
+    voiceStatus = 'disconnected';
 
     setTimeout(() => {
       bot.login(botToken);
@@ -73,6 +72,10 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
   // Voice
   bot.on('voiceStateUpdate', () => {
     UpdateCommentaryChannelMembers();
+    // reconnect to voice channel on disconnect
+    if (voiceStatus == 'disconnected') {
+      joinVoiceChannel();
+    }
   });
 
   function UpdateCommentaryChannelMembers() {
@@ -119,45 +122,50 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
     voiceActivity.value.members = newVoiceArray;
   }
 
+  function joinVoiceChannel() {
+    voiceStatus = 'connecting';
+    getVoiceChannelSafe(botServerID, botVoiceCommentaryChannelID).join().then((connection) => {
+      voiceChannelConnection = connection;
+      voiceStatus = 'connected';
+      class Silence extends Readable {
+        _read(){
+            this.push(Buffer.from([0xF8, 0xFF, 0xFE]))
+        }
+     }
+     connection.play(new Silence(), {type: 'opus'});
+
+      UpdateCommentaryChannelMembers();
+      nodecg.log.info(`joined voice channel!`);
+      connection.on('speaking', (user, speaking) => {
+        nodecg.log.info(`updating user ${user.tag} to speaking`);
+        if (!voiceActivity.value.members || voiceActivity.value.members.length < 1) { return; }
+        setTimeout(() => {
+          voiceActivity.value.members.find((voiceMember) => {
+            if (voiceMember.id == user.id) {
+              voiceMember.isSpeaking = speaking.has(Discord.Speaking.FLAGS.SPEAKING); // Delay this by streamleader delay/current obs timeshift delay if its activated with setTimeout
+              return true;
+            }
+
+            return false;
+          });
+        }, voiceDelayRep.value);
+      });
+    });
+  }
+
   // Commands
   function commandChannel(message: Discord.Message) {
     // ADMIN COMMANDS
     if (message.content.toLowerCase() === '!commands') {
       message.reply('ADMIN: [!bot join | !bot leave]');
     } else if (message.content.toLowerCase() === '!bot join') {
-      if (voiceChannelConnection) {
+      if (voiceStatus != 'disconnected') {
         message.reply('I already entered the podcast channel!');
         return;
       }
-
-      voiceChannelConnection = getVoiceChannelSafe(botServerID, botVoiceCommentaryChannelID).join().then((connection) => {
-        voiceChannelConnection = connection;
-        class Silence extends Readable {
-          _read(){
-              this.push(Buffer.from([0xF8, 0xFF, 0xFE]))
-          }
-       }
-       connection.play(new Silence(), {type: 'opus'});
-
-        UpdateCommentaryChannelMembers();
-        nodecg.log.info(`joined voice channel!`);
-        connection.on('speaking', (user, speaking) => {
-          nodecg.log.info(`updating user ${user.tag} to speaking`);
-          if (!voiceActivity.value.members || voiceActivity.value.members.length < 1) { return; }
-          setTimeout(() => {
-            voiceActivity.value.members.find((voiceMember) => {
-              if (voiceMember.id == user.id) {
-                voiceMember.isSpeaking = speaking.has(Discord.Speaking.FLAGS.SPEAKING); // Delay this by streamleader delay/current obs timeshift delay if its activated with setTimeout
-                return true;
-              }
-
-              return false;
-            });
-          }, voiceDelayRep.value);
-        });
-      });
+      joinVoiceChannel();
     } else if (message.content.toLowerCase() === '!bot leave') {
-      if (!voiceChannelConnection) {
+      if (voiceStatus != 'connected') {
         message.reply('I\'m not in the podcast channel!');
         return;
       }
@@ -165,6 +173,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
       getVoiceChannelSafe(botServerID, botVoiceCommentaryChannelID).leave();
 
       voiceChannelConnection = null;
+      voiceStatus = 'disconnected';
     }
   }
 
