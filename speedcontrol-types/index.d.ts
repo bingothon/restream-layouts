@@ -4,4 +4,5 @@ export * from './RunDataArray';
 export * from './RunDataPlayer';
 export * from './RunDataTeam';
 export * from './Timer';
+export * from './twitchAPIData';
 

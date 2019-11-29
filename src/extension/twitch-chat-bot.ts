@@ -3,7 +3,7 @@
 import * as TwitchJS from 'twitch-js';
 import { Replicant } from 'nodecg/types/server';
 import { definitions as bingoDefinitions } from './bingodefinitions';
-import { RunDataActiveRun, RunDataPlayer } from '../../speedcontrol-types';
+import { RunDataActiveRun, RunDataPlayer, TwitchAPIData } from '../../speedcontrol-types';
 import { Configschema } from '../../configschema';
 
 import * as nodecgApiContext from './util/nodecg-api-context';
@@ -29,8 +29,7 @@ const cooldowns = { runner: { lastUsed: 0, cooldown: 15 }, bingo: { lastUsed: 0,
 }) */
 
 // Setting up replicants.
-const accessToken = nodecg.Replicant<string>('twitchAccessToken', 'nodecg-speedcontrol');
-const twitchChannelNameRep = nodecg.Replicant<string>('twitchChannelName', 'nodecg-speedcontrol');
+const twichAPIDataRep = nodecg.Replicant<TwitchAPIData>('twitchAPIData', 'nodecg-speedcontrol');
 const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
 const bundleConfig = nodecg.bundleConfig as Configschema;
 
@@ -47,7 +46,7 @@ function waitForReplicants(replicants: Replicant<any>[], callback: Function) {
 }
 
 if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.chatBot) {
-  waitForReplicants([twitchChannelNameRep, runDataActiveRunRep, accessToken], () => {
+  waitForReplicants([twichAPIDataRep, runDataActiveRunRep], () => {
     log.info('Twitch chat bot is enabled.');
 
     const options = {
@@ -59,8 +58,8 @@ if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.cha
         reconnect: true,
       },
       identity: {
-        username: twitchChannelNameRep.value,
-        password: accessToken.value,
+        //username: twitchChannelNameRep.value,
+        password: twichAPIDataRep.value.accessToken,
       },
     };
 
@@ -186,7 +185,7 @@ if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.cha
       .catch(e => log.error('', e))
       .then(() => {
         client.on('message', messageHandler);
-        client.join(twitchChannelNameRep.value)
+        client.join(twichAPIDataRep.value.channelName || 'speedrunslive')
           .catch((reason) => {
             log.error(`Couldn't join channel: ${reason}`);
           }).then((data) => {
