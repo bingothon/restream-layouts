@@ -137,7 +137,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
       UpdateCommentaryChannelMembers();
       nodecg.log.info(`joined voice channel!`);
       connection.on('speaking', (user, speaking) => {
-        nodecg.log.info(`updating user ${user.tag} to speaking`);
+        //nodecg.log.info(`updating user ${user.tag} to speaking`);
         if (!voiceActivity.value.members || voiceActivity.value.members.length < 1) { return; }
         setTimeout(() => {
           voiceActivity.value.members.find((voiceMember) => {
