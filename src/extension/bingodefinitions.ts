@@ -6,5 +6,6 @@ export const definitions: {[key: string]: string} = {
   blackout: 'In blackout bingo every goal on the board has to be done',
   'lockout invasion': 'In lockout invasion bingo the players start marking goals on opposite sides and try to progress toward the opponents side. A goal can only be marked by one player and they can only mark as much goals as they have on the previous row/column on their side: https://imgur.com/2WPnvHQ ',
   cinco: 'In cinco bingo the players have to get 5 rows/columns/diagonals with 5 goals each to finish, they may overlap',
+  exploration: 'In Exploration Bingo all goals except 2 goals are hidden and can be revealed by completing adjacent goals, blackout means all goals',
   coop: ', the players of a team share the same color on the board and work together',
 };
