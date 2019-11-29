@@ -23,7 +23,6 @@ const voiceDelayRep = nodecg.Replicant<number>('voiceDelay', { defaultValue: 0, 
 
 // Discord API
 const bot = new Discord.Client();
-bot.on('debug', info => log.info('',info));
 
 // config
 const config = nodecg.bundleConfig as Configschema;
