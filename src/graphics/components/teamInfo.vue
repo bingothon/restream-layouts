@@ -10,6 +10,7 @@
     >
       <span v-if="bingoCountShown">{{bingoGoalCount}}</span>
     </div>
+    <div :class="medalClasses"></div>
     <div class="TeamNameContainer">
       <text-fit :text="`${finishTime} Team: ${name}`">
       </text-fit>
@@ -94,10 +95,43 @@ export default class TeamInfo extends Vue {
         }
         return '';
     }
+
+  get medalClasses(): string {
+    // no individual finish time for one team runs
+    // also this is disabled for some layouts
+    if (store.state.runDataActiveRun.teams.length == 1) {
+      return '';
+    }
+    // get the team this player belongs to
+    const teamID = store.state.runDataActiveRun.teams[this.teamIndex].id;
+    if (teamID) {
+      const finishTime = store.state.timer.teamFinishTimes[teamID];
+      if (finishTime) {
+        let place = 1;
+        Object.values(store.state.timer.teamFinishTimes).forEach(time => {
+          if (time.milliseconds < finishTime.milliseconds) {
+            place++;
+          }
+        });
+        let medalColor = null;
+        switch(place) {
+          case 1: medalColor = 'gold'; break;
+          case 2: medalColor = 'silver'; break;
+          case 3: medalColor = 'bronze'; break;
+        }
+        if (medalColor) {
+          return `medal shine medal-${medalColor}`;
+        }
+      }
+    }
+    return '';
+  }
 }
 </script>
 
 <style>
+  @import './medals.css';
+  
   .TeamInfoBox {
     color: var(--font-color);
     padding: 7px;

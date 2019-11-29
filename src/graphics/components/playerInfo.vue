@@ -18,6 +18,7 @@
         >
       </transition>
     </div>
+    <div :class="medalClasses"></div>
     <div class="PlayerName">
       <transition name="fade">
         <text-fit :key="text" :text="finishTime+text" :align="reverseOrder?'right':'left'">
@@ -189,6 +190,36 @@ export default class PlayerInfo extends Vue {
     return this.playerIndex == store.state.soundOnTwitchStream && !this.hideSoundIcon;
   }
 
+  get medalClasses(): string {
+    // no individual finish time for one team runs
+    // also this is disabled for some layouts
+    if (this.hideFinishTime || store.state.runDataActiveRun.teams.length == 1) {
+      return '';
+    }
+    // get the team this player belongs to
+    if (this.teamID) {
+      const finishTime = store.state.timer.teamFinishTimes[this.teamID];
+      if (finishTime) {
+        let place = 1;
+        Object.values(store.state.timer.teamFinishTimes).forEach(time => {
+          if (time.milliseconds < finishTime.milliseconds) {
+            place++;
+          }
+        });
+        let medalColor = null;
+        switch(place) {
+          case 1: medalColor = 'gold'; break;
+          case 2: medalColor = 'silver'; break;
+          case 3: medalColor = 'bronze'; break;
+        }
+        if (medalColor) {
+          return `medal shine medal-${medalColor}`;
+        }
+      }
+    }
+    return '';
+  }
+
   getPlayerFlag(rawFlag: string | undefined): string {
     return `/bundles/bingothon-layouts/static/flags/${rawFlag}.png`
   }
@@ -196,6 +227,8 @@ export default class PlayerInfo extends Vue {
 </script>
 
 <style>
+  @import './medals.css';
+
   .PlayerInfoBox {
     background-image: linear-gradient(#5C88BC, #315091);
     color: var(--font-color);
