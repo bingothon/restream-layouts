@@ -207,6 +207,7 @@ streamsReplicant.on('change', newVal => {
 
 function handleScreenStreamModeChange(streamMode: ObsStreamMode, nextSceneName: string) {
     nextSceneName = nextSceneName.toLowerCase();
+    let hostsSpeaking = hostDiscordDuringIntermissionRep.value.speaking;
     logger.info(`handling stream mode ${streamMode} in scene ${nextSceneName}`);
     // music only during intermission
     if (nextSceneName == "intermission") {
@@ -241,8 +242,8 @@ function handleScreenStreamModeChange(streamMode: ObsStreamMode, nextSceneName: 
             discordDelayInfoRep.value.discordAudioDelaySyncStreamLeader = true;
             discordDelayInfoRep.value.discordDisplayDelaySyncStreamLeader = true;
         }
-        // if the next scene isn't intermission unmute discord
-        if (nextSceneName == 'intermission') {
+        // if the next scene isn't intermission unmute discord, also don't fade out if hosts are speaking
+        if (nextSceneName == 'intermission' && !hostsSpeaking) {
             nodecg.sendMessage('obsRemotecontrol:fadeOutAudio', {source: bundleConfig.obs.discordAudio}, err => {
                 logger.warn(`Problem fading out discord during transition: ${err.error}`);
             });
@@ -263,7 +264,7 @@ function handleScreenStreamModeChange(streamMode: ObsStreamMode, nextSceneName: 
             });
         }
         // discord muted exept for interview
-        if (nextSceneName == 'interview') {
+        if (nextSceneName == 'interview' || (nextSceneName == 'intermission' && hostsSpeaking)) {
             nodecg.sendMessage('obsRemotecontrol:fadeInAudio', {source: bundleConfig.obs.discordAudio}, err => {
                 logger.warn(`Problem fading in discord during transition: ${err.error}`);
             });
