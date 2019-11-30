@@ -21,7 +21,7 @@
 	  <div class="HostingBingo">
 		  <bingo-board class="BingoBoard" id="Bingo-board" bingoboardRep="hostingBingoboard" :alwaysShown="true" fontSize="20px"></bingo-board>
 	  </div>
-    <div class="ImageView">
+    <div :class="'ImageView '+(showIntermissionImage?'PictureShown':'')">
       <img v-if="showIntermissionImage" :src="intermissionImageUrl">
     </div>
   </div>
@@ -210,6 +210,13 @@ export default class Intermission extends Vue{
     height: 670px;
     width: 670px;
     left: 33px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ImageView.PictureShown {
+    background: rgba(0,0,0,0.7);
   }
 
   .ImageView > img {
