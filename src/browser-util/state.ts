@@ -2,7 +2,7 @@ import clone from 'clone';
 import { ReplicantBrowser } from 'nodecg/types/browser'; // eslint-disable-line
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { AllGameLayouts, AllInterviews, Bingoboard, BingoboardMeta, BingosyncSocket, CurrentGameLayout, CurrentInterview, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData, CurrentMainBingoboard, HostingBingoboard, HostingBingosocket, OriBingoboard, OriBingoMeta, ExplorationBingoboard, TwitchStreams, SoundOnTwitchStream, ObsAudioSources, ObsDashboardAudioSources, ObsConnection, DiscordDelayInfo, HostsSpeakingDuringIntermission, ObsStreamMode } from "../../schemas";
+import { AllGameLayouts, AllInterviews, Bingoboard, BingoboardMeta, BingosyncSocket, CurrentGameLayout, CurrentInterview, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData, CurrentMainBingoboard, HostingBingoboard, HostingBingosocket, OriBingoboard, OriBingoMeta, ExplorationBingoboard, TwitchStreams, SoundOnTwitchStream, ObsAudioSources, ObsDashboardAudioSources, ObsConnection, DiscordDelayInfo, HostsSpeakingDuringIntermission, ObsStreamMode, ShowPictureDuringIntermission } from "../../schemas";
 import { RunDataActiveRun, RunDataArray, Timer } from "../../speedcontrol-types";
 import {Scene} from 'obs-websocket-js';
 
@@ -32,6 +32,7 @@ const replicantNames = [
   'obsStreamMode',
   'oriBingoboard',
   'oriBingoMeta',
+  'showPictureDuringIntermission',
   'soundOnTwitchStream',
   'trackerDonations',
   'trackerOpenBids',
@@ -75,6 +76,7 @@ export const store = new Vuex.Store({
     obsStreamMode: '' as ObsStreamMode,
     oriBingoboard: {} as OriBingoboard,
     oriBingoMeta: {} as OriBingoMeta,
+    showPictureDuringIntermission: {} as ShowPictureDuringIntermission,
     soundOnTwitchStream: 0 as SoundOnTwitchStream,
     trackerDonations: [] as TrackerDonations,
     trackerOpenBids: [] as TrackerOpenBids,

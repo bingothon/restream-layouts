@@ -76,6 +76,10 @@
 			</div>
 		</div>
 		<div id="column3" class="column">
+            <div>
+                Paste the entire image Url here: <input v-model="pictureDuringIntermissionUrl">
+                <button @click="clearPicture">Clear picture</button>
+            </div>
             <div>Go live on stream during intermission:<br>
                 <button
                     @click="toggleHostsSpeakingDuringIntermission"
@@ -117,7 +121,7 @@
     import moment from 'moment';
     import fs = require('fs');
     import {RunData} from "../../../speedcontrol-types";
-import { HostsSpeakingDuringIntermission } from "../../../schemas";
+import { HostsSpeakingDuringIntermission, ShowPictureDuringIntermission } from "../../../schemas";
 
     @Component({})
 
@@ -169,6 +173,10 @@ import { HostsSpeakingDuringIntermission } from "../../../schemas";
 
        toggleHostsSpeakingDuringIntermission() {
             getReplicant<HostsSpeakingDuringIntermission>('hostsSpeakingDuringIntermission').value.speaking = !store.state.hostsSpeakingDuringIntermission.speaking;
+       }
+
+       clearPicture() {
+           this.pictureDuringIntermissionUrl = null;
        }
 
 	   runnersToString (run : RunData) : string {
@@ -237,6 +245,14 @@ import { HostsSpeakingDuringIntermission } from "../../../schemas";
                 }
             }
             return indexOfRun;
+        }
+
+        get pictureDuringIntermissionUrl(): string {
+            return store.state.showPictureDuringIntermission.imageUrl;
+        }
+
+        set pictureDuringIntermissionUrl(url: string) {
+            getReplicant<ShowPictureDuringIntermission>('showPictureDuringIntermission').value.imageUrl = url;
         }
 
     /*//var runFinishTimes = store.state.runDataActiveRun.

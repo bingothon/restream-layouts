@@ -21,6 +21,9 @@
 	  <div class="HostingBingo">
 		  <bingo-board class="BingoBoard" id="Bingo-board" bingoboardRep="hostingBingoboard" :alwaysShown="true" fontSize="20px"></bingo-board>
 	  </div>
+    <div class="ImageView">
+      <img v-if="showIntermissionImage" :src="intermissionImageUrl">
+    </div>
   </div>
 </template>
 
@@ -81,6 +84,14 @@ export default class Intermission extends Vue{
 
   get hostsSpeakingDuringIntermission(): boolean {
     return store.state.hostsSpeakingDuringIntermission.speaking;
+  }
+
+  get showIntermissionImage(): boolean {
+    return !!store.state.showPictureDuringIntermission.imageUrl;
+  }
+
+  get intermissionImageUrl(): string {
+    return store.state.showPictureDuringIntermission.imageUrl;
   }
 
     findRunIndex(run : RunData): number {
@@ -191,5 +202,18 @@ export default class Intermission extends Vue{
 		height: 670px;
 		width: 670px;
     position: relative;
+  }
+
+  .ImageView {
+    position: absolute;
+    top: 300px;
+    height: 670px;
+    width: 670px;
+    left: 33px;
+  }
+
+  .ImageView > img {
+    max-width: 100%;
+    max-height: 100%;
   }
 </style>

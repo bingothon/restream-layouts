@@ -18,6 +18,7 @@ export * from './obsDashboardAudioSources';
 export * from './obsStreamMode';
 export * from './oriBingoMeta';
 export * from './oriBingoboard';
+export * from './showPictureDuringIntermission';
 export * from './songData';
 export * from './soundOnTwitchStream';
 export * from './trackerDonations';

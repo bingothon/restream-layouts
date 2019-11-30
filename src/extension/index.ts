@@ -1,6 +1,6 @@
 import { NodeCG } from 'nodecg/types/server'; // eslint-disable-line
 import * as nodecgApiContext from './util/nodecg-api-context';
-import { VoiceActivity, SongData } from '../../schemas';
+import { VoiceActivity, SongData, ShowPictureDuringIntermission } from '../../schemas';
 import { Configschema } from '../../configschema';
 
 export = (nodecg: NodeCG): void => {
@@ -51,4 +51,7 @@ export = (nodecg: NodeCG): void => {
     nodecg.log.warn('MPD integration is disabled, no music!');
     nodecg.Replicant<SongData>('songData', { persistent: false, defaultValue: {playing: false, title: "No Track Playing"} });
   }
+  // this doesn't really belong anywhere
+  // just make sure to declare
+  nodecg.Replicant<ShowPictureDuringIntermission>('showPictureDuringIntermission');
 };
