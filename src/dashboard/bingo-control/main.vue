@@ -8,7 +8,10 @@
         {{ count["color"] }}:{{ count["count"] }}
       </li>
     </ul>-->
-    <span @click="errorMessage=''" class="error-warning"> {{ errorMessage }}</span>
+    <span
+      class="error-warning"
+      @click="errorMessage=''"
+    > {{ errorMessage }}</span>
     <div
       v-for="(color,i) in playerColors"
       :key="i"
@@ -59,18 +62,32 @@
       <div>
         PlayerID: <input v-model="oriPlayerID">
       </div>
-      <button @click="toggleOriActivate" :disabled="!oriCanActivate">{{ toggleOriText }}</button>
+      <button
+        :disabled="!oriCanActivate"
+        @click="toggleOriActivate"
+      >
+        {{ toggleOriText }}
+      </button>
     </div>
     <div v-if="showExtraExplorationOptions">
       <div>
         Bingosync json:
         <input v-model="explorationCustomBoard">
       </div>
-      <button @click="updateExploration">Update Exploration</button>
-      <button @click="resetExploration">Reset Exploration</button>
+      <button @click="updateExploration">
+        Update Exploration
+      </button>
+      <button @click="resetExploration">
+        Reset Exploration
+      </button>
     </div>
     <div>
-      <button @click="switchAction" :disabled="currentBoardActive">{{currentBoardActive?"[Active] ":""}}Switch</button>
+      <button
+        :disabled="currentBoardActive"
+        @click="switchAction"
+      >
+        {{ currentBoardActive?"[Active] ":"" }}Switch
+      </button>
       <button @click="toggleCard">
         {{ toggleCardText }}
       </button>
@@ -86,14 +103,16 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { nodecg, NodeCG } from '../../browser-util/nodecg';
-import { Bingoboard, BingosyncSocket, BingoboardMeta, CurrentMainBingoboard } from '../../../schemas';
+import { nodecg } from '../../browser-util/nodecg';
+import {
+  BingoboardMeta, CurrentMainBingoboard,
+} from '../../../schemas';
 import { store, getReplicant } from '../../browser-util/state';
 
 type ColorEnum = ('pink' | 'red' | 'orange' | 'brown' | 'yellow' | 'green' | 'teal' | 'blue' | 'navy' | 'purple');
-type BingoRepEnum = ("bingoboard"|"oriBingoboard"|"hostingBingoboard"|"explorationBingoboard");
+type BingoRepEnum = ('bingoboard'|'oriBingoboard'|'hostingBingoboard'|'explorationBingoboard');
 
-const BOARD_TO_SOCKET_REP = {bingoboard: "bingosyncSocket", hostingBingoboard: "hostingBingosocket"};
+const BOARD_TO_SOCKET_REP = { bingoboard: 'bingosyncSocket', hostingBingoboard: 'hostingBingosocket' };
 
 @Component({})
 export default class BingoControl extends Vue {
@@ -104,6 +123,7 @@ export default class BingoControl extends Vue {
     currentBoardRep: BingoRepEnum = 'bingoboard';
 
     oriBoardID: string = '';
+
     oriPlayerID: string = '';
 
     explorationCustomBoard: string = ''
@@ -111,19 +131,20 @@ export default class BingoControl extends Vue {
     errorMessage: string = '';
 
     allColors = Object.freeze(['pink', 'red', 'orange', 'brown', 'yellow', 'green', 'teal', 'blue', 'navy', 'purple']);
-    allBingoReps: readonly BingoRepEnum[] = Object.freeze(["bingoboard","oriBingoboard","hostingBingoboard","explorationBingoboard"]);
+
+    allBingoReps: readonly BingoRepEnum[] = Object.freeze(['bingoboard', 'oriBingoboard', 'hostingBingoboard', 'explorationBingoboard']);
 
     mounted() {
-      store.watch(state => state.currentMainBingoboard, newVal => {
+      store.watch(state => state.currentMainBingoboard, (newVal) => {
         this.currentBoardRep = newVal.boardReplicant;
-      }, {immediate: true});
+      }, { immediate: true });
     }
 
     // --- computed properties
     get connectActionText(): string {
       const socketRepName = BOARD_TO_SOCKET_REP[this.currentBoardRep];
       if (!socketRepName) {
-        return "invalid";
+        return 'invalid';
       }
       switch (store.state[socketRepName].status) {
         case 'connected':
@@ -133,6 +154,8 @@ export default class BingoControl extends Vue {
           return 'connect';
         case 'connecting':
           return 'connecting...';
+        default:
+          return 'invalid';
       }
     }
 
@@ -160,9 +183,8 @@ export default class BingoControl extends Vue {
     get toggleOriText(): string {
       if (store.state.oriBingoMeta.active) {
         return 'Deactivate';
-      } else {
-        return 'Activate';
       }
+      return 'Activate';
     }
 
     get oriCanActivate(): boolean {
@@ -185,6 +207,7 @@ export default class BingoControl extends Vue {
         case 'error':
           return (!!this.roomCode && !!this.passphrase);
         case 'connecting':
+        default:
           return false;
       }
     }
@@ -194,19 +217,19 @@ export default class BingoControl extends Vue {
     }
 
     get showExtraOriOptions(): boolean {
-      return this.currentBoardRep == 'oriBingoboard';
+      return this.currentBoardRep === 'oriBingoboard';
     }
 
     get showExtraExplorationOptions(): boolean {
-      return this.currentBoardRep == 'explorationBingoboard';
+      return this.currentBoardRep === 'explorationBingoboard';
     }
 
     get currentBoardActive(): boolean {
-      return this.currentBoardRep == store.state.currentMainBingoboard.boardReplicant;
+      return this.currentBoardRep === store.state.currentMainBingoboard.boardReplicant;
     }
 
     // test
-    /*get colorCounts(): Array<{color: string, count: number}> {
+    /* get colorCounts(): Array<{color: string, count: number}> {
       const counts = store.state.bingoboardMeta.colorCounts;
       const countArray = [];
       for (const key in counts) {
@@ -218,33 +241,37 @@ export default class BingoControl extends Vue {
         }
       }
       return countArray;
-    }*/
+    } */
 
     // --- handlers
 
     connectAction() {
-      // only expanded options for the bingosync connection, otherwise something else is there to handle the board
+      // only expanded options for the bingosync connection,
+      // otherwise something else is there to handle the board
       if (this.showExtraBingosyncOptions) {
         const socketRepName = BOARD_TO_SOCKET_REP[this.currentBoardRep];
         if (!socketRepName) {
-          throw new Error("unreachable");
+          throw new Error('unreachable');
         }
         switch (store.state[socketRepName].status) {
           case 'connected':
             nodecg.sendMessage('bingosync:leaveRoom', { name: this.currentBoardRep })
-              .catch(error => {
+              .catch((error) => {
                 nodecg.log.error(error);
                 this.errorMessage = error.message;
-              });;
-            return;
+              });
+            break;
           case 'disconnected':
           case 'error':
             getReplicant<CurrentMainBingoboard>('currentMainBingoboard').value.boardReplicant = this.currentBoardRep as BingoRepEnum;
             nodecg.sendMessage('bingosync:joinRoom', { roomCode: this.roomCode, passphrase: this.passphrase, name: this.currentBoardRep })
-              .catch(error => {
+              .catch((error) => {
                 nodecg.log.error(error);
                 this.errorMessage = error.message;
               });
+            break;
+          default:
+            break;
         }
       }
     }
@@ -253,11 +280,11 @@ export default class BingoControl extends Vue {
       if (store.state.oriBingoMeta.active) {
         nodecg.sendMessage('oriBingo:deactivate');
       } else {
-        nodecg.sendMessage('oriBingo:activate', {boardID: this.oriBoardID, playerID: this.oriPlayerID})
-          .catch(error => {
+        nodecg.sendMessage('oriBingo:activate', { boardID: this.oriBoardID, playerID: this.oriPlayerID })
+          .catch((error) => {
             nodecg.log.error(error);
             this.errorMessage = error.message;
-          });;
+          });
       }
     }
 
@@ -265,18 +292,18 @@ export default class BingoControl extends Vue {
       try {
         const goals = JSON.parse(this.explorationCustomBoard);
         const onlyNames = goals.map(g => g.name);
-        nodecg.sendMessageToBundle('exploration:newGoals','bingothon-layouts',onlyNames)
-          .catch(e => {
+        nodecg.sendMessageToBundle('exploration:newGoals', 'bingothon-layouts', onlyNames)
+          .catch((e) => {
             this.errorMessage = e.message;
-            console.error(e);
-          })
-      } catch(e) {
+            nodecg.log.error(e);
+          });
+      } catch (e) {
         this.errorMessage = "Couln't parse the board";
       }
     }
 
     resetExploration() {
-      nodecg.sendMessageToBundle('exploration:resetBoard','bingothon-layouts');
+      nodecg.sendMessageToBundle('exploration:resetBoard', 'bingothon-layouts');
     }
 
     switchAction() {

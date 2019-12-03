@@ -12,7 +12,9 @@
         {{ layout }}
       </option>
     </select>
-    <button v-on:click="updateCurrentLayout">Update Layout</button>
+    <button @click="updateCurrentLayout">
+      Update Layout
+    </button>
   </div>
 </template>
 
@@ -20,22 +22,23 @@
 import clone from 'clone';
 import { Component, Vue } from 'vue-property-decorator';
 import { nodecg, NodeCG } from '../../browser-util/nodecg';
-import { Bingoboard, BingosyncSocket, BingoboardMeta, AllGameLayouts, CurrentGameLayout } from '../../../schemas';
+import {
+  Bingoboard, BingosyncSocket, BingoboardMeta, AllGameLayouts, CurrentGameLayout,
+} from '../../../schemas';
 import { store, getReplicant } from '../../browser-util/state';
 
 
 @Component({})
 export default class LayoutControl extends Vue {
-
-    selectedLayoutName: string = "";
+    selectedLayoutName: string = '';
 
     mounted() {
       store.watch(state => state.currentGameLayout, (newValue) => {
         this.selectedLayoutName = newValue.name;
-        nodecg.log.info('updating to '+newValue.name);
-      }, {immediate: true});
+        nodecg.log.info(`updating to ${newValue.name}`);
+      }, { immediate: true });
     }
-    
+
     get allGameLayouts(): AllGameLayouts {
       return store.state.allGameLayouts;
     }

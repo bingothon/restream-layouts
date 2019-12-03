@@ -1,4 +1,4 @@
-export const definitions: {[key: string]: string} = {
+const definitions: {[key: string]: string} = {
   single: 'In single bingo you need to complete a row/column/diagonal with 5 goals to finish',
   double: 'In double bingo you need to complete 2 rows/columns/diagonals with 5 goals each to finish, they may overlap',
   triple: 'In triple bingo you need to complete 3 rows/columns/diagonals with 5 goals each to finish, they may overlap',
@@ -9,3 +9,5 @@ export const definitions: {[key: string]: string} = {
   exploration: 'In Exploration Bingo all goals except 2 goals are hidden and can be revealed by completing adjacent goals, blackout means all goals',
   coop: ', the players of a team share the same color on the board and work together',
 };
+
+export default definitions;

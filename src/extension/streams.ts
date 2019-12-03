@@ -104,7 +104,7 @@ nodecg.listenFor('streams:toggleStreamPlayPause', (streamNr: number, callback) =
   }
 });
 
-nodecg.listenFor('streams:setStreamVolume', (data: {id: number, volume: number}, callback) => {
+nodecg.listenFor('streams:setStreamVolume', (data: {id: number; volume: number}, callback) => {
   if (data.volume > 1 || data.volume < 0) {
     if (callback && !callback.handled) {
       callback('volume has to be between 0 and 1!');
@@ -119,7 +119,7 @@ nodecg.listenFor('streams:setStreamVolume', (data: {id: number, volume: number},
   }
 });
 
-nodecg.listenFor('streams:setStreamQuality', (data: {id: number, quality: string}, callback) => {
+nodecg.listenFor('streams:setStreamQuality', (data: {id: number; quality: string}, callback) => {
   if (data.id >= 0 && data.id < streamsReplicant.value.length) {
     streamsReplicant.value[data.id].quality = data.quality;
   }

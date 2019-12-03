@@ -2,7 +2,7 @@
 
 import * as tmi from 'tmi.js';
 import { Replicant } from 'nodecg/types/server';
-import { definitions as bingoDefinitions } from './bingodefinitions';
+import bingoDefinitions from './bingodefinitions';
 import { RunDataActiveRun, RunDataPlayer, TwitchAPIData } from '../../speedcontrol-types';
 import { Configschema } from '../../configschema';
 

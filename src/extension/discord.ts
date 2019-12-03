@@ -2,10 +2,10 @@
 
 // Imports
 import * as Discord from 'discord.js';
+import { Readable } from 'stream';
 import * as nodecgApiContext from './util/nodecg-api-context';
 import { VoiceActivity } from '../../schemas';
 import { Configschema } from '../../configschema';
-import { Readable } from 'stream';
 
 const nodecg = nodecgApiContext.get();
 
@@ -128,16 +128,16 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
       voiceChannelConnection = connection;
       voiceStatus = 'connected';
       class Silence extends Readable {
-        _read(){
-            this.push(Buffer.from([0xF8, 0xFF, 0xFE]))
+        _read() {
+          this.push(Buffer.from([0xF8, 0xFF, 0xFE]));
         }
-     }
-     connection.play(new Silence(), {type: 'opus'});
+      }
+      connection.play(new Silence(), { type: 'opus' });
 
       UpdateCommentaryChannelMembers();
-      nodecg.log.info(`joined voice channel!`);
+      nodecg.log.info('joined voice channel!');
       connection.on('speaking', (user, speaking) => {
-        //nodecg.log.info(`updating user ${user.tag} to speaking`);
+        // nodecg.log.info(`updating user ${user.tag} to speaking`);
         if (!voiceActivity.value.members || voiceActivity.value.members.length < 1) { return; }
         setTimeout(() => {
           voiceActivity.value.members.find((voiceMember) => {

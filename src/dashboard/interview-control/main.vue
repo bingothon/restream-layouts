@@ -12,27 +12,28 @@
         {{ interview }}
       </option>
     </select>
-    <button v-on:click="updateCurrentInterview">Update Interview</button>
+    <button @click="updateCurrentInterview">
+      Update Interview
+    </button>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import {
-    AllInterviews, CurrentInterview
+  AllInterviews, CurrentInterview,
 } from '../../../schemas';
 import { store, getReplicant } from '../../browser-util/state';
 
 
 @Component({})
 export default class InterviewControl extends Vue {
-
-    selectedInterviewName: string = "";
+    selectedInterviewName: string = '';
 
     mounted() {
       store.watch(state => state.currentInterview, (newValue) => {
         this.selectedInterviewName = newValue.name;
-      }, {immediate: true});
+      }, { immediate: true });
     }
 
     get allInterviews(): AllInterviews {

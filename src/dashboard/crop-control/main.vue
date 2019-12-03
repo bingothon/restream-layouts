@@ -4,26 +4,42 @@
       <option
         v-for="(channel, i) in currentChannelNames"
         :key="i"
-        :value="channel">{{channel}}
+        :value="channel"
+      >
+        {{ channel }}
       </option>
     </select>
     <div
-      class="ResizeContainer"
       ref="resizeContainer"
+      class="ResizeContainer"
       :style="{'width':`${containerWidth}px`,'height':`${containerHeight}px`}"
     >
       <div
-          ref="twitchPlayer"
-          class="TwitchPlayer"
-          :style="{'left':`${containerLeft}px`,'top':`${containerTop}px`}"
-      ></div>
+        ref="twitchPlayer"
+        class="TwitchPlayer"
+        :style="{'left':`${containerLeft}px`,'top':`${containerTop}px`}"
+      />
     </div>
     <div class="ResizeOptions">
-      <span>Left:</span><input v-model="leftPercent" type="number">
-      <span>Top:</span><input v-model="topPercent" type="number">
-      <span>Width:</span><input v-model="widthPercent" type="number">
-      <span>Height:</span><input v-model="heightPercent" type="number">
-      <button @click="saveCropping">Save</button><span>{{successMessage}}</span>
+      <span>Left:</span><input
+        v-model="leftPercent"
+        type="number"
+      >
+      <span>Top:</span><input
+        v-model="topPercent"
+        type="number"
+      >
+      <span>Width:</span><input
+        v-model="widthPercent"
+        type="number"
+      >
+      <span>Height:</span><input
+        v-model="heightPercent"
+        type="number"
+      >
+      <button @click="saveCropping">
+        Save
+      </button><span>{{ successMessage }}</span>
     </div>
   </div>
 </template>
@@ -31,7 +47,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import {
-    AllInterviews, CurrentInterview, TwitchStreams
+  AllInterviews, CurrentInterview, TwitchStreams,
 } from '../../../schemas';
 import { store, getReplicant } from '../../browser-util/state';
 
@@ -43,13 +59,16 @@ const initHeight = 576;
 @Component({})
 export default class CropControl extends Vue {
   leftPercent: number = 0;
+
   topPercent: number = 0;
+
   widthPercent: number = 100;
+
   heightPercent: number = 100;
-  
+
   currentChannel: string = '';
 
-  successMessage: string = "";
+  successMessage: string = '';
 
   player: any;
 
@@ -59,11 +78,11 @@ export default class CropControl extends Vue {
 
   createTwitchPlayer() {
     const playerContainer = this.$refs.playerContainer as HTMLElement;
-    var playerOptions = {
-      'channel':  this.currentChannel,
-      'width':    initWidth,
-      'height':   initHeight,
-    }
+    const playerOptions = {
+      channel: this.currentChannel,
+      width: initWidth,
+      height: initHeight,
+    };
     this.player = new Twitch.Player(this.$refs.twitchPlayer, playerOptions);
     this.player.showPlayerControls(true);
     this.player.pause();
@@ -93,19 +112,19 @@ export default class CropControl extends Vue {
   }
 
   get containerLeft(): number {
-    return this.leftPercent/100*initWidth;
+    return this.leftPercent / 100 * initWidth;
   }
 
   get containerTop(): number {
-    return this.topPercent/100*initHeight;
+    return this.topPercent / 100 * initHeight;
   }
 
   get containerWidth(): number {
-    return initWidth*100/this.widthPercent;
+    return initWidth * 100 / this.widthPercent;
   }
 
   get containerHeight(): number {
-    return initHeight*100/this.heightPercent;
+    return initHeight * 100 / this.heightPercent;
   }
 
   saveCropping() {
@@ -115,7 +134,8 @@ export default class CropControl extends Vue {
     }
     Object.assign(getReplicant<TwitchStreams>('twitchStreams').value[streamIndex],
       // turns out, they actually aren't numbers
-      { widthPercent: parseInt(this.widthPercent as unknown as string),
+      {
+        widthPercent: parseInt(this.widthPercent as unknown as string),
         heightPercent: parseInt(this.heightPercent as unknown as string),
         leftPercent: parseInt(this.leftPercent as unknown as string),
         topPercent: parseInt(this.topPercent as unknown as string),

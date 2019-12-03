@@ -32,5 +32,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'error',
     'vue/html-self-closing': ['error', { html: { component: 'never' } }],
     'no-new': ['off'],
+    'class-methods-use-this': ['off'],
   },
 };
