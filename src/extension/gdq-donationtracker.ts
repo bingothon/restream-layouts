@@ -17,18 +17,20 @@ const log = new nodecg.Logger(`${nodecg.bundleName}:donationtracker`);
 const client = RequestPromise.defaults({});
 
 
-if (nodecg.bundleConfig && nodecg.bundleConfig.donationtracker && nodecg.bundleConfig.donationtracker.enable) {
+if (nodecg.bundleConfig && nodecg.bundleConfig.donationtracker
+  && nodecg.bundleConfig.donationtracker.enable) {
   const donationTotalReplicant = nodecg.Replicant <DonationTotal>('donationTotal');
   const openBidsReplicant = nodecg.Replicant<TrackerOpenBids>('trackerOpenBids');
   const donationsReplicant = nodecg.Replicant <TrackerDonations>('trackerDonations');
   const prizesReplicant = nodecg.Replicant<TrackerPrizes>('trackerPrizes');
   const feedUrl = nodecg.bundleConfig.donationtracker.url;
   const { eventSlug } = nodecg.bundleConfig.donationtracker;
-  function doUpdate() {
+  // eslint-disable-next-line no-inner-declarations
+  function doUpdate(): void {
     // current donation total
     client.get(`${feedUrl}/feed/current_donations/${eventSlug}`, { json: true })
       .then((data) => {
-        if (data.total != donationTotalReplicant.value) {
+        if (data.total !== donationTotalReplicant.value) {
           donationTotalReplicant.value = data.total;
           log.info(`donation total updated to ${data.total}`);
         }

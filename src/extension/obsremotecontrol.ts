@@ -37,7 +37,7 @@ const hostDiscordDuringIntermissionRep = nodecg.Replicant<HostsSpeakingDuringInt
 
 // make sure we are connected to OBS before loading any of the functions that depend on OBS
 function waitTillConnected(): Promise<void> {
-  return new Promise((resolve, _): void => {
+  return new Promise((resolve): void => {
     function conWait(val: ObsConnection): void {
       if (val.status === 'connected') {
         obsConnectionRep.removeListener('change', conWait);

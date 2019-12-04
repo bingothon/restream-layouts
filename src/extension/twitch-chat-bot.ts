@@ -1,6 +1,7 @@
 'use-strict';
 
 import * as tmi from 'tmi.js';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Replicant } from 'nodecg/types/server';
 import bingoDefinitions from './bingodefinitions';
 import { RunDataActiveRun, RunDataPlayer, TwitchAPIData } from '../../speedcontrol-types';
@@ -33,12 +34,12 @@ const twichAPIDataRep = nodecg.Replicant<TwitchAPIData>('twitchAPIData', 'nodecg
 const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
 const bundleConfig = nodecg.bundleConfig as Configschema;
 
-function waitForReplicants(replicants: Replicant<any>[], callback: Function) {
+function waitForReplicants(replicants: Replicant<unknown>[], callback: Function): void {
   let count = 0;
-  replicants.forEach((r) => {
-    r.once('change', () => {
-      count++;
-      if (count == replicants.length) {
+  replicants.forEach((r): void => {
+    r.once('change', (): void => {
+      count += 1;
+      if (count === replicants.length) {
         callback();
       }
     });
@@ -46,7 +47,7 @@ function waitForReplicants(replicants: Replicant<any>[], callback: Function) {
 }
 
 if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.chatBot) {
-  waitForReplicants([twichAPIDataRep, runDataActiveRunRep], () => {
+  waitForReplicants([twichAPIDataRep, runDataActiveRunRep], (): void => {
     log.info('Twitch chat bot is enabled.');
 
     const options = {
@@ -66,91 +67,38 @@ if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.cha
     const client = tmi.Client(options);
 
     // message handler function
-    function messageHandler(channel: string, user: {[key: string]: string}, message: string, self: any) {
+    function messageHandler(channel: string, user: {[key: string]: string},
+      message: string, self: boolean): void {
       // only listen to commands in chat
       if (self) return;
-      if (user['message-type'] != 'chat') return;
+      if (user['message-type'] !== 'chat') return;
       if (!message.startsWith('!')) return;
-      channel = twichAPIDataRep.value.channelName || '';
       const parts = message.split(' ', 3);
-      // check mod only commands, currently not used
-      /* if ((user.mod || 'broadcaster' in user.badges) && parts.length >= 2) {
-              // name of the command to edit
-              var commandname = parts[1];
-              if (parts.length == 2) {
-                  if (parts[0]=='!delcmd') {
-                      if (chatCommandsRep.value.hasOwnProperty(commandname)) {
-                          delete chatCommandsRep.value[commandname];
-                          client.say(channel, `Command ${commandname} successfully deleted!`);
-                      } else {
-                          client.say(channel, `Command ${commandname} doesn't exist!`);
-                      }
-                  }
-              } else {
-                  if (parts[0]=='!addcmd') {
-                      if (chatCommandsRep.value.hasOwnProperty(commandname)) {
-                          client.say(channel, `Command ${commandname} already exists!`);
-                      } else {
-                          chatCommandsRep.value[commandname] = {response: parts[2], enabled: true, cooldown: 5, lastUsed: 0};
-                          client.say(channel, `Command ${commandname} successfully added!`);
-                      }
-                  }
-                  if (parts[0]=='!setcmd') {
-                      if (chatCommandsRep.value.hasOwnProperty(commandname)) {
-                          chatCommandsRep.value[commandname].response = parts[2];
-                          client.say(channel, `Command ${commandname} successfully changed!`);
-                      } else {
-                          client.say(channel, `Command ${commandname} doesn't exist!`);
-                      }
-                  }
-                  if (parts[0]=='!setcmdenabled') {
-                      if (chatCommandsRep.value.hasOwnProperty(commandname)) {
-                          chatCommandsRep.value[commandname].enabled = !!parts[2];
-                          client.say(channel, `Command ${commandname} successfully enabled/disabled!`);
-                      } else {
-                          client.say(channel, `Command ${commandname} doesn't exist!`);
-                      }
-                  }
-                  if (parts[0]=='!setcmdcooldown') {
-                      if (chatCommandsRep.value.hasOwnProperty(commandname)) {
-                          var cd = parseInt(parts[2]);
-                          if (isNaN(cd)) {
-                              client.say(channel, `${parts[2]} is not a number!`);
-                          } else {
-                              chatCommandsRep.value[commandname].cooldown = cd;
-                              client.say(channel, `Command ${commandname} successfully changed!`);
-                          }
-                      } else {
-                          client.say(channel, `Command ${commandname} doesn't exist!`);
-                      }
-                  }
-              }
-          } */
       const userCommandName = parts[0].slice(1);
       const now = new Date().getTime();
-      if (userCommandName == 'runner' || userCommandName == 'runners' || userCommandName == 'r') {
+      if (userCommandName === 'runner' || userCommandName === 'runners' || userCommandName === 'r') {
         // check cooldown to not spam chat
         if (now - cooldowns.runner.lastUsed < cooldowns.runner.cooldown) {
           return;
         }
         cooldowns.runner.lastUsed = now;
         // Grab current runners and format them & their twitch
-        let playerCount = 1;
         // should never happen
         if (!runDataActiveRunRep.value) {
           return;
         }
         // rip flatMap
         let players: RunDataPlayer[] = [];
+        // eslint-disable-next-line
         runDataActiveRunRep.value.teams.forEach(t => players = players.concat(t.players));
-        const runersStr = players.map(p => `Player ${playerCount++}: ${p.name} ( twitch.tv/${p.social.twitch} )`).join('. ');
+        const runersStr = players.map((p, idx): string => `Player ${idx + 1}: ${p.name} ( twitch.tv/${p.social.twitch} )`).join('. ');
         if (runersStr) {
           client.say(channel, `Follow the runners! ${runersStr}`)
-            .catch(e => log.error('', e));
+            .catch((e): void => log.error('', e));
         }
         return;
       }
-      if (userCommandName == 'bingo') {
+      if (userCommandName === 'bingo') {
         // check cooldown to not spam chat
         if (now - cooldowns.bingo.lastUsed < cooldowns.bingo.cooldown) {
           return;
@@ -166,7 +114,7 @@ if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.cha
                 explanation += bingoDefinitions.coop;
               }
               client.say(channel, explanation)
-                .catch(e => log.error('', e));
+                .catch((e): void => log.error('', e));
             }
           }
         }
@@ -183,13 +131,13 @@ if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.cha
           } */
     }
     client.connect()
-      .catch(e => log.error('', e))
-      .then(() => {
+      .catch((e): void => log.error('', e))
+      .then((): void => {
         client.on('message', messageHandler);
         client.join(twichAPIDataRep.value.channelName || 'speedrunslive')
-          .catch((reason) => {
+          .catch((reason): void => {
             log.error(`Couldn't join channel: ${reason}`);
-          }).then((data) => {
+          }).then((data): void => {
             log.info(`Joined channel: ${data}`);
           });
       });

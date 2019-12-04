@@ -33,8 +33,8 @@ const aspectRatioToCropping = {
   },
 };
 
-streamsReplicant.once('change', () => {
-  runDataActiveRunReplicant.on('change', (newVal, old) => {
+streamsReplicant.once('change', (): void => {
+  runDataActiveRunReplicant.on('change', (newVal, old): void => {
     // don't reset on server restart
     if (!newVal || !old) return;
 
@@ -49,8 +49,8 @@ streamsReplicant.once('change', () => {
     // grab all runners
     const newStreams: TwitchStreams = [];
     let idx = 0;
-    newVal.teams.forEach((team) => {
-      team.players.forEach((player) => {
+    newVal.teams.forEach((team): void => {
+      team.players.forEach((player): void => {
         // in case the replicant changed, but this stream wasn't affected, don't reset cropping
         // fill everything with defaults
         let current: TwitchStream = {
@@ -74,28 +74,28 @@ streamsReplicant.once('change', () => {
           current.paused = true;
         } else {
           const oldStream = streamsReplicant.value[idx];
-          if (!oldStream || player.social.twitch != oldStream.channel) {
+          if (!oldStream || player.social.twitch !== oldStream.channel) {
             current.channel = player.social.twitch;
           } else {
             current = oldStream;
           }
         }
         newStreams.push(current);
-        idx++;
+        idx += 1;
       });
     });
     streamsReplicant.value = newStreams;
   });
 });
 
-nodecg.listenFor('streams:setSoundOnTwitchStream', (streamNr: number, callback) => {
+nodecg.listenFor('streams:setSoundOnTwitchStream', (streamNr: number, callback): void => {
   soundOnTwitchStream.value = streamNr;
   if (callback && !callback.handled) {
     callback();
   }
 });
 
-nodecg.listenFor('streams:toggleStreamPlayPause', (streamNr: number, callback) => {
+nodecg.listenFor('streams:toggleStreamPlayPause', (streamNr: number, callback): void => {
   if (streamNr >= 0 && streamNr < streamsReplicant.value.length) {
     streamsReplicant.value[streamNr].paused = !streamsReplicant.value[streamNr].paused;
   }
@@ -104,7 +104,7 @@ nodecg.listenFor('streams:toggleStreamPlayPause', (streamNr: number, callback) =
   }
 });
 
-nodecg.listenFor('streams:setStreamVolume', (data: {id: number; volume: number}, callback) => {
+nodecg.listenFor('streams:setStreamVolume', (data: {id: number; volume: number}, callback): void => {
   if (data.volume > 1 || data.volume < 0) {
     if (callback && !callback.handled) {
       callback('volume has to be between 0 and 1!');
@@ -119,7 +119,7 @@ nodecg.listenFor('streams:setStreamVolume', (data: {id: number; volume: number},
   }
 });
 
-nodecg.listenFor('streams:setStreamQuality', (data: {id: number; quality: string}, callback) => {
+nodecg.listenFor('streams:setStreamQuality', (data: {id: number; quality: string}, callback): void => {
   if (data.id >= 0 && data.id < streamsReplicant.value.length) {
     streamsReplicant.value[data.id].quality = data.quality;
   }

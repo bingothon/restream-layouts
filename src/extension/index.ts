@@ -1,7 +1,8 @@
 import { NodeCG } from 'nodecg/types/server'; // eslint-disable-line
 import * as nodecgApiContext from './util/nodecg-api-context';
 import { VoiceActivity, SongData, ShowPictureDuringIntermission } from '../../schemas';
-import { Configschema } from '../../configschema';
+
+/* eslint-disable global-require */
 
 export = (nodecg: NodeCG): void => {
   nodecgApiContext.set(nodecg);
