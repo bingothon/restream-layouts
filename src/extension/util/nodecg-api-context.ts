@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { NodeCG } from 'nodecg/types/server';
 
 let context: NodeCG;

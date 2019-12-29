@@ -29,25 +29,25 @@ if (nodecg.bundleConfig && nodecg.bundleConfig.donationtracker
   function doUpdate(): void {
     // current donation total
     client.get(`${feedUrl}/feed/current_donations/${eventSlug}`, { json: true })
-      .then((data) => {
+      .then((data): void => {
         if (data.total !== donationTotalReplicant.value) {
           donationTotalReplicant.value = data.total;
           log.info(`donation total updated to ${data.total}`);
         }
       })
-      .catch((err) => {
+      .catch((err): void => {
         log.error('error getting donation total: ', err);
       });
 
     // all bids that are open
     client.get(`${feedUrl}/feed/upcoming_bids/${eventSlug}`, { json: true })
-      .then((data) => {
+      .then((data): void => {
         if (!equal(openBidsReplicant.value, data.results)) {
           openBidsReplicant.value = data.results;
           log.info(`bids updated to ${JSON.stringify(data.results)}`);
         }
       })
-      .catch((err) => {
+      .catch((err): void => {
         log.error('error getting bids: ', err);
       });
 
@@ -55,24 +55,24 @@ if (nodecg.bundleConfig && nodecg.bundleConfig.donationtracker
     // last 20 donations (limited by the tracker)
     // TODO: send out event on new donation
     client.get(`${feedUrl}/feed/donations/${eventSlug}`, { json: true })
-      .then((data) => {
+      .then((data): void => {
         if (!equal(donationsReplicant.value, data.results)) {
           donationsReplicant.value = data.results;
           log.info(`donations updated to ${JSON.stringify(data.results)}`);
         }
       })
-      .catch((err) => {
+      .catch((err): void => {
         log.error('error getting donations: ', err);
       });
     // get prizes
     client.get(`${feedUrl}/feed/prizes/${eventSlug}`, { json: true })
-      .then((data) => {
+      .then((data): void => {
         if (!equal(prizesReplicant.value, data.results)) {
           prizesReplicant.value = data.results;
           log.info(`prizes updated to ${JSON.stringify(data.results)}`);
         }
       })
-      .catch((err) => {
+      .catch((err): void => {
         log.error('error getting prizes: ', err);
       });
     // prizesReplicant.value = [{endtime: 1570702210000, minDonation: 10, name: "Epic Tr1cks Mug", provider: "The Tr1cks", image: "https://www.bingothon.com/pictures/logo-winter.png"},

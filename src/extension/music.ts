@@ -7,9 +7,9 @@ import { SongData } from '../../schemas';
 const nodecg = nodecgApiContext.get();
 const logger = new nodecg.Logger(`${nodecg.bundleName}:mpd`);
 const mpdConfig = nodecg.bundleConfig.mpd || {};
-const volume = mpdConfig.volume || 80;
-let currentVolume: number = volume;
-let fadeInterval: NodeJS.Timeout;
+// const volume = mpdConfig.volume || 80;
+// const currentVolume: number = volume;
+// let fadeInterval: NodeJS.Timeout;
 let shuffleInterval: NodeJS.Timeout;
 let connected = false;
 
@@ -34,6 +34,7 @@ function connect(): void {
 
 // Listen for NodeCG messages from dashboard/layouts.
 nodecg.listenFor('pausePlaySong', (): void => {
+  if (!connected) return;
   if (songData.value.playing) {
     client.playback.stop();
   } else {
@@ -125,6 +126,8 @@ async function shufflePlaylist(): Promise<void> {
   }
 }
 
+/* fade not used since we used http based music streaming
+which doesn't support volume apparently
 // Used to set the player volume to whatever the variable is set to.
 async function setVolume(): Promise<void> {
   await client.playbackOptions.setVolume(currentVolume)
@@ -171,4 +174,4 @@ async function fadeIn(): Promise<void> {
   }
 
   fadeInterval = setInterval(loop, 200);
-}
+} */
