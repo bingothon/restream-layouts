@@ -22,6 +22,7 @@ export interface Configschema {
     enable: boolean;
     url: string;
     eventSlug: string;
+    test?: boolean;
   };
   obs: {
     enable: boolean;

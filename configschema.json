@@ -40,7 +40,8 @@
 			"properties": {
 				"enable": {"type": "boolean", "default": false},
 				"url": {"type": "string", "default": "https://devdonations.bingothon.com"},
-				"eventSlug": {"type": "string", "default": "bingothon18"}
+				"eventSlug": {"type": "string", "default": "bingothon18"},
+				"test": {"type": "boolean", "default": false}
 			}
 		},
 		"obs": {
