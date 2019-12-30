@@ -19,11 +19,10 @@
 </template>
 
 <script lang="ts">
-import clone from 'clone';
 import { Component, Vue } from 'vue-property-decorator';
-import { nodecg, NodeCG } from '../../browser-util/nodecg';
+import { nodecg } from '../../browser-util/nodecg';
 import {
-  Bingoboard, BingosyncSocket, BingoboardMeta, AllGameLayouts, CurrentGameLayout,
+  AllGameLayouts, CurrentGameLayout,
 } from '../../../schemas';
 import { store, getReplicant } from '../../browser-util/state';
 
@@ -52,7 +51,7 @@ export default class LayoutControl extends Vue {
     }
 
     updateCurrentLayout() {
-      const newLayout = this.allGameLayouts.find(l => l.name == this.selectedLayoutName);
+      const newLayout = this.allGameLayouts.find(l => l.name === this.selectedLayoutName);
       if (!newLayout) {
         throw new Error("The layout selected is invalid, that shouldn't happen!");
       }

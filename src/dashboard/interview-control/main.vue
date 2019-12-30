@@ -49,7 +49,7 @@ export default class InterviewControl extends Vue {
     }
 
     updateCurrentInterview() {
-      const newInterview = this.allInterviews.find(l => l.name == this.selectedInterviewName);
+      const newInterview = this.allInterviews.find(l => l.name === this.selectedInterviewName);
       if (!newInterview) {
         throw new Error("The interview selected is invalid, that shouldn't happen!");
       }

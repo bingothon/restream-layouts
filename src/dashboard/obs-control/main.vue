@@ -85,9 +85,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { nodecg, NodeCG } from '../../browser-util/nodecg';
+import { nodecg } from '../../browser-util/nodecg';
 import {
-  Bingoboard, BingosyncSocket, BingoboardMeta, CurrentMainBingoboard, ObsAudioSources, ObsDashboardAudioSources, DiscordDelayInfo, ObsStreamMode,
+  ObsDashboardAudioSources, DiscordDelayInfo, ObsStreamMode,
 } from '../../../schemas';
 import { store, getReplicant } from '../../browser-util/state';
 
@@ -124,7 +124,7 @@ export default class OBSControl extends Vue {
   }
 
   updateAudioSourceBaseVolume(audioSource: string, $event: any) {
-    getReplicant<ObsDashboardAudioSources>('obsDashboardAudioSources').value[audioSource].baseVolume = parseInt($event.target.value) / 100;
+    getReplicant<ObsDashboardAudioSources>('obsDashboardAudioSources').value[audioSource].baseVolume = parseInt($event.target.value, 10) / 100;
   }
 
   get sceneNameList(): string[] {
@@ -136,7 +136,7 @@ export default class OBSControl extends Vue {
   }
 
   set discordAudioDelay(delay: string) {
-    getReplicant<DiscordDelayInfo>('discordDelayInfo').value.discordAudioDelayMs = parseInt(delay);
+    getReplicant<DiscordDelayInfo>('discordDelayInfo').value.discordAudioDelayMs = parseInt(delay, 10);
   }
 
   get discordAudioDelaySync(): boolean {
@@ -152,7 +152,7 @@ export default class OBSControl extends Vue {
   }
 
   set discordDisplayDelay(delay: string) {
-    getReplicant<DiscordDelayInfo>('discordDelayInfo').value.discordDisplayDelayMs = parseInt(delay);
+    getReplicant<DiscordDelayInfo>('discordDelayInfo').value.discordDisplayDelayMs = parseInt(delay, 10);
   }
 
   get discordDisplayDelaySync(): boolean {
@@ -176,7 +176,7 @@ export default class OBSControl extends Vue {
   }
 
   toggleAudioFade(source: string) {
-    if (store.state.obsDashboardAudioSources[source].fading == 'muted') {
+    if (store.state.obsDashboardAudioSources[source].fading === 'muted') {
       nodecg.sendMessageToBundle('obsRemotecontrol:fadeInAudio', bundleName, { source });
     } else {
       nodecg.sendMessageToBundle('obsRemotecontrol:fadeOutAudio', bundleName, { source });
@@ -189,6 +189,7 @@ export default class OBSControl extends Vue {
       case 'fadeout': return 'Fading out...';
       case 'muted': return 'Unmute';
       case 'unmuted': return 'Mute';
+      default: return 'unreachable';
     }
   }
 

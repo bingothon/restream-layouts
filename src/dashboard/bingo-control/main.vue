@@ -21,8 +21,8 @@
         @change="updatePlayerColor(i, $event)"
       >
         <option
-          v-for="(sColor,i) in allColors"
-          :key="i"
+          v-for="(sColor,j) in allColors"
+          :key="j"
           :value="sColor"
         >
           {{ sColor }}

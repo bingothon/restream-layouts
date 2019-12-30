@@ -47,7 +47,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import {
-  AllInterviews, CurrentInterview, TwitchStreams,
+  TwitchStreams,
 } from '../../../schemas';
 import { store, getReplicant } from '../../browser-util/state';
 
@@ -77,7 +77,6 @@ export default class CropControl extends Vue {
   }
 
   createTwitchPlayer() {
-    const playerContainer = this.$refs.playerContainer as HTMLElement;
     const playerOptions = {
       channel: this.currentChannel,
       width: initWidth,
@@ -86,7 +85,7 @@ export default class CropControl extends Vue {
     this.player = new Twitch.Player(this.$refs.twitchPlayer, playerOptions);
     this.player.showPlayerControls(true);
     this.player.pause();
-    const stream = store.state.twitchStreams.find(s => s.channel == this.currentChannel);
+    const stream = store.state.twitchStreams.find(s => s.channel === this.currentChannel);
     if (stream) {
       this.leftPercent = stream.leftPercent;
       this.topPercent = stream.topPercent;
@@ -128,17 +127,17 @@ export default class CropControl extends Vue {
   }
 
   saveCropping() {
-    const streamIndex = store.state.twitchStreams.findIndex(s => s.channel == this.currentChannel);
-    if (streamIndex == -1) {
+    const streamIndex = store.state.twitchStreams.findIndex(s => s.channel === this.currentChannel);
+    if (streamIndex === -1) {
       return;
     }
     Object.assign(getReplicant<TwitchStreams>('twitchStreams').value[streamIndex],
       // turns out, they actually aren't numbers
       {
-        widthPercent: parseInt(this.widthPercent as unknown as string),
-        heightPercent: parseInt(this.heightPercent as unknown as string),
-        leftPercent: parseInt(this.leftPercent as unknown as string),
-        topPercent: parseInt(this.topPercent as unknown as string),
+        widthPercent: parseInt(this.widthPercent as unknown as string, 10),
+        heightPercent: parseInt(this.heightPercent as unknown as string, 10),
+        leftPercent: parseInt(this.leftPercent as unknown as string, 10),
+        topPercent: parseInt(this.topPercent as unknown as string, 10),
       });
   }
 }

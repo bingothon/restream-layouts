@@ -28,8 +28,8 @@
         @change="updateStreamQuality(i, $event)"
       >
         <option
-          v-for="(quality,i) in stream.availableQualities"
-          :key="i"
+          v-for="(quality,j) in stream.availableQualities"
+          :key="j"
           :value="quality.group"
         >
           {{ quality.name }}
@@ -56,11 +56,10 @@
 </template>
 
 <script lang="ts">
-import clone from 'clone';
 import { Component, Vue } from 'vue-property-decorator';
-import { nodecg, NodeCG } from '../../browser-util/nodecg';
+import { nodecg } from '../../browser-util/nodecg';
 import {
-  Bingoboard, BingosyncSocket, BingoboardMeta, AllGameLayouts, CurrentGameLayout, TwitchStreams,
+  TwitchStreams,
 } from '../../../schemas';
 import { store, getReplicant } from '../../browser-util/state';
 
@@ -79,7 +78,7 @@ export default class TwitchControl extends Vue {
   }
 
   volumeChange(id: number, event: any) {
-    const newVolume = parseInt(event.target.value) / 100;
+    const newVolume = parseInt(event.target.value, 10) / 100;
     nodecg.sendMessageToBundle('streams:setStreamVolume', bingothonBundleName, { id, volume: newVolume });
   }
 
@@ -88,7 +87,7 @@ export default class TwitchControl extends Vue {
   }
 
   muteChange(id: number) {
-    if (this.soundOnTwitchStream == id) {
+    if (this.soundOnTwitchStream === id) {
       nodecg.sendMessageToBundle('streams:setSoundOnTwitchStream', bingothonBundleName, -1);
     } else {
       nodecg.sendMessageToBundle('streams:setSoundOnTwitchStream', bingothonBundleName, id);
