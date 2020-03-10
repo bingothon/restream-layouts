@@ -1,6 +1,6 @@
 <template>
   <div id="Intermission">
-    <img src="../../../static/logo-winter-wide.png" id="logo">
+    <img src="../../../static/logo-summer-wide.png" id="logo">
     <div id="host-bingo-text">Host Blackout Bingo</div>
     <run-upcoming
       v-if="nextRun"
@@ -103,16 +103,16 @@ export default class Intermission extends Vue{
     }
 };
 </script>
- 
+
 <style>
   #Intermission {
     height: 900px;
     overflow: hidden;
   }
   #logo {
-	  position: absolute;
+	position: absolute;
     left: 48px;
-    top: 56px;
+    top: 5px;
     width: 631px;
   }
   #ComingUpNext {
@@ -128,7 +128,6 @@ export default class Intermission extends Vue{
     font-weight: 500;
     height: 60px;
     line-height: 60px;
-    background-color: var(--border-colour);
     color: #fff;
     font-size: 41px;
     text-transform: uppercase;
@@ -159,7 +158,7 @@ export default class Intermission extends Vue{
 	  top: 920px;
   }
   .Mic {
-	  background-color: var(--lighter-main-color);
+	  /*background-color: var(--lighter-main-color);*/
 	  top: 910px;
 	  height: 60px;
 	  padding: 5px;
@@ -175,7 +174,7 @@ export default class Intermission extends Vue{
   }
 
 	body {
-		background: linear-gradient(var(--lighter-main-color), var(--darker-main-color) 80%, var(--lighter-main-color));
+		background: linear-gradient(var(--darker-main-color), var(--lighter-main-color) 80%, var(--darker-main-color));
 		/*background-color: rgba(98, 127, 190, 0.5)*/
 	}
 

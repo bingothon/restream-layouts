@@ -13,8 +13,8 @@
 
 <script lang="ts">
 	import { Component, Vue } from "vue-property-decorator";
-  import TestTimerContainer from "../components/testTimerContainer.vue";
-	import TestGameContainer from "../components/testGameContainer.vue";
+  import TestTimerContainer from "../components/timerContainer.vue";
+	import TestGameContainer from "../components/gameContainer.vue";
   import BingoBoard from "../components/bingoboard.vue";
   import PlayerInfo from "../components/playerInfo.vue";
   import TeamInfo from "../components/teamInfo.vue";
