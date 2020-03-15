@@ -14,27 +14,27 @@ import { store } from '../../../browser-util/state';
 @Component({})
 export default class DonationTotal extends Vue {
 
-  init: boolean = false;
+  init: boolean = true;
   tweenedTotal: number = -1;
 
   get donationTotal(): number {
     return store.state.donationTotal;
   }
-  
+
   @Watch('donationTotal', {immediate: true})
   onTotalChanged() {
     if (this.init) {
-      TweenLite.to(this.$data, 5, { tweenedTotal: this.donationTotal });
+	  this.tweenedTotal = Math.round(this.donationTotal);
+	  this.init = false;
     } else {
-      this.tweenedTotal = this.donationTotal;
-      this.init = true;
+	  TweenLite.to(this.$data, 5, { tweenedTotal: Math.round(this.donationTotal) });
     }
   }
 
   get totalString(): string {
     return `$${this.tweenedTotal.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
   }
-  
+
   mounted() {
     this.onTotalChanged();
   }

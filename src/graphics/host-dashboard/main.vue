@@ -1,7 +1,16 @@
 <template>
 	<div id="HostDashboard">
-    <div id="intermission-live-warning" v-if="hostsSpeakingDuringIntermission">You are currently live on stream</div>
-	<div id="columnsWrapper">
+		<div id="intermission-live-warning" v-if="hostsSpeakingDuringIntermission">You are currently live on stream</div>
+		<button
+			@click="toggleHostsSpeakingDuringIntermission"
+			:disabled="!hostsCanGoLive"
+			id="Go-Live-Button"
+		>
+			{{hostsSpeakingToggleButtonText}}
+		</button>
+		<div id="Go-Live">Go live on stream during intermission
+		</div>
+		<div id="columnsWrapper">
 		<div id="column1" class="column">
 			<div id="PEFacts">
 				<div class="fact">
@@ -80,11 +89,6 @@
                 Paste the entire image Url here: <input v-model="pictureDuringIntermissionUrl">
                 <button @click="clearPicture">Clear picture</button>
             </div>
-            <div>Go live on stream during intermission:<br>
-                <button
-                    @click="toggleHostsSpeakingDuringIntermission"
-                    :disabled="!hostsCanGoLive"
-                >{{hostsSpeakingToggleButtonText}}</button></div>
 			<div id="donationTotalHeader">Donation Total:</div>
 			<div id="donationTotal">{{donationTotal}}</div>
 			<br>
@@ -110,6 +114,11 @@
 				</div>
 			</div>
 		</div>
+		<div id="column4" class="column">
+			<div id="HostingBingo">
+				<bingo-board class="BingoBoard" id="Bingo-board" bingoboardRep="hostingBingoboard" :alwaysShown="true" fontSize="25px"></bingo-board>
+			</div>
+		</div>
 	</div>
 	</div>
 </template>
@@ -121,9 +130,14 @@
     import moment from 'moment';
     import fs = require('fs');
     import {RunData} from "../../../speedcontrol-types";
+    import BingoBoard from "../components/bingoboard";
 import { HostsSpeakingDuringIntermission, ShowPictureDuringIntermission } from "../../../schemas";
 
-    @Component({})
+    @Component({
+		components: {
+			BingoBoard
+		}
+	})
 
     export default class HostDashboard extends Vue {
         private factIndex: number = 0;
@@ -151,7 +165,7 @@ import { HostsSpeakingDuringIntermission, ShowPictureDuringIntermission } from "
 	   get afterThatRun() : RunData {
             return this.getNextRuns(this.currentRun, 2);
        }
-       
+
        get hostsSpeakingDuringIntermission(): boolean {
            return store.state.hostsSpeakingDuringIntermission.speaking;
        }
@@ -211,7 +225,7 @@ import { HostsSpeakingDuringIntermission, ShowPictureDuringIntermission } from "
             if (amount < 1000 && !forceRemoveCents)
                 return '$' + amount.toFixed(2);
             else
-                return '$' + Math.floor(amount).toLocaleString('en-US', { minimumFractionDigits: 0 });
+                return '$' + Math.round(amount).toLocaleString('en-US', { minimumFractionDigits: 0 });
         }
 
         get peFacts() : String[] {
@@ -255,135 +269,6 @@ import { HostsSpeakingDuringIntermission, ShowPictureDuringIntermission } from "
             getReplicant<ShowPictureDuringIntermission>('showPictureDuringIntermission').value.imageUrl = url;
         }
 
-    /*//var runFinishTimes = store.state.runDataActiveRun.
-    //var runFinishTimesInit = false;
-    var runDataActiveRunInit = false;
-    /*var runsInit = false;
-    runFinishTimes.on('change', newVal => {
-        runFinishTimesInit = true;
-        if (!runsInit && runFinishTimesInit && runDataActiveRunInit) {
-            setRuns();
-            runsInit = true;
-        }
-    });
-    runDataActiveRun.on('change', newVal => {
-        runDataActiveRunInit = true;
-        if (runFinishTimesInit && runDataActiveRunInit) {
-            setRuns();
-            runsInit = true;
-        }
-    });*/
-
-    /*function setRuns() {
-        var runDataArray = store.state.runDataArray;
-        var runDataActiveRun = store.state.runDataActiveRun;
-        var indexOfCurrentRun = findIndexInRunDataArray(runDataActiveRun);
-        for (var i = -1; i < 2; i++) {
-            var run = runDataArray.value[indexOfCurrentRun+i];
-            if (run) {
-                var runElement = runHTML.clone();
-                if (i === -1) {
-                    $('.justMissed', runElement).show();
-                    if (runFinishTimes.value[runDataActiveRun.value.id-1]) {
-                        $('.gameFinal', runElement).html(runFinishTimes.value[runDataActiveRun.value.id-1]);
-                        $('.gameFinal', runElement).show();
-                    }
-                }
-                else {
-                    $('.justMissed', runElement).hide();
-                    $('.gameFinal', runElement).hide();
-                }
-                $('.gameName', runElement).html(run.game);
-                $('.gameCategory', runElement).html(run.category);
-                $('.gameConsole', runElement).html(run.system);
-                $('.gameRunners', runElement).html(formPlayerNamesString(run));
-                $('.gameTime', runElement).html(run.estimate);
-                runsContainer.append(runElement);
-            }
-        }
-    }
-
-    // Get the next X runs in the schedule.
-    function getNextRuns(runData, amount) {
-        var nextRuns = [];
-        var indexOfCurrentRun = findIndexInRunDataArray(runData);
-        for (var i = 1; i <= amount; i++) {
-            if (!runDataArray.value[indexOfCurrentRun + i]) break;
-            nextRuns.push(runDataArray.value[indexOfCurrentRun + i]);
-        }
-        return nextRuns;
-    }
-
-    // Returns how long until a run, based on the estimate of the previous run.
-    function formETAUntilRun(previousRun, whenTotal) {
-        var whenString = '';
-        if (!previousRun) whenString = 'Next';
-        else {
-            var previousRunTime = previousRun.estimateS + previousRun.setupTimeS;
-            var formatted = moment.utc().second(0).to(moment.utc().second(whenTotal + previousRunTime), true);
-            whenString = 'In about ' + formatted;
-            whenTotal += previousRunTime;
-        }
-        return [whenString, whenTotal];
-    }
-
-    // Converts milliseconds to a time string.
-    function msToTime(duration, noHour) {
-        var seconds = parseInt((duration / 1000) % 60),
-            minutes = parseInt((duration / (1000 * 60)) % 60),
-            hours = parseInt((duration / (1000 * 60 * 60)) % 24);
-
-        hours = (hours < 10) ? '0' + hours : hours;
-        minutes = (minutes < 10) ? '0' + minutes : minutes;
-        seconds = (seconds < 10) ? '0' + seconds : seconds;
-
-        var timeString = '';
-
-        if (!noHour)
-            timeString += hours + ':';
-        timeString += minutes + ':' + seconds;
-
-        return timeString;
-    }
-
-    // Goes through each team and members and makes a string to show the names correctly together.
-    function formPlayerNamesString(runData) {
-        var namesArray = [];
-        var namesList = 'No Player(s)';
-        runData.teams.forEach(team => {
-            var teamPlayerArray = [];
-            team.players.forEach(player => { teamPlayerArray.push(player.name); });
-            namesArray.push(teamPlayerArray.join(', '));
-        });
-        if (namesList.length) namesList = namesArray.join(' vs. ');
-        return namesList;
-    }
-
-    // Returns the total amount of players a run has.
-    function checkForTotalPlayers(runData) {
-        var amount = 0;
-        runData.teams.forEach(team => team.players.forEach(player => amount++));
-        return amount;
-    }
-
-    // Get a random integer, usually for selecting array elements.
-    // You will never get max as an output.
-    function getRandomInt(max) {
-        return Math.floor(Math.random() * Math.floor(max));
-    }
-
-    function getRandomFloat(max) {
-        return Math.random() * max;
-    }
-
-    // Used to get the width of supplied text.
-    function getTextWidth(text, size) {
-        var canvas = document.createElement('canvas');
-        var ctx = canvas.getContext('2d');
-        ctx.font = size + 'px "Barlow Condensed"'; // Change if layout is changed.
-        return ctx.measureText(text).width;
-    }*/
-
     // calculate the time until the prize period ends and render it as a human readable string ("an hour", "20 minutes")
 	getPrizeTimeUntilString(prize: TrackerPrize) {
         if (prize.endtime) {
@@ -394,25 +279,7 @@ import { HostsSpeakingDuringIntermission, ShowPictureDuringIntermission } from "
         } else {
             return `Donate until the end of the event`;
         }
-    }
-/*
-    // Change if an element is visible or not.
-    function changeVisibility(elem, isVisible) {
-        $(elem).css({
-            visibility: isVisible ? 'visible' : 'hidden'
-        });
-    }
-
-    function createAssetArrayWithChances(arr) {
-        var newArr = [];
-        arr.forEach(asset => {
-            for (var i = 0; i < asset.chance; i++) {
-                newArr.push(asset);
-            }
-        });
-        return newArr;
-    }
-    });*/
+	}
     }
 </script>
 
@@ -440,7 +307,7 @@ import { HostsSpeakingDuringIntermission, ShowPictureDuringIntermission } from "
 
 	.column {
 		height: inherit;
-		width: 33%;
+		width: 25%;
 		display: flex;
 		align-items: center; /* Aligns horizontally centre. */
 		flex-direction: column;
@@ -518,5 +385,24 @@ import { HostsSpeakingDuringIntermission, ShowPictureDuringIntermission } from "
         text-align: center;
         font-size: 40px;
     }
+
+	#HostingBingo {
+		width: 100%;
+	}
+
+	#HostingBingo > .BingoBoard {
+		width: 100%;
+		padding-bottom: 100%;
+		position: relative;
+	}
+
+	#Go-Live {
+		font-size: 30px;
+	}
+
+	#Go-Live-Button {
+		background-color: red;
+		color: white;
+	}
 
 </style>
