@@ -38,7 +38,7 @@
 					<div v-if="bid.allow_custom_options">
 						...or you could submit your own idea!
 					</div>
-					<svg width="500" height="500">{{makePie(bid)}}</svg>
+					<svg ref="piesvg" width="500" height="500"></svg>
 				</div>
 				<div v-else-if="bid.allow_custom_options">
 					No options submitted yet, be the first!
@@ -53,7 +53,7 @@
     import { TrackerOpenBid } from "../../../../../types";
     import { Component, Vue } from 'vue-property-decorator';
     import {store} from "../../../../browser-util/state";
-    import {pie, arc} from 'd3';
+	import * as d3 from 'd3';
 
     @Component({})
     export default class Bid extends Vue {
@@ -68,7 +68,12 @@
                 this.bid = clone(chosenBid);
             }
 
-            this.bid = clone(chosenBid);
+			this.bid = clone(chosenBid);
+			if (this.bid.options && this.bid.options.length > 0) {
+				this.$nextTick(() => {
+					this.makePie(this.bid);
+				});
+			}
             setTimeout(() => this.$emit('end'), 20 * 1000);
         }
 
@@ -99,16 +104,19 @@
         	let options = bid.options;
         	let data = [];
         	options.forEach( (option) => {
-        		data.push({value: option.amount_raised, name: option.name});
+        		//data.push({value: option.amount_raised, name: option.name});
+        		data.push(option.amount_raised);
 			});
 
-        	let svg = d3.select("svg"),
-				width = svg.attr("width"),
+			let svg = d3.select(this.$refs.piesvg);
+			let	width = svg.attr("width"),
 				height = svg.attr("height"),
 				radius = Math.min(width, height) / 2;
 
 			let g = svg.append("g").attr("transform", "translate(" + width/2 + "," + height/2 + ")");
 			let color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);
+
+			var pie = d3.pie();
 
 			// Generate the arcs
 			var arc = d3.arc()
