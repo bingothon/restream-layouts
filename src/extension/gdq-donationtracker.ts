@@ -87,7 +87,7 @@ if (config && config.donationtracker
     setInterval(doUpdate, 30000);
   } else {
     log.info('Tracker test mode enabled, using fake data');
-    const testWords = ['Lorem', 'Ipsum', 'Dolar', 'Si', 'Achmet', 'Greetings', 'From', 'Germany'];
+    const testWords = ['Lorem', 'Ipsum', 'Dolar', 'Si', 'Achmet', 'Greetings', 'From', 'Germany', 'Save', 'Kill', 'the', 'Animals'];
     function randSentence(minWords: number, maxWords: number): string {
       const words = minWords + Math.floor((maxWords - minWords) * Math.random());
       let sentence = '';
@@ -105,7 +105,7 @@ if (config && config.donationtracker
     /* eslint-disable @typescript-eslint/camelcase */
     // generate test bid wars and incentives
     for (let i = 0; i < 10; i += 1) {
-      if (Math.random() < 0.5) {
+      /*if (Math.random() < 0.5) {
         // incentive
         currentBids.push({
           allow_custom_options: false,
@@ -118,7 +118,7 @@ if (config && config.donationtracker
           run_started: false,
           state: 'OPENED',
         });
-      } else if (Math.random() < 0.5) {
+      } else*/ if (Math.random() < 0.5) {
         // disallow custom options
         const options = [];
         const opCount = Math.floor(2 + Math.random() * 3);

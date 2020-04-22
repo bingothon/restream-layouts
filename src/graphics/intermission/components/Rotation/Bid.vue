@@ -38,6 +38,7 @@
 					<div v-if="bid.allow_custom_options">
 						...or you could submit your own idea!
 					</div>
+					{{makePie(bid)}}
 				</div>
 				<div v-else-if="bid.allow_custom_options">
 					No options submitted yet, be the first!
@@ -52,6 +53,7 @@
     import { TrackerOpenBid } from "../../../../../types";
     import { Component, Vue } from 'vue-property-decorator';
     import {store} from "../../../../browser-util/state";
+    import {pie, arc} from 'd3';
 
     @Component({})
     export default class Bid extends Vue {
@@ -92,6 +94,29 @@
                 return null;
             }
         }
+
+        makePie(bid : TrackerOpenBid) {
+        	/*let options = bid.options;
+        	let data = [];
+        	options.forEach( (option) => {
+        		data.push({value: option.amount_raised, name: option.name});
+			});
+        	let arcs = d3.pie()(data);
+        	const height, width = 300;
+			const svg = d3.create("svg")
+				.attr("viewBox", [-width / 2, -height / 2, width, height]);
+
+			svg.append("g")
+				.attr("stroke", "white")
+				.selectAll("path")
+				.data(arcs)
+				.join("path")
+				.attr("d", arc)
+				.append("title")
+				.text(d => `${d.data.name}: ${d.data.value.toLocaleString()}`);
+
+			return svg.node;*/
+		}
 	};
 </script>
 
