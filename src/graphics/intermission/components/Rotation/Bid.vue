@@ -38,7 +38,7 @@
 					<div v-if="bid.allow_custom_options">
 						...or you could submit your own idea!
 					</div>
-					{{makePie(bid)}}
+					<svg width="500" height="500">{{makePie(bid)}}</svg>
 				</div>
 				<div v-else-if="bid.allow_custom_options">
 					No options submitted yet, be the first!
@@ -96,26 +96,38 @@
         }
 
         makePie(bid : TrackerOpenBid) {
-        	/*let options = bid.options;
+        	let options = bid.options;
         	let data = [];
         	options.forEach( (option) => {
         		data.push({value: option.amount_raised, name: option.name});
 			});
-        	let arcs = d3.pie()(data);
-        	const height, width = 300;
-			const svg = d3.create("svg")
-				.attr("viewBox", [-width / 2, -height / 2, width, height]);
 
-			svg.append("g")
-				.attr("stroke", "white")
-				.selectAll("path")
-				.data(arcs)
-				.join("path")
-				.attr("d", arc)
-				.append("title")
-				.text(d => `${d.data.name}: ${d.data.value.toLocaleString()}`);
+        	let svg = d3.select("svg"),
+				width = svg.attr("width"),
+				height = svg.attr("height"),
+				radius = Math.min(width, height) / 2;
 
-			return svg.node;*/
+			let g = svg.append("g").attr("transform", "translate(" + width/2 + "," + height/2 + ")");
+			let color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);
+
+			// Generate the arcs
+			var arc = d3.arc()
+				.innerRadius(0)
+				.outerRadius(radius);
+
+			//Generate groups
+			var arcs = g.selectAll("arc")
+				.data(pie(data))
+				.enter()
+				.append("g")
+				.attr("class", "arc")
+
+			//Draw arc paths
+			arcs.append("path")
+				.attr("fill", function(d, i) {
+					return color(i);
+				})
+				.attr("d", arc);
 		}
 	};
 </script>
