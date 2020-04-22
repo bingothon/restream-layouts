@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.13",
+    "@types/d3": "^5.7.2",
     "@types/deep-equal": "^1.0.1",
     "@types/request-promise": "^4.1.44",
     "@types/tmi.js": "^1.4.0",
@@ -153,6 +154,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.10.2",
     "@fortawesome/vue-fontawesome": "^0.1.6",
     "cheerio": "^1.0.0-rc.3",
+    "d3": "^5.15.1",
     "deep-equal": "^1.0.1",
     "discord.js": "github:sillyfrog/discord.js#master",
     "gsap": "^2.1.3",
