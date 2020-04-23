@@ -104,8 +104,8 @@ if (config && config.donationtracker
     let donationId = 0;
     /* eslint-disable @typescript-eslint/camelcase */
     // generate test bid wars and incentives
-    for (let i = 0; i < 10; i += 1) {
-      /*if (Math.random() < 0.5) {
+    //for (let i = 0; i < 10; i += 1) {
+      /* if (Math.random() < 0.5) {
         // incentive
         currentBids.push({
           allow_custom_options: false,
@@ -118,7 +118,7 @@ if (config && config.donationtracker
           run_started: false,
           state: 'OPENED',
         });
-      } else*/ if (Math.random() < 0.5) {
+      } else if (Math.random() < 0.5) {
         // disallow custom options
         const options = [];
         const opCount = Math.floor(2 + Math.random() * 3);
@@ -154,8 +154,25 @@ if (config && config.donationtracker
           run_started: false,
           state: 'OPENED',
         });
-      }
-    }
+      } */
+      const option1 = { name: 'Kill the Animals', amount_raised: 25 };
+      const option2 = { name: 'Save the Animals', amount_raised: 5 };
+      const option3 = { name: 'Sacrifice the Animals', amount_raised: 20 };
+      const option4 = { name: 'Punish the Animals', amount_raised: 15 };
+      const option5 = { name: 'Quarantine the Animals', amount_raised: 10 };
+      const options = [];
+      options.push(option1, option2, option3, option4, option5);
+      currentBids.push({
+        goal: null,
+        allow_custom_options: false,
+        amount_raised: -1,
+        bid: randSentence(3, 5),
+        game: randSentence(4, 6),
+        options,
+        run_started: false,
+        state: 'OPENED',
+      });
+    //}
 
     // generate fake prizes
     for (let i = 0; i < 5; i += 1) {

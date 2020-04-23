@@ -29,16 +29,18 @@
 				class="BidAmount"
 			>
 				<div v-if="bid.options.length">
+					<!--
 					<div
 						v-for="option in bid.options"
 						:key="`${option.name}${option.amount_raised}`"
 					>
 						{{ option.name }} ({{ formatUSD(option.amount_raised) }})
-					</div>
+					</div>-->
+				<svg ref="piesvg" width="450" height="450"></svg>
 					<div v-if="bid.allow_custom_options">
 						...or you could submit your own idea!
 					</div>
-					<svg ref="piesvg" width="500" height="500"></svg>
+
 				</div>
 				<div v-else-if="bid.allow_custom_options">
 					No options submitted yet, be the first!
@@ -104,8 +106,8 @@
         	let options = bid.options;
         	let data = [];
         	options.forEach( (option) => {
-        		//data.push({value: option.amount_raised, name: option.name});
-        		data.push(option.amount_raised);
+        		data.push({value: option.amount_raised, name: option.name});
+        		//data.push(option.amount_raised);
 			});
 
 			let svg = d3.select(this.$refs.piesvg);
@@ -114,14 +116,22 @@
 				radius = Math.min(width, height) / 2;
 
 			let g = svg.append("g").attr("transform", "translate(" + width/2 + "," + height/2 + ")");
-			let color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);
+			let color = d3.scaleOrdinal(['#3f84e5','#faa300','#f63e02','#a41623', '#2f4858']);
 
-			var pie = d3.pie();
+			var pie = d3.pie()
+				.value(function(d) { return d.value; });
+
+			//sorts by descending amount
+			pie.sortValues(function(a, b) { return b - a; });
 
 			// Generate the arcs
 			var arc = d3.arc()
 				.innerRadius(0)
 				.outerRadius(radius);
+
+			var label = d3.arc()
+				.outerRadius(radius)
+				.innerRadius(radius - 80);
 
 			//Generate groups
 			var arcs = g.selectAll("arc")
@@ -136,6 +146,12 @@
 					return color(i);
 				})
 				.attr("d", arc);
+
+			arcs.append("text")
+				.attr("transform", function(d) {
+					return "translate(" + label.centroid(d) + ")";
+				})
+				.text(function(d) { return d.data.name; });
 		}
 	};
 </script>
