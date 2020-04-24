@@ -36,7 +36,7 @@
 					>
 						{{ option.name }} ({{ formatUSD(option.amount_raised) }})
 					</div>-->
-				<svg ref="piesvg" width="450" height="450"></svg>
+				<svg ref="piesvg" width="1100" height="425"></svg>
 					<div v-if="bid.allow_custom_options">
 						...or you could submit your own idea!
 					</div>
@@ -149,9 +149,17 @@
 
 			arcs.append("text")
 				.attr("transform", function(d) {
-					return "translate(" + label.centroid(d) + ")";
+					var c = label.centroid(d);
+					let cx = 0;
+					if (c[0] < Math.PI) {
+						cx = c[0];
+					} else {
+						cx = c[0] * 1.4;
+					}
+					let cy = c[1] * 1.2;
+					return "translate(" + cx + "," + cy + ")";
 				})
-				.text(function(d) { return d.data.name; });
+				.text(function(d) { return d.data.name + " ($" + d.data.value + ")"; });
 		}
 	};
 </script>
@@ -196,5 +204,10 @@
 	}
 	#Bid > .Body > .BidAmount {
 		font-size: 40px;
+	}
+
+	svg {
+		font-size: 25px;
+		font-color: white;
 	}
 </style>
