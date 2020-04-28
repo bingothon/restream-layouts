@@ -56,12 +56,9 @@
     import { Component, Vue } from 'vue-property-decorator';
     import {store} from "../../../../browser-util/state";
 	import * as d3 from 'd3';
-
     @Component({})
     export default class Bid extends Vue {
-
         bid : TrackerOpenBid = null;
-
         mounted() {
             const chosenBid = this.getRandomBid();
             if (!chosenBid) {
@@ -69,7 +66,6 @@
             } else {
                 this.bid = clone(chosenBid);
             }
-
 			this.bid = clone(chosenBid);
 			if (this.bid.options && this.bid.options.length > 0) {
 				this.$nextTick(() => {
@@ -78,11 +74,9 @@
 			}
             setTimeout(() => this.$emit('end'), 20 * 1000);
         }
-
         formatUSD(amount) {
 			return `$${amount.toFixed(2)}`;
 		}
-
         getRandomBid(): TrackerOpenBid {
             let openBids = store.state.trackerOpenBids.filter(bid => {
                 // goal is null for bid wars
@@ -101,7 +95,6 @@
                 return null;
             }
         }
-
         makePie(bid : TrackerOpenBid) {
         	let options = bid.options;
         	let data = [];
@@ -109,44 +102,35 @@
         		data.push({value: option.amount_raised, name: option.name});
         		//data.push(option.amount_raised);
 			});
-
 			let svg = d3.select(this.$refs.piesvg);
 			let	width = svg.attr("width"),
 				height = svg.attr("height"),
 				radius = Math.min(width, height) / 2;
-
 			let g = svg.append("g").attr("transform", "translate(" + width/2 + "," + height/2 + ")");
 			let color = d3.scaleOrdinal(['#3f84e5','#faa300','#f63e02','#a41623', '#2f4858']);
-
 			var pie = d3.pie()
 				.value(function(d) { return d.value; });
-
 			//sorts by descending amount
 			pie.sortValues(function(a, b) { return b - a; });
-
 			// Generate the arcs
 			var arc = d3.arc()
 				.innerRadius(0)
 				.outerRadius(radius);
-
 			var label = d3.arc()
 				.outerRadius(radius)
 				.innerRadius(radius - 80);
-
 			//Generate groups
 			var arcs = g.selectAll("arc")
 				.data(pie(data))
 				.enter()
 				.append("g")
 				.attr("class", "arc")
-
 			//Draw arc paths
 			arcs.append("path")
 				.attr("fill", function(d, i) {
 					return color(i);
 				})
 				.attr("d", arc);
-
 			arcs.append("text")
 				.attr("transform", function(d) {
 					var c = label.centroid(d);
@@ -205,9 +189,11 @@
 	#Bid > .Body > .BidAmount {
 		font-size: 40px;
 	}
-
 	svg {
 		font-size: 25px;
 		font-color: white;
+	}
+	.arc text {
+		text-anchor: middle;
 	}
 </style>

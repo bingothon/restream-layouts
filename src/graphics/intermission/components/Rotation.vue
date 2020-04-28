@@ -20,7 +20,7 @@
     import {RunData} from "../../../../speedcontrol-types";
 
     @Component({
-		compontents: {
+		components: {
 			UpcomingRuns,
 			Bid,
 			Prize,
@@ -29,9 +29,7 @@
 	export default class Rotation extends Vue {
 		currentComponent = null;
 		componentArray: Array<any> = [
-                    UpcomingRuns,
-                    Bid,
-                    Prize
+                    Bid
                 ]
 		index: number = 0
 		nextRuns: RunData[] = [];
