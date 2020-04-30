@@ -69,7 +69,7 @@
 			this.bid = clone(chosenBid);
 			if (this.bid.options && this.bid.options.length > 0) {
 				this.$nextTick(() => {
-					this.makePie(this.bid);
+					this.makeBars(this.bid);
 				});
 			}
             setTimeout(() => this.$emit('end'), 20 * 1000);
@@ -131,19 +131,52 @@
 					return color(i);
 				})
 				.attr("d", arc);
-			arcs.append("text")
+			/*arcs.append("text")
 				.attr("transform", function(d) {
 					var c = label.centroid(d);
 					let cx = 0;
 					if (c[0] < Math.PI) {
-						cx = c[0];
+						cx = c[0] * 1.9;
 					} else {
-						cx = c[0] * 1.4;
+						cx = c[0] * 1.8;
 					}
-					let cy = c[1] * 1.2;
+					let cy = c[1] * 1.1;
 					return "translate(" + cx + "," + cy + ")";
 				})
-				.text(function(d) { return d.data.name + " ($" + d.data.value + ")"; });
+				.text(function(d) { return d.data.name + " ($" + d.data.value + ")"; });*/
+		}
+
+		makeBars(bid: TrackerOpenBid) {
+			let options = bid.options;
+			let data = [];
+			options.forEach( (option) => {
+				data.push({value: option.amount_raised, name: option.name});
+				//data.push(option.amount_raised);
+			});
+			let svg = d3.select(this.$refs.piesvg);
+			let margin = 100;
+			let	width = svg.attr("width") - margin,
+				height = svg.attr("height") - margin;
+			let yscale = d3.scaleBand().range([height, 0]).padding(0.4),
+				xscale = d3.scaleLinear().range([0, width]);
+			let g = svg.append("g").attr("transform", "translate(" + 100 + "," + 100 + ")");
+
+			yscale.domain(data.map(function (d) { return d.name}));
+			xscale.domain([0, d3.max(data, function(d) {return d.value})]);
+
+			g.append("g")
+				.attr("transform", "translate(0," + height + ")")
+				.call(d3.axisBottom(xscale));
+
+			g.append("g")
+				.call(d3.axisLeft(yscale).tickFormat(function(d){
+					return "$" + d;
+				}).ticks(10))
+				.append("text")
+				.attr("text-anchor", "end")
+				.text("value");
+
+
 		}
 	};
 </script>

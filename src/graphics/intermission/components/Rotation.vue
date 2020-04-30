@@ -29,8 +29,11 @@
 	export default class Rotation extends Vue {
 		currentComponent = null;
 		componentArray: Array<any> = [
-                    Bid
-                ]
+			UpcomingRuns,
+			Bid,
+			Prize,
+			Bid
+		]
 		index: number = 0
 		nextRuns: RunData[] = [];
 
