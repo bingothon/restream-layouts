@@ -162,7 +162,10 @@
 			let g = svg.append("g").attr("transform", "translate(" + 100 + "," + 100 + ")");
 
 			yscale.domain(data.map(function (d) { return d.name}));
-			xscale.domain([0, d3.max(data, function(d) {return d.value})]);
+			xscale.domain([0, Math.max(data.map(function (d) { return d.value}))]);
+
+			let colorrange = ['#3f84e5','#faa300','#f63e02','#a41623', '#2f4858'];
+			let color = d3.scaleQuantile().range(colorrange);
 
 			g.append("g")
 				.attr("transform", "translate(0," + height + ")")
@@ -175,6 +178,15 @@
 				.append("text")
 				.attr("text-anchor", "end")
 				.text("value");
+
+			g.selectAll()
+				.data(data)
+				.enter()
+				.attr('x', (s) => xscale(s.value))
+				.attr('y', (s) => yscale(s.name))
+				.attr('width', (s) => width - xscale(s.value))
+				.attr('height', yscale.bandwidth())
+
 
 
 		}
