@@ -199,11 +199,11 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
 
   // helper
   function getVoiceChannelSafe(serverID: string, voiceChannelID: string): Discord.VoiceChannel {
-    const guild = bot.guilds.get(serverID);
+    const guild = bot.guilds.cache.get(serverID);
     if (guild === undefined) {
       throw new Error('Discord Guild-ID is invalid!');
     }
-    const channel = guild.channels.get(voiceChannelID);
+    const channel = guild.channels.cache.get(voiceChannelID);
     if (channel === undefined) {
       throw new Error('Discord Voice channel ID is invalid!');
     }
