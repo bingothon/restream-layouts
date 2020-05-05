@@ -1,6 +1,6 @@
 <template>
 	<div class="Interview">
-	<img src="../../../static/logo-winter-wide.png" id="logo">
+	<img src="../../../static/logo-summer-wide.png" id="logo">
     <div id="fillvoice" class="flexContainer"></div>
     <player-info id="pi1" playerIndex="0" height=45px></player-info>
 		<test-game-container id="game"></test-game-container>
@@ -46,21 +46,21 @@
 		height: 1090px;
 		background: linear-gradient(var(--darker-main-color), var(--lighter-main-color));
 	}
-  #discord-voice {
-    position: absolute;
-    top: 920px;
-    left: 460px;
-    width: 1000px;
-    height: 80px;
-	  background-color: var(--container-background-color);
-  }
-  #logo{
-	  position: absolute;
-	  left: 650px;
-	  top: -30px;
-	  width: 666px;
-	  height: 200px;
-  }
+	#discord-voice {
+		position: absolute;
+		top: 920px;
+		left: 460px;
+		width: 1000px;
+		height: 80px;
+		background-color: var(--container-background-color);
+	}
+	#logo{
+		position: absolute;
+		left: 690px;
+		top: 0px;
+		width: 568px;
+		height: 200px;
+	}
   #pi1 {
     position: absolute;
     top: 500px;
@@ -74,13 +74,13 @@
     width: 500px;
     height: 500px;
   }
-  #game {
-    position: absolute;
-    top: 150px;
-    left: 460px;
-    width: 1000px;
-    height: 100px;
-  }
+	#game {
+		position: absolute;
+		top: 180px;
+		left: 460px;
+		width: 1000px;
+		height: 100px;
+	}
   #timer{
     position: absolute;
     top: 250px;

@@ -1,6 +1,6 @@
 <template>
 	<div class="Interview">
-	<img src="../../../static/logo-winter-wide.png" id="logo">
+	<img src="../../../static/logo-summer-wide.png" id="logo">
     <div id="fillvoice" class="flexContainer"></div>
     <player-info id="pi1" playerIndex="0" height=45px></player-info>
     <player-info id="pi2" playerIndex="1" height=45px></player-info>
@@ -55,14 +55,14 @@
     left: 460px;
     width: 1000px;
     height: 80px;
-	  background-color: var(--container-background-color);
+    background-color: var(--container-background-color);
   }
   #logo{
-	  position: absolute;
-	  left: 650px;
-	  top: -30px;
-	  width: 666px;
-	  height: 200px;
+    position: absolute;
+    left: 690px;
+    top: 0px;
+    width: 568px;
+    height: 200px;
   }
   #pi1 {
     position: absolute;
@@ -97,7 +97,7 @@
   }
   #game {
     position: absolute;
-    top: 150px;
+    top: 180px;
     left: 460px;
     width: 1000px;
     height: 100px;

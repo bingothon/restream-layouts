@@ -18,8 +18,9 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-const wide = require('../logo-winter-wide.png');
+const wide = require('../logo-summer-wide2.png');
 const peLogo = require('../BingothonPureEarth.png');
+const fhLogo = require('../BingothonFredHutch.png');
 
 @Component({})
 export default class RotatingLogos extends Vue{
@@ -30,8 +31,8 @@ export default class RotatingLogos extends Vue{
   }
 
   changeLogo() : void {
-    this.logo = (this.logo !== wide) ? wide : peLogo;
-    const time = (this.logo === peLogo) ? 30 : 30;
+    this.logo = (this.logo !== wide) ? wide : fhLogo;
+    const time = (this.logo === fhLogo) ? 30 : 30;
     setTimeout(this.changeLogo, time * 1000);
   }
 }
@@ -40,6 +41,7 @@ export default class RotatingLogos extends Vue{
 <style scoped>
   #RotatingLogos {
     padding-right: 7px;
+    padding-left: 7px;
   }
   #LogoWrapper {
     position: relative;

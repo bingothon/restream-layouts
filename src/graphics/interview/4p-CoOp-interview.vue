@@ -1,6 +1,6 @@
 <template>
 	<div class="Interview">
-	<img src="../../../static/logo-winter-wide.png" id="logo">
+	<img src="../../../static/logo-summer-wide.png" id="logo">
     <div id="fillvoice" class="flexContainer"></div>
 	<player-team-container id="ptc0" teamIndex="0" height="40px"></player-team-container>
     <player-team-container id="ptc1" teamIndex="1" height="40px"></player-team-container>
@@ -54,13 +54,13 @@
     height: 80px;
 	  background-color: var(--container-background-color);
   }
-  #logo{
-	  position: absolute;
-	  left: 650px;
-	  top: -30px;
-	  width: 666px;
-	  height: 200px;
-  }
+	#logo{
+		position: absolute;
+		left: 690px;
+		top: 0px;
+		width: 568px;
+		height: 200px;
+	}
   #ptc0 {
     position: absolute;
     top: 450px;
@@ -80,13 +80,13 @@
     width: 500px;
     height: 500px;
   }
-  #game {
-    position: absolute;
-    top: 150px;
-    left: 460px;
-    width: 1000px;
-    height: 100px;
-  }
+	#game {
+		position: absolute;
+		top: 180px;
+		left: 460px;
+		width: 1000px;
+		height: 100px;
+	}
   #timer{
     position: absolute;
     top: 250px;
