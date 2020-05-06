@@ -1,12 +1,8 @@
 <template>
 	<div>
-    <div id="fillleft" class="flexContainer"></div>
-    <div id="fillright" class="flexContainer"></div>
 		<twitch-player id="stream1" streamIndex="0"></twitch-player>
 		<twitch-player id="stream2" streamIndex="1"></twitch-player>
     <div id="fillbar" class="flexContainer"></div>
-    <div id="fillvoice" class="flexContainer"></div>
-		<div id="fillupperplayers"></div>
 		<player-info id="pi1" playerIndex="0" height=45px></player-info>
 		<player-info id="pi2" playerIndex="1" height=45px></player-info>
 		<test-game-container id="game"></test-game-container>
@@ -51,23 +47,27 @@
 </script>
 
 <style scoped>
+  /* taking a different appraoch here, laying streams under the rest of the layout: Topscreen aaspect ratio 800x600
+  ouchscreen aspect ratio: 533x400*/
   #stream1 {
     position: absolute;
     top: 0px;
     left: 0px;
-    width: 667px;
-    height: 1000px;
-    background-image: url("../../../static/middle-info-background.png");
+    width: 800px;
+    height: 1080px;
+    /*background-image: url("../../../static/middle-info-background.png");*/
     border: 2px var(--container-border-color) solid;
+		z-index: 0;
   }
   #stream2 {
     position: absolute;
     top: 0px;
-    left: 1253px;
-    width: 667px;
-    height: 1000px;
+    left: 1120px;
+    width: 800px;
+    height: 1080px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px var(--container-border-color) solid;
+		z-index: 0;
   }
   #fillbar {
     position: absolute;
@@ -80,10 +80,10 @@
   }
   #discord-voice {
     position: absolute;
-	top: 125px;
-	left: 1056px;
-	width: 194px;
-	height: 375px;
+	top: 400px;
+	left: 800px;
+	width: 320px;
+	height: 200px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px var(--container-border-color) solid;
   }
@@ -117,36 +117,36 @@
   }
   #pi1 {
     position: absolute;
-    top: 0px;
-    left: 670px;
+    top: 600px;
+    left: 533px;
     border: 2px var(--container-border-color) solid;
-    width: 530px;
+    width: 410px;
   }
 
   #pi2 {
 	  position: absolute;
-	  top: 63px;
-	  left: 705px;
+	  top: 600px;
+	  left: 960px;
 	  border: 2px var(--container-border-color) solid;
-	  width: 530px;
+	  width: 410px;
   }
 
   #Bingo-board {
     position: absolute;
-    top: 500px;
-    left: 667px;
+    top: 660px;
+    left: 533px;
     border: 2px var(--container-border-color) solid;
-    width:584px;
-    height:500px;
+    width:854px;
+    height:340px;
   }
   #game {
     background-image: url("../../../static/middle-info-background.png");
     position: absolute;
-    top: 125px;
-    left: 667px;
-    width: 386px;
+    top: 0px;
+    left: 800px;
+    width: 320px;
     border: 2px var(--container-border-color) solid;
-    height: 188px;
+    height: 200px;
   }
   #fillleft {
     position: absolute;
@@ -168,12 +168,12 @@
   }
   #timer{
     position: absolute;
-    top: 313px;
-    left: 667px;
+    top: 200px;
+    left: 800px;
     background-image: url("../../../static/middle-info-background.png");
-    width: 386px;
+    width: 320px;
     border: 2px var(--container-border-color) solid;
-    height: 187px;
+    height: 200px;
   }
   #fillupperplayers, #filllowerplayers {
 	  background-image: linear-gradient(var(--alternative-main-color), var(--darker-main-color));
