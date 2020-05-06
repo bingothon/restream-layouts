@@ -21,6 +21,8 @@ boardMetaRep.once('change', (): void => {
   runDataActiveRunRep.on('change', (newValue, old): void => {
     // bail on server restart
     if (!newValue || !old) return;
+    // bail if this is still the old run and the player's haven't changed (still rerun this is the player count changes)'
+    if (newValue.id === old.id && newValue.teams.length === old.teams.length) return;
     // Hide board when new run starts
     boardMetaRep.value.boardHidden = true;
 
