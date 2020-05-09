@@ -18,6 +18,7 @@
 			<div class="BidName">
 				{{ bid.bid }}
 			</div>
+			<div class="bid-graphics"></div>
 			<div
 				v-if="bid.goal!=null"
 				class="BidAmount"
@@ -36,7 +37,7 @@
 					>
 						{{ option.name }} ({{ formatUSD(option.amount_raised) }})
 					</div>-->
-				<svg ref="piesvg" width="1100" height="425"></svg>
+				
 					<div v-if="bid.allow_custom_options">
 						...or you could submit your own idea!
 					</div>
@@ -95,100 +96,95 @@
                 return null;
             }
         }
-        makePie(bid : TrackerOpenBid) {
-        	let options = bid.options;
-        	let data = [];
-        	options.forEach( (option) => {
-        		data.push({value: option.amount_raised, name: option.name});
-        		//data.push(option.amount_raised);
-			});
-			let svg = d3.select(this.$refs.piesvg);
-			let	width = svg.attr("width"),
-				height = svg.attr("height"),
-				radius = Math.min(width, height) / 2;
-			let g = svg.append("g").attr("transform", "translate(" + width/2 + "," + height/2 + ")");
-			let color = d3.scaleOrdinal(['#3f84e5','#faa300','#f63e02','#a41623', '#2f4858']);
-			var pie = d3.pie()
-				.value(function(d) { return d.value; });
-			//sorts by descending amount
-			pie.sortValues(function(a, b) { return b - a; });
-			// Generate the arcs
-			var arc = d3.arc()
-				.innerRadius(0)
-				.outerRadius(radius);
-			var label = d3.arc()
-				.outerRadius(radius)
-				.innerRadius(radius - 80);
-			//Generate groups
-			var arcs = g.selectAll("arc")
-				.data(pie(data))
-				.enter()
-				.append("g")
-				.attr("class", "arc")
-			//Draw arc paths
-			arcs.append("path")
-				.attr("fill", function(d, i) {
-					return color(i);
-				})
-				.attr("d", arc);
-			/*arcs.append("text")
-				.attr("transform", function(d) {
-					var c = label.centroid(d);
-					let cx = 0;
-					if (c[0] < Math.PI) {
-						cx = c[0] * 1.9;
-					} else {
-						cx = c[0] * 1.8;
-					}
-					let cy = c[1] * 1.1;
-					return "translate(" + cx + "," + cy + ")";
-				})
-				.text(function(d) { return d.data.name + " ($" + d.data.value + ")"; });*/
-		}
 
 		makeBars(bid: TrackerOpenBid) {
 			let options = bid.options;
 			let data = [];
 			options.forEach( (option) => {
-				data.push({value: option.amount_raised, name: option.name});
+				data.push({name: option.name, value: option.amount_raised});
 				//data.push(option.amount_raised);
 			});
-			let svg = d3.select(this.$refs.piesvg);
-			let margin = 100;
-			let	width = svg.attr("width") - margin,
-				height = svg.attr("height") - margin;
-			let yscale = d3.scaleBand().range([height, 0]).padding(0.4),
-				xscale = d3.scaleLinear().range([0, width]);
-			let g = svg.append("g").attr("transform", "translate(" + 100 + "," + 100 + ")");
 
-			yscale.domain(data.map(function (d) { return d.name}));
-			xscale.domain([0, Math.max(data.map(function (d) { return d.value}))]);
+			data = data.sort(function (a, b) {
+            	return d3.ascending(a.value, b.value);
+			})
 
-			let colorrange = ['#3f84e5','#faa300','#f63e02','#a41623', '#2f4858'];
-			let color = d3.scaleQuantile().range(colorrange);
+			//set up svg using margin conventions - we'll need plenty of room on the left for labels
+			var margin = {
+				top: 0,
+				right: 200,
+				bottom: 15,
+				left: 540
+			};
 
-			g.append("g")
-				.attr("transform", "translate(0," + height + ")")
-				.call(d3.axisBottom(xscale));
+			var color = d3.scale.ordinal().range(['#3f84e5','#faa300','#f63e02','#a41623', '#2f4858']);
 
-			g.append("g")
-				.call(d3.axisLeft(yscale).tickFormat(function(d){
-					return "$" + d;
-				}).ticks(10))
-				.append("text")
-				.attr("text-anchor", "end")
-				.text("value");
+			var width = 1100 - margin.left - margin.right,
+				height = 400 - margin.top - margin.bottom;
 
-			g.selectAll()
+			var svg = d3.select(".bid-graphics").append("svg")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", height + margin.top + margin.bottom)
+				.append("g")
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+			var x = d3.scale.linear()
+				.range([0, width])
+				.domain([0, d3.max(data, function (d) {
+					return d.value;
+				})]);
+
+			var y = d3.scale.ordinal()
+				.rangeRoundBands([height, 0], .1)
+				.domain(data.map(function (d) {
+					return d.name;
+				}));
+
+			//make y axis to show bar names
+			var yAxis = d3.svg.axis()
+				.scale(y)
+				//no tick marks
+				.tickSize(0)
+				.orient("left");
+
+			var gy = svg.append("g")
+				.attr("class", "y axis")
+				.call(yAxis)
+
+			var bars = svg.selectAll(".bar")
 				.data(data)
 				.enter()
-				.attr('x', (s) => xscale(s.value))
-				.attr('y', (s) => yscale(s.name))
-				.attr('width', (s) => width - xscale(s.value))
-				.attr('height', yscale.bandwidth())
+				.append("g")
 
+			//append rects
+			bars.append("rect")
+				.attr("class", "bar")
+				.attr("y", function (d) {
+					return y(d.name);
+				})
+				.style("fill", function(d, i) {
+    				return color(i);
+  				})
+				.attr("height", y.rangeBand())
+				.attr("x", 0)
+				.attr("width", function (d) {
+					return x(d.value);
+				});
 
-
+			//add a value label to the right of each bar
+			bars.append("text")
+				.attr("class", "label")
+				//y position of the label is halfway down the bar
+				.attr("y", function (d) {
+					return y(d.name) + y.rangeBand() / 2 + 4;
+				})
+				//x position is 3 pixels to the right of the bar
+				.attr("x", function (d) {
+					return x(d.value) + 3;
+				})
+				.text(function (d) {
+					return d.value;
+				});
 		}
 	};
 </script>
@@ -236,9 +232,29 @@
 	}
 	svg {
 		font-size: 25px;
-		font-color: white;
+		color: white;
 	}
 	.arc text {
 		text-anchor: middle;
+	}
+
+	.axis {
+		font-size: 25px;
+		fill: #fff;
+	}
+	
+	.axis path,
+	.axis line {
+		fill: none;
+		display: none;
+	}
+	
+	.label {
+		font-size: 13px;
+	}
+
+	.bid-graphics{
+		width:1172px;
+		height: 400px;
 	}
 </style>

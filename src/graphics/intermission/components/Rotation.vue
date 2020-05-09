@@ -21,18 +21,17 @@
 
     @Component({
 		components: {
-			UpcomingRuns,
+			//UpcomingRuns,
 			Bid,
-			Prize,
+			//Prize,
 		},
 	})
 	export default class Rotation extends Vue {
 		currentComponent = null;
 		componentArray: Array<any> = [
-			UpcomingRuns,
+			//UpcomingRuns,
 			Bid,
-			Prize,
-			Bid
+			//Prize,
 		]
 		index: number = 0
 		nextRuns: RunData[] = [];
