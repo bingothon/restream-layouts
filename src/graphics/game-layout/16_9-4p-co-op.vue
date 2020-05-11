@@ -7,16 +7,16 @@
     <div id="fillbar" class="flexContainer"></div>
     <div id="fillvoice" class="flexContainer"></div>
     <player-info id="pi1" playerIndex="0" height=45px hide-finish-time="true" show-color="false"></player-info>
+    <player-info id="pi2" playerIndex="1" height=45px hide-finish-time="true" show-color="false"></player-info>
+    <player-info id="pi3" playerIndex="2" height=45px hide-finish-time="true" show-color="false"></player-info>
+    <player-info id="pi4" playerIndex="3" height=45px hide-finish-time="true" show-color="false"></player-info>
+		<test-game-container id="game"></test-game-container>
 		<div id="ti1">
 			<team-info team-index="0" height="45px"></team-info>
 		</div>
-    <player-info id="pi2" playerIndex="1" height=45px hide-finish-time="true" show-color="false"></player-info>
-    <player-info id="pi3" playerIndex="2" height=45px hide-finish-time="true" show-color="false"></player-info>
 		<div id="ti2">
 			<team-info team-index="1" height="45px"></team-info>
 		</div>
-    <player-info id="pi4" playerIndex="3" height=45px hide-finish-time="true" show-color="false"></player-info>
-		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
     <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"/>
@@ -118,47 +118,47 @@
     top: 0px;
     left: 0px;
     border: 2px var(--container-border-color) solid;
-    width: 769px;
+    width: 718px;
   }
-
-	#ti1 {
-		position: absolute;
-		top: 0px;
-		left: 782px;
-		width: 356px;
-		height: 60px;
-		background-image: linear-gradient(var(--lighter-main-color), var(--darker-main-color));
-		border: 2px var(--container-border-color) solid;
-	}
   #pi2 {
     position: absolute;
     top: 0px;
-    left: 1138px;
+    left: 1188px;
     border: 2px var(--container-border-color) solid;
-    width: 769px;
+    width: 718px;
   }
   #pi3 {
     position: absolute;
     top: 940px;
     left: 0px;
     border: 2px var(--container-border-color) solid;
-    width: 769px;
+    width: 718px;
   }
-	#ti2 {
-		top: 940px;
-		left: 782px;
-		width: 356px;
+  #pi4 {
+    position: absolute;
+    top: 940px;
+    left: 1188px;
+    border: 2px var(--container-border-color) solid;
+    width: 718px;
+  }
+	#ti1 {
+		position: absolute;
+		top: 0px;
+		left: 732px;
+		width: 456px;
 		height: 60px;
 		background-image: linear-gradient(var(--lighter-main-color), var(--darker-main-color));
 		border: 2px var(--container-border-color) solid;
 	}
-  #pi4 {
-    position: absolute;
-    top: 940px;
-    left: 1138px;
-    border: 2px var(--container-border-color) solid;
-    width: 769px;
-  }
+	#ti2 {
+		position: absolute;
+		top: 940px;
+		left: 732px;
+		width: 456px;
+		height: 60px;
+		background-image: linear-gradient(var(--lighter-main-color), var(--darker-main-color));
+		border: 2px var(--container-border-color) solid;
+	}
   #Bingo-board {
     position: absolute;
     top: 500px;
