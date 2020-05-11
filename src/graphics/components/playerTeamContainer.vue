@@ -1,13 +1,29 @@
 <template>
     <div class="PlayerTeamContainer FlexContainer">
         <div class="PlayerInfo1">
-            <player-info :playerIndex="playerIndex" :hideFinishTime="true" :showColor="false" :height="height"></player-info>
+            <player-info
+                :playerIndex="playerIndex"
+                :hideFinishTime="true"
+                :showColor="false"
+                :height="height"
+                :style="{'margin-left':margin}"
+            ></player-info>
         </div>
         <div class="TeamInfo">
-            <team-info :teamIndex="teamIndex" :height="height"></team-info>
+            <team-info
+                :teamIndex="teamIndex"
+                :height="height"
+            ></team-info>
         </div>
         <div class="PlayerInfo2">
-            <player-info :playerIndex="playerIndex+1" :hideFinishTime="true" :showColor="false" :height="height" :reverseOrder="true"></player-info>
+            <player-info
+                :playerIndex="playerIndex+1"
+                :hideFinishTime="true"
+                :showColor="false"
+                :height="height"
+                :reverseOrder="true"
+                :style="{'margin-right':margin}"
+            ></player-info>
         </div>
     </div>
 </template>
@@ -33,6 +49,9 @@ export default class PlayerTeamContainer extends Vue {
     @Prop({default: "55px"})
     height: string;
 
+    @Prop( {default: "20px"})
+    margin: string;
+
     get playerIndex(): number {
         var idx = 0;
         for (let i = 0; i < this.teamIndex; i++) {
@@ -56,13 +75,13 @@ export default class PlayerTeamContainer extends Vue {
 }
 
 .PlayerTeamContainer > .PlayerInfo1 > div {
-    margin-right: 20px;
+    margin-right: margin;
     border: 2px var(--container-border-color) solid;
 }
 
 
 .PlayerTeamContainer > .PlayerInfo2 > div {
-    margin-left: 20px;
+    margin-left: ;
     border: 2px var(--container-border-color) solid;
 }
 
