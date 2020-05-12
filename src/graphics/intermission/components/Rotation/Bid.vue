@@ -59,43 +59,48 @@
 	import * as d3 from 'd3';
     @Component({})
     export default class Bid extends Vue {
-        bid : TrackerOpenBid = null;
-        mounted() {
-            const chosenBid = this.getRandomBid();
-            if (!chosenBid) {
-                this.$emit('end');
-            } else {
-                this.bid = clone(chosenBid);
-            }
+
+    bid : TrackerOpenBid = null;
+
+    mounted() {
+      const chosenBid = this.getRandomBid();
+      if (!chosenBid) {
+        this.$emit('end');
+      } else {
+        this.bid = clone(chosenBid);
+      }
 			this.bid = clone(chosenBid);
 			if (this.bid.options && this.bid.options.length > 0) {
 				this.$nextTick(() => {
 					this.makeBars(this.bid);
 				});
 			}
-            setTimeout(() => this.$emit('end'), 20 * 1000);
-        }
-        formatUSD(amount) {
+      setTimeout(() => this.$emit('end'), 20 * 1000);
+    }
+
+    formatUSD(amount) {
 			return `$${amount.toFixed(2)}`;
 		}
-        getRandomBid(): TrackerOpenBid {
-            let openBids = store.state.trackerOpenBids.filter(bid => {
-                // goal is null for bid wars
-                if (bid.goal == null) {
-                    // bid wars are closed manually
-                    return bid.state == "OPENED";
-                } else {
-                    // Incentives close as soon as the needed amount is reached
-                    // we still want to display them until the run starts
-                    return !bid.run_started;
-                }
-            });
-            if (openBids.length) {
-                return openBids[Math.floor(Math.random() * openBids.length)];
-            } else {
-                return null;
-            }
-        }
+
+    getRandomBid(): TrackerOpenBid {
+      let openBids = store.state.trackerOpenBids.filter(bid => {
+				// goal is null for bid wars
+				if (bid.goal == null) {
+					// bid wars are closed manually
+					return bid.state == "OPENED";
+				} else {
+					// Incentives close as soon as the needed amount is reached
+					// we still want to display them until the run starts
+					return !bid.run_started;
+				}
+			});
+
+      if (openBids.length) {
+        return openBids[Math.floor(Math.random() * openBids.length)];
+      } else {
+        return null;
+      }
+    }
 
 		makeBars(bid: TrackerOpenBid) {
 			let options = bid.options;
@@ -114,7 +119,7 @@
 				top: 0,
 				right: 200,
 				bottom: 15,
-				left: 540
+				left: 350
 			};
 
 			var color = d3.scale.ordinal().range(['#3f84e5','#faa300','#f63e02','#a41623', '#2f4858']);
@@ -178,12 +183,12 @@
 				.attr("y", function (d) {
 					return y(d.name) + y.rangeBand() / 2 + 4;
 				})
-				//x position is 3 pixels to the right of the bar
+				//x position is 6 pixels to the right of the bar
 				.attr("x", function (d) {
-					return x(d.value) + 3;
+					return x(d.value) + 6;
 				})
 				.text(function (d) {
-					return d.value;
+				  return `$${d.value.toFixed(2)}`;
 				});
 		}
 	};
