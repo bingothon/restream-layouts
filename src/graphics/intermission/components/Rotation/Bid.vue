@@ -23,7 +23,14 @@
 				v-if="bid.goal!=null"
 				class="BidAmount"
 			>
-				{{ formatUSD(bid.amount_raised) }}/{{ formatUSD(bid.goal) }}
+				<div id="progressbar">
+					<div id="progress" :style="{'width' : percentRaised(bid) + '%'}">
+						<div id="amount" :style="{'width' : percentRaised(bid) + '%'}">{{formatUSD(bid.amount_raised)}}</div>
+					</div>
+				</div>
+				<div id="goal">
+					{{ formatUSD(bid.goal) }}
+				</div>
 			</div>
 			<div
 				v-else
@@ -82,6 +89,14 @@
 			return `$${amount.toFixed(2)}`;
 		}
 
+		percentRaised(bid: TrackerOpenBid) {
+        if (bid.amount_raised >= bid.goal) {
+            return 100;
+				}
+        let percent = bid.goal/100;
+        return bid.amount_raised/percent;
+		}
+
     getRandomBid(): TrackerOpenBid {
       let openBids = store.state.trackerOpenBids.filter(bid => {
 				// goal is null for bid wars
@@ -91,7 +106,7 @@
 				} else {
 					// Incentives close as soon as the needed amount is reached
 					// we still want to display them until the run starts
-					return !bid.run_started;
+					return true;//!bid.run_started;
 				}
 			});
 
@@ -195,6 +210,41 @@
 </script>
 
 <style>
+	#progressbar {
+		position: absolute;
+		top: 300px;
+		left: 50px;
+		width: 900px;
+		background-color: rgba(0,0,0,0);
+		border: 2px var(--container-border-color) solid;
+		height: 100px;
+		align-content: end;
+	}
+	#amount {
+		position: absolute;
+		height: 100px;
+		left: 0px;
+		z-index: 6;
+		top: 20px;
+		align-content: center;
+		align-self: center;
+		align-items: center;
+		justify-content: center;
+		justify-items: center;
+	}
+	#progress {
+		top: 0px;
+		left: 0px;
+		position: absolute;
+		height: 100px;
+		background-image: linear-gradient(#2F6FAF, #235589);
+		z-index: 5;
+	}
+	#goal{
+		position: absolute;
+		left: 1000px;
+		top: 325px;
+	}
 	#Bid {
 		position: absolute;
 		display: flex;
