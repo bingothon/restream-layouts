@@ -229,7 +229,7 @@ import { HostsSpeakingDuringIntermission, ShowPictureDuringIntermission } from "
         }
 
         get peFacts() : String[] {
-            const text = fs.readFileSync('src/graphics/host-dashboard/pefacts.txt', 'utf-8');
+            const text = fs.readFileSync('src/graphics/host-dashboard/fhfacts.txt', 'utf-8');
             return text.split('\n');
 		}
 
