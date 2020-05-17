@@ -16,6 +16,9 @@ const aspectRatioToCropping = {
   '16:9': {
     widthPercent: 100, heightPercent: 100, topPercent: 0, leftPercent: 0,
   },
+  '16:9 co-op' : {
+    widthPercent: 100, heightPercent: 100, topPercent: 0, leftPercent: 0,
+  },
   '15:9': {
     widthPercent: 106.667, heightPercent: 100, topPercent: 0, leftPercent: 0,
   },
@@ -30,6 +33,15 @@ const aspectRatioToCropping = {
   },
   '10:9': {
     widthPercent: 160, heightPercent: 100, topPercent: 0, leftPercent: 0,
+  },
+  '10:9 co-op': {
+    widthPercent: 160, heightPercent: 100, topPercent: 0, leftPercent: 0,
+  },
+  'DS': {
+    widthPercent: 240, heightPercent: 100, topPercent: 0, leftPercent: 0,
+  },
+  '16:10': { // no idea if this is actually right, i just came up with these numbers
+    widthPercent: 240, heightPercent: 111.111, topPercent: 0, leftPercent: 0,
   },
 };
 
