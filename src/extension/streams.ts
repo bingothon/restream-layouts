@@ -40,8 +40,8 @@ const aspectRatioToCropping = {
   'DS': {
     widthPercent: 240, heightPercent: 100, topPercent: 0, leftPercent: 0,
   },
-  '16:10': { // no idea if this is actually right, i just came up with these numbers
-    widthPercent: 240, heightPercent: 111.111, topPercent: 0, leftPercent: 0,
+  '16:10': {
+    widthPercent: 111.111, heightPercent: 100, topPercent: 0, leftPercent: 0,
   },
 };
 
