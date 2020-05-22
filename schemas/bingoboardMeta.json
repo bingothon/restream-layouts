@@ -24,6 +24,18 @@
         "countShown": {
             "type":"boolean",
             "default":true
+        },
+        "manualScoreOverride": {
+            "type": "boolean",
+            "default":false
+        },
+        "manualScores": {
+            "$comment": "Manual scores given by BingoControl Dashboard",
+            "type":"array",
+            "default":[],
+            "items": {
+                "type":"number"
+            }
         }
-    }    
+    }
 }

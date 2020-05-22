@@ -12,6 +12,14 @@
       class="error-warning"
       @click="errorMessage=''"
     > {{ errorMessage }}</span>
+    <div>
+      <button @click="toggleManualScoreOverride">
+        {{manualScoreOverrideText}}
+      </button>
+      <button @click="updateManualScore">
+        Update Manual Score
+      </button>
+    </div>
     <div
       v-for="(color,i) in playerColors"
       :key="i"
@@ -28,6 +36,7 @@
           {{ sColor }}
         </option>
       </select>
+      <input v-model="manualScore[i]" type="number">
     </div>
     Select Board:
     <select v-model="currentBoardRep">
@@ -120,6 +129,8 @@ export default class BingoControl extends Vue {
 
     passphrase: string = '';
 
+    manualScore[4]: number[] = [0, 0, 0, 0];
+
     currentBoardRep: BingoRepEnum = 'bingoboard';
 
     oriBoardID: string = '';
@@ -178,6 +189,14 @@ export default class BingoControl extends Vue {
         return 'Hide Goalcount';
       }
       return 'Show Goalcount';
+    }
+
+    get manualScoreOverrideText(): string {
+      if (store.state.bingoboardMeta.manualScoreOverride) {
+        return 'Disable Manual Score Override';
+      } else {
+        return 'Enable ManualScoreOverride';
+      }
     }
 
     get toggleOriText(): string {
@@ -245,6 +264,13 @@ export default class BingoControl extends Vue {
 
     // --- handlers
 
+    updateManualScore() {
+      let idx = 0;
+      this.manualScore.forEach((score : number) => {
+        getReplicant<BingoboardMeta>('bingoboardMeta').value.manualScores[idx] = score;
+      })
+    }
+
     connectAction() {
       // only expanded options for the bingosync connection,
       // otherwise something else is there to handle the board
@@ -298,7 +324,7 @@ export default class BingoControl extends Vue {
             nodecg.log.error(e);
           });
       } catch (e) {
-        this.errorMessage = "Couln't parse the board";
+        this.errorMessage = "Couldn't parse the board";
       }
     }
 
@@ -324,6 +350,10 @@ export default class BingoControl extends Vue {
 
     toggleCount() {
       getReplicant<BingoboardMeta>('bingoboardMeta').value.countShown = !store.state.bingoboardMeta.countShown;
+    }
+
+    toggleManualScoreOverride() {
+      getReplicant<BingoboardMeta>('bingoboardMeta').value.manualScoreOverride = !store.state.bingoboardMeta.manualScordeOverride;
     }
 }
 </script>
