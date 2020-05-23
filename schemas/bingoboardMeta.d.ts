@@ -10,6 +10,6 @@ export interface BingoboardMeta {
   playerColors: ("pink" | "red" | "orange" | "brown" | "yellow" | "green" | "teal" | "blue" | "navy" | "purple")[];
   colorShown: boolean;
   countShown?: boolean;
-  manualScoreOverride?: boolean;
-  manualScores?: number[];
+  manualScoreOverride: boolean;
+  manualScores: number[];
 }
