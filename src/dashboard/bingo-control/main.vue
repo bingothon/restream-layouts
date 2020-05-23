@@ -33,7 +33,14 @@
           {{ sColor }}
         </option>
       </select>
-      <input class="manual-score" @change="updateManualScore" v-model="manualScore[i]" type="number">
+      <span v-show="isManualScoreOverride">
+        <input
+          class="manual-score"
+          @change="updateManualScore"
+          v-model="manualScore[i]"
+          type="number"
+        >
+      </span>
     </div>
     Select Board:
     <select v-model="currentBoardRep">
@@ -192,6 +199,10 @@ export default class BingoControl extends Vue {
       } else {
         return 'Enable ManualScoreOverride';
       }
+    }
+
+    get isManualScoreOverride(): boolean {
+      return store.state.bingoboardMeta.manualScoreOverride;
     }
 
     get toggleOriText(): string {
