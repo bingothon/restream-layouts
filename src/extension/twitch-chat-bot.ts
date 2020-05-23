@@ -50,6 +50,12 @@ if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.cha
   waitForReplicants([twichAPIDataRep, runDataActiveRunRep], (): void => {
     log.info('Twitch chat bot is enabled.');
 
+    nodecg.listenFor("repeaterFeaturedChannels", "nodecg-speedcontrol", (channels: string[]) => {
+      if (twichAPIDataRep.value.channelName) {
+        client.say(twichAPIDataRep.value.channelName, `!ffzfollow ${channels.join(', ')}`);
+      }
+    });
+
     const options = {
       options: {
         // debug: true,  // might want to turn off when in production
