@@ -16,9 +16,6 @@
       <button @click="toggleManualScoreOverride">
         {{manualScoreOverrideText}}
       </button>
-      <button @click="updateManualScore">
-        Update Manual Score
-      </button>
     </div>
     <div
       v-for="(color,i) in playerColors"
@@ -36,7 +33,7 @@
           {{ sColor }}
         </option>
       </select>
-      <input v-model="manualScore[i]" type="number">
+      <input class="manual-score" @change="updateManualScore" v-model="manualScore[i]" type="number">
     </div>
     Select Board:
     <select v-model="currentBoardRep">
@@ -128,8 +125,6 @@ export default class BingoControl extends Vue {
     roomCode: string = '';
 
     passphrase: string = '';
-
-    manualScore[4]: number[] = [0, 0, 0, 0];
 
     currentBoardRep: BingoRepEnum = 'bingoboard';
 
@@ -247,6 +242,10 @@ export default class BingoControl extends Vue {
       return this.currentBoardRep === store.state.currentMainBingoboard.boardReplicant;
     }
 
+    get manualScore(): string[] {
+      return store.state.bingoboardMeta.manualScores.map(i => ""+i);
+    }
+
     // test
     /* get colorCounts(): Array<{color: string, count: number}> {
       const counts = store.state.bingoboardMeta.colorCounts;
@@ -265,9 +264,8 @@ export default class BingoControl extends Vue {
     // --- handlers
 
     updateManualScore() {
-      let idx = 0;
-      this.manualScore.forEach((score : number) => {
-        getReplicant<BingoboardMeta>('bingoboardMeta').value.manualScores[idx] = score;
+      this.manualScore.forEach((score : string, idx: number) => {
+        getReplicant<BingoboardMeta>('bingoboardMeta').value.manualScores[idx] = parseInt(score, 10);
       })
     }
 
@@ -353,7 +351,7 @@ export default class BingoControl extends Vue {
     }
 
     toggleManualScoreOverride() {
-      getReplicant<BingoboardMeta>('bingoboardMeta').value.manualScoreOverride = !store.state.bingoboardMeta.manualScordeOverride;
+      getReplicant<BingoboardMeta>('bingoboardMeta').value.manualScoreOverride = !store.state.bingoboardMeta.manualScoreOverride;
     }
 }
 </script>
@@ -362,5 +360,9 @@ export default class BingoControl extends Vue {
   .error-warning {
     color: red;
     font-size: small;
+  }
+
+  input.manual-score {
+    width: 3em;
   }
 </style>
