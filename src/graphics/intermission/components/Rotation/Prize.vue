@@ -40,7 +40,16 @@
 		prize : TrackerPrize = null;
 
         mounted() {
-    		const prizes = store.state.trackerPrizes;
+    		const prizes = store.state.trackerPrizes.filter(prize => {
+				const now = moment();
+				// filter out prizes that are already expired, no endtime means no expire
+				if ((!prize.endtime || moment(prize.endtime).isAfter(now))
+					&& (!prize.starttime || moment(prize.starttime).isBefore(now))) {
+						return true;
+					} else {
+						return false;
+					}
+				});
             if (!prizes.length) {
                 this.$emit('end');
             }
