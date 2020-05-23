@@ -11,14 +11,14 @@
         Upcoming Bid War
       </span>
 		</div>
-		<div class="Body">
+		<div class="incentive-container">
 			<div class="RunName">
 				{{ bid.game }} - {{ bid.category }}
 			</div>
 			<div class="BidName">
 				{{ bid.bid }}
 			</div>
-			<div class="bid-graphics"></div>
+			
 			<div
 				v-if="bid.goal!=null"
 				class="BidAmount"
@@ -28,12 +28,10 @@
 						<div id="amount" :style="{'width' : percentRaised(bid) + '%'}">{{formatUSD(bid.amount_raised)}}</div>
 					</div>
 				</div>
-				<div id="goal">
-					{{ formatUSD(bid.goal) }}
-				</div>
+				
 			</div>
 			<div
-				v-else
+				v-else-if="Object.keys(bid.options).length === 0"
 				class="BidAmount"
 			>
 				<div v-if="bid.options.length">
@@ -53,6 +51,13 @@
 				<div v-else-if="bid.allow_custom_options">
 					No options submitted yet, be the first!
 				</div>
+				
+			</div>
+			<div
+				v-else
+				class="BidAmount"
+			>
+				<div  class="bid-graphics"></div>
 			</div>
 		</div>
 	</div>
@@ -120,14 +125,17 @@
 		makeBars(bid: TrackerOpenBid) {
 			let options = bid.options;
 			let data = [];
+
 			options.forEach( (option) => {
 				data.push({name: option.name, value: option.amount_raised});
-				//data.push(option.amount_raised);
+
 			});
 
 			data = data.sort(function (a, b) {
             	return d3.ascending(a.value, b.value);
 			})
+
+			data = data.slice(0,5)
 
 			//set up svg using margin conventions - we'll need plenty of room on the left for labels
 			var margin = {
@@ -213,7 +221,7 @@
 	#progressbar {
 		position: absolute;
 		top: 300px;
-		left: 50px;
+		left: 133px;
 		width: 900px;
 		background-color: rgba(0,0,0,0);
 		border: 2px var(--container-border-color) solid;
@@ -265,24 +273,26 @@
 		font-size: 41px;
 		text-transform: uppercase;
 	}
-	#Bid > .Body {
+	#Bid > .incentive-container {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		flex: 1;
 		background-color: rgba(0,0,0,0.3);
+		overflow: hidden;
 	}
-	#Bid > .Body > div {
+	#Bid > .incentive-container > div {
 		margin: 10px;
 	}
-	#Bid > .Body > .RunName {
+	#Bid > .incentive-container > .RunName {
 		font-size: 45px;
 	}
-	#Bid > .Body > .BidName {
+	#Bid > .incentive-container > .BidName {
 		font-size: 32px;
 	}
-	#Bid > .Body > .BidAmount {
+	#Bid > .incentive-container > .BidAmount {
+		height: 445px;
 		font-size: 40px;
 	}
 	svg {
@@ -305,7 +315,8 @@
 	}
 	
 	.label {
-		font-size: 13px;
+		font-size: 25px;
+		fill: #fff;
 	}
 
 	.bid-graphics{
