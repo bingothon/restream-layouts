@@ -11,6 +11,8 @@ export interface OriBingoboard {
   };
   cells: {
     name: string;
+    hidden: boolean;
+    hiddenName: string;
     slot: string;
     colors: string;
   }[];

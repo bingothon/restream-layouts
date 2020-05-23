@@ -13,12 +13,24 @@ const oriBingoMeta = nodecg.Replicant<OriBingoMeta>('oriBingoMeta');
 
 const emphasisRegex = /\*([^*]+)\*/;
 
-let oldBoard: OriField[] | null = null;
+let oldBoard: ExplorationOriField[] | null = null;
 let updateLoopTimer: NodeJS.Timer | null = null;
 
 interface OriField {
   name: string;
   completed: boolean;
+}
+
+// used to track last state
+interface ExplorationOriField {
+  name: string;
+  completed: boolean;
+  revealed: boolean;
+}
+
+interface OriApiResponse {
+  cards: OriField[], // length 25
+  disc_squares: number[],
 }
 
 function processStyling(goalName: string): string {
@@ -33,14 +45,14 @@ async function sleep(ms: number): Promise<void> {
   return new Promise((resolve): number => setTimeout(resolve, ms));
 }
 
-async function getBoard(boardID: number, playerID: number): Promise<OriField[]> {
+async function getBoard(boardID: number, playerID: number): Promise<OriApiResponse> {
   return request.get(`https://orirando.com/bingo/bingothon/${boardID}/player/${playerID}`, { json: true });
 }
 
 function init(): void {
   if (boardRep.value.cells.length === 0) {
     for (let i = 0; i < 25; i += 1) {
-      boardRep.value.cells.push({ name: '', colors: 'blank', slot: `slot${i}` });
+      boardRep.value.cells.push({ name: '', hidden: true, hiddenName: '', colors: 'blank', slot: `slot${i}` });
     }
   }
 }
@@ -48,19 +60,26 @@ function init(): void {
 async function oriBingoUpdate(): Promise<void> {
   try {
     // eslint-disable-next-line max-len
-    const oriBoard: OriField[] = await getBoard(oriBingoMeta.value.boardID, oriBingoMeta.value.playerID);
+    const oriResp = await getBoard(oriBingoMeta.value.boardID, oriBingoMeta.value.playerID);
+    const oriBoard: OriField[] = oriResp.cards;
+    const oriBoardRevealed: ExplorationOriField[] = [];
     oriBoard.forEach((field, idx): void => {
-      if (!oldBoard || oldBoard[idx].name !== field.name) {
-        boardRep.value.cells[idx].name = processStyling(field.name);
+      const shouldBeRevealed = squareShouldBeRevealed(oriResp, idx);
+      if (!oldBoard || oldBoard[idx].name !== field.name || oldBoard[idx].revealed !== shouldBeRevealed) {
+        if (shouldBeRevealed) {
+          boardRep.value.cells[idx].name = processStyling(field.name);
+        } else {
+          boardRep.value.cells[idx].name = '';
+        }
       }
       if (field.completed) {
         boardRep.value.cells[idx].colors = boardMetaRep.value.playerColors[0] || 'red';
       } else {
         boardRep.value.cells[idx].colors = 'blank';
       }
+      oriBoardRevealed.push({name: field.name, completed: field.completed, revealed: shouldBeRevealed});
     });
-    oldBoard = oriBoard;
-    await sleep(3000);
+    oldBoard = oriBoardRevealed;
   } catch (e) {
     log.error(e);
   }
@@ -80,6 +99,37 @@ function recover(): void {
       log.error('Can\'t recover connection to Ori Board!', e);
     }
   });
+}
+
+function squareShouldBeRevealed(apiResp: OriApiResponse, idx: number): boolean {
+  if (apiResp.disc_squares.includes(idx) || apiResp.cards[idx].completed) {
+    return true;
+  }
+  if (idx - 5 >= 0) {
+    const other = idx - 5;
+    if (apiResp.disc_squares.includes(other) || apiResp.cards[other].completed) {
+      return true;
+    }
+  }
+  if (idx % 5 !== 0 && idx - 1 >= 0) {
+    const other = idx - 1;
+    if (apiResp.disc_squares.includes(other) || apiResp.cards[other].completed) {
+      return true;
+    }
+  }
+  if (idx + 5 < 25) {
+    const other = idx + 5;
+    if (apiResp.disc_squares.includes(other) || apiResp.cards[other].completed) {
+      return true;
+    }
+  }
+  if (idx % 5 !== 4 && idx + 1 < 25) {
+    const other = idx + 1;
+    if (apiResp.disc_squares.includes(other) || apiResp.cards[other].completed) {
+      return true;
+    }
+  }
+  return false;
 }
 
 nodecg.listenFor('oriBingo:activate', async (data, callback): Promise<void> => {
