@@ -148,6 +148,9 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
           if (!voiceActivity.value.members || voiceActivity.value.members.length < 1) { return; }
           setTimeout((): void => {
             voiceActivity.value.members.find((voiceMember): boolean => {
+              if (voiceMember === undefined || user === undefined) {
+                return false;
+              }
               if (voiceMember.id === user.id) {
                 // Delay this by streamleader delay/current obs
                 // timeshift delay if its activated with setTimeout
