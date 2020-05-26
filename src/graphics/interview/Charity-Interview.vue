@@ -1,7 +1,7 @@
 <template>
 	<div class="Interview">
 		<img id="logo" src="../../../static/logo-summer-wide.png">
-		<div class="flexContainer" id="fillcamPE"></div>
+		<div class="flexContainer" id="fillcamCharity"></div>
 		<div class="flexContainer" id="fillcamIVW1"></div>
 		<div class="flexContainer" id="infoIVW1">
 			<div id="nameIVW1">Pikastroff</div>
@@ -12,11 +12,11 @@
 		</div>
 		<div class="flexContainer" id="info">
 			<div id="infotext">
-				<div id="name"> Jen Marracino</div>
-				<div id="occupation"> Senior Director of Development at Pure Earth New York</div>
+				<div id="name">Amitabha “Guppy” Gupta, Ph. D </div>
+				<div id="occupation">Researcher at the Fred Hutchinson Research Center</div>
 			</div>
-			<div id="pe-logo">
-				<img src="../../../static/PE-logo-oulined.png">
+			<div id="charity-logo">
+				<img src="../../../static/Fred_Hutch_logo.svg.png">
 			</div>
 		</div>
 	</div>
@@ -47,7 +47,7 @@
 		background: linear-gradient(var(--darker-main-color), var(--lighter-main-color));
 	}
 
-	#fillcamPE {
+	#fillcamCharity {
 		position: absolute;
 		top: 175px;
 		left: 50px;
@@ -88,13 +88,13 @@
 		left: 50px;
 		width: 1200px;
 		height: 100px;
-		background-image: linear-gradient(#373d6f, #2a2a54);
+		background-image: linear-gradient(#cc2c00, #541e00);
 		color: var(--font-color);
 	}
 
 	#name {
 		top: 850px;
-		font-size: 60px;
+		font-size: 45px;
 		margin-left: 10px;
 	}
 
@@ -110,7 +110,7 @@
 		left: 1300px;
 		height: 50px;
 		width: 500px;
-		background-image: linear-gradient(#373d6f, #2a2a54);
+		background-image: linear-gradient(#cc2c00, #541e00);
 		color: var(--font-color);
 		font-size: 40px;
 	}
@@ -121,7 +121,7 @@
 		left: 1300px;
 		height: 50px;
 		width: 500px;
-		background-image: linear-gradient(#373d6f, #2a2a54);
+		background-image: linear-gradient(#cc2c00, #541e00);
 		color: var(--font-color);
 		font-size: 40px;
 	}
@@ -134,12 +134,12 @@
 		margin-left: 10px;
 	}
 
-	#pe-logo > img {
+	#charity-logo > img {
 		object-fit: contain;
-		height: 100px;
+		height: 90px;
 	}
 
-	#pe-logo {
+	#charity-logo {
 		position: absolute;
 		left: 800px;
 	}
