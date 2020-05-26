@@ -173,7 +173,7 @@
     top: 460px;
     left: 667px;
     border: 2px var(--container-border-color) solid;
-    width:584px;
+    width:585px;
     height:412px;
   }
   #game {
@@ -213,7 +213,7 @@
     height: 165px;
   }
   #fillupperplayers, #filllowerplayers {
-	  background-image: linear-gradient(var(--alternative-main-color), var(--darker-main-color));
+	  background-image: linear-gradient(var(--lighter-main-color), var(--darker-main-color));
 	  left: 672px;
 	  height: 130px;
 	  width: 581px;

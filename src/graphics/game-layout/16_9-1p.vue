@@ -79,7 +79,7 @@
     top: 0px;
     left: 0px;
     border: 2px var(--container-border-color) solid;
-    width: 382px;
+    width: 385px;
   }
   #Bingo-board {
     position: absolute;

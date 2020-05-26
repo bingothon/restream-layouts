@@ -25,7 +25,7 @@
 			>
 				<div id="progressbar">
 					<div id="progress" :style="{'width' : percentRaised(bid) + '%'}">
-						<div id="amount" :style="{'width' : percentRaised(bid) + '%'}">{{formatUSD(bid.amount_raised)}}</div>
+						<div id="amount" :style="{'width' : percentRaised(bid) + '%'}">{{formatUSD(bid.amount_raised)}}/{{formatUSD(bid.goal)}}</div>
 					</div>
 				</div>
 				

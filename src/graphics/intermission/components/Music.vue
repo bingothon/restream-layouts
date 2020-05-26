@@ -76,7 +76,6 @@
 	}
 	.MCat {
 		box-sizing: border-box;
-		background-color: var(--container-background-color);
 		height: 100%;
 		padding: 5px;
 	}

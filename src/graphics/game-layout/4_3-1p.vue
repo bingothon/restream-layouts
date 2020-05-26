@@ -86,7 +86,7 @@
     top: 660px;
     left: 0px;
     border: 2px var(--container-border-color) solid;
-    width: 586px;
+    width: 587px;
     height: 340px;
   }
   #game {

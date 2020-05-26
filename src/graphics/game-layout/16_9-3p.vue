@@ -7,10 +7,10 @@
     <player-info id="pi1" playerIndex="0" height=45px></player-info>
     <player-info id="pi2" playerIndex="1" height=45px></player-info>
     <player-info id="pi3" playerIndex="2" height=45px></player-info>
+		<discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"/>
 		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
-    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"/>
 	</div>
 </template>
 
@@ -119,7 +119,7 @@
   #Bingo-board {
     position: absolute;
     top: 500px;
-    left: 1138px;
+    left: 1140px;
     border: 2px var(--container-border-color) solid;
     width: 782px;
     height: 500px;
