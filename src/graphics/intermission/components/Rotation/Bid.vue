@@ -204,7 +204,7 @@
 				.attr("class", "label")
 				//y position of the label is halfway down the bar
 				.attr("y", function (d) {
-					return y(d.name) + y.rangeBand() / 2 + 4;
+					return y(d.name) + y.rangeBand() / 2 + 10;
 				})
 				//x position is 6 pixels to the right of the bar
 				.attr("x", function (d) {
