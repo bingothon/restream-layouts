@@ -16,7 +16,7 @@
 				<div id="occupation">Researcher at the Fred Hutchinson Research Center</div>
 			</div>
 			<div id="charity-logo">
-				<img src="../../../static/Fred_Hutch_logo.svg.png">
+				<img src="../../../static/fred_hutch_logo_brighter.png">
 			</div>
 		</div>
 	</div>
