@@ -103,7 +103,7 @@
     top: 540px;
     left: 640px;
     border: 2px var(--container-border-color) solid;
-    width: 640px;
+    width: 638px;
     height: 460px;
   }
   #game {

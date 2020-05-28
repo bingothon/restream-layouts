@@ -83,7 +83,7 @@
 	top: 400px;
 	left: 800px;
 	width: 320px;
-	height: 200px;
+	height: 198px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px var(--container-border-color) solid;
   }
@@ -136,8 +136,8 @@
     top: 660px;
     left: 533px;
     border: 2px var(--container-border-color) solid;
-    width:854px;
-    height:340px;
+    width: 851px;
+    height: 340px;
   }
   #game {
     background-image: url("../../../static/middle-info-background.png");
