@@ -12,7 +12,7 @@
     </div>
     <div :class="medalClasses"></div>
     <div class="TeamNameContainer">
-      <text-fit :text="`${finishTime} ${name}`">
+      <text-fit :text="`${finishTime} ${name || ''}`">
       </text-fit>
     </div>
   </div>
