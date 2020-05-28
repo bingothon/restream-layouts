@@ -49,7 +49,7 @@ export default class InterviewControl extends Vue {
     }
 
     updateCurrentCamNames() {
-      const newCamNames = this.currentCamNames.find(l => l.name === this.selectedCamNames);
+      const newCamNames = this.allCamNames.find(l => l.name === this.selectedCamNames);
       if (!newCamNames) {
         throw new Error("The camNames selected is invalid, that shouldn't happen!");
       }

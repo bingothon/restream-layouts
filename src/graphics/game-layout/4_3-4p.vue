@@ -106,7 +106,7 @@
 	top: 125px;
 	left: 1056px;
 	width: 194px;
-	height: 332px;
+	height: 333px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px var(--container-border-color) solid;
   }
@@ -214,9 +214,9 @@
   }
   #fillupperplayers, #filllowerplayers {
 	  background-image: linear-gradient(var(--lighter-main-color), var(--darker-main-color));
-	  left: 672px;
+	  left: 671px;
 	  height: 130px;
-	  width: 581px;
+	  width: 582px;
 	  position: absolute;
   }
 
