@@ -165,7 +165,7 @@
     left: 782px;
     border: 2px var(--container-border-color) solid;
     width:356px;
-    height:440px;
+    height:437px;
   }
   #game {
     background-image: url("../../../static/middle-info-background.png");
