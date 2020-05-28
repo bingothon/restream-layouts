@@ -49,50 +49,53 @@
 	}
 	#discord-voice {
 		position: absolute;
-		top: 920px;
-		left: 460px;
-		width: 1000px;
-		height: 80px;
+		top: 500px;
+		left: 1330px;
+		width: 500px;
+		height: 400px;
 		background-color: var(--container-background-color);
 	}
 	#logo{
 		position: absolute;
 		left: 690px;
-		top: 0px;
+		top: 10px;
 		width: 568px;
 		height: 200px;
 	}
-  #pi1 {
-    position: absolute;
-    top: 500px;
-    left: 90px;
-    width: 500px;
-  }
-  #pi2 {
-    position: absolute;
-    top: 500px;
-    left: 1330px;
-    width: 500px;
-  }
-  #Bingo-board {
-    position: absolute;
-    top: 410px;
-    left: 710px;
-    width: 500px;
-    height: 500px;
-  }
+	#pi1 {
+		position: absolute;
+		top: 500px;
+		left: 90px;
+		width: 500px;
+	}
+	#pi2 {
+		position: absolute;
+		top: 600px;
+		left: 90px;
+		width: 500px;
+	}
+	#Bingo-board {
+		position: absolute;
+		top: 500px;
+		left: 710px;
+		width: 500px;
+		height: 500px;
+	}
 	#game {
 		position: absolute;
-		top: 180px;
+		top: 225px;
 		left: 460px;
 		width: 1000px;
 		height: 100px;
 	}
-  #timer{
-    position: absolute;
-    top: 250px;
-    left: 710px;
-    width: 500px;
-    height: 150px;
-  }
+	#game > .GameContainer > .GameExtra {
+		color: #484848;
+	}
+	#timer{
+		position: absolute;
+		top: 325px;
+		left: 710px;
+		width: 500px;
+		height: 150px;
+	}
 </style>
