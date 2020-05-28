@@ -21,7 +21,7 @@
 
 </script>
 
-<style>
+<style scoped>
 	#pi1 {
 		position: absolute;
 		top: 940px;
