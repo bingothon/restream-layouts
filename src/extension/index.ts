@@ -40,6 +40,36 @@ export = (nodecg: NodeCG): void => {
           {
             id: '4', name: 'asdfasdf', avatar: defaultAvatar, isSpeaking: false,
           },
+          {
+            id: '5', name: 'someone', avatar: defaultAvatar, isSpeaking: false,
+          },
+          {
+            id: '6', name: 'idk this is a lot', avatar: defaultAvatar, isSpeaking: true,
+          },
+          {
+            id: '7', name: 'not creative', avatar: defaultAvatar, isSpeaking: true,
+          },
+          {
+            id: '8', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
+          },
+          {
+            id: '9', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
+          },
+          {
+            id: '10', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
+          },
+          {
+            id: '11', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
+          },
+          {
+            id: '12', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
+          },
+          {
+            id: '13', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
+          },
+          {
+            id: '14', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
+          },
         ],
       };
     }

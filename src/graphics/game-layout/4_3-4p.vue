@@ -18,7 +18,7 @@
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
 
-    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="125px"></discord-voice-display>
+    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="125px" maxUserCount="6"></discord-voice-display>
 	</div>
 </template>
 

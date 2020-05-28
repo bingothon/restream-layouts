@@ -2,7 +2,37 @@ import clone from 'clone';
 import { ReplicantBrowser } from 'nodecg/types/browser'; // eslint-disable-line
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { AllGameLayouts, AllInterviews, Bingoboard, BingoboardMeta, BingosyncSocket, CurrentGameLayout, CurrentInterview, DonationTotal, TrackerOpenBids, TrackerDonations, VoiceActivity, TrackerPrizes, SongData, CurrentMainBingoboard, HostingBingoboard, HostingBingosocket, OriBingoboard, OriBingoMeta, ExplorationBingoboard, TwitchStreams, SoundOnTwitchStream, ObsAudioSources, ObsDashboardAudioSources, ObsConnection, DiscordDelayInfo, HostsSpeakingDuringIntermission, ObsStreamMode, ShowPictureDuringIntermission } from "../../schemas";
+import {
+  AllGameLayouts,
+  AllInterviews,
+  Bingoboard,
+  BingoboardMeta,
+  BingosyncSocket,
+  CurrentGameLayout,
+  CurrentInterview,
+  DonationTotal,
+  TrackerOpenBids,
+  TrackerDonations,
+  VoiceActivity,
+  TrackerPrizes,
+  SongData,
+  CurrentMainBingoboard,
+  HostingBingoboard,
+  HostingBingosocket,
+  OriBingoboard,
+  OriBingoMeta,
+  ExplorationBingoboard,
+  TwitchStreams,
+  SoundOnTwitchStream,
+  ObsAudioSources,
+  ObsDashboardAudioSources,
+  ObsConnection,
+  DiscordDelayInfo,
+  HostsSpeakingDuringIntermission,
+  ObsStreamMode,
+  ShowPictureDuringIntermission,
+  AllCamNames, CurrentCamNames
+} from "../../schemas";
 import { RunDataActiveRun, RunDataArray, Timer } from "../../speedcontrol-types";
 import {Scene} from 'obs-websocket-js';
 
@@ -11,11 +41,13 @@ Vue.use(Vuex);
 const replicantNames = [
   'allGameLayouts',
   'allInterviews',
+  'allCamNames',
   'bingoboard',
   'bingoboardMeta',
   'bingosyncSocket',
   'currentGameLayout',
   'currentInterview',
+  'currentCamNames',
   'currentMainBingoboard',
   'donationTotal',
   'discordDelayInfo',
@@ -55,11 +87,13 @@ export const store = new Vuex.Store({
     // bingothon
     allGameLayouts: [] as AllGameLayouts,
 	allInterviews: [] as AllInterviews,
+    allCamNames: [] as AllCamNames,
     bingoboard: {} as Bingoboard,
     bingoboardMeta: {} as BingoboardMeta,
     bingosyncSocket: {} as BingosyncSocket,
     currentGameLayout: {} as CurrentGameLayout,
 	currentInterview: {} as CurrentInterview,
+    currentCamNames: {} as CurrentCamNames,
     currentMainBingoboard: {} as CurrentMainBingoboard,
     discordDelayInfo: {} as DiscordDelayInfo,
     donationTotal: 0 as DonationTotal,

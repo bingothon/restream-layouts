@@ -7,7 +7,7 @@
 	<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
-    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"/>
+    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px" maxUserCount="5"></discord-voice-display>
 	</div>
 </template>
 
@@ -48,48 +48,51 @@
 	}
   #discord-voice {
     position: absolute;
-    top: 920px;
-    left: 460px;
-    width: 1000px;
-    height: 80px;
+    top: 500px;
+    left: 1330px;
+    width: 500px;
+    height: 400px;
 	  background-color: var(--container-background-color);
   }
 	#logo{
 		position: absolute;
 		left: 690px;
-		top: 0px;
+		top: 10px;
 		width: 568px;
 		height: 200px;
 	}
   #ptc0 {
     position: absolute;
-    top: 450px;
+    top: 500px;
     left: 90px;
     width: 500px;
   }
   #ptc1 {
     position: absolute;
-    top: 450px;
-    left: 1330px;
+    top: 750px;
+    left: 90px;
     width: 500px;
   }
   #Bingo-board {
     position: absolute;
-    top: 410px;
+    top: 500px;
     left: 710px;
     width: 500px;
     height: 500px;
   }
 	#game {
 		position: absolute;
-		top: 180px;
+		top: 225px;
 		left: 460px;
 		width: 1000px;
 		height: 100px;
 	}
+	#game > .GameContainer > .GameExtra {
+		color: #484848;
+	}
   #timer{
     position: absolute;
-    top: 250px;
+    top: 325px;
     left: 710px;
     width: 500px;
     height: 150px;

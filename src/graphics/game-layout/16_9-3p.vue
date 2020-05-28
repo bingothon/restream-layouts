@@ -7,7 +7,7 @@
     <player-info id="pi1" playerIndex="0" height=45px></player-info>
     <player-info id="pi2" playerIndex="1" height=45px></player-info>
     <player-info id="pi3" playerIndex="2" height=45px></player-info>
-		<discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"/>
+		<discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px" maxUserCount="10"></discord-voice-display>
 		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
