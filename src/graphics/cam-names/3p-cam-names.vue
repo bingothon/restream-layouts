@@ -27,20 +27,20 @@
 		position: absolute;
 		top: 940px;
 		left: 0px;
-		width: 620px;
+		width: 626px;
 	}
 
 	#pi2 {
 		position: absolute;
 		top: 940px;
 		left: 640px;
-		width: 620px;
+		width: 626px;
 	}
 
 	#pi3 {
 		position: absolute;
 		top: 940px;
 		left: 1280px;
-		width: 620px;
+		width: 626px;
 	}
 </style>
