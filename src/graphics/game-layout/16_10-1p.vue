@@ -6,7 +6,7 @@
 		<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
-    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"></discord-voice-display>
+    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px" maxUserCount="20"></discord-voice-display>
     <twitch-player id="stream1" streamIndex="0"></twitch-player>
 	</div>
 </template>
