@@ -7,7 +7,7 @@
 	<test-game-container id="game"></test-game-container>
     <test-timer-container id="timer"></test-timer-container>
     <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
-    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"/>
+    <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px" maxUserCount="5"></discord-voice-display>
 	</div>
 </template>
 
