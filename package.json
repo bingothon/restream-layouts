@@ -83,6 +83,13 @@
         "workspace": "Bingothon"
       },
       {
+	"name": "camnames-control",
+	"title": "Cam Names Control",
+	"file": "camnames-control.html",
+	"width": 2,
+	"workspace": "Bingothon"
+      },
+      {
         "name": "layout-control",
         "title": "Layout Control",
         "file": "layout-control.html",
