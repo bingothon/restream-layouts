@@ -146,7 +146,7 @@
 		top: 0px;
 		left: 732px;
 		width: 456px;
-		height: 60px;
+		height: 59px;
 		background-image: linear-gradient(var(--lighter-main-color), var(--darker-main-color));
 		border: 2px var(--container-border-color) solid;
 	}
@@ -155,7 +155,7 @@
 		top: 940px;
 		left: 732px;
 		width: 456px;
-		height: 60px;
+		height: 59px;
 		background-image: linear-gradient(var(--lighter-main-color), var(--darker-main-color));
 		border: 2px var(--container-border-color) solid;
 	}
@@ -165,7 +165,7 @@
     left: 782px;
     border: 2px var(--container-border-color) solid;
     width:356px;
-    height:440px;
+    height:438px;
   }
   #game {
     background-image: url("../../../static/middle-info-background.png");

@@ -168,11 +168,11 @@
   }
   #Bingo-board {
     position: absolute;
-    top: 500px;
+    top: 502px;
     left: 555px;
     border: 2px var(--container-border-color) solid;
     width:810px;
-    height:438px;
+    height:434px;
   }
   #game {
     background-image: url("../../../static/middle-info-background.png");

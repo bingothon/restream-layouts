@@ -105,7 +105,7 @@
 		top: 170px;
 		left: 1056px;
 		width: 309px;
-		height: 330px;
+		height: 328px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px var(--container-border-color) solid;
   }
