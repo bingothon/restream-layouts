@@ -63,6 +63,8 @@ async function oriBingoUpdate(): Promise<void> {
     const oriResp = await getBoard(oriBingoMeta.value.boardID, oriBingoMeta.value.playerID);
     const oriBoard: OriField[] = oriResp.cards;
     const oriBoardRevealed: ExplorationOriField[] = [];
+    const playerColor = boardMetaRep.value.playerColors[0] || 'red';
+    let goalCount = 0;
     oriBoard.forEach((field, idx): void => {
       const shouldBeRevealed = squareShouldBeRevealed(oriResp, idx);
       if (!oldBoard || oldBoard[idx].name !== field.name || oldBoard[idx].revealed !== shouldBeRevealed) {
@@ -73,12 +75,14 @@ async function oriBingoUpdate(): Promise<void> {
         }
       }
       if (field.completed) {
-        boardRep.value.cells[idx].colors = boardMetaRep.value.playerColors[0] || 'red';
+        boardRep.value.cells[idx].colors = playerColor;
+        goalCount++;
       } else {
         boardRep.value.cells[idx].colors = 'blank';
       }
       oriBoardRevealed.push({name: field.name, completed: field.completed, revealed: shouldBeRevealed});
     });
+    boardRep.value.colorCounts[playerColor] = goalCount;
     oldBoard = oriBoardRevealed;
   } catch (e) {
     log.error(e);
