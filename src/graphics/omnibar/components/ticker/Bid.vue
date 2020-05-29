@@ -114,6 +114,8 @@ export default class Bid extends Vue {
         }
       });
       if (openBids.length) {
+        // concentrate on the next bids
+        openBids = openBids.splice(0,5);
         return openBids[Math.floor(Math.random() * openBids.length)];
       } else {
         return null;
