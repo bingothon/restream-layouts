@@ -190,7 +190,7 @@ waitTillConnected().then((): void => {
   discordDelayInfoRep.on('change', (newVal): void => {
     let streamLeaderDelayMs = null;
     if (soundOnTwitchStream.value !== -1) {
-      streamLeaderDelayMs = streamsReplicant.value[soundOnTwitchStream.value].delay;
+      streamLeaderDelayMs = (streamsReplicant.value[soundOnTwitchStream.value] || {}).delay || null;
     }
     updateDiscordDelays(streamLeaderDelayMs, newVal);
   });

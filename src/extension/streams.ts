@@ -96,6 +96,10 @@ streamsReplicant.once('change', (): void => {
         idx += 1;
       });
     });
+    // make sure soundOnTwitchStream isn't OoB in streamsReplicant
+    if (soundOnTwitchStream.value >= newStreams.length) {
+      soundOnTwitchStream.value = -1; // mute all
+    }
     streamsReplicant.value = newStreams;
   });
 });
