@@ -221,6 +221,8 @@ waitTillConnected().then((): void => {
     logger.info(`handling stream mode ${streamMode} in scene ${nextSceneName}`);
     // music only during intermission
     if (nextSceneName === 'intermission') {
+      // updates the next run panels
+      nodecg.sendMessage('forceRefreshIntermission');
       nodecg.sendMessage('obsRemotecontrol:fadeInAudio', { source: bundleConfig.obs.mpdAudio }, (err): void => {
         logger.warn(`Problem fading in mpd during transition: ${err.error}`);
       });
