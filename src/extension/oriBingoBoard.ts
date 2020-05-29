@@ -61,6 +61,7 @@ async function oriBingoUpdate(): Promise<void> {
   try {
     // eslint-disable-next-line max-len
     const oriResp = await getBoard(oriBingoMeta.value.boardID, oriBingoMeta.value.playerID);
+    const oriResp2 = await getBoard(oriBingoMeta.value.boardID, 1);
     const oriBoard: OriField[] = oriResp.cards;
     const oriBoardRevealed: ExplorationOriField[] = [];
     const playerColor = boardMetaRep.value.playerColors[0] || 'red';
@@ -74,7 +75,7 @@ async function oriBingoUpdate(): Promise<void> {
           boardRep.value.cells[idx].name = '';
         }
       }
-      if (field.completed) {
+      if (field.completed || oriResp2.cards[idx]) {
         boardRep.value.cells[idx].colors = playerColor;
         goalCount++;
       } else {
