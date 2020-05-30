@@ -130,10 +130,7 @@ class BingosyncManager {
       return;
     }
 
-    // Bail if nothing has changed.
-    if (equal(this.boardRep.value.cells, newBoardState)) {
-      return;
-    }
+    // make sure doubleclicks don't screw the number
     const goalCounts: {[key: string]: number} = {
       pink: 0,
       red: 0,
@@ -157,8 +154,14 @@ class BingosyncManager {
       });
     });
 
-    this.boardRep.value.cells = newBoardState;
     this.boardRep.value.colorCounts = goalCounts;
+
+    // Bail if nothing has changed.
+    if (equal(this.boardRep.value.cells, newBoardState)) {
+      return;
+    }
+
+    this.boardRep.value.cells = newBoardState;
   }
 
   public async createWebsocket(socketUrl: string, socketKey: string): Promise<void> {
