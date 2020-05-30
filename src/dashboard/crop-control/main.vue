@@ -83,7 +83,6 @@ export default class CropControl extends Vue {
       height: initHeight,
     };
     this.player = new Twitch.Player(this.$refs.twitchPlayer, playerOptions);
-    this.player.showPlayerControls(true);
     this.player.pause();
     const stream = store.state.twitchStreams.find(s => s.channel === this.currentChannel);
     if (stream) {

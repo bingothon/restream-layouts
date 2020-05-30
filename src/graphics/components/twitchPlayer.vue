@@ -91,7 +91,6 @@ export default class TestGameContainer extends Vue {
             'height':   this.playerHeight,
         }
         this.player = new Twitch.Player(this.$refs.twitchPlayer, playerOptions);
-        //sthis.player.showPlayerControls(false);
     }
 
     destroyTwitchPlayer() {
