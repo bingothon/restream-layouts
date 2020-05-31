@@ -22,7 +22,7 @@
     >
       {{ bid.bid }} :
       <span v-if="bid.goal">
-        {{ formatUSD(bid.amount_raised) }}/{{ formatUSD(bid.goal) }}
+        {{ formatUSD(bid.amount_raised) }}/{{ formatUSD(bid.goal) }}{{ bid.amount_raised >= bid.goal?", Goal met!":""}}
       </span>
       <span v-else>
         <span
