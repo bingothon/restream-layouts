@@ -2,10 +2,10 @@
 	<div>
     <div id="fillleft" class="flexContainer"></div>
     <div id="fillright" class="flexContainer"></div>
-		<twitch-player id="stream1" streamIndex="0"></twitch-player>
-		<twitch-player id="stream2" streamIndex="1"></twitch-player>
-		<twitch-player id="stream3" streamIndex="2"></twitch-player>
-		<twitch-player id="stream4" streamIndex="3"></twitch-player>
+		<twitch-player id="stream1" streamIndex="1"></twitch-player>
+		<twitch-player id="stream2" streamIndex="0"></twitch-player>
+		<twitch-player id="stream3" streamIndex="3"></twitch-player>
+		<twitch-player id="stream4" streamIndex="2"></twitch-player>
     <div id="fillbar" class="flexContainer"></div>
     <div id="fillvoice" class="flexContainer"></div>
 		<player-team-container id="ptc1" team-index="0" height="40px" margin="100px"></player-team-container>
