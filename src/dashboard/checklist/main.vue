@@ -1,6 +1,7 @@
 <template>
     <v-app>
         <v-btn @click="clearAll">Clear All</v-btn>
+        <div v-if="hostsSpeaking">Hosts are currently speaking, don't transition yet</div>
         <v-row>
             <v-col>
                 <v-checkbox label="Switch to Intermission"/>
@@ -30,9 +31,15 @@
 <script lang="ts">
 
 import {Component, Vue} from "vue-property-decorator"
+import {store} from '../../browser-util/state'
 
 @Component({})
 export default class Checklist extends Vue {
+
+    get hostsSpeaking() {
+        return store.state.hostsSpeakingDuringIntermission.speaking
+    }
+
     clearAll() {
         window.location.reload()
     }
