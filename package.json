@@ -2,9 +2,9 @@
   "name": "bingothon-layouts",
   "version": "1.0.0",
   "description": "Layouts for Bingothon using the template for NodeCG bundles that use Vue.js and TypeScript.",
-  "homepage": "https://github.com/zoton2/nodecg-vue-ts-template#readme",
+  "homepage": "https://github.com/bingothon/bingothon-layouts",
   "bugs": {
-    "url": "https://github.com/zoton2/nodecg-vue-ts-template/issues"
+    "url": "https://github.com/bingothon/bingothon-layouts/issues"
   },
   "repository": {
     "type": "git",
@@ -169,6 +169,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.22",
     "@fortawesome/free-solid-svg-icons": "^5.10.2",
     "@fortawesome/vue-fontawesome": "^0.1.6",
+    "@mdi/font": "^5.8.55",
     "cheerio": "^1.0.0-rc.3",
     "d3": "^3.5.17",
     "deep-equal": "^1.0.1",
@@ -179,6 +180,8 @@
     "obs-websocket-js": "^3.1.0",
     "request-promise": "^4.2.4",
     "tmi.js": "^1.5.0",
+    "vuetify": "^2.3.16",
+    "vuetify-loader": "^1.6.0",
     "vuex": "^3.1.1",
     "ws": "^7.1.2"
   }

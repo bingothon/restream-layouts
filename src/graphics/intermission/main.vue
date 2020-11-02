@@ -1,6 +1,6 @@
 <template>
   <div id="Intermission">
-    <img src="../../../static/logo-summer-wide.png" id="logo">
+    <img src="../../../static/logo-winter-wide.png" id="logo">
     <div id="host-bingo-text">Host Blackout Bingo</div>
     <run-upcoming
       v-if="nextRun"
@@ -15,7 +15,6 @@
 			<img src="components/Mic.png">
 		</div>
 		<DiscordVoiceDisplay v-show="hostsSpeakingDuringIntermission" voiceHighlightColor="var(--darker-main-color)"></DiscordVoiceDisplay>
-      <!--<reader></reader>-->
       <music></music>
     </info-storage-box>
 	  <div class="HostingBingo">
@@ -112,7 +111,7 @@ export default class Intermission extends Vue{
   #logo {
 	position: absolute;
     left: 48px;
-    top: 5px;
+    top: 50px;
     width: 631px;
   }
   #ComingUpNext {

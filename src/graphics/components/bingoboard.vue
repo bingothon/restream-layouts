@@ -13,7 +13,20 @@
             </tr>
           </tbody>
       </table>
-      <div class="bingo-board-hide" :hidden="!boardHidden"></div>
+      <div class="bingo-board-hide" :hidden="!boardHidden">
+		  Bingo Board will be revealed soon&trade;
+		  <!--<tbody>
+			  <tr :key="i" v-for="(column,i) in defaultBoard">
+				  <td class="square" :key="i+''+j" v-for="(cell,j) in column">
+					  <div :key="color.name" v-for="color in cell.colors" :class="'bg-color '+color.color+'square'" :style="color.style"></div>
+					  <div class="shadow"></div>
+					  <div class="CellTextFitContainer">
+						  <CellTextFit :text="cell.name" :fontSize="fontSize"/>
+					  </div>
+				  </td>
+			  </tr>
+		  </tbody>-->
+	  </div>
       <!-- disabled cause it doesn't work properly
       <div class="bingo-splash" :style="{color: bingoAnimColor}" :class="splashActivated">BINGO!</div>-->
   </div>
@@ -93,6 +106,7 @@ function defaultBingoBoard(): BingoCell[][] {
 })
 export default class BingoBoard extends Vue {
     bingoCells: BingoCell[][] = defaultBingoBoard();
+    defaultBoard: BingoCell[][] = defaultBingoBoard();
     @Prop({default: "10px"})
     fontSize: string;
     skewAngle = 1;
@@ -105,7 +119,7 @@ export default class BingoBoard extends Vue {
 
     splashActivated: string = "";
     bingoAnimColor: string = "black";
-    
+
     mounted() {
         const height = this.$el.scrollHeight;
         const width = this.$el.scrollWidth;
@@ -143,7 +157,6 @@ export default class BingoBoard extends Vue {
         return store.state.bingoboardMeta.boardHidden && !this.alwaysShown;
     }
 
-    // watch for bingo changes
     onBingoBoardUpdate(newGoals: Bingoboard, oldGoals?: Bingoboard | undefined) {
         if (!newGoals) return;
         let idx = 0;
@@ -200,6 +213,12 @@ export default class BingoBoard extends Vue {
         height: 100%;
         background: black;
         position: absolute;
+		color: white;
+		align-content: center;
+		justify-content: center;
+		font-size: 45px;
+		text-align: center;
+		align-items: center;
     }
 
     .bingo-splash {
