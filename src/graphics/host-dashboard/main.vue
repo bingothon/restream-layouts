@@ -130,8 +130,8 @@
     import moment from 'moment';
     import fs = require('fs');
     import {RunData} from "../../../speedcontrol-types";
-    import BingoBoard from "../components/bingoboard";
-import { HostsSpeakingDuringIntermission, ShowPictureDuringIntermission } from "../../../schemas";
+    import BingoBoard from "../components/bingoboard.vue";
+    import { HostsSpeakingDuringIntermission, ShowPictureDuringIntermission } from "../../../schemas";
 
     @Component({
 		components: {
