@@ -1,14 +1,14 @@
 <template>
-	<div class="col-sm-4">
-		<form>
-			<h1>Checklist</h1>
-			<VCheckbox>Play Next Run</VCheckbox>
-			<VCheckbox>Set Up Bingosync Room (get link + pw from runners/comms)</VCheckbox>
-
+	<v-app>
+			<v-checkbox>Play Next Run</v-checkbox>
+			<v-checkbox>Set Up Bingosync Room (get link + pw from runners/comms)</v-checkbox>
+	</v-app>
 </template>
-<script>
-@Component({})
+<script lang="ts">
 
+import {Vue, Component} from "vue-property-decorator"
+
+@Component({})
 export default class Checklist extends Vue {
 }
 </script>

@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="Name">
-                <text-fit :text="member.name">
+				<text-fit :text="member.name"></text-fit>
             </div>
         </div>
     </div>

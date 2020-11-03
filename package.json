@@ -17,18 +17,18 @@
     "floha258"
   ],
   "scripts": {
-    "build": "run-s build:*",
-    "build:browser": "trash .cache && cross-env NODE_ENV=production npm run bundle",
-    "build:extension": "trash extension && npx tsc -b tsconfig.extension.json",
-    "bundle": "trash graphics && trash dashboard && node script/bundle.js",
-    "start": "node ../..",
-    "watch": "run-p watch:*",
-    "watch:browser": "npm run bundle",
-    "watch:extension": "trash extension && npx tsc -b tsconfig.extension.json -w",
     "autofix": "run-s autofix:*",
-    "autofix:browser": "npx eslint --fix --ext .ts,.vue,.html src/dashboard && eslint --fix --ext .ts,.vue src/graphics",
-    "autofix:extension": "npx eslint --fix --ext .ts src/extension",
+    "autofix:browser": "eslint --fix --ext .ts,.vue src/dashboard && eslint --fix --ext .ts,.vue src/graphics && eslint --fix --ext .ts src/browser_shared",
+    "autofix:extension": "eslint --fix --ext .ts src/extension && eslint --fix --ext .d.ts src/types",
+    "build": "run-s build:*",
+    "build:browser": "cross-env NODE_ENV=production webpack",
+    "build:extension": "tsc -b tsconfig.extension.json",
+    "clean": "trash node_modules/.cache && trash dashboard && trash graphics && trash extension",
+    "start": "node ../..",
     "typeschemas": "node script/typeschemas.js",
+    "watch": "run-p watch:*",
+    "watch:browser": "webpack -w",
+    "watch:extension": "tsc -b tsconfig.extension.json -w",
     "tscver": "tsc --version"
   },
   "devDependencies": {
@@ -37,6 +37,7 @@
     "@types/deep-equal": "^1.0.1",
     "@types/request-promise": "^4.1.44",
     "@types/tmi.js": "^1.4.0",
+    "@types/webpack-env": "^1.15.3",
     "@types/ws": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
@@ -46,18 +47,27 @@
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-vue": "^5.2.3",
+    "fork-ts-checker-webpack-plugin": "^5.2.1",
+    "globby": "^11.0.1",
+    "hard-source-webpack-plugin": "^0.13.1",
+    "html-webpack-plugin": "^4.5.0",
     "json-schema-to-typescript": "^7.0.0",
+    "mini-css-extract-plugin": "^1.2.1",
     "nodecg": "^1.6.0",
     "npm-run-all": "^4.1.5",
     "parcel-bundler": "^1.12.4",
     "trash-cli": "^3.0.0",
+    "tsconfig-paths-webpack-plugin": "^3.3.0",
     "typescript": "^3.5.3",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-hot-reload-api": "^2.3.3",
+    "vue-loader": "^15.9.5",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.1.2",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.0.0",
+    "webpack-cli": "^4.1.0"
   },
   "alias": {
     "vue": "./node_modules/vue/dist/vue.esm.js"
@@ -107,6 +117,12 @@
         "name": "obs-control",
         "title": "OBS Control",
         "file": "obs-control.html",
+        "width": 2
+      },
+      {
+        "name": "checklist",
+        "title": "Checklist",
+        "file": "checklist.html",
         "width": 2
       },
       {
@@ -171,18 +187,23 @@
     "@fortawesome/vue-fontawesome": "^0.1.6",
     "@mdi/font": "^5.8.55",
     "cheerio": "^1.0.0-rc.3",
+    "css-loader": "^5.0.0",
     "d3": "^3.5.17",
     "deep-equal": "^1.0.1",
     "discord.js": "^12.3.1",
+    "fibers": "^5.0.0",
     "gsap": "^2.1.3",
     "mpc-js": "^1.2.1",
     "node-opus": "^0.3.3",
     "obs-websocket-js": "^3.1.0",
     "request-promise": "^4.2.4",
+    "sass": "^1.28.0",
     "tmi.js": "^1.5.0",
+    "ts-loader": "^8.0.7",
     "vuetify": "^2.3.16",
     "vuetify-loader": "^1.6.0",
     "vuex": "^3.1.1",
+    "webpack-livereload-plugin": "^2.3.0",
     "ws": "^7.1.2"
   }
 }
