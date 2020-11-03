@@ -38,5 +38,5 @@ export interface Configschema {
     port: number;
   };
   esaRepeaterPostKey: string;
-  [k: string]: any;
+  [k: string]: unknown;
 }

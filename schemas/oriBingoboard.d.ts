@@ -7,7 +7,7 @@
 
 export interface OriBingoboard {
   colorCounts: {
-    [k: string]: any;
+    [k: string]: unknown;
   };
   cells: {
     name: string;

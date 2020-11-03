@@ -8,8 +8,8 @@
     "additionalProperties": false,
     "properties": {
       "name": {"type":"string"},
-      "provider": {"type": "string"},
-      "image": {"type": "string"},
+      "provider": {"type": ["string", "null"]},
+      "image": {"type": ["string", "null"]},
       "minDonation": {"type": ["number","null"]},
       "endtime": {"type": ["string","null"]},
       "starttime": {"type": ["string","null"]}

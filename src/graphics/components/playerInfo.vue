@@ -176,7 +176,7 @@ export default class PlayerInfo extends Vue {
   get bingoGoalCount(): number {
     const bingoboard = store.state[store.state.currentMainBingoboard.boardReplicant];
     if (!store.state.bingoboardMeta.manualScoreOverride) {
-      return bingoboard.colorCounts[store.state.bingoboardMeta.playerColors[this.playerIndex] || "red"];
+      return <number>bingoboard.colorCounts[store.state.bingoboardMeta.playerColors[this.playerIndex] || "red"];
     } else {
       return store.state.bingoboardMeta.manualScores[this.playerIndex];
     }

@@ -128,7 +128,7 @@
     import {store, getReplicant} from "../../browser-util/state";
     import {TrackerPrize} from "../../../types";
     import moment from 'moment';
-    import fs = require('fs');
+    import fs from "fs";
     import {RunData} from "../../../speedcontrol-types";
     import BingoBoard from "../components/bingoboard.vue";
     import { HostsSpeakingDuringIntermission, ShowPictureDuringIntermission } from "../../../schemas";
@@ -229,8 +229,8 @@
         }
 
         get peFacts() : String[] {
-            const text = fs.readFileSync('src/graphics/host-dashboard/fhfacts.txt', 'utf-8');
-            return text.split('\n');
+            //const text = fs.readFileSync('src/graphics/host-dashboard/fhfacts.txt', 'utf-8');
+            return// text.split('\n');
 		}
 
 		updateFactIndex() {

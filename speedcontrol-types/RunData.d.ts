@@ -1,6 +1,7 @@
 import { RunDataTeam } from './RunDataTeam';
 
 export interface RunData {
+  when?: number;
   game?: string;
   gameTwitch?: string;
   system?: string;

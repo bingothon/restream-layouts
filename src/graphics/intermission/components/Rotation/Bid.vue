@@ -18,7 +18,7 @@
 			<div class="BidName">
 				{{ bid.bid }}
 			</div>
-			
+
 			<div
 				v-if="bid.goal!=null"
 				class="BidAmount"
@@ -28,7 +28,7 @@
 						<div id="amount" :style="{'width' : percentRaised(bid) + '%'}">{{formatUSD(bid.amount_raised)}}/{{formatUSD(bid.goal)}}</div>
 					</div>
 				</div>
-				
+
 			</div>
 			<div
 				v-else-if="Object.keys(bid.options).length === 0"
@@ -42,7 +42,7 @@
 					>
 						{{ option.name }} ({{ formatUSD(option.amount_raised) }})
 					</div>-->
-				
+
 					<div v-if="bid.allow_custom_options">
 						...or you could submit your own idea!
 					</div>
@@ -51,7 +51,7 @@
 				<div v-else-if="bid.allow_custom_options">
 					No options submitted yet, be the first!
 				</div>
-				
+
 			</div>
 			<div
 				v-else
@@ -73,6 +73,8 @@
     export default class Bid extends Vue {
 
     bid : TrackerOpenBid = null;
+    //d3 types are dumb and inconsistent
+    d3any : any = d3;
 
     mounted() {
       const chosenBid = this.getRandomBid();
@@ -145,7 +147,7 @@
 				left: 350
 			};
 
-			var color = d3.scale.ordinal().range(['#3f84e5','#faa300','#f63e02','#a41623', '#2f4858']);
+			var color = this.d3any.scale.ordinal().range(['#3f84e5','#faa300','#f63e02','#a41623', '#2f4858']);
 
 			var width = 1100 - margin.left - margin.right,
 				height = 400 - margin.top - margin.bottom;
@@ -156,20 +158,20 @@
 				.append("g")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-			var x = d3.scale.linear()
+			var x = this.d3any.scale.linear()
 				.range([0, width])
 				.domain([0, d3.max(data, function (d) {
 					return d.value;
 				})]);
 
-			var y = d3.scale.ordinal()
+			var y = this.d3any.scale.ordinal()
 				.rangeRoundBands([height, 0], .1)
 				.domain(data.map(function (d) {
 					return d.name;
 				}));
 
 			//make y axis to show bar names
-			var yAxis = d3.svg.axis()
+			var yAxis = this.d3any.svg.axis()
 				.scale(y)
 				//no tick marks
 				.tickSize(0)
@@ -268,7 +270,7 @@
 		font-weight: 500;
 		height: 60px;
 		line-height: 60px;
-		background-color: var(--border-colour);
+		//background-color: var(--border-colour);
 		color: white;
 		font-size: 41px;
 		text-transform: uppercase;
@@ -307,13 +309,13 @@
 		font-size: 25px;
 		fill: #fff;
 	}
-	
+
 	.axis path,
 	.axis line {
 		fill: none;
 		display: none;
 	}
-	
+
 	.label {
 		font-size: 25px;
 		fill: #fff;

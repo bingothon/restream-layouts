@@ -12,7 +12,7 @@ module.exports = {
   extends: [
     'airbnb-base',
     'plugin:vue/recommended',
-    'plugin:import/errors',
+    //'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
   ],

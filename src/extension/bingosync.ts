@@ -217,9 +217,11 @@ class BingosyncManager {
           this.boardRep.value.cells[index] = json.square;
           // update goal count
           if (json.remove) {
-            this.boardRep.value.colorCounts[color] -= 1;
+            // @ts-ignore
+			  this.boardRep.value.colorCounts[color] -= 1;
           } else {
-            this.boardRep.value.colorCounts[color] += 1;
+            // @ts-ignore
+			  this.boardRep.value.colorCounts[color] += 1;
           }
         }
       };

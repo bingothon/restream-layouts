@@ -7,7 +7,7 @@
 
 export interface Bingoboard {
   colorCounts: {
-    [k: string]: any;
+    [k: string]: unknown;
   };
   cells: {
     name: string;

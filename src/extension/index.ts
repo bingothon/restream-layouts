@@ -1,6 +1,7 @@
 import { NodeCG } from 'nodecg/types/server'; // eslint-disable-line
 import * as nodecgApiContext from './util/nodecg-api-context';
 import { VoiceActivity, SongData, ShowPictureDuringIntermission } from '../../schemas';
+import fs from "fs";
 
 /* eslint-disable global-require */
 
@@ -88,4 +89,5 @@ export = (nodecg: NodeCG): void => {
   // this doesn't really belong anywhere
   // just make sure to declare
   nodecg.Replicant<ShowPictureDuringIntermission>('showPictureDuringIntermission');
+  //const text = fs.readFileSync('src/graphics/host-dashboard/fhfacts.txt', 'utf-8');
 };

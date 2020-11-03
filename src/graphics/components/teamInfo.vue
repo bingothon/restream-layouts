@@ -68,7 +68,7 @@ export default class TeamInfo extends Vue {
 
     get bingoGoalCount(): number {
         const bingoboard = store.state[store.state.currentMainBingoboard.boardReplicant];
-        return bingoboard.colorCounts[store.state.bingoboardMeta.playerColors[this.playerIndex] || "red"];
+        return <number>bingoboard.colorCounts[store.state.bingoboardMeta.playerColors[this.playerIndex] || "red"];
     }
 
     get bingoColorShown(): boolean {
@@ -131,7 +131,7 @@ export default class TeamInfo extends Vue {
 
 <style>
   @import './medals.css';
-  
+
   .TeamInfoBox {
     color: var(--font-color);
     padding: 7px;

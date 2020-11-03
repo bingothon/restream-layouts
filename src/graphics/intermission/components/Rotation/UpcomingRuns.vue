@@ -14,7 +14,7 @@
     import { store } from "../../../../browser-util/state";
     import {Component, Prop, Vue} from "vue-property-decorator";
     import { RunData } from '../../../../../speedcontrol-types';
-    
+
     @Component({
         components: {
             RunUpcoming
