@@ -31,7 +31,7 @@ import {
   HostsSpeakingDuringIntermission,
   ObsStreamMode,
   ShowPictureDuringIntermission,
-  AllCamNames, CurrentCamNames
+  AllCamNames, CurrentCamNames, LastIntermissionTimestamp
 } from "../../schemas";
 import { RunDataActiveRun, RunDataArray, Timer } from "../../speedcontrol-types";
 import {Scene} from 'obs-websocket-js';
@@ -55,6 +55,7 @@ const replicantNames = [
   'hostingBingoboard',
   'hostingBingosocket',
   'hostsSpeakingDuringIntermission',
+  'lastIntermissionTimestamp',
   'obsAudioSources',
   'obsConnection',
   'obsDashboardAudioSources',
@@ -101,6 +102,7 @@ export const store = new Vuex.Store({
     hostingBingoboard: {} as HostingBingoboard,
     hostingBingosocket: {} as HostingBingosocket,
     hostsSpeakingDuringIntermission: {} as HostsSpeakingDuringIntermission,
+    lastIntermissionTimestamp: 0 as LastIntermissionTimestamp,
     obsAudioSources: {} as ObsAudioSources,
     obsConnection: {} as ObsConnection,
     obsDashboardAudioSources: {} as ObsDashboardAudioSources,

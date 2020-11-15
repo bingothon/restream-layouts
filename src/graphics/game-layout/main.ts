@@ -52,5 +52,5 @@ getReplicant<CurrentGameLayout>('currentGameLayout').on('change',newVal => {
 create().then(()=> {
   new Vue({
     router,
-  }).$mount('#app');
+  }).$mount('#App');
 });

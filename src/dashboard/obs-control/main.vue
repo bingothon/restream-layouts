@@ -1,6 +1,7 @@
 <template>
   <div>
     <span v-if="hostsSpeakingDuringIntermission">Hosts are currently speaking!</span>
+    <span>Last intermission: {{ timeSinceLastIntermission }}</span>
     <div v-if="obsConnectionStatus == 'disconnected'">
       Currently disconnected :(
     </div>
@@ -95,6 +96,26 @@ const bundleName = 'bingothon-layouts';
 
 @Component({})
 export default class OBSControl extends Vue {
+
+  timeSinceLastIntermission: string = '';
+  lastIntermissionInterval: NodeJS.Timeout | null = null;
+
+  mounted() {
+    this.lastIntermissionInterval = setInterval(() => {
+      const totalS = ((new Date().getTime() / 1000) - store.state.lastIntermissionTimestamp);
+      const mins = (totalS / 60).toFixed(0);
+      const secs = (totalS % 60).toFixed(0);
+      this.timeSinceLastIntermission = mins + ":" + secs.padStart(2, "0");
+    }, 1000);
+  }
+
+  destroyed() {
+    if (this.lastIntermissionInterval) {
+      clearInterval(this.lastIntermissionInterval);
+      this.lastIntermissionInterval = null;
+    }
+  }
+
   get obsStreamModes(): ObsStreamMode[] {
     return ['external-commentary', 'runner-commentary', 'racer-audio-only'];
   }

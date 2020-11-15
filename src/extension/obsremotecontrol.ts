@@ -5,7 +5,7 @@ import { Configschema } from '../../configschema';
 import {
   ObsDashboardAudioSources, ObsAudioSources, ObsConnection, DiscordDelayInfo,
   TwitchStreams, ObsStreamMode, CurrentGameLayout,
-  CurrentInterview, HostsSpeakingDuringIntermission,
+  CurrentInterview, HostsSpeakingDuringIntermission, LastIntermissionTimestamp,
 } from '../../schemas';
 import { RunDataActiveRun } from '../../speedcontrol-types';
 
@@ -34,6 +34,7 @@ const voiceDelayRep = nodecg.Replicant<number>('voiceDelay', { defaultValue: 0, 
 const streamsReplicant = nodecg.Replicant <TwitchStreams>('twitchStreams', { defaultValue: [] });
 const soundOnTwitchStream = nodecg.Replicant<number>('soundOnTwitchStream', { defaultValue: -1 });
 const hostDiscordDuringIntermissionRep = nodecg.Replicant<HostsSpeakingDuringIntermission>('hostsSpeakingDuringIntermission');
+const lastIntermissionTimestampRep = nodecg.Replicant<LastIntermissionTimestamp>('lastIntermissionTimestamp');
 
 // make sure we are connected to OBS before loading any of the functions that depend on OBS
 function waitTillConnected(): Promise<void> {
@@ -308,7 +309,12 @@ waitTillConnected().then((): void => {
 
   nodecg.listenFor('obs:startingTransition', (data): void => {
     logger.info('catched transition starting', data);
-    handleScreenStreamModeChange(obsStreamModeRep.value, (data || {}).scene || '');
+    const nextScene = (data || {}).scene || '';
+    if (nextScene === 'intermission') {
+      // update last intermission time
+      lastIntermissionTimestampRep.value = new Date().getTime() / 1000;
+    }
+    handleScreenStreamModeChange(obsStreamModeRep.value, nextScene);
   });
 
   hostDiscordDuringIntermissionRep.on('change', (newVal, old): void => {

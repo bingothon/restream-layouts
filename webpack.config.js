@@ -46,7 +46,7 @@ const config = (name) => {
 						filename: `${entryName}.html`,
 						chunks: [entryName],
 						title: entryName,
-						//template: 'template.html',
+						template: 'template.html',
 					}),
 			),
 			new ForkTsCheckerWebpackPlugin({

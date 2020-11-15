@@ -8,7 +8,11 @@
 		>
 			{{hostsSpeakingToggleButtonText}}
 		</button>
-		<div id="Go-Live">Go live on stream during intermission
+		<div id="Go-Live">
+			Go live on stream during intermission
+		</div>
+		<div v-if="hostsCanGoLive">
+			Time since last intermission start: {{ timeSinceLastIntermission }}
 		</div>
 		<div id="columnsWrapper">
 		<div id="column1" class="column">
@@ -124,6 +128,16 @@
 </template>
 
 <script lang="ts">
+const CHARITY_FACTS = `Using coronavirus DNA crowd-sourced from scientists around the world, experts at Fred Hutch and the University of Basel in Switzerland are tracking how the virus is changing as it moves through people and countries, using the open-source platform Nextstrain.org, where they can share all their data
+Scientists and public health officials around the world are using nextstrain.org to monitor the pandemic and slow the spread of infection.
+Fred Hutch is aiming to help additional labs sequence the virus and share the information; not just for Nextstrain.org, but for all scientists working to address this health crisis. 
+The Nextstrain team has been ahead of the curve in sounding the alarm on the severity and spread of the coronavirus and the disease it causes, COVID-19, all thanks to the modeling work and tracking of outbreaks from Dr. Trevor Bedford from Fred Hutch.
+Dr. Trevor Bedford at Fred Hutch has been at the forefront of tracking outbreaks, from seasonal flu to Zika and Ebola, often advising the CDC and other health officials around the world. 
+Dr. Trevor Bedford collaborates broadly within Fred Hutch and across the world, including colleagues from the University of Basel in Switzerland to ensure the speed of response to emerging outbreaks, of course including the COVID-19 pandemic, and is sharing the data on Nextstrain.org, where users can see the changes happening in the virus and how it is spreading across the world.
+State, local, and national governments rely on Dr. Trevor Bedford for best information on forecasting the continued spread of the disease.
+Nextstrain is a critical tool that allows researchers to stay ahead of COVID-19 as well as other diseases that could affect a large segment of the population.`;
+
+
 	import {Component, Vue} from "vue-property-decorator";
     import {store, getReplicant} from "../../browser-util/state";
     import {TrackerPrize} from "../../../types";
@@ -140,7 +154,26 @@
 	})
 
     export default class HostDashboard extends Vue {
-        private factIndex: number = 0;
+		private factIndex: number = 0;
+		
+		timeSinceLastIntermission: string = '';
+		lastIntermissionInterval: NodeJS.Timeout | null = null;
+
+		mounted() {
+			this.lastIntermissionInterval = setInterval(() => {
+			const totalS = ((new Date().getTime() / 1000) - store.state.lastIntermissionTimestamp);
+			const mins = (totalS / 60).toFixed(0);
+			const secs = (totalS % 60).toFixed(0);
+			this.timeSinceLastIntermission = mins + ":" + secs.padStart(2, "0");
+			}, 1000);
+		}
+
+		destroyed() {
+			if (this.lastIntermissionInterval) {
+			clearInterval(this.lastIntermissionInterval);
+			this.lastIntermissionInterval = null;
+			}
+		}
 
         get donationTotal() {
            return this.formatDollarAmount(store.state.donationTotal, true);
@@ -229,8 +262,7 @@
         }
 
         get peFacts() : String[] {
-            //const text = fs.readFileSync('src/graphics/host-dashboard/fhfacts.txt', 'utf-8');
-            return// text.split('\n');
+            return CHARITY_FACTS.split('\n');
 		}
 
 		updateFactIndex() {
