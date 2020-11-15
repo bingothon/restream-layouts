@@ -6,7 +6,7 @@
                 :hideFinishTime="true"
                 :showColor="false"
                 :height="height"
-                :style="{'margin-left':margin}"
+                :style="{'margin-right':margin}"
             ></player-info>
         </div>
         <div class="TeamInfo">
@@ -22,7 +22,7 @@
                 :showColor="false"
                 :height="height"
                 :reverseOrder="true"
-                :style="{'margin-right':margin}"
+                :style="{'margin-left':margin}"
             ></player-info>
         </div>
     </div>
@@ -75,13 +75,11 @@ export default class PlayerTeamContainer extends Vue {
 }
 
 .PlayerTeamContainer > .PlayerInfo1 > div {
-    margin-right: margin;
     border: 2px var(--container-border-color) solid;
 }
 
 
 .PlayerTeamContainer > .PlayerInfo2 > div {
-    margin-left: ;
     border: 2px var(--container-border-color) solid;
 }
 
