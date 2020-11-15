@@ -6,6 +6,7 @@ const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const globby = require('globby');
 const path = require('path');
 
@@ -69,6 +70,13 @@ const config = (name) => {
 		plugins.push(
 			new VuetifyLoaderPlugin(),
 		);
+	}
+	if (name === 'graphics') {
+		plugins.push(
+			new CopyPlugin({patterns:[
+			  { from: './_misc/common.css', to: './', flatten: true },
+			]}),
+		  );
 	}
 
 	return {

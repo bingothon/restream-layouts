@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import {create, getReplicant} from "../../browser-util/state";
 import * as Interviews from "./interview-list"
 import {AllInterviews, CurrentInterview} from "../../../schemas";
+import Interview from "./main.vue";
 
 Vue.use(VueRouter);
 
@@ -34,5 +35,6 @@ getReplicant<CurrentInterview>('currentInterview').on('change',newVal => {
 create().then(()=> {
 	new Vue({
 		router,
-	}).$mount('#app');
+		render: (h) => h(Interview),
+	}).$mount('#App');
 });
