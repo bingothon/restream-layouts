@@ -17,6 +17,7 @@ import Layout_3x2_2p from "./3_2-2p.vue";
 import Layout_16x10_1p from "./16_10-1p.vue";
 import Layout_16x10_2p from "./16_10-2p.vue";
 import Layout_DS_2p from "./DS-2p.vue";
+import Layout_4x3_16x9 from "./4_3-16_9-2p.vue";
 import Layout_Host_Bingo from "./host-bingo.vue";
 import Layout_Just_Dance from "./just-dance.vue";
 
@@ -38,6 +39,7 @@ export { Layout_16x9_4p,
     Layout_16x9_1p,
 	Layout_16x10_1p,
 	Layout_4x3_1p,
+    Layout_4x3_16x9,
 	Layout_Host_Bingo,
 	Layout_Just_Dance,
 };
