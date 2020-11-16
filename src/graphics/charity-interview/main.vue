@@ -1,10 +1,10 @@
 <template>
 	<div class="Interview">
-		<img id="logo" src="../../../static/logo-summer-wide.png">
+		<img id="logo" src="../../../static/logo-winter-wide.png">
 		<div class="flexContainer" id="fillcamCharity"></div>
 		<div class="flexContainer" id="fillcamIVW1"></div>
 		<div class="flexContainer" id="infoIVW1">
-			<div id="nameIVW1">Pikastroff</div>
+			<div id="nameIVW1">Floha</div>
 		</div>
 		<div class="flexContainer" id="fillcamIVW2"></div>
 		<div class="flexContainer" id="infoIVW2">
@@ -76,9 +76,9 @@
 
 	#logo {
 		position: absolute;
-		left: 690px;
-		top: 0px;
-		width: 426px;
+		left: 590px;
+		top: 10px;
+		width: 626px;
 		height: 150px;
 	}
 
@@ -88,7 +88,7 @@
 		left: 50px;
 		width: 1200px;
 		height: 100px;
-		background-image: linear-gradient(#cc2c00, #541e00);
+		background-image: linear-gradient(#429ff8, #002675);
 		color: var(--font-color);
 	}
 
@@ -110,7 +110,7 @@
 		left: 1300px;
 		height: 50px;
 		width: 500px;
-		background-image: linear-gradient(#cc2c00, #541e00);
+		background-image: linear-gradient(#429ff8, #002675);
 		color: var(--font-color);
 		font-size: 40px;
 	}
@@ -121,7 +121,7 @@
 		left: 1300px;
 		height: 50px;
 		width: 500px;
-		background-image: linear-gradient(#cc2c00, #541e00);
+		background-image: linear-gradient(#429ff8, #002675);
 		color: var(--font-color);
 		font-size: 40px;
 	}

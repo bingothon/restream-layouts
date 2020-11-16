@@ -105,13 +105,6 @@
         "workspace": "Bingothon"
       },
       {
-        "name": "interview-control",
-        "title": "Interview Control",
-        "file": "interview-control.html",
-        "width": 2,
-        "workspace": "Bingothon"
-      },
-      {
         "name": "camnames-control",
         "title": "Cam Names Control",
         "file": "camnames-control.html",
@@ -176,6 +169,11 @@
       },
       {
         "file": "interview.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "charity-interview.html",
         "width": 1920,
         "height": 1080
       },
