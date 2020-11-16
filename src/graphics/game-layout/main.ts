@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import { create, getReplicant } from "../../browser-util/state";
 import * as Layouts from "./layout-list";
 import { AllGameLayouts, CurrentGameLayout } from '../../../schemas';
+import GameLayout from "./main.vue";
 
 Vue.use(VueRouter);
 
@@ -52,5 +53,6 @@ getReplicant<CurrentGameLayout>('currentGameLayout').on('change',newVal => {
 create().then(()=> {
   new Vue({
     router,
-  }).$mount('#app');
+    render: (h) => h(GameLayout),
+  }).$mount('#App');
 });
