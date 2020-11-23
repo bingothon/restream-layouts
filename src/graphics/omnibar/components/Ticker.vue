@@ -51,8 +51,8 @@ export default class Ticker extends Vue {
 
     mounted() {
         this.staticMessages = [
-            this.genericMessage('This is Bingothon Summer 2020, enjoy your stay!'),
-            this.genericMessage('#Bingothon Summer 2020 benefits Fred Hutch!'),
+            this.genericMessage('This is Bingothon Winter 2020, enjoy your stay!'),
+            this.genericMessage('#Bingothon Winter 2020 benefits Fred Hutch!'),
             this.genericMessage('Donate @ donate.bingothon.com'),
             this.genericMessage("Can't get enough of Bingothon? Join the Bingothon Discord at discord.bingothon.com"),
         ];
@@ -81,7 +81,7 @@ export default class Ticker extends Vue {
             case 3: currentComponent = this.showLatestDonation(); break;
             default: currentComponent = this.staticMessages[Math.floor(Math.random() * this.staticMessages.length)]; break;
         }
-        this.currentState = (this.currentState + 1) % 4;
+        this.currentState = (this.currentState + 1) % 5;
         this.currentComponent = currentComponent;
         this.timestamp = Date.now();
     }
