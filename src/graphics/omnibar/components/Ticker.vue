@@ -64,7 +64,7 @@ export default class Ticker extends Vue {
 
     genericMessage(msg: string): TickerMessage {
         return {
-            name: GenericMessage.name,
+            name: "GenericMessage",
             data: {
                 msg
             }
@@ -87,15 +87,15 @@ export default class Ticker extends Vue {
     }
 
     upcomingRun() {
-      return { name: UpcomingRun.name, data: {} };
+      return { name: "UpcomingRun", data: {} };
     }
 
     prize() {
-      return { name: Prize.name, data: {} };
+      return { name: "Prize", data: {} };
     }
 
     bid(): TickerMessage {
-      return { name: Bid.name, data: {} };
+      return { name: "Bid", data: {} };
     }
 
     showLatestDonation(): TickerMessage {
@@ -116,7 +116,7 @@ export default class Ticker extends Vue {
 
     alert(line1Text: string, line2Text: string): TickerMessage {
         return {
-            name: Alert.name,
+            name: "Alert",
             data: {
                 line1Text,
                 line2Text,
@@ -126,7 +126,7 @@ export default class Ticker extends Vue {
 
     noalert(): TickerMessage {
       return {
-        name: GenericMessage.name,
+        name: "GenericMessage",
         data: {
           time: 0,
         }
