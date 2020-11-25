@@ -16,7 +16,8 @@ export interface RunData {
   scheduledS?: number;
   teams: RunDataTeam[];
   customData: {
-	  [key: string]: string;
+    [key: string]: string;
+    Bingotype: string;
 	  Layout: "16:9" | "15:9" | "4:3" | "10:9" | "3:2" | "4:3 co-op";
   };
   id: string;

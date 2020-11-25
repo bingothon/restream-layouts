@@ -142,7 +142,10 @@ export default class PlayerInfo extends Vue {
   get finishTime(): string {
     // no individual finish time for one team runs
     // also this is disabled for some layouts
-    if (this.hideFinishTime || store.state.runDataActiveRun.teams.length == 1) {
+    // also disable during lockout runs
+    if (this.hideFinishTime
+      || store.state.runDataActiveRun.teams.length == 1
+      || store.state.runDataActiveRun.customData.Bingotype?.includes("lockout")) {
       return '';
     }
     // get the team this player belongs to
