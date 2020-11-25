@@ -128,14 +128,13 @@
 </template>
 
 <script lang="ts">
-const CHARITY_FACTS = `Using coronavirus DNA crowd-sourced from scientists around the world, experts at Fred Hutch and the University of Basel in Switzerland are tracking how the virus is changing as it moves through people and countries, using the open-source platform Nextstrain.org, where they can share all their data
-Scientists and public health officials around the world are using nextstrain.org to monitor the pandemic and slow the spread of infection.
-Fred Hutch is aiming to help additional labs sequence the virus and share the information; not just for Nextstrain.org, but for all scientists working to address this health crisis. 
-The Nextstrain team has been ahead of the curve in sounding the alarm on the severity and spread of the coronavirus and the disease it causes, COVID-19, all thanks to the modeling work and tracking of outbreaks from Dr. Trevor Bedford from Fred Hutch.
-Dr. Trevor Bedford at Fred Hutch has been at the forefront of tracking outbreaks, from seasonal flu to Zika and Ebola, often advising the CDC and other health officials around the world. 
-Dr. Trevor Bedford collaborates broadly within Fred Hutch and across the world, including colleagues from the University of Basel in Switzerland to ensure the speed of response to emerging outbreaks, of course including the COVID-19 pandemic, and is sharing the data on Nextstrain.org, where users can see the changes happening in the virus and how it is spreading across the world.
-State, local, and national governments rely on Dr. Trevor Bedford for best information on forecasting the continued spread of the disease.
-Nextstrain is a critical tool that allows researchers to stay ahead of COVID-19 as well as other diseases that could affect a large segment of the population.`;
+const CHARITY_FACTS = `Fred Hutch was named the coordinating center for the COVID Vaccine Prevention Network (CoVPN) in July 2020. CoVPN brings together the expertise and resources of four of the United States's most sophisticated clinical trial networks to conduct clinical trials for COVID-19 vaccines.
+The NIH chose Fred Hutch for the pivotal role of the Coordinating Center for the COVID Vaccine Prevention Network (CoVPN) because they were ready, as they have been recruiting experts, pioneering new vaccine strategies, building trust in the community, and running complex trials for more than two decades through HVTN, the world’s largest international collaboration to develop vaccines that protect against HIV. This expertise, combined with their broad portfolio of COVID-19 research, puts them in a unique position to take on this immense challenge.
+With deep expertise engaging diverse populations affected by HIV, the Hutch’s CoVPN team is partnering with key communities and stakeholders to ensure groups that face the highest risk of severe infection and death from COVID-19 are equitably represented in the vaccine trials.
+CoVPN is conducting "harmonized" clinical trials, meaning that vaccine manufacturers ask a common set of questions and use the same statistical methods to measure outcome, leading to a more reliable comparison of different vaccines, therefore meaning that the most effectives can be scaled and quickly deployed worldwide.
+Most COVID-19 therapies have been tested in hospitals on patients who are critically ill. Yet, early interventions for flu and other viral infections can reduce the severity and duration of disease and prevent people from needing to be hospitalized. Fred Hutch saw an urgent need to develop and test emerging therapies that could do the same for patients with early-stage COVID-19. With funding from donors and other partners, they transformed a building of their campus into the COVID-19 Clinical Research Center. It is a safe environment for scientists and clinicians to partner with study volunteers, health care providers, research institutions, foundations, and the biotech/pharmaceutical industry to study clinical interventions for people who are at risk of, newly diagnosed with, or recovering from COVID-19.
+Fred Hutch opened a first-of-its-kind space for COVID-19 clinical research, being one of the United States' first stand-alone certers dedicated to studying antiviral drugs, monoclonal antibodies and other emerging therapies for COVID-19.
+Dr. Larry Corey, virologist at Fred Hutch and co-leader of the COVID-19 Prevention Network's vaccine testing program, commented that "To immunize the entire global population, we’ll need multiple, successful vaccines. The vaccine trials in our program are ongoing. With this in mind, we encourage you to visit www.preventcovid.org to learn more about our vaccine testing program and how you can help end the uncertainty of this pandemic"`;
 
 
 	import {Component, Vue} from "vue-property-decorator";
@@ -155,7 +154,7 @@ Nextstrain is a critical tool that allows researchers to stay ahead of COVID-19 
 
     export default class HostDashboard extends Vue {
 		private factIndex: number = 0;
-		
+
 		timeSinceLastIntermission: string = '';
 		lastIntermissionInterval: NodeJS.Timeout | null = null;
 
