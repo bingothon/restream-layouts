@@ -12,7 +12,7 @@
       id="ReaderAndMusic"
     >
 		<div class="Mic">
-			<img src="components/Mic.png">
+			<img src="../../../static/Mic.png">
 		</div>
 		<DiscordVoiceDisplay v-show="hostsSpeakingDuringIntermission" voiceHighlightColor="var(--darker-main-color)"></DiscordVoiceDisplay>
       <music></music>

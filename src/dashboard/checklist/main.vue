@@ -1,59 +1,90 @@
 <template>
-	<v-app>
-			<v-checkbox>Play Next Run</v-checkbox>
-			<v-checkbox>Set Up Bingosync Room (get link + pw from runners/comms)</v-checkbox>
-	</v-app>
+    <v-app>
+        <v-btn @click="clearAll">Clear All</v-btn>
+        <v-row>
+            <v-col>
+                <v-checkbox label="Switch to Intermission"/>
+            </v-col>
+            <v-col>
+                <v-checkbox label="Play Next Run"/>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
+                <v-checkbox label="Set Up Bingosync Room"/>
+            </v-col>
+            <v-col>
+                <v-checkbox label="Set Up Player Colors"/>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
+                <v-checkbox label="Set the correct layout (for 4p runs ensure if the run is co-op or not)"/>
+            </v-col>
+            <v-col>
+                <v-checkbox label="Check if all Twitch streams are loaded correctly and override them if necessary"/>
+            </v-col>
+        </v-row>
+    </v-app>
 </template>
 <script lang="ts">
 
-import {Vue, Component} from "vue-property-decorator"
+import {Component, Vue} from "vue-property-decorator"
 
 @Component({})
 export default class Checklist extends Vue {
+    clearAll() {
+        window.location.reload()
+    }
 }
 </script>
 
 <style>
 body {
-	padding: 1em;
+    padding: 1em;
 }
+
 .border {
-	border: 2px solid black;
-	border-radius: 5px;
-	padding: 5px;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px;
 }
+
 .row {
-	display: flex;
+    display: flex;
 }
 
 .column {
-	flex: 50%;
+    flex: 50%;
 }
+
 .multiselect {
-	border:solid 1px #768948;
-	overflow:auto;
+    border: solid 1px #768948;
+    overflow: auto;
 }
 
 .multiselect label {
-	display:block;
+    display: block;
 }
+
 .multiselect-on {
-	color:#ffffff;
-	background-color:#06BA63;
+    color: #ffffff;
+    background-color: #06BA63;
 }
+
 #reward {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: #06BA63;
-	color: white;
-	pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #06BA63;
+    color: white;
+    pointer-events: none;
 }
 
 #reward.show {
-	opacity: 1 !important;
+    opacity: 1 !important;
 }
 
 </style>

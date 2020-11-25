@@ -7,13 +7,8 @@ import Interview from "./main.vue";
 
 Vue.use(VueRouter);
 
+//TODO get rid of router and make interview-var the only interview
 const routes = [
-	{name: "1p Interview", path: "/interview-1p", component: Interviews.Interview_1p},
-	{name: "2p Interview", path: "/interview-2p", component: Interviews.Interview_2p},
-	{name: "3p Interview", path: "/interview-3p", component: Interviews.Interview_3p},
-	{name: "4p Interview", path: "/interview-4p", component: Interviews.Interview_4p},
-	{name: "4p CoOp Interview", path: "/interview-4p-CoOp", component: Interviews.Interview_4p_CoOp},
-	{name: "Charity Interview", path: "/interview-charity", component: Interviews.Interview_Charity},
 	{name: "Var Interview", path: "/interview-var", component: Interviews.Interview_Var},
 	{path: "*", redirect: "/interview-var"},
 ];

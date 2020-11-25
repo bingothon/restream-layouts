@@ -4,7 +4,7 @@
 		class="Music FlexContainer"
 	>
 		<div class="MCat">
-			<img src="music.png">
+			<img src="../../../../static/music.png">
 		</div>
 		<div
 			class="NameContainer"

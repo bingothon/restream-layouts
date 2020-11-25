@@ -101,29 +101,25 @@
         "name": "bingo-control",
         "title": "Bingo Control",
         "file": "bingo-control.html",
-        "width": 2,
-        "workspace": "Bingothon"
+        "width": 2
       },
       {
         "name": "camnames-control",
         "title": "Cam Names Control",
         "file": "camnames-control.html",
-        "width": 2,
-        "workspace": "Bingothon"
+        "width": 2
       },
       {
         "name": "layout-control",
         "title": "Layout Control",
         "file": "layout-control.html",
-        "width": 2,
-        "workspace": "Bingothon"
+        "width": 2
       },
       {
         "name": "twitch-control",
         "title": "Twitch Control",
         "file": "twitch-control.html",
-        "width": 2,
-        "workspace": "Bingothon"
+        "width": 2
       },
       {
         "name": "obs-control",
@@ -135,7 +131,7 @@
         "name": "checklist",
         "title": "Checklist",
         "file": "checklist.html",
-        "width": 2
+        "width": 4
       },
       {
         "name": "twitch-resizer-dashboard",
