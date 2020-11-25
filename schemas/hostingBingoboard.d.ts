@@ -7,12 +7,13 @@
 
 export interface HostingBingoboard {
   colorCounts: {
-    [k: string]: unknown;
+    [k: string]: number;
   };
   cells: {
     name: string;
     slot: string;
-    colors: string;
-    markers?: (string | null)[];
+    colors: ("pink" | "red" | "orange" | "brown" | "yellow" | "green" | "teal" | "blue" | "navy" | "purple")[];
+    rawColors: string;
+    markers: (string | null)[];
   }[];
 }

@@ -171,10 +171,10 @@ export default class BingoBoard extends Vue {
                     Vue.set(this.bingoCells[rowIndex][columnIndex],'name', newCell.name);
                 }
                 // update cell with color backgrounds, if changed
-                if (!oldGoals || !oldGoals.cells.length || newCell.colors != oldGoals.cells[idx].colors) {
-                    var colors = newCell.colors.split(' ');
-                    if (colors[0]!="blank") {
-                        colors = sortColors(colors);
+                if (!oldGoals || !oldGoals.cells.length || !equals(newCell.colors, oldGoals.cells[idx].colors)) {
+                    if (newCell.colors.length !== 0) {
+                        const colors = sortColors(newCell.colors);
+                        console.log(colors);
                         var newColors = [];
                         newColors.push({color: colors[0], style: ''});
                         var translations = translatePercent[colors.length];
@@ -274,17 +274,25 @@ export default class BingoBoard extends Vue {
     }
     .marker {
         position: absolute;
-        width: 50%;
-        height: 50%;
+        width: 20px;
+        height: 20px;
+        opacity: 0.9;
+        border-radius: 50%;
     }
     .marker0 {
-        transform: skew(-45deg);
-        left: -25%;
-        top: -25%;
+        left: 10%;
+        top: 10%;
     }
     .marker1 {
-        transform: skew(45deg);
-        right: -25%;
-        top: -25%;
+        right: 10%;
+        top: 10%;
+    }
+    .marker2 {
+        left: 10%;
+        bottom: 10%;
+    }
+    .marker3 {
+        right: 10%;
+        bottom: 10%;
     }
 </style>

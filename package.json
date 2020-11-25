@@ -104,6 +104,12 @@
         "width": 2
       },
       {
+        "name": "bingomode-control",
+        "title": "Bingo Mode Control",
+        "file": "bingomode-control.html",
+        "width": 2
+      },
+      {
         "name": "camnames-control",
         "title": "Cam Names Control",
         "file": "camnames-control.html",
