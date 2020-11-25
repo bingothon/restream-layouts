@@ -50,9 +50,9 @@
 <script lang="ts">
 import clone from 'clone';
 import { Prop, Component, Vue } from 'vue-property-decorator';
-import { TweenLite, Linear } from 'gsap';
-// eslint-disable-next-line no-unused-vars
-import 'gsap/ScrollToPlugin';
+import { gsap } from 'gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+gsap.registerPlugin(ScrollToPlugin);
 
 import { store } from "../../../../browser-util/state";
 import { TrackerOpenBid } from "../../../../../types";
@@ -78,17 +78,21 @@ export default class Bid extends Vue {
     mounted() {
       const fallback = setTimeout(() => this.$emit('end'), 5000);
       const originalWidth = this.$parent.$el.clientWidth - 34;
+      if (!this.bid) {
+        return;
+      }
       Vue.nextTick().then(() => {
         this.width = originalWidth;
         setTimeout(() => {
           clearTimeout(fallback);
           var Line2 = this.$refs.Line2 as Element;
+            console.log(this.bid);
           const amountToScroll = Line2.scrollWidth - originalWidth;
           const timeToScroll = (amountToScroll * 13) / 1000;
           const timeToShow = (timeToScroll > 25) ? timeToScroll : 21;
-          TweenLite.to(this.$refs.Line2, timeToShow, {
+          gsap.to(this.$refs.Line2, timeToShow, {
             scrollTo: { x: 'max' },
-            ease: Linear.easeNone,
+            ease: 'none',
             onComplete: () => {
               setTimeout(() => this.$emit('end'), 2 * 1000);
             },

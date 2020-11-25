@@ -20,10 +20,10 @@
 </template>
 
 <script lang="ts">
-import { TweenLite, Linear } from 'gsap';
-// eslint-disable-next-line no-unused-vars
-import ScrollToPlugin from 'gsap/umd/ScrollToPlugin';
+import { gsap } from 'gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { Prop, Vue, Component } from 'vue-property-decorator';
+gsap.registerPlugin(ScrollToPlugin);
 
 @Component({})
 export default class Alert extends Vue {
@@ -50,16 +50,16 @@ export default class Alert extends Vue {
         Vue.nextTick().then(() => {
         this.width = originalWidth;
         setTimeout(() => {
-            clearTimeout(fallback);
-            var Line2 = this.$refs.Line2 as Element;
-            const amountToScroll = Line2.scrollWidth - originalWidth;
-            const timeToScroll = (amountToScroll * 13) / 1000;
-            const timeToShow = (timeToScroll > 10) ? timeToScroll : 6;
-            TweenLite.to(this.$refs.Line2, timeToShow, {
+          clearTimeout(fallback);
+          var Line2 = this.$refs.Line2 as Element;
+          const amountToScroll = Line2.scrollWidth - originalWidth;
+          const timeToScroll = (amountToScroll * 13) / 1000;
+          const timeToShow = (timeToScroll > 10) ? timeToScroll : 6;
+          gsap.to(this.$refs.Line2, timeToShow, {
             scrollTo: { x: 'max' },
-            ease: Linear.easeNone,
+            ease: 'none',
             onComplete: () => {
-                setTimeout(() => this.$emit('end'), 2 * 1000);
+              setTimeout(() => this.$emit('end'), 2 * 1000);
             },
           });
         }, 2 * 1000);
