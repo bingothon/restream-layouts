@@ -2,8 +2,9 @@
 	<div id="UpcomingRuns">
 		<run-upcoming
 			v-for="run in runs"
-			:key="`${Date.now()}${run.id}`"
-			:data="run"
+			:key="`${Date.now()}${run[0].id}`"
+			:data="run[0]"
+            :when="run[1]"
 		></run-upcoming>
 	</div>
 </template>
@@ -25,7 +26,8 @@
         @Prop({required: true})
         nextRuns: RunData[];
 
-        runs: RunData[] = [];
+        // runData, when
+        runs: [RunData, number|undefined][] = [];
         whenTotal: number = 0;
 
         mounted() {
@@ -35,11 +37,11 @@
             }
             for (let i = 0; i < this.nextRuns.length; i += 1) {
                 const cloned = clone(this.nextRuns[i]);
-                cloned.when = this.whenTotal;
+                const when = this.whenTotal;
                 this.whenTotal += this.nextRuns[i].estimateS;
                 this.whenTotal += this.nextRuns[i].setupTimeS;
                 if (i !== 0) {
-                    this.runs.push(cloned);
+                    this.runs.push([cloned, when]);
                 }
             }
             setTimeout(() => this.$emit('end'), 20 * 1000);

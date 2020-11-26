@@ -1,7 +1,4 @@
-import { RunDataTeam } from './RunDataTeam';
-
 export interface RunData {
-  when?: number;
   game?: string;
   gameTwitch?: string;
   system?: string;
@@ -17,9 +14,30 @@ export interface RunData {
   teams: RunDataTeam[];
   customData: {
     [key: string]: string;
-    Bingotype: string;
-	  Layout: "16:9" | "15:9" | "4:3" | "10:9" | "3:2" | "4:3 co-op";
   };
   id: string;
-  hash?: string;
+  externalID?: string;
 }
+
+export interface RunDataTeam {
+  name?: string;
+  id: string;
+  players: RunDataPlayer[];
+}
+
+export interface RunDataPlayer {
+  name: string;
+  id: string;
+  teamID: string;
+  country?: string;
+  social: {
+    twitch?: string;
+  };
+  customData: {
+    [key: string]: string;
+  };
+}
+
+export type RunDataArray = RunData[];
+
+export type RunDataActiveRun = RunData | undefined;

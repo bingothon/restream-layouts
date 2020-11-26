@@ -113,7 +113,10 @@ export default class PlayerInfo extends Vue {
         country: "eu",
         social: {
           twitch: ""
-        }
+        },
+        customData: {
+          pronouns: "they/them",
+        },
       };
     }
     return correctPlayer;
