@@ -21,9 +21,8 @@ import {store} from '../../browser-util/state'
 
 const ACTION_LIST: string[] = ["Switch to Intermission", "Play Next Run", "Set Up Bingosync Room", "Set Up Player Colors",
     "Set the correct layout (for 4p runs ensure if the run is co-op or not)", "Check if all Twitch streams are loaded correctly and override them if necessary",
-    "Make sure that the streams are cropped correctly. Filler for 3 lines", "If hosts are not speaking currently, move runners over to live-channel",
-    "Ask where the audio is coming from and select the correct audio preset and unmute the correct Twitch stream",
-    "Final Check", "Go live and stay hydrated"];
+    "Make sure that the streams are cropped correctly", "If hosts are not speaking, move runners to live-channel",
+    "Select the correct audio preset", "Unmute the correct Twitch stream",  "Final Check", "Go live and stay hydrated"];
 
 const ACTION_CHECKED: [string, boolean][] = [];
 ACTION_LIST.forEach(a => {
