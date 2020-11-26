@@ -5,7 +5,7 @@
 	>
 		<div class="Header">
 			Coming Up
-			<span v-if="!data.when">
+			<span v-if="!when">
         Next
       </span>
 			<span v-else>
@@ -36,12 +36,15 @@
 
 <script lang="ts">
     import moment from 'moment';
+import { RunData } from 'speedcontrol-types';
 		import {Prop, Vue, Component} from "vue-property-decorator";
 
 		@Component({})
     export default class RunUpcoming extends Vue {
         @Prop({default: undefined})
-				data: any;
+		data: RunData;
+		@Prop({default: undefined})
+		when: number;
 
         formPlayerNamesString(run) {
             const namesArray = [];
@@ -66,7 +69,7 @@
         }
 
         formETAUntilRun() {
-            const eta = moment.utc().second(0).to(moment.utc().second(this.data.when), true);
+            const eta = moment.utc().second(0).to(moment.utc().second(this.when), true);
             return `In about ${eta}`;
         }
     };

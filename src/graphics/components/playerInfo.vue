@@ -12,7 +12,9 @@
       :style="{ 'width' : `calc(${height} * 1.5)` }"
     >
       <transition name="fade">
+        <div class="PronounsContainer" v-if="show && pronouns" key="pronuns"><text-fit :text="pronouns"></text-fit></div>
         <img
+          v-else
           :key="currentIcon"
           :src="currentIcon"
         >
@@ -113,7 +115,10 @@ export default class PlayerInfo extends Vue {
         country: "eu",
         social: {
           twitch: ""
-        }
+        },
+        customData: {
+          pronouns: "they/them",
+        },
       };
     }
     return correctPlayer;
@@ -121,6 +126,7 @@ export default class PlayerInfo extends Vue {
 
   get show(): boolean {
     return store.state.playerAlternate;
+    // return true;
   }
 
   get currentIcon(): any {
@@ -139,20 +145,27 @@ export default class PlayerInfo extends Vue {
     }
   }
 
+  get pronouns(): string {
+    return this.player.customData.pronouns || '';
+  }
+
   get finishTime(): string {
     // no individual finish time for one team runs
     // also this is disabled for some layouts
-    // also disable during lockout runs
     if (this.hideFinishTime
-      || store.state.runDataActiveRun.teams.length == 1
-      || store.state.runDataActiveRun.customData.Bingotype?.includes("lockout")) {
+      || store.state.runDataActiveRun.teams.length == 1) {
       return '';
     }
     // get the team this player belongs to
     if (this.teamID) {
       const finishTime = store.state.timer.teamFinishTimes[this.teamID];
       if (finishTime) {
-        return `[${finishTime.time}] `;
+        // disable time if lockout, but still "change" it, to force a refit
+        if (store.state.runDataActiveRun.customData.Bingotype?.includes("lockout")) {
+          return ' ';
+        } else {
+          return `[${finishTime.time}] `;
+        }
       }
     }
     return '';
@@ -258,6 +271,18 @@ export default class PlayerInfo extends Vue {
     height: 100%;
     position: absolute;
     filter: invert(1);
+  }
+
+  .PlayerInfoBox > .CurrentIcon > .PronounsContainer {
+    font-size: 60%;
+    /* color: #f3ad00; */
+    /* border: 1px solid #f3ad00; */
+    /* background-color: #f3ad00; */
+    bottom: 1px;
+    color: white;
+    height: 75%;
+    position: absolute;
+    width: 70px;
   }
 
   .PlayerInfoBox > .PlayerName {

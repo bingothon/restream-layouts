@@ -82,8 +82,7 @@ export default class TeamInfo extends Vue {
     get finishTime(): string {
         // no individual finish time for one team runs
         // also disable for lockout
-        if (store.state.runDataActiveRun.teams.length == 1
-          || store.state.runDataActiveRun.customData.Bingotype?.includes("lockout")) {
+        if (store.state.runDataActiveRun.teams.length == 1) {
           return '';
         }
         // get the team this player belongs to
@@ -91,7 +90,12 @@ export default class TeamInfo extends Vue {
         if (teamID) {
             const finishTime = store.state.timer.teamFinishTimes[teamID];
             if (finishTime) {
+              // disable time if lockout, but still "change" it, to force a refit
+              if (store.state.runDataActiveRun.customData.Bingotype?.includes("lockout")) {
+                return ' ';
+              } else {
                 return `[${finishTime.time}] `;
+              }
             }
         }
         return '';

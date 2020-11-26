@@ -12,7 +12,7 @@ const runDataActiveRunReplicant = nodecg.Replicant <RunDataActiveRun>('runDataAc
 const streamsReplicant = nodecg.Replicant <TwitchStreams>('twitchStreams', { defaultValue: [] });
 const soundOnTwitchStream = nodecg.Replicant<number>('soundOnTwitchStream', { defaultValue: -1 });
 
-const aspectRatioToCropping = {
+const aspectRatioToCropping: {[key: string]: {widthPercent: number, heightPercent: number, topPercent: number, leftPercent: number}} = {
   '16:9': {
     widthPercent: 100, heightPercent: 100, topPercent: 0, leftPercent: 0,
   },

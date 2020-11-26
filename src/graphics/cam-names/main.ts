@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import {create, getReplicant} from "../../browser-util/state";
 import * as CamNames from "./name-list";
 import {AllCamNames, CurrentCamNames} from "../../../schemas";
+import CamNamesComponent from "./main.vue";
 
 Vue.use(VueRouter);
 
@@ -28,8 +29,9 @@ getReplicant<CurrentCamNames>('currentCamNames').on('change', newVal => {
     router.push({name: newVal.name});
 });
 
-create().then(()=> {
+create().then(() => {
     new Vue({
         router,
-    }).$mount('#app');
+        render: (h) => h(CamNamesComponent),
+    }).$mount('#App');
 });
