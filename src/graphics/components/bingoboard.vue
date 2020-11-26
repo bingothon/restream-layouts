@@ -6,7 +6,7 @@
                 <td class="square" :key="i+''+j" v-for="(cell,j) in column">
                     <div :key="color.name" v-for="color in cell.colors" :class="'bg-color '+color.color+'square'" :style="color.style"></div>
                     <div class="shadow"></div>
-                    <div :class="'marker marker'+k+' '+(marker||'blank')+'square'" :key="k" v-for="(marker, k) in cell.markers"></div>
+                    <div :class="getMarkerClasses(marker, k)" :key="k" v-for="(marker, k) in cell.markers"></div>
                     <div class="CellTextFitContainer">
                         <CellTextFit :text="cell.name" :fontSize="fontSize"/>
                     </div>
@@ -196,6 +196,14 @@ export default class BingoBoard extends Vue {
             });
         });
     }
+
+    getMarkerClasses(marker, markerIndex): string {
+        if (!marker) {
+            return '';
+        } else {
+            return `marker marker${markerIndex} ${marker}square`;
+        }
+    }
 }
 </script>
 
@@ -277,6 +285,7 @@ export default class BingoBoard extends Vue {
         width: 20px;
         height: 20px;
         opacity: 0.9;
+        border: 1px #0009 solid;
         border-radius: 50%;
     }
     .marker0 {
