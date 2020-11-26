@@ -51,10 +51,10 @@ export default class Ticker extends Vue {
 
     mounted() {
         this.staticMessages = [
-            // this.genericMessage('This is Bingothon Winter 2020, enjoy your stay!'),
-            // this.genericMessage('#Bingothon Winter 2020 benefits Fred Hutch!'),
-            // this.genericMessage('Donate @ donate.bingothon.com'),
-            this.genericMessage("Can't get enough of Bingothon? Join the Bingothon Discord at discord.bingothon.com. This line is really long so it will probably scroll so let's see how that works"),
+            this.genericMessage('This is Bingothon Winter 2020, enjoy your stay!'),
+            this.genericMessage('#Bingothon Winter 2020 benefits Fred Hutch!'),
+            this.genericMessage('Donate @ donate.bingothon.com'),
+            this.genericMessage("Can't get enough of Bingothon? Join the Bingothon Discord at discord.bingothon.com"),
         ];
         store.watch(state => state.trackerDonations, newVal => {
           this.latestDonations = newVal.slice(0,4);
@@ -75,11 +75,11 @@ export default class Ticker extends Vue {
         console.log("nextMsg");
         let currentComponent: TickerMessage;
         switch (this.currentState) {
-            // case 0: currentComponent = this.upcomingRun(); break;
-            // case 1: currentComponent = this.prize(); break;
-            // case 2: currentComponent = this.bid(); break;
-            default: currentComponent = this.showLatestDonation(); break;
-            // default: currentComponent = this.staticMessages[Math.floor(Math.random() * this.staticMessages.length)]; break;
+            case 0: currentComponent = this.upcomingRun(); break;
+            case 1: currentComponent = this.prize(); break;
+            case 2: currentComponent = this.bid(); break;
+            case 3: currentComponent = this.showLatestDonation(); break;
+            default: currentComponent = this.staticMessages[Math.floor(Math.random() * this.staticMessages.length)]; break;
         }
         this.currentState = (this.currentState + 1) % 5;
         this.currentComponent = currentComponent;
@@ -119,7 +119,7 @@ export default class Ticker extends Vue {
             name: "Alert",
             data: {
                 line1Text,
-                line2Text: "Can't get enough of Bingothon? Join the Bingothon Discord at discord.bingothon.com. This line is really long so it will probably scroll so let's see how that works",
+                line2Text,
             },
         };
     }
