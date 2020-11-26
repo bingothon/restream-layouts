@@ -49,10 +49,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { nodecg } from '../../browser-util/nodecg';
 import {
-  BingoboardMeta, CurrentMainBingoboard,
+  BingoboardMeta, BingoboardMode, CurrentMainBingoboard,
 } from '../../../schemas';
 import { store, getReplicant } from '../../browser-util/state';
 import clone from 'clone';
@@ -68,10 +68,11 @@ export default class BingomodeControl extends Vue {
   currentBingomode: string = 'invasion';
   markerRedirects: [string, string][] = [];
 
-  mounted() {
-    this.reset();
+  get bingoboardModeRep(): BingoboardMode {
+    return store.state.bingoboardMode;
   }
 
+  @Watch('bingoboardModeRep', {'immediate': true})
   reset(): void {
     this.currentBingomode = store.state.bingoboardMode.boardMode;
     this.markerRedirects = clone(store.state.bingoboardMode.markerRedirects);

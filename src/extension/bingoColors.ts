@@ -1,13 +1,14 @@
 // not sure if a seperate file for this is needed, maybe refactor
 import * as nodecgApiContext from './util/nodecg-api-context';
 import {
-  BingoboardMeta,
+  BingoboardMeta, BingoboardMode,
 } from '../../schemas';
 import { BoardColor } from '../../types';
 import { RunDataActiveRun } from '../../speedcontrol-types';
 
 const nodecg = nodecgApiContext.get();
 const boardMetaRep = nodecg.Replicant<BingoboardMeta>('bingoboardMeta');
+const bingoboardMode = nodecg.Replicant<BingoboardMode>('bingoboardMode');
 const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
 
 // const log = new nodecg.Logger(`${nodecg.bundleName}:bingoColors`);
@@ -46,5 +47,9 @@ boardMetaRep.once('change', (): void => {
         boardMetaRep.value.countShown = true;
       }
     }
+
+    // reset bingoboard mode
+    bingoboardMode.value.boardMode = "normal";
+    bingoboardMode.value.markerRedirects = [];
   });
 });
