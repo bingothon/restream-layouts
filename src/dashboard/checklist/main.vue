@@ -2,51 +2,16 @@
     <v-app>
         <v-btn @click="clearAll">Clear All</v-btn>
         <div v-if="hostsSpeaking">Hosts are currently speaking, don't transition yet</div>
-        <v-row class="row ma-0 pa-0">
-            <v-col class="ma-0 pa-0">
-                <v-checkbox label="Switch to Intermission"/>
-            </v-col>
-            <v-col class="ma-0 pa-0">
-                <v-checkbox label="Play Next Run"/>
-            </v-col>
-        </v-row>
-        <v-row class="row ma-0 pa-0">
-            <v-col class="ma-0 pa-0">
-                <v-checkbox label="Set Up Bingosync Room"/>
-            </v-col>
-            <v-col class="ma-0 pa-0">
-                <v-checkbox label="Set Up Player Colors"/>
-            </v-col>
-        </v-row>
-        <v-row class="row ma-0 pa-0">
-            <v-col class="ma-0 pa-0">
-                <v-checkbox label="Set the correct layout (for 4p runs ensure if the run is co-op or not)"/>
-            </v-col>
-            <v-col class="ma-0 pa-0">
-                <v-checkbox label="Check if all Twitch streams are loaded correctly and override them if necessary"/>
-            </v-col>
-        </v-row>
-        <v-row class="row ma-0 pa-0">
-            <v-col class="ma-0 pa-0">
-                <v-checkbox label="Make sure that the streams are cropped correctly. Filler for 3 lines"/>
-            </v-col>
-            <v-col class="ma-0 pa-0">
-                <v-checkbox label="If hosts are not speaking currently, move runners over to live-channel"/>
-            </v-col>
-        </v-row>
-        <v-row class="row ma-0 pa-0">
-            <v-col class="ma-0 pa-0">
-                <v-checkbox label="Ask where the audio is coming from and select the correct audio preset and unmute the correct Twitch stream"/>
-            </v-col>
-        </v-row>
-        <v-row class="row ma-0 pa-0">
-            <v-col class="ma-0 pa-0">
-                <v-checkbox label="Final Check"/>
-            </v-col>
-            <v-col class="ma-0 pa-0">
-                <v-checkbox label="Go live and stay hydrated"/>
-            </v-col>
-        </v-row>
+        <div
+            class="checkbox-container"
+        >
+            <div
+                v-for="(check, i) in actionsChecked"
+                :key="i"
+            >
+                <v-checkbox v-model="check[1]" :label="check[0]"/>
+            </div>
+        </div>
     </v-app>
 </template>
 <script lang="ts">
@@ -54,15 +19,30 @@
 import {Component, Vue} from "vue-property-decorator"
 import {store} from '../../browser-util/state'
 
+const ACTION_LIST: string[] = ["Switch to Intermission", "Play Next Run", "Set Up Bingosync Room", "Set Up Player Colors",
+    "Set the correct layout (for 4p runs ensure if the run is co-op or not)", "Check if all Twitch streams are loaded correctly and override them if necessary",
+    "Make sure that the streams are cropped correctly. Filler for 3 lines", "If hosts are not speaking currently, move runners over to live-channel",
+    "Ask where the audio is coming from and select the correct audio preset and unmute the correct Twitch stream",
+    "Final Check", "Go live and stay hydrated"];
+
+const ACTION_CHECKED: [string, boolean][] = [];
+ACTION_LIST.forEach(a => {
+    ACTION_CHECKED.push([a, false]);
+})
+
 @Component({})
 export default class Checklist extends Vue {
+
+    actionsChecked = ACTION_CHECKED;
 
     get hostsSpeaking() {
         return store.state.hostsSpeakingDuringIntermission.speaking
     }
 
     clearAll() {
-        window.location.reload()
+        this.actionsChecked.forEach(action => {
+            Vue.set(action, 1, false);
+        });
     }
 }
 </script>
@@ -70,6 +50,16 @@ export default class Checklist extends Vue {
 <style>
 body {
     /*padding: 1em;*/
+}
+
+.checkbox-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.checkbox-container > div {
+    width: 50%;
 }
 
 .border {
