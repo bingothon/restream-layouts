@@ -12,7 +12,9 @@
       :style="{ 'width' : `calc(${height} * 1.5)` }"
     >
       <transition name="fade">
+        <div class="PronounsContainer" v-if="show" key="pronuns"><text-fit :text="pronouns"></text-fit></div>
         <img
+          v-else
           :key="currentIcon"
           :src="currentIcon"
         >
@@ -124,6 +126,7 @@ export default class PlayerInfo extends Vue {
 
   get show(): boolean {
     return store.state.playerAlternate;
+    // return true;
   }
 
   get currentIcon(): any {
@@ -140,6 +143,10 @@ export default class PlayerInfo extends Vue {
     } else {
       return "/"+this.player.social.twitch;
     }
+  }
+
+  get pronouns(): string {
+    return this.player.customData.pronouns || '';
   }
 
   get finishTime(): string {
@@ -261,6 +268,18 @@ export default class PlayerInfo extends Vue {
     height: 100%;
     position: absolute;
     filter: invert(1);
+  }
+
+  .PlayerInfoBox > .CurrentIcon > .PronounsContainer {
+    font-size: 60%;
+    /* color: #f3ad00; */
+    /* border: 1px solid #f3ad00; */
+    /* background-color: #f3ad00; */
+    bottom: 1px;
+    color: white;
+    height: 75%;
+    position: absolute;
+    width: 70px;
   }
 
   .PlayerInfoBox > .PlayerName {
