@@ -12,7 +12,7 @@
       :style="{ 'width' : `calc(${height} * 1.5)` }"
     >
       <transition name="fade">
-        <div class="PronounsContainer" v-if="show" key="pronuns"><text-fit :text="pronouns"></text-fit></div>
+        <div class="PronounsContainer" v-if="show && pronouns" key="pronuns"><text-fit :text="pronouns"></text-fit></div>
         <img
           v-else
           :key="currentIcon"
