@@ -111,7 +111,7 @@ export default class Ticker extends Vue {
     donation(donation: TrackerDonation): TickerMessage {
       const line1 = `New Donation: ${donation.donor} (${this.formatUSD(donation.amount)})`;
       const line2 = donation.comment;
-      return this.alert(line1, line2 + line2 + line2);
+      return this.alert(line1, line2);
     }
 
     alert(line1Text: string, line2Text: string): TickerMessage {
