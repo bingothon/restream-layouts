@@ -41,6 +41,10 @@
         Save
       </button><span>{{ successMessage }}</span>
     </div>
+    <div>
+      <button @click="togglePlayerPause" :disabled="player == null">{{togglePlayerPauseButtonText}}</button>
+      <button @click="togglePlayerMute" :disabled="player == null">{{togglePlayerMuteButtonText}}</button>
+    </div>
   </div>
 </template>
 
@@ -70,7 +74,11 @@ export default class CropControl extends Vue {
 
   successMessage: string = '';
 
-  player: any;
+  player: any = null;
+
+  playerMuted: boolean = true;
+
+  playerPaused: boolean = true;
 
   mounted() {
 
@@ -78,12 +86,15 @@ export default class CropControl extends Vue {
 
   createTwitchPlayer() {
     const playerOptions = {
+      autoplay: false,
       channel: this.currentChannel,
       width: initWidth,
       height: initHeight,
     };
     this.player = new Twitch.Player(this.$refs.twitchPlayer, playerOptions);
-    this.player.pause();
+    this.player.setMuted(true);
+    this.playerMuted = true;
+    this.playerPaused = true;
     const stream = store.state.twitchStreams.find(s => s.channel === this.currentChannel);
     if (stream) {
       this.leftPercent = stream.leftPercent;
@@ -138,6 +149,32 @@ export default class CropControl extends Vue {
         leftPercent: parseInt(this.leftPercent as unknown as string, 10),
         topPercent: parseInt(this.topPercent as unknown as string, 10),
       });
+  }
+
+  get togglePlayerPauseButtonText(): string {
+    return this.playerPaused ? "Play" : "Pause";
+  }
+
+  togglePlayerPause() {
+    if (this.player !== null) {
+      if (this.playerPaused) {
+        this.player.play();
+      } else {
+        this.player.pause();
+      }
+      this.playerPaused = !this.playerPaused;
+    }
+  }
+
+  get togglePlayerMuteButtonText(): string {
+    return this.playerMuted ? "Unmute" : "Mute";
+  }
+
+  togglePlayerMute() {
+    if (this.player !== null) {
+      this.playerMuted = !this.playerMuted;
+      this.player.setMuted(this.playerMuted);
+    }
   }
 }
 </script>
