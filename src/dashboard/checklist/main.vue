@@ -19,9 +19,9 @@
 import {Component, Vue} from "vue-property-decorator"
 import {store} from '../../browser-util/state'
 
-const ACTION_LIST: string[] = ["Switch to Intermission", "Play Next Run", "Set Up Bingosync Room", "Ask for Player Colors", "Ask runners for interview",
+const ACTION_LIST: string[] = ["Switch to Intermission", "Play Next Run", "Set Up Bingosync Room", "Ask for Player Colors",
     "Set the correct layout (for 4p runs ensure if the run is co-op or not)", "Check if all Twitch streams are loaded correctly and override them if necessary",
-    "Make sure that the streams are cropped correctly", "If hosts are not speaking, move runners to live-channel",
+    "Make sure that the streams are cropped correctly", "If hosts are not speaking, move runners to live-channel", "Ask for Interview",
     "Select the correct audio preset", "Unmute the correct Twitch stream",  "Final Check", "Go live and stay hydrated"];
 
 const ACTION_CHECKED: [string, boolean][] = [];

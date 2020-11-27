@@ -1,6 +1,6 @@
 <template>
 	<div class="Interview">
-		<img src="../../../static/logo-summer-wide.png" id="logo">
+		<img src="../../../static/logo-winter-wide.png" id="logo">
 		<div id="fillvoice" class="flexContainer"></div>
 		<div id="team-container" v-if="playerCount.length===4 && teamCount.length===2">
 			<player-team-container v-for="teamIndex in teamCount" :key="teamIndex" class="team" :teamIndex="teamIndex"
@@ -88,9 +88,9 @@ export default class Interview extends Vue {
 
 #logo {
 	position: absolute;
-	left: 690px;
+	left: 543px;
 	top: 10px;
-	width: 568px;
+	/*width: 568px;*/
 	height: 200px;
 }
 
