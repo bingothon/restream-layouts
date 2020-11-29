@@ -61,8 +61,9 @@ streamsReplicant.once('change', (): void => {
     // grab all runners
     const newStreams: TwitchStreams = [];
     let idx = 0;
-    newVal.teams.forEach((team): void => {
-      team.players.forEach((player): void => {
+    newVal.teams.forEach((team, teamIndex): void => {
+      team.players.forEach((player, playerIndex): void => {
+        // nodecg.log.info(`${player.social.twitch} to ${old.teams[teamIndex]?.players[playerIndex]?.social.twitch}`)
         // in case the replicant changed, but this stream wasn't affected, don't reset cropping
         // fill everything with defaults
         let current: TwitchStream = {
@@ -86,7 +87,8 @@ streamsReplicant.once('change', (): void => {
           current.paused = true;
         } else {
           const oldStream = streamsReplicant.value[idx];
-          if (!oldStream || player.social.twitch !== oldStream.channel) {
+          // check against old replicant, in case of a stream override
+          if (!oldStream || player.social.twitch !== old.teams[teamIndex]?.players[playerIndex]?.social.twitch) {
             current.channel = player.social.twitch;
           } else {
             current = oldStream;
