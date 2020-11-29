@@ -14,6 +14,7 @@ const routes = [
     {name: "3p 3:2 Layout", path: "./3p-3_2-layout", component: Layouts.Layout_3x2_3p},
     {name: "4p 10:9 Layout", path: "/4p-10_9-layout", component: Layouts.Layout_10x9_4p},
     {name: "4p 10:9 co-op Layout", path: "/4p-10_9-co-op-layout", component: Layouts.Layout_10x9_4p_CoOp},
+    {name: "2p 10:9 Layout", path: "/2p-10_9-layout", component: Layouts.Layout_10x9_2p},
     {name: "4p 4:3 Layout", path: "/4p-4_3-layout", component: Layouts.Layout_4x3_4p},
     {name: "4p 4:3 co-op Layout", path: "/4p-4_3-co-op-layout", component: Layouts.Layout_4x3_4p_CoOp},
     {name: "3p 4:3 Layout", path: "/3p-4_3-layout", component: Layouts.Layout_4x3_3p},
