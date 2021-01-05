@@ -159,7 +159,7 @@ const config = (name) => {
 					},
 				},
 				{
-					test: /\.(png|svg)?$/,
+					test: /\.(png|svg|jpg|mp4)?$/,
 					exclude: [
 						path.resolve(__dirname, `src/${name}/_misc/fonts`),
 					],

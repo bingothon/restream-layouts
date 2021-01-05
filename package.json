@@ -110,27 +110,15 @@
         "width": 2
       },
       {
-        "name": "camnames-control",
-        "title": "Cam Names Control",
-        "file": "camnames-control.html",
-        "width": 2
-      },
-      {
-        "name": "layout-control",
-        "title": "Layout Control",
-        "file": "layout-control.html",
-        "width": 2
-      },
-      {
         "name": "twitch-control",
         "title": "Twitch Control",
         "file": "twitch-control.html",
         "width": 2
       },
       {
-        "name": "obs-control",
-        "title": "OBS Control",
-        "file": "obs-control.html",
+        "name": "countdown-control",
+        "title": "Countdown Control",
+        "file": "countdown-control.html",
         "width": 2
       },
       {
@@ -150,44 +138,24 @@
     ],
     "graphics": [
       {
-        "file": "game-layout.html",
-        "width": 1920,
-        "height": 1080
-      },
-      {
-        "file": "intermission.html",
-        "width": 1920,
-        "height": 1080
-      },
-      {
-        "file": "host-dashboard.html",
-        "width": 1920,
-        "height": 1080
-      },
-      {
-        "file": "exploration-bingo.html",
-        "width": 1920,
-        "height": 1080
-      },
-      {
         "file": "interview.html",
         "width": 1920,
         "height": 1080
       },
       {
-        "file": "charity-interview.html",
+        "file": "intro.html",
         "width": 1920,
         "height": 1080
       },
       {
-        "file": "cam-names.html",
+        "file": "sunshine-game.html",
         "width": 1920,
         "height": 1080
       },
       {
-        "file": "omnibar.html",
+        "file": "sunshine-big-board.html",
         "width": 1920,
-        "height": 80
+        "height": 1080
       }
     ],
     "mount": [

@@ -1,12 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:600&subset=cyrillic,cyrillic-ext,latin-ext,vietnamese');
+@font-face {
+    font-family: Delfino;
+    src: url("../../../static/delfino.otf");
+}
+
 
 :root {
-	--container-background-color: #3b5d7e;
-	--container-border-color: #5c88bc;
-	--font-color: #fff;
-	--darker-main-color: #315091;
-	--lighter-main-color: #5c88bc;
-	--alternative-main-color: #310088;
+    --container-background-color: rgba(0, 0, 0, 0.4);
+    --container-border-color: white;
+    --font-color: #fff;
+    --darker-main-color: #e2a339;
+    --lighter-main-color: #ffff89;
+    --alternative-main-color: #ffff89;
 }
 
 body {
@@ -17,7 +22,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+}
 
 /* global animation stuff */
 .fade-enter-active, .fade-leave-active {
