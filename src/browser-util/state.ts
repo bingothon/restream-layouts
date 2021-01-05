@@ -50,6 +50,7 @@ const replicantNames = [
     'bingoboardMeta',
     'bingoboardMode',
     'bingosyncSocket',
+    'countdownTimer',
     'currentGameLayout',
     'currentInterview',
     'currentCamNames',
