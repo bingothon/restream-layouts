@@ -12,8 +12,8 @@
              :style="{ 'width' : `calc(${height} * 1.5)` }"
         >
             <transition name="fade">
-                <div class="PronounsContainer" v-if="show && pronouns" key="pronuns">
-                    <text-fit :text="pronouns"></text-fit>
+                <div class="ScoreContainer" v-if="show && score" key="score">
+                    <text-fit :text="score"></text-fit>
                 </div>
                 <img
                     v-else
@@ -147,8 +147,8 @@ export default class PlayerInfo extends Vue {
         }
     }
 
-    get pronouns(): string {
-        return this.player.customData.pronouns || '';
+    get score(): string {
+        return this.player.customData.score || '';
     }
 
     get finishTime(): string {
@@ -281,8 +281,8 @@ export default class PlayerInfo extends Vue {
     filter: invert(1);
 }
 
-.PlayerInfoBox > .CurrentIcon > .PronounsContainer {
-    font-size: 60%;
+.PlayerInfoBox > .CurrentIcon > .ScoreContainer {
+    font-size: 100%;
     /* color: #f3ad00; */
     /* border: 1px solid #f3ad00; */
     /* background-color: #f3ad00; */

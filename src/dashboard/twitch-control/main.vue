@@ -73,12 +73,14 @@
                               background-color="#455A64"
                               dark
                 />
-                <v-btn dark
-                       small
-                       @click="overrideChannelName(i)"
-                >
-                    Override stream
-                </v-btn>
+                <div class="d-flex justify-center override-button">
+                    <v-btn dark
+                           small
+                           @click="overrideChannelName(i)"
+                    >
+                        Override stream
+                    </v-btn>
+                </div>
             </div>
         </div>
     </div>
@@ -138,6 +140,10 @@ export default class TwitchControl extends Vue {
 <style>
 .stream-control {
     padding: 5px;
+}
+
+.override-button > .v-btn {
+    width: 100%;
 }
 
 </style>

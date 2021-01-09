@@ -101,30 +101,35 @@
         "name": "bingo-control",
         "title": "Bingo Control",
         "file": "bingo-control.html",
+        "headerColor": "#b92b36",
         "width": 2
       },
       {
         "name": "bingomode-control",
         "title": "Bingo Mode Control",
         "file": "bingomode-control.html",
+        "headerColor": "#b92b36",
         "width": 2
       },
       {
         "name": "twitch-control",
         "title": "Twitch Control",
         "file": "twitch-control.html",
+        "headerColor": "#b92b36",
         "width": 2
       },
       {
         "name": "countdown-control",
         "title": "Countdown Control",
         "file": "countdown-control.html",
+        "headerColor": "#b92b36",
         "width": 2
       },
       {
         "name": "checklist",
         "title": "Checklist",
         "file": "checklist.html",
+        "headerColor": "#b92b36",
         "width": 4
       },
       {
@@ -132,7 +137,7 @@
         "title": "Twitch Resizer",
         "width": 10,
         "file": "crop-control.html",
-        "headerColor": "#008BB9",
+        "headerColor": "#b92b36",
         "workspace": "Twitch Resizing"
       }
     ],
