@@ -1,6 +1,6 @@
 <template>
     <div>
-        <select v-model="currentBingomode" :items="ALL_BINGO_MODES">
+        <select v-model="currentBingomode" :items="ALL_BINGO_MODES" >
             <option
                 v-for="(bingoMode, i) in ALL_BINGO_MODES"
                 :key="i"
@@ -18,17 +18,17 @@
                 :key="i"
                 class="override d-flex justify-center"
             >
-                <select v-model="markerRedirect[0]">
-                    <option
+                <v-select v-model="markerRedirect[0]" :items="ALL_COLORS" item-text="ALL_COLORS">
+                    <!--<option
                         v-for="(color, j) in ALL_COLORS"
                         :key="j"
                         :value="color"
                     >
                         {{ color }}
-                    </option>
-                </select>
+                    </option>-->
+                </v-select>
                 to
-                <select v-model="markerRedirect[1]">
+                <v-select v-model="markerRedirect[1]" :items="ALL_COLORS">
                     <option
                         v-for="(color, j) in ALL_COLORS"
                         :key="j"
@@ -36,7 +36,7 @@
                     >
                         {{ color }}
                     </option>
-                </select>
+                </v-select>
                 <v-btn
                     dark
                     x-small
@@ -136,8 +136,13 @@ export default class BingomodeControl extends Vue {
 
 .lineButton > .v-btn {
     width: 100%;
+    margin-bottom: 4px;
+    margin-top: 4px;
 }
 
+.v-btn:not(.v-btn--round).v-size--x-small {
+    margin: 2px;
+}
 .halfLine > .v-btn {
     width: 49%;
 }
