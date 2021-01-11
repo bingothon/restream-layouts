@@ -18,17 +18,7 @@
                 :key="i"
                 class="override d-flex justify-center"
             >
-                <v-select v-model="markerRedirect[0]" :items="ALL_COLORS" item-text="ALL_COLORS">
-                    <!--<option
-                        v-for="(color, j) in ALL_COLORS"
-                        :key="j"
-                        :value="color"
-                    >
-                        {{ color }}
-                    </option>-->
-                </v-select>
-                to
-                <v-select v-model="markerRedirect[1]" :items="ALL_COLORS">
+                <select v-model="markerRedirect[0]" :items="ALL_COLORS" item-text="ALL_COLORS">
                     <option
                         v-for="(color, j) in ALL_COLORS"
                         :key="j"
@@ -36,7 +26,17 @@
                     >
                         {{ color }}
                     </option>
-                </v-select>
+                </select>
+                to
+                <select v-model="markerRedirect[1]" :items="ALL_COLORS">
+                    <option
+                        v-for="(color, j) in ALL_COLORS"
+                        :key="j"
+                        :value="color"
+                    >
+                        {{ color }}
+                    </option>
+                </select>
                 <v-btn
                     dark
                     x-small
@@ -145,6 +145,15 @@ export default class BingomodeControl extends Vue {
 }
 .halfLine > .v-btn {
     width: 49%;
+}
+
+select {
+    color: white;
+    border: 1px white;
+}
+
+option {
+    color: black;
 }
 
 </style>

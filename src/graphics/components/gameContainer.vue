@@ -1,6 +1,7 @@
 <template>
     <div class="GameContainer FlexContainer">
-        <div class="GameName FlexContainer">{{gameName}}</div>
+        <div class="GameName FlexContainer">Bingo League</div>
+        <div class="DivName FlexContainer">Division {{gameName}}</div>
         <div class="GameExtra FlexContainer">{{gameCategory}}</div>
     </div>
 </template>
@@ -42,6 +43,15 @@ export default class TestGameContainer extends Vue {
     text-shadow: 3px 3px 5px black;
 }
 .GameContainer > .GameExtra {
+    font-size: 20px;
+    font-weight: thin;
+    align-content: center;
+    color: white;
+    text-align: center;
+    text-shadow: 1px 1px 5px black;
+}
+
+.GameContainer > .DivName {
     font-size: 20px;
     font-weight: thin;
     align-content: center;

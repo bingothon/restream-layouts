@@ -19,10 +19,9 @@
 import {Component, Vue} from "vue-property-decorator"
 import {store} from '../../browser-util/state'
 
-const ACTION_LIST: string[] = ["Switch to Intermission", "Play Next Run", "Set Up Bingosync Room", "Ask for Player Colors",
-    "Set the correct layout (for 4p runs ensure if the run is co-op or not)", "Check if all Twitch streams are loaded correctly and override them if necessary",
-    "Make sure that the streams are cropped correctly", "If hosts are not speaking, move runners to live-channel", "Ask for Interview",
-    "Select the correct audio preset", "Unmute the correct Twitch stream",  "Final Check", "Go live and stay hydrated"];
+const ACTION_LIST: string[] = ["Set Run Game to correct Division Number", "Set Run Category and Bingomode", "Set Runners", "Play Run", "Set Up Bingosync Room (Super Mario Sunshine, Variant: 1 v 1)", "Ask for Player Colors",
+    "Check if all Twitch streams are loaded correctly and override them if necessary", "Give Commentators and Runners 'Current Match' Role in Discord",
+    "Make sure that the streams are cropped correctly", "Unmute the correct Twitch stream",  "Final Check", "Go live, unmute Discord and stay hydrated"];
 
 const ACTION_CHECKED: [string, boolean][] = [];
 ACTION_LIST.forEach(a => {
