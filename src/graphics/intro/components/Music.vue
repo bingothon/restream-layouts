@@ -73,6 +73,7 @@
 		align-items: center;
 		height: 100%;
 		width: 450px;
+        font-family: Delfino;
 	}
 	.MCat {
 		box-sizing: border-box;
