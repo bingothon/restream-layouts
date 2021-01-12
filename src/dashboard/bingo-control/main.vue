@@ -13,11 +13,11 @@
             @click="errorMessage=''"
         > {{ errorMessage }}</span>
         <div class="d-flex justify-center line-buttons">
-            <v-btn class="button"
+            <v-btn id="override-button"
+                   class="button"
                    dark
                    small
                    @click="toggleManualScoreOverride"
-                   id="override-button"
             >
                 {{ manualScoreOverrideText }}
             </v-btn>
@@ -38,15 +38,17 @@
                 >
                     <!--<v-list-item-content>
                         <v-list-item-title>-->
-                            {{ sColor }}
-                        <!--</v-list-item-title>
-                    </v-list-item-content>-->
+                    {{ sColor }}
+                    <!--</v-list-item-title>
+                </v-list-item-content>-->
                 </option>
             </select>
             <span v-show="isManualScoreOverride">
-        <v-input
+        <v-text-field
             v-model="manualScore[i]"
+            background-color="#455A64"
             class="manual-score"
+            dark
             type="number"
             @change="updateManualScore"
         />
