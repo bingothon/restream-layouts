@@ -131,14 +131,6 @@
         "file": "checklist.html",
         "headerColor": "#b92b36",
         "width": 4
-      },
-      {
-        "name": "twitch-resizer-dashboard",
-        "title": "Twitch Resizer",
-        "width": 10,
-        "file": "crop-control.html",
-        "headerColor": "#b92b36",
-        "workspace": "Twitch Resizing"
       }
     ],
     "graphics": [

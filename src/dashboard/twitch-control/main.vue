@@ -19,7 +19,7 @@
                     mdi-volume-high
                 </v-icon>
             </v-btn>
-            <v-btn
+            <!--<v-btn
                 class="stream-refresh"
                 dark
                 small
@@ -82,7 +82,7 @@
                     </v-btn>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 </template>
 
