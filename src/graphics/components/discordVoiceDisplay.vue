@@ -100,7 +100,7 @@ export default class DiscordVoiceDisplay extends Vue {
     }
 
     .DiscordVoiceDisplay > .Member > div.Name {
-        font-size: 22px;
+        font-size: 30px;
         margin-left: 8px;
         margin-right: 8px;
         color: white;

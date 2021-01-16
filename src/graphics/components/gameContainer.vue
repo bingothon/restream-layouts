@@ -52,7 +52,7 @@ export default class TestGameContainer extends Vue {
 }
 
 .GameContainer > .DivName {
-    font-size: 20px;
+    font-size: 25px;
     font-weight: thin;
     align-content: center;
     color: white;

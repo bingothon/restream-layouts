@@ -263,6 +263,7 @@ export default class PlayerInfo extends Vue {
     padding: 7px;
     font-weight: 500;
     font-size: 30px;
+    text-shadow: 3px 3px 5px black;
 }
 
 .PlayerInfoBox.ReverseOrder {
