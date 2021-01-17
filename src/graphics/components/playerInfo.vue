@@ -12,10 +12,10 @@
              :style="{ 'width' : `calc(${height} * 1.5)` }"
         >
             <transition name="fade">
-                <div class="ScoreContainer" v-if="show && pronouns" key="pronouns">
+                <div class="ScoreContainer" v-if="!show && pronouns" key="pronouns">
                     <text-fit :text="pronouns"></text-fit>
                 </div>
-                <div class="ScoreContainer" v-else-if="!show && score" key="score">
+                <div class="ScoreContainer" v-else-if="show && score" key="score">
                     <text-fit :text="score"></text-fit>
                 </div>
                 <img
@@ -28,7 +28,7 @@
         <div :class="medalClasses"></div>
         <div class="PlayerName">
             <transition name="fade">
-                <text-fit :key="text" :text="finishTime+text" :align="reverseOrder?'right':'left'">
+                <text-fit :key="text" :text="text" :align="reverseOrder?'right':'left'">
                 </text-fit>
             </transition>
         </div>
