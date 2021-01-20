@@ -5,17 +5,22 @@ import WebSocket from 'ws';
 
 // Ours
 import {Replicant} from 'nodecg/types/server'; // eslint-disable-line import/no-extraneous-dependencies
-import * as nodecgApiContext from './util/nodecg-api-context';
+import * as nodecgApiContext from './util/nodecg-api-context'
 import {Bingoboard, BingoboardMeta, BingoboardMode, BingosyncSocket} from '../../schemas';
 
 import equal from 'deep-equal';
 import clone from 'clone';
 import {InvasionContext} from './util/invasion';
 import {BingoboardCell, BingosyncCell, BoardColor} from '../../types';
+import {RunDataActiveRun} from "../../speedcontrol-types";
 
 const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger(`${nodecg.bundleName}:bingosync`);
 const boardMetaRep = nodecg.Replicant<BingoboardMeta>('bingoboardMeta');
+
+const RunData = nodecg.Replicant<RunDataActiveRun>('RunDataActiveRun', 'nodecg-speedcontrol');
+import {RunDataTeam, RunDataPlayer} from "../../speedcontrol-types";
+const lockoutVariants = ['lockout', 'draftlockout', 'invasion', 'connect5'];
 
 const noop = (): void => {
 }; // tslint:disable-line:no-empty
@@ -311,6 +316,38 @@ class BingosyncManager {
                         this.boardRep.value.colorCounts[json.color] -= 1;
                     } else {
                         this.boardRep.value.colorCounts[json.color] += 1;
+                    }
+                    if (lockoutVariants.includes(RunData.customData.Bingotype) && this.boardRep.value.colorCounts[json.color] === 13) {
+                        console.log('lockout AND 13 goals');
+                        let playerIndex = boardMetaRep.findIndex(json.color);
+                        let i = 0;
+                        let teamId = '';
+                        let otherTeamIds : string[] = [];
+                        if (playerIndex >= 0) {
+                            RunData.teams.forEach((team : RunDataTeam) => {
+                                team.players.forEach((player : RunDataPlayer) => {
+                                    if (i === playerIndex) {
+                                        teamId = player.teamID;
+                                    } else {
+                                        otherTeamIds.push(player.teamID)
+                                    }
+                                    i++;
+                                });
+                            });
+                            if (teamId) {
+                                nodecg.sendMessageToBundle('timerStop', 'nodecg-speedcontrol', {
+                                    id: teamId,
+                                    forfeit: false
+                                });
+
+                                otherTeamIds.forEach(team => {
+                                    nodecg.sendMessageToBundle('timerStop', 'nodecg-speedcontrol', {
+                                        id: team,
+                                        forfeit: false
+                                    });
+                                })
+                            }
+                        }
                     }
                     if (this.invasionCtx !== null) {
                         this.invasionCtx.updateSides(this.boardRep.value.cells);
