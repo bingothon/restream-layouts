@@ -12,14 +12,13 @@ import equal from 'deep-equal';
 import clone from 'clone';
 import {InvasionContext} from './util/invasion';
 import {BingoboardCell, BingosyncCell, BoardColor} from '../../types';
-import {RunDataActiveRun} from "../../speedcontrol-types";
+import {RunDataActiveRun, RunDataPlayer, RunDataTeam} from "../../speedcontrol-types";
 
 const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger(`${nodecg.bundleName}:bingosync`);
 const boardMetaRep = nodecg.Replicant<BingoboardMeta>('bingoboardMeta');
 
 const runData = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
-import {RunDataTeam, RunDataPlayer} from "../../speedcontrol-types";
 const lockoutVariants = ['lockout', 'draftlockout', 'invasion', 'connect5'];
 
 const noop = (): void => {
@@ -325,10 +324,10 @@ class BingosyncManager {
                         let playerIndex = boardMetaRep.value.playerColors.findIndex((color) => (color == colorTo13));
                         let i = 0;
                         let teamId = '';
-                        let otherTeamIds : string[] = [];
+                        let otherTeamIds: string[] = [];
                         if (playerIndex >= 0) {
-                            runData.value.teams.forEach((team : RunDataTeam) => {
-                                team.players.forEach((player : RunDataPlayer) => {
+                            runData.value.teams.forEach((team: RunDataTeam) => {
+                                team.players.forEach((player: RunDataPlayer) => {
                                     if (i === playerIndex) {
                                         teamId = player.teamID;
                                     } else {
@@ -338,41 +337,47 @@ class BingosyncManager {
                                 });
                             });
                             if (teamId) {
-                                nodecg.sendMessageToBundle('timerStop', 'nodecg-speedcontrol', {
-                                    id: teamId,
-                                    forfeit: false
-                                });
-
-                                otherTeamIds.forEach(team => {
+                                setTimeout(function () {
                                     nodecg.sendMessageToBundle('timerStop', 'nodecg-speedcontrol', {
-                                        id: team,
+                                        id: teamId,
                                         forfeit: false
                                     });
-                                })
+                                }, 100);
+
+                                    otherTeamIds.forEach(team => {
+                                        setTimeout(function () {
+                                            nodecg.sendMessageToBundle('timerStop', 'nodecg-speedcontrol', {
+                                                id: team,
+                                                forfeit: false
+                                            });
+                                        }, 100);
+                                    })
+                                }
                             }
                         }
-                    }
-                    if (this.invasionCtx !== null) {
-                        this.invasionCtx.updateSides(this.boardRep.value.cells);
-                        const clonedCells = clone(this.boardRep.value.cells);
-                        this.invasionCtx.setMarkers(clonedCells);
-                        this.boardRep.value.cells = clonedCells;
+                        if (this.invasionCtx !== null) {
+                            this.invasionCtx.updateSides(this.boardRep.value.cells);
+                            const clonedCells = clone(this.boardRep.value.cells);
+                            this.invasionCtx.setMarkers(clonedCells);
+                            this.boardRep.value.cells = clonedCells;
+                        }
                     }
                 }
-            };
+                ;
 
-            this.websocket.onclose = (event: {
-                wasClean: boolean; code: number; reason: string; target: WebSocket;
-            }): void => {
-                this.socketRep.value.status = 'disconnected';
-                log.info(`Socket closed (code: ${event.code}, reason: ${event.reason})`);
-                this.destroyWebsocket();
-                this.createWebsocket(socketUrl, socketKey).catch((): void => {
-                    // Intentionally discard errors raised here.
-                    // They will have already been logged in the onmessage handler.
-                });
-            };
-        });
+                this.websocket.onclose = (event: {
+                    wasClean: boolean; code: number; reason: string; target: WebSocket;
+                }): void => {
+                    this.socketRep.value.status = 'disconnected';
+                    log.info(`Socket closed (code: ${event.code}, reason: ${event.reason})`);
+                    this.destroyWebsocket();
+                    this.createWebsocket(socketUrl, socketKey).catch((): void => {
+                        // Intentionally discard errors raised here.
+                        // They will have already been logged in the onmessage handler.
+                    });
+                };
+            }
+        );
     }
 
     public destroyWebsocket(): void {
