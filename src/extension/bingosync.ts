@@ -255,102 +255,104 @@ class BingosyncManager {
 
     public async createWebsocket(socketUrl: string, socketKey: string): Promise<void> {
         return new Promise((resolve, reject): void => {
-            let settled = false;
+                let settled = false;
 
-            log.info('Opening socket...');
-            this.socketRep.value.status = 'connecting';
-            this.websocket = new WebSocket(`${socketUrl}/broadcast`);
+                log.info('Opening socket...');
+                this.socketRep.value.status = 'connecting';
+                this.websocket = new WebSocket(`${socketUrl}/broadcast`);
 
-            this.websocket.onopen = (): void => {
-                log.info('Socket opened.');
-                if (this.websocket) {
-                    // eslint-disable-next-line @typescript-eslint/camelcase
-                    this.websocket.send(JSON.stringify({socket_key: socketKey}));
-                }
-            };
-
-            this.websocket.onmessage = (event: {
-                data: WebSocket.Data; type: string; target: WebSocket;
-            }): void => {
-                let json;
-                try {
-                    json = JSON.parse(event.data as string);
-                } catch (error) { // tslint:disable-line:no-unused
-                    log.error('Failed to parse message:', event.data);
-                }
-
-                if (json.type === 'error') {
-                    if (this.fullUpdateInterval) {
-                        clearInterval(this.fullUpdateInterval);
+                this.websocket.onopen = (): void => {
+                    log.info('Socket opened.');
+                    if (this.websocket) {
+                        // eslint-disable-next-line @typescript-eslint/camelcase
+                        this.websocket.send(JSON.stringify({socket_key: socketKey}));
                     }
-                    this.destroyWebsocket();
-                    this.socketRep.value.status = 'error';
-                    log.error('Socket protocol error:', json.error ? json.error : json);
+                };
+
+                this.websocket.onmessage = (event: {
+                    data: WebSocket.Data; type: string; target: WebSocket;
+                }): void => {
+                    let json;
+                    try {
+                        json = JSON.parse(event.data as string);
+                    } catch (error) { // tslint:disable-line:no-unused
+                        log.error('Failed to parse message:', event.data);
+                    }
+
+                    if (json.type === 'error') {
+                        if (this.fullUpdateInterval) {
+                            clearInterval(this.fullUpdateInterval);
+                        }
+                        this.destroyWebsocket();
+                        this.socketRep.value.status = 'error';
+                        log.error('Socket protocol error:', json.error ? json.error : json);
+                        if (!settled) {
+                            reject(new Error(json.error ? json.error : 'unknown error'));
+                            settled = true;
+                        }
+                        return;
+                    }
+
                     if (!settled) {
-                        reject(new Error(json.error ? json.error : 'unknown error'));
+                        resolve();
+                        this.socketRep.value.status = 'connected';
                         settled = true;
                     }
-                    return;
-                }
 
-                if (!settled) {
-                    resolve();
-                    this.socketRep.value.status = 'connected';
-                    settled = true;
-                }
-
-                if (json.type === 'goal') {
-                    const index = parseInt(json.square.slot.slice(4), 10) - 1;
-                    const cell: BingoboardCell = {
-                        name: json.square.name,
-                        slot: json.square.slot,
-                        colors: [],
-                        markers: [null, null, null, null],
-                        rawColors: json.square.colors,
-                    };
-                    this.processCellForMarkers(cell);
-                    this.boardRep.value.cells[index] = cell;
-                    // update goal count
-                    if (json.remove) {
-                        this.boardRep.value.colorCounts[json.color] -= 1;
-                    } else {
-                        this.boardRep.value.colorCounts[json.color] += 1;
-                    }
-                    //Check if conditions for lockout win are fulfilled and stop timer
-                    console.log(runData.value)
-                    if (runData.value && lockoutVariants.includes(runData.value.customData.Bingotype) && this.boardRep.value.colorCounts[json.color] == 13) {
-                        console.log('lockout AND 13 goals');
-                        let colorTo13 = json.color;
-                        let playerIndex = boardMetaRep.value.playerColors.findIndex((color) => (color == colorTo13));
-                        let i = 0;
-                        let teamId = '';
-                        let otherTeamIds: string[] = [];
-                        if (playerIndex >= 0) {
-                            runData.value.teams.forEach((team: RunDataTeam) => {
-                                team.players.forEach((player: RunDataPlayer) => {
-                                    if (i === playerIndex) {
-                                        teamId = player.teamID;
-                                    } else {
-                                        otherTeamIds.push(player.teamID)
-                                    }
-                                    i++;
-                                });
-                            });
-                            if (teamId) {
-                                setTimeout(function () {
-                                    nodecg.sendMessageToBundle('timerStop', 'nodecg-speedcontrol', {
-                                        id: teamId,
-                                        forfeit: false
+                    if (json.type === 'goal') {
+                        const index = parseInt(json.square.slot.slice(4), 10) - 1;
+                        const cell: BingoboardCell = {
+                            name: json.square.name,
+                            slot: json.square.slot,
+                            colors: [],
+                            markers: [null, null, null, null],
+                            rawColors: json.square.colors,
+                        };
+                        this.processCellForMarkers(cell);
+                        this.boardRep.value.cells[index] = cell;
+                        // update goal count
+                        if (json.remove) {
+                            this.boardRep.value.colorCounts[json.color] -= 1;
+                        } else {
+                            this.boardRep.value.colorCounts[json.color] += 1;
+                        }
+                        //Check if conditions for lockout win are fulfilled and stop timer
+                        console.log(runData.value)
+                        if (runData.value && lockoutVariants.includes(runData.value.customData.Bingotype) && this.boardRep.value.colorCounts[json.color] == 13) {
+                            console.log('lockout AND 13 goals');
+                            let colorTo13 = json.color;
+                            let playerIndex = boardMetaRep.value.playerColors.findIndex((color) => (color == colorTo13));
+                            let i = 0;
+                            let teamId = '';
+                            let otherTeamIds: string[] = [];
+                            if (playerIndex >= 0) {
+                                runData.value.teams.forEach((team: RunDataTeam) => {
+                                    team.players.forEach((player: RunDataPlayer) => {
+                                        if (i === playerIndex) {
+                                            teamId = player.teamID;
+                                        } else {
+                                            otherTeamIds.push(player.teamID)
+                                        }
+                                        i++;
                                     });
-                                }, 2000);
-
+                                });
+                                if (teamId) {
+                                    let i = 1;
+                                    setTimeout(function () {
+                                        nodecg.sendMessageToBundle('timerStop', 'nodecg-speedcontrol', {
+                                            id: teamId,
+                                            forfeit: false
+                                        });
+                                    }, 100 * i);
+                                    i++;
                                     otherTeamIds.forEach(team => {
                                         setTimeout(function () {
                                             nodecg.sendMessageToBundle('timerStop', 'nodecg-speedcontrol', {
                                                 id: team,
                                                 forfeit: false
                                             });
-                                        }, 2000);
+                                        }, 100 * i);
+                                        i++;
                                     })
                                 }
                             }
