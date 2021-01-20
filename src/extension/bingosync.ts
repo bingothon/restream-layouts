@@ -18,7 +18,7 @@ const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger(`${nodecg.bundleName}:bingosync`);
 const boardMetaRep = nodecg.Replicant<BingoboardMeta>('bingoboardMeta');
 
-const RunData = nodecg.Replicant<RunDataActiveRun>('RunDataActiveRun', 'nodecg-speedcontrol');
+const runData = nodecg.Replicant<RunDataActiveRun>('RunDataActiveRun', 'nodecg-speedcontrol').value;
 import {RunDataTeam, RunDataPlayer} from "../../speedcontrol-types";
 const lockoutVariants = ['lockout', 'draftlockout', 'invasion', 'connect5'];
 
@@ -317,14 +317,17 @@ class BingosyncManager {
                     } else {
                         this.boardRep.value.colorCounts[json.color] += 1;
                     }
-                    if (lockoutVariants.includes(RunData.customData.Bingotype) && this.boardRep.value.colorCounts[json.color] === 13) {
+                    //Check if conditions for lockout win are fulfilled and stop timer
+                    console.log(runData)
+                    if (runData && lockoutVariants.includes(runData.customData.Bingotype) && this.boardRep.value.colorCounts[json.color] == 13) {
                         console.log('lockout AND 13 goals');
-                        let playerIndex = boardMetaRep.findIndex(json.color);
+                        let colorTo13 = json.color;
+                        let playerIndex = boardMetaRep.value.playerColors.findIndex((color) => (color == colorTo13));
                         let i = 0;
                         let teamId = '';
                         let otherTeamIds : string[] = [];
                         if (playerIndex >= 0) {
-                            RunData.teams.forEach((team : RunDataTeam) => {
+                            runData.teams.forEach((team : RunDataTeam) => {
                                 team.players.forEach((player : RunDataPlayer) => {
                                     if (i === playerIndex) {
                                         teamId = player.teamID;
