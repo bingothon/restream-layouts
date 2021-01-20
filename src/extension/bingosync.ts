@@ -342,7 +342,7 @@ class BingosyncManager {
                                         id: teamId,
                                         forfeit: false
                                     });
-                                }, 1000);
+                                }, 2000);
 
                                     otherTeamIds.forEach(team => {
                                         setTimeout(function () {
@@ -350,7 +350,7 @@ class BingosyncManager {
                                                 id: team,
                                                 forfeit: false
                                             });
-                                        }, 1000);
+                                        }, 2000);
                                     })
                                 }
                             }
