@@ -6,7 +6,9 @@
     <div
         class="FlexContainer PlayerInfoBox"
         :class="{'ReverseOrder':reverseOrder}"
-        :style="{'height':height}"
+        :style="{
+        'height':height,
+        'background-image':(game === `sms` ? 'linear-gradient(var(--lighter-main-color), var(--darker-main-color))' : 'linear-gradient(#6d001d, #280000)')}"
     >
         <div class="CurrentIcon FlexContainer"
              :style="{ 'width' : `calc(${height} * 1.5)` }"
@@ -96,6 +98,9 @@ export default class PlayerInfo extends Vue {
     @Prop({default: false})
     hideFinishTime: boolean;
 
+    get game() : string {
+        return store.state.gameMode.game;
+    }
     get player(): RunDataPlayer {
         let idx = 0;
         let correctPlayer;
@@ -266,7 +271,7 @@ export default class PlayerInfo extends Vue {
 @import './medals.css';
 
 .PlayerInfoBox {
-    background-image: linear-gradient(var(--lighter-main-color), var(--darker-main-color));
+    /*background-image: linear-gradient(var(--lighter-main-color), var(--darker-main-color));*/
     color: var(--font-color);
     padding: 7px;
     font-weight: 500;

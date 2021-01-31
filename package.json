@@ -112,6 +112,13 @@
         "width": 2
       },
       {
+        "name": "gamemode-control",
+        "title": "Game Mode Control",
+        "file": "gamemode-control.html",
+        "headerColor": "#b92b36",
+        "width": 2
+      },
+      {
         "name": "twitch-control",
         "title": "Twitch Control",
         "file": "twitch-control.html",
@@ -131,6 +138,14 @@
         "file": "checklist.html",
         "headerColor": "#b92b36",
         "width": 4
+      },
+      {
+        "name": "twitch-resizer-dashboard",
+        "title": "Twitch Resizer",
+        "width": 10,
+        "file": "crop-control.html",
+        "headerColor": "#b92b36",
+        "workspace": "Twitch Resizing"
       }
     ],
     "graphics": [
@@ -145,12 +160,12 @@
         "height": 1080
       },
       {
-        "file": "sunshine-game.html",
+        "file": "game.html",
         "width": 1920,
         "height": 1080
       },
       {
-        "file": "sunshine-big-board.html",
+        "file": "big-board.html",
         "width": 1920,
         "height": 1080
       }

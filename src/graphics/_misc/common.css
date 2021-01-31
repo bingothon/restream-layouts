@@ -12,6 +12,9 @@
     --darker-main-color: #e2a339;
     --lighter-main-color: #ffff89;
     --alternative-main-color: #ffff89;
+    --darker-main-color-bingothon: #74051b;
+    --lighter-main-color-bingothon: #a20a17;
+    --alternative-main-color-bingothon: #072c5e;
 }
 
 body {

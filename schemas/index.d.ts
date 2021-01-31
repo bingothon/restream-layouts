@@ -13,6 +13,7 @@ export * from './currentMainBingoboard';
 export * from './discordDelayInfo';
 export * from './donationTotal';
 export * from './explorationBingoboard';
+export * from './gameMode';
 export * from './hostingBingoboard';
 export * from './hostingBingosocket';
 export * from './hostsSpeakingDuringIntermission';
