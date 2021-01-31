@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!--<twitch-player id="stream1" streamIndex="0"></twitch-player>
+        <!--<twitch-player id="stream1" streamIndex="0"></twitch-player
         <twitch-player id="stream2" streamIndex="1"></twitch-player>-->
         <div id="borderline"></div>
         <div id="fillvoice" class="flexContainer"></div>

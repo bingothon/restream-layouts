@@ -89,6 +89,7 @@ export default class TestGameContainer extends Vue {
             'channel':  this.currentStream.channel,
             'width':    this.playerWidth,
             'height':   this.playerHeight,
+            'parent':   window.location.hostname,
         }
         this.player = new Twitch.Player(this.$refs.twitchPlayer, playerOptions);
     }
