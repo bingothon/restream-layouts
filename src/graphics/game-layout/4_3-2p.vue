@@ -1,28 +1,45 @@
 <template>
     <div>
-        <!--<twitch-player id="stream1" streamIndex="0"></twitch-player
-        <twitch-player id="stream2" streamIndex="1"></twitch-player>-->
-        <div id="borderline"></div>
-        <div id="fillvoice" class="flexContainer"></div>
-        <player-info id="pi1" playerIndex="0" height=45px></player-info>
-        <player-info id="pi2" playerIndex="1" height=45px></player-info>
-        <div id="timer-and-discord-container">
-            <test-timer-container id="timer"></test-timer-container>
-            <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="125px" maxUserCount="4"></discord-voice-display>
+        <div v-if="game === 'sms'">
+            <!--<twitch-player id="stream1" streamIndex="0"></twitch-player
+            <twitch-player id="stream2" streamIndex="1"></twitch-player>-->
+            <div id="borderline"></div>
+            <div id="fillvoice" class="flexContainer"></div>
+            <player-info id="pi1" height=45px playerIndex="0"></player-info>
+            <player-info id="pi2" height=45px playerIndex="1"></player-info>
+            <div id="timer-and-discord-container">
+                <test-timer-container id="timer"></test-timer-container>
+                <discord-voice-display id="discord-voice" iconHeight="40px" maxUserCount="4"
+                                       nameWidth="125px"></discord-voice-display>
+            </div>
+            <div id="game" class="flexContainer">
+                <test-game-container id="gamec"></test-game-container>
+                <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">
+            </div>
+            <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
         </div>
-        <div id="game"	class="flexContainer">
-            <test-game-container id="gamec"></test-game-container>
-            <img src="../../../static/Super_Mario_Sunshine_logo.png" id="logo">
+        <div v-else>
+            <twitch-player id="stream1" streamIndex="0"></twitch-player>
+            <twitch-player id="stream2" streamIndex="1"></twitch-player>
+            <div id="borderlineBOTW"></div>
+            <div id="fillvoiceBOTW" class="flexContainer"></div>
+            <player-info id="pi1BOTW" height=45px playerIndex="0"></player-info>
+            <player-info id="pi2BOTW" height=45px playerIndex="1"></player-info>
+                <test-timer-container id="timerBOTW"></test-timer-container>
+                <discord-voice-display id="discord-voiceBOTW" iconHeight="40px" maxUserCount="4"
+                                       nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
+            <div id="gameBOTW" class="flexContainer">
+                <test-game-container id="gamecBOTW"></test-game-container>
+                <img id="logoBOTW" src="../../../static/the-legend-of-zelda-breath-of-the-wild-logo.png">
+            </div>
+            <bingo-board id="Bingo-boardBOTW" fontSize="30px"></bingo-board>
         </div>
-        <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
     </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch, Prop } from "vue-property-decorator";
-import { nodecg, NodeCG } from "../../browser-util/nodecg";
-import { Bingoboard, BingosyncSocket, BingoboardMeta } from "../../../schemas";
-import { store, getReplicant } from "../../browser-util/state";
+import {Component, Vue} from "vue-property-decorator";
+import {store} from "../../browser-util/state";
 import TestTimerContainer from "../components/timerContainer.vue";
 import TestGameContainer from "../components/gameContainer.vue";
 import BingoBoard from "../components/bingoboard.vue";
@@ -31,7 +48,7 @@ import TeamInfo from "../components/teamInfo.vue";
 import PlayerTeamContainer from "../components/playerTeamContainer.vue";
 import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
 import TwitchPlayer from "../components/twitchPlayer.vue";
-import { RunDataPlayer, RunDataTeam } from "../../../speedcontrol-types";
+import {RunDataTeam} from "../../../speedcontrol-types";
 
 @Component({
     components: {
@@ -50,6 +67,10 @@ export default class GameLayout extends Vue {
     get teams(): RunDataTeam[] {
         return store.state.runDataActiveRun.teams;
     }
+
+    get game():string {
+        return store.state.gameMode.game;
+    }
 }
 </script>
 
@@ -62,24 +83,7 @@ export default class GameLayout extends Vue {
     width: 2px;
     background: white;
 }
-#stream1 {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 960px;
-    height: 720px;
-    background-image: url("../../../static/middle-info-background.png");
-    border: 2px var(--container-border-color) solid;
-}
-#stream2 {
-    position: absolute;
-    top: 0px;
-    left: 960px;
-    width: 960px;
-    height: 720px;
-    background-image: url("../../../static/middle-info-background.png");
-    border: 2px var(--container-border-color) solid;
-}
+
 #discord-voice {
     position: absolute;
     top: 0px;
@@ -87,6 +91,7 @@ export default class GameLayout extends Vue {
     width: 300px;
     height: 300px;
 }
+
 #pi1 {
     position: absolute;
     top: 720px;
@@ -94,6 +99,7 @@ export default class GameLayout extends Vue {
     border: 2px var(--container-border-color) solid;
     width: 715px;
 }
+
 #pi2 {
     position: absolute;
     top: 720px;
@@ -101,6 +107,7 @@ export default class GameLayout extends Vue {
     border: 2px var(--container-border-color) solid;
     width: 715px;
 }
+
 #Bingo-board {
     position: absolute;
     top: 720px;
@@ -109,6 +116,7 @@ export default class GameLayout extends Vue {
     width: 460px;
     height: 360px;
 }
+
 #game {
     background-image: url("../../../static/background-sunshine.jpg");
     background-size: cover;
@@ -120,25 +128,29 @@ export default class GameLayout extends Vue {
     border: 2px var(--container-border-color) solid;
     height: 300px;
 }
+
 #gamec {
     position: absolute;
     top: 185px;
     left: 0px;
     width: 730px;
 }
+
 #logo {
     position: absolute;
     height: 150px;
     top: 25px;
     left: 250px;
 }
-#timer{
+
+#timer {
     position: absolute;
     top: 0px;
     left: 300px;
     width: 440px;
     height: 300px;
 }
+
 #timer-and-discord-container {
     position: absolute;
     left: 1190px;
@@ -150,4 +162,106 @@ export default class GameLayout extends Vue {
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+#stream1 {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 960px;
+    height: 540px;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px var(--container-border-color) solid;
+}
+
+#stream2 {
+    position: absolute;
+    top: 0px;
+    left: 960px;
+    width: 960px;
+    height: 540px;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px var(--container-border-color) solid;
+}
+
+#discord-voiceBOTW {
+    position: absolute;
+    top: 600px;
+    left: 1190px;
+    width: 300px;
+    height: 480px;
+    border: 2px var(--container-border-color) solid;
+    background-image: url("../../../static/middle-info-background.png");
+}
+
+#pi1BOTW {
+    position: absolute;
+    top: 540px;
+    left: 0px;
+    border: 2px var(--container-border-color) solid;
+    width: 943px;
+}
+
+#pi2BOTW {
+    position: absolute;
+    top: 540px;
+    left: 960px;
+    border: 2px var(--container-border-color) solid;
+    width: 943px;
+}
+
+#Bingo-boardBOTW {
+    position: absolute;
+    top: 600px;
+    left: 720px;
+    border: 2px var(--container-border-color) solid;
+    width: 480px;
+    height: 480px;
+}
+
+#gameBOTW {
+    background-image: url("../../../static/middle-info-background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 600px;
+    left: 0px;
+    width: 730px;
+    border: 2px var(--container-border-color) solid;
+    height: 480px;
+}
+
+#gamecBOTW {
+    position: absolute;
+    top: 270px;
+    left: 0px;
+    width: 730px;
+}
+
+#logoBOTW {
+    position: absolute;
+    height: 190px;
+    top: 70px;
+    left: 245px;
+}
+
+#timerBOTW {
+    position: absolute;
+    top: 600px;
+    left: 1490px;
+    width: 440px;
+    height: 480px;
+    border: 2px var(--container-border-color) solid;
+    background-image: url("../../../static/middle-info-background.png");
+}
+
+/*#timer-and-discord-containerBOTW {
+    position: absolute;
+    left: 1190px;
+    top: 600px;
+    width: 730px;
+    height: 480px;
+    background-image: url("../../../static/middle-info-background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}*/
 </style>

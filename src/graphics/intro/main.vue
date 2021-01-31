@@ -1,12 +1,26 @@
 <template>
     <div id="Intro">
-        <video autoplay muted loop id="bgvid">
-            <source src="../../../static/epicindeed.mp4" type="video/mp4">
-        </video>
-        <div class="FlexContainer" id="soom">
+        <div v-if="game === 'sms'">
+            <video autoplay class="bgvid" loop muted>
+                <source src="../../../static/epicindeed.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div v-else>
+            <video autoplay class="bgvid" loop muted>
+                <source src="../../../static/Loop_v1_1.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div id="soom" class="FlexContainer">
             The next match will start soon
         </div>
         <div id="matchupC">
+            <div v-if="game !== 'sms'" id="matchupName"><!--{{runnersToString(match)}}-->
+                The Legend of Zelda: Breath of the Wild
+                <br>
+                -
+                <br>
+                Bingo Bash
+            </div>
             <div id="matchup">{{ runnersToString(match) }}</div>
         </div>
         <div id="Countdown">
@@ -21,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator";
+import {Component, Vue, Watch} from "vue-property-decorator";
 import {RunData} from "../../../speedcontrol-types";
 import {store} from "../../browser-util/state";
 import Music from "./components/Music.vue";
@@ -36,8 +50,17 @@ import Countdown from "../components/countdownTimer.vue";
 
 export default class Intermission extends Vue {
 
+    @Watch('store.state.gameMode.game')
+    onGameChange() {
+        window.location.reload()
+    }
+
     get match(): RunData {
         return store.state.runDataActiveRun;
+    }
+
+    get game(): string {
+        return store.state.gameMode.game;
     }
 
     runnersToString(run: RunData): string {
@@ -114,7 +137,7 @@ video {
     left: 0px;
     width: 1920px;
     align-content: center;
-    top: 500px;
+    top: 600px;
     font-size: 100px;
     color: white;
     text-align: center;

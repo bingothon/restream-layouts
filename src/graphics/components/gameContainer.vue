@@ -1,8 +1,15 @@
 <template>
-    <div class="GameContainer FlexContainer">
-        <div class="GameName FlexContainer">Bingo League</div>
-        <div class="DivName FlexContainer">Division {{gameName}}</div>
-        <div class="GameExtra FlexContainer">{{gameCategory}}</div>
+    <div>
+        <div v-if="game === 'sms'"  class="GameContainer FlexContainer">
+            <div class="GameName FlexContainer">Bingo League</div>
+            <div class="DivName FlexContainer">Division {{gameName}}</div>
+            <div class="GameExtra FlexContainer">{{gameCategory}}</div>
+        </div>
+        <div v-else  class="GameContainer FlexContainer">
+            <div class="GameName FlexContainer">Bingo Bash</div>
+            <div class="DivName FlexContainer">{{gameName}}</div>
+            <div class="GameExtra FlexContainer">{{gameCategory}}</div>
+        </div>
     </div>
 </template>
 
@@ -22,6 +29,10 @@ export default class TestGameContainer extends Vue {
     }
     get gameEstimate(): string {
         return store.state.runDataActiveRun.estimate;
+    }
+
+    get game(): string {
+        return store.state.gameMode.game;
     }
 }
 </script>

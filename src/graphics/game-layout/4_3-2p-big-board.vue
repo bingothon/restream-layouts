@@ -25,15 +25,14 @@
             <player-info id="pi2BOTW" height=45px playerIndex="1"></player-info>
             <test-timer-container id="timerBOTW"></test-timer-container>
             <discord-voice-display id="discord-voiceBOTW" iconHeight="40px" maxUserCount="6"
-                                   nameWidth="125px"></discord-voice-display>
+                                   nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
             <div id="gameBOTW" class="flexContainer">
                 <test-game-container id="gamecBOTW"></test-game-container>
-                <!--<img id="logoBOTW" src="../../../static/Super_Mario_Sunshine_logo.png">-->
+                <img id="logoBOTW" src="../../../static/the-legend-of-zelda-breath-of-the-wild-logo.png">
             </div>
             <bingo-board id="Bingo-boardBOTW" fontSize="30px"></bingo-board>
             <div id="bingo-bottom-borderBOTW" class="FlexContainer"></div>
         </div>
-
     </div>
 </template>
 
@@ -256,14 +255,14 @@ export default class GameLayout extends Vue {
     position: absolute;
     left: 0px;
     width: 280px;
-    top: 125px;
+    top: 210px;
 }
 
 #logoBOTW {
     position: absolute;
     height: 150px;
-    top: 75px;
-    left: 65px;
+    top: 50px;
+    left: 45px;
 }
 
 #timerBOTW {
