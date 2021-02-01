@@ -1,5 +1,6 @@
 <template>
     <div class="Interview">
+        <div class="Interview" :class="game === 'sms' ? 'InterviewSMS' : 'InterviewBOTW'"></div>
         <div id="fillvoice" class="flexContainer"></div>
         <div v-if="playerCount.length===4 && teamCount.length===2" id="team-container">
             <player-team-container v-for="teamIndex in teamCount" :key="teamIndex" :teamIndex="teamIndex" class="team"
@@ -11,7 +12,12 @@
         </div>
         <div id="game" class="flexContainer">
             <test-game-container id="gamec"></test-game-container>
-            <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">
+            <div v-if="game === 'sms'">
+                <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">
+            </div>
+            <div v-else>
+                <img id="logoBOTW" src="../../../static/the-legend-of-zelda-breath-of-the-wild-logo.png">
+            </div>
         </div>
         <test-timer-container id="timer"></test-timer-container>
         <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
@@ -65,6 +71,10 @@ export default class Interview extends Vue {
         });
         return teamIndexes;
     }
+
+    get game(): string {
+        return store.state.gameMode.game;
+    }
 }
 </script>
 
@@ -97,10 +107,22 @@ export default class Interview extends Vue {
     top: 0px;
     width: 1935px;
     height: 1090px;
+    /*background-image: linear-gradient(var(--darker-main-color-bingothon), var(--lighter-main-color-bingothon))*/
+}
+
+.InterviewSMS {
     background-size: cover;
     background-image: url("../../../static/background-sunshine.jpg");
     background-repeat: no-repeat;
 }
+
+.InterviewBOTW {
+    background-size: cover;
+    background-image: url("../../../static/breath-of-the-wild-4k-screenshots-5.jpg");
+    background-repeat: no-repeat;
+    filter: sepia(100%) saturate(360%) brightness(40%) hue-rotate(298deg) blur(3px);
+}
+
 #discord-voice {
     position: absolute;
     top: 650px;
@@ -109,13 +131,15 @@ export default class Interview extends Vue {
     height: 200px;
     background-color: var(--container-background-color);
 }
-#logo{
+
+#logo {
     position: absolute;
     left: 690px;
     top: 10px;
     width: 568px;
     height: 200px;
 }
+
 #Bingo-board {
     position: absolute;
     top: 500px;
@@ -123,6 +147,7 @@ export default class Interview extends Vue {
     width: 500px;
     height: 500px;
 }
+
 #game {
     position: absolute;
     top: 50px;
@@ -130,12 +155,14 @@ export default class Interview extends Vue {
     width: 1000px;
     height: 100px;
 }
+
 #gamec {
     position: absolute;
     left: 0px;
     width: 1000px;
     top: 200px;
 }
+
 #logo {
     position: absolute;
     height: 150px;
@@ -143,7 +170,15 @@ export default class Interview extends Vue {
     top: 25px;
     left: 370px;
 }
-#timer{
+
+#logoBOTW {
+    position: absolute;
+    width: 255px;
+    top: -15px;
+    left: 370px;
+}
+
+#timer {
     position: absolute;
     top: 325px;
     left: 710px;

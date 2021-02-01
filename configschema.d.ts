@@ -18,6 +18,14 @@ export interface Configschema {
     voiceChannelID: string;
     ignoredUsers?: string[];
   };
+  discordSunshine: {
+    test: boolean;
+    token: string;
+    serverID: string;
+    commandChannelID: string;
+    voiceChannelID: string;
+    ignoredUsers?: string[];
+  };
   donationtracker: {
     enable: boolean;
     url: string;
