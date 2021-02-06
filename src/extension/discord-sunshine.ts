@@ -99,8 +99,8 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
 
     memberArray.forEach((voiceMember): void => {
       // Hide our bot and muted members cause that is the restreamer
-      if (config.discord.ignoredUsers
-        && config.discord.ignoredUsers.includes(voiceMember.user.tag)) {
+      if (config.discordSunshine.ignoredUsers
+        && config.discordSunshine.ignoredUsers.includes(voiceMember.user.tag)) {
         return;
       }
       if (!voiceMember.voice.selfMute) {

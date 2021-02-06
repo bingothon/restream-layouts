@@ -1,6 +1,6 @@
 <template>
-    <div id="TextContainer">
-        <div id="FittedTextContent" :style="{transform, top}">{{text}}</div>
+    <div id="TextContainerDiscord">
+        <div id="FittedTextContentDiscord" :style="{transform, top}">{{text}}</div>
     </div>
 </template>
 
@@ -13,7 +13,7 @@ declare namespace document {
 }
 
 @Component({name:"text-fit"})
-export default class TextFit extends Vue {
+export default class TextFitDiscord extends Vue {
     @Prop({required: true})
     text: string;
     @Prop({default: "left"})
@@ -22,7 +22,7 @@ export default class TextFit extends Vue {
     top: string = "0";
 
     mounted() {
-        const font = window.getComputedStyle(this.$el.querySelector('#FittedTextContent')).font;
+        const font = window.getComputedStyle(this.$el.querySelector('#FittedTextContentDiscord')).font;
         if (font) {
             document.fonts.load(font).then(() => {
                 this.fit();
@@ -41,14 +41,21 @@ export default class TextFit extends Vue {
         this.$nextTick(()=> {
             // get width height of parent and text container to calc scaling
             const container = this.$el;
-            const fittedContent = container.querySelector('#FittedTextContent');
+            const fittedContent = container.querySelector('#FittedTextContentDiscord');
+            if (this.text.length >= 20) {
+                //this.text = this.text.substring(0, 19);
+            }
             var scaleX = container.scrollWidth / fittedContent.scrollWidth;
             //console.log(container);
             //console.log(`${container.scrollWidth}:${fittedContent.scrollWidth}`);
             // limit max scale to 1
+            console.log(scaleX);
             scaleX = Math.min(1,scaleX);
             // center if overflow
             var toLeft = (container.scrollWidth - fittedContent.scrollWidth) / 2;
+            if (toLeft < 0) {
+                toLeft = Math.abs(toLeft);
+            }
             if (scaleX == 1) {
                 if (this.align == "left") {
                     toLeft = 0;
@@ -66,12 +73,13 @@ export default class TextFit extends Vue {
 </script>
 
 <style>
-    #TextContainer {
+    #TextContainerDiscord {
         height: 100%;
         width: 100%;
         white-space: nowrap;
+        position: relative;
     }
-    #FittedTextContent {
+    #FittedTextContentDiscord {
         position: absolute;
     }
 </style>
