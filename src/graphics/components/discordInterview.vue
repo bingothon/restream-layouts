@@ -131,12 +131,6 @@ export default class DiscordInterview extends Vue {
     text-align: center;
 }
 
-.DiscordVoiceDisplay > .Member > div.Name > div#TextContainerDiscord > div#FittedTextContentDiscord {
-    max-width: 250px;
-    align-items: center;
-    justify-content: center;
-}
-
 /*#Fit {
     justify-content: center;
     align-content: center;
