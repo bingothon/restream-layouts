@@ -17,7 +17,7 @@
             </div>
             <div class="NameContainer"></div>
             <div class="Name">
-                <text-fit-discord :text="member.name" :align="'center'"></text-fit-discord>
+                <text-fit :text="member.name" align="center"></text-fit>
             </div>
         </div>
     </div>
@@ -29,13 +29,13 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {faMicrophone} from "@fortawesome/free-solid-svg-icons";
 
 import {store} from '../../browser-util/state';
-import TextFitDiscord from "../helpers/text-fit-discord.vue";
+import TextFit from "../helpers/text-fit.vue";
 import {VoiceActivityMember} from '../../../types';
 
 @Component({
     components: {
         FontAwesomeIcon,
-        TextFitDiscord,
+        TextFit,
     }
 })
 export default class DiscordInterview extends Vue {
@@ -129,16 +129,6 @@ export default class DiscordInterview extends Vue {
     justify-content: center;
     align-content: center;
     text-align: center;
-}
-
-.DiscordVoiceDisplay > .Member > div.Name > div#TextContainerDiscord {
-    justify-content: center;
-    align-content: center;
-    text-align: center;
-    flex-wrap: wrap;
-    align-self: center;
-    margin: auto;
-    display: flex;
 }
 
 .DiscordVoiceDisplay > .Member > div.Name > div#TextContainerDiscord > div#FittedTextContentDiscord {
