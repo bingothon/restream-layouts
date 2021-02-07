@@ -19,8 +19,8 @@
             <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
         </div>
         <div v-else>
-            <twitch-player id="stream1" streamIndex="0"></twitch-player>
-            <twitch-player id="stream2" streamIndex="1"></twitch-player>
+            <!--<twitch-player id="stream1" streamIndex="0"></twitch-player>
+            <twitch-player id="stream2" streamIndex="1"></twitch-player>-->
             <div id="borderlineBOTW"></div>
             <div id="fillvoiceBOTW" class="flexContainer"></div>
             <player-info id="pi1BOTW" height=45px playerIndex="0"></player-info>
