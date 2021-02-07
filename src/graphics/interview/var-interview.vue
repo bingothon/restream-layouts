@@ -108,8 +108,8 @@ export default class Interview extends Vue {
     position: absolute;
     left: 0px;
     top: 0px;
-    width: 1935px;
-    height: 1090px;
+    width: 1920px;
+    height: 1080px;
     /*background-image: linear-gradient(var(--darker-main-color-bingothon), var(--lighter-main-color-bingothon))*/
 }
 

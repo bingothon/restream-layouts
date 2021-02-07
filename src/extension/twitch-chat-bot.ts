@@ -4,6 +4,7 @@ import * as tmi from 'tmi.js';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import bingoDefinitions from './bingodefinitions';
 import { RunDataActiveRun, RunDataPlayer, TwitchAPIData } from '../../speedcontrol-types';
+import { GameMode } from "../../schemas";
 import { Configschema } from '../../configschema';
 
 import * as nodecgApiContext from './util/nodecg-api-context';
@@ -36,6 +37,7 @@ const cooldowns = {
 // Setting up replicants.
 const twichAPIDataRep = nodecg.Replicant<TwitchAPIData>('twitchAPIData', 'nodecg-speedcontrol');
 const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
+const gameModeRep = nodecg.Replicant<GameMode>('gameMode', 'bingothon-layouts');
 const bundleConfig = nodecg.bundleConfig as Configschema;
 
 function getTwitchAccessToken(): string {
@@ -134,14 +136,19 @@ if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.cha
         }
       }
 
-        if (userCommandName === 'standings' || userCommandName === 'stats') {
+        if (userCommandName === 'standings' || userCommandName === 'stats' || userCommandName === 'bracket') {
             // check cooldown to not spam chat
             if (now - cooldowns.standings.lastUsed < cooldowns.standings.cooldown) {
                 return;
             }
             cooldowns.standings.lastUsed = now;
-            client.say(channel, "Current Bingo League standings can be found here: https://sms.bingo/standings")
-                .catch((e): void => log.error('', e));
+            if (gameModeRep.value.game === 'sms') {
+                client.say(channel, "Current Bingo League standings can be found here: https://sms.bingo/standings")
+                    .catch((e): void => log.error('', e));
+            } else {
+                client.say(channel, "The bracket for the BotW Bingo Bash can be found here: https://challonge.com/botwbingo1")
+                    .catch((e): void => log.error('', e));
+            }
         }
 
         if (userCommandName === 'schedule' || userCommandName === 'upcoming') {
@@ -150,8 +157,13 @@ if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.cha
                 return;
             }
             cooldowns.standings.lastUsed = now;
-            client.say(channel, "Find the upcoming matches for the league here: https://sms.bingo/schedule")
-                .catch((e): void => log.error('', e));
+            if (gameModeRep.value.game === 'sms') {
+                client.say(channel, "Find the upcoming matches for the league here: https://sms.bingo/schedule")
+                    .catch((e): void => log.error('', e));
+            } else {
+                client.say(channel, "Find the upcoming matches for the BotW Bingo Bash here: http://bombch.us/DPwY")
+                    .catch((e): void => log.error('', e));
+            }
         }
       /* also custom chatbot stuff not used
           if (chatCommandsRep.value.hasOwnProperty(userCommandName)) {
