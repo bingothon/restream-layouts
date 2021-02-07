@@ -91,7 +91,7 @@ export default class DiscordInterview extends Vue {
     height: 50px;
     top: -4px;
     right: -4px;
-    background: linear-gradient(var(--lighter-main-color-bingothon), var(--darker-main-color-bingothon));
+    background: var(--voice-highlight-color);
     border-radius: 100%;
 
     opacity: 0;
@@ -113,7 +113,7 @@ export default class DiscordInterview extends Vue {
 }
 
 .DiscordVoiceDisplay > .Member.Active > div.NameContainer {
-    background: linear-gradient(var(--lighter-main-color-bingothon), var(--darker-main-color-bingothon));
+    background: var(--voice-highlight-color);
     transform: skew(20deg)
 }
 
@@ -129,12 +129,6 @@ export default class DiscordInterview extends Vue {
     justify-content: center;
     align-content: center;
     text-align: center;
+    text-shadow: 0px 0px 15px var(--voice-highlight-color);
 }
-
-/*#Fit {
-    justify-content: center;
-    align-content: center;
-    text-align: center;
-    width: var(--name-width);
-}*/
 </style>

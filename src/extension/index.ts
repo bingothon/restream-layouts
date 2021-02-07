@@ -80,7 +80,7 @@ export = (nodecg: NodeCG): void => {
                         id: '0', name: 'abc', avatar: defaultAvatar, isSpeaking: false,
                     },
                     {
-                        id: '1', name: 'testlongname', avatar: defaultAvatar, isSpeaking: true,
+                        id: '1', name: 'testnickname with a long name', avatar: defaultAvatar, isSpeaking: true,
                     },
                     {
                         id: '2', name: 'anotherone', avatar: defaultAvatar, isSpeaking: true,

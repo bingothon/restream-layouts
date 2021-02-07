@@ -22,7 +22,8 @@
         <test-timer-container id="timer"></test-timer-container>
         <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
         <discord-interview id="discord-voice" iconHeight="150px" maxUserCount="6"
-                               nameWidth="250px" voice-highlight-color="darkred"></discord-interview>
+                               nameWidth="250px"
+                           :voice-highlight-color="game === 'sms' ? 'blue' : 'linear-gradient(var(--lighter-main-color-bingothon), var(--darker-main-color-bingothon))'"></discord-interview>
     </div>
 </template>
 
@@ -127,7 +128,7 @@ export default class Interview extends Vue {
 
 #discord-voice {
     position: absolute;
-    top: 0px;
+    top: -30px;
     left: 1220px;
     width: 700px;
     height: 1080px;
