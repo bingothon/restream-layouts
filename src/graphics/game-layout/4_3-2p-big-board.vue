@@ -5,8 +5,8 @@
             <!--<twitch-player id="stream1" streamIndex="0"></twitch-player>
             <twitch-player id="stream2" streamIndex="1"></twitch-player>-->
             <div id="fillvoice" class="flexContainer"></div>
-            <player-info id="pi1" height=45px playerIndex="0"></player-info>
-            <player-info id="pi2" height=45px playerIndex="1"></player-info>
+            <player-info id="pi1" height=45px playerIndex="0" :hide-finish-time="true"></player-info>
+            <player-info id="pi2" height=45px playerIndex="1" :hide-finish-time="true"></player-info>
             <test-timer-container id="timer"></test-timer-container>
             <discord-voice-display id="discord-voice" iconHeight="40px" maxUserCount="6"
                                    nameWidth="125px"></discord-voice-display>
@@ -21,8 +21,8 @@
             <!--<twitch-player id="stream1" streamIndex="0"></twitch-player>
             <twitch-player id="stream2" streamIndex="1"></twitch-player>-->
             <div id="fillvoiceBOTW" class="flexContainer"></div>
-            <player-info id="pi1BOTW" height=45px playerIndex="0"></player-info>
-            <player-info id="pi2BOTW" height=45px playerIndex="1"></player-info>
+            <player-info id="pi1BOTW" height=45px playerIndex="0" :hide-finish-time="true"></player-info>
+            <player-info id="pi2BOTW" height=45px playerIndex="1" :hide-finish-time="true"></player-info>
             <test-timer-container id="timerBOTW"></test-timer-container>
             <discord-voice-display id="discord-voiceBOTW" iconHeight="40px" maxUserCount="6"
                                    nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>

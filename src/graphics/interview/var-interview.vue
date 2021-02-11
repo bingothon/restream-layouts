@@ -8,7 +8,7 @@
         </div>
         <div v-else id="player-container">
             <player-info v-for="playerIndex in playerCount" :key="playerIndex" :playerIndex="playerIndex" class="player"
-                         height=45px></player-info>
+                         height=45px :hide-finish-time="true"></player-info>
         </div>
         <div id="game" class="flexContainer">
             <test-game-container id="gamec"></test-game-container>
