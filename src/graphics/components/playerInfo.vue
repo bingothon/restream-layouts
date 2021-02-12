@@ -167,7 +167,7 @@ export default class PlayerInfo extends Vue {
     get finishTime(): string {
         const finishTime = store.state.timer.teamFinishTimes[this.teamID];
         //If forfeit, display that runner has forfeit
-        if ( finishTime.state === "forfeit" ) {
+        if ( finishTime && finishTime.state === "forfeit" ) {
             return '[Did Not Finish] ';
         }
         // no individual finish time for one team runs
