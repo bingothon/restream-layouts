@@ -392,10 +392,10 @@ export default class PlayerInfo extends Vue {
 }
 
 .PlayerInfoBox > .BingoColor.bingo-navy {
-    background-image: linear-gradient(#0d48b5, #022b75);
+    background-image: linear-gradient(#1a1aab, #1515be);
 }
 
 .PlayerInfoBox > .BingoColor.bingo-yellow {
-    background-image: linear-gradient(#8c8b8b, #808080);
+    background-image: linear-gradient(#80c8c8, #93e0e0);
 }
 </style>
