@@ -4,18 +4,18 @@
 
 <template>
     <div
-        class="FlexContainer PlayerInfoBox"
         :class="{'ReverseOrder':reverseOrder}"
         :style="{'height':height}"
+        class="FlexContainer PlayerInfoBox"
     >
-        <div class="CurrentIcon FlexContainer"
-             :style="{ 'width' : `calc(${height} * 1.5)` }"
+        <div :style="{ 'width' : `calc(${height} * 1.5)` }"
+             class="CurrentIcon FlexContainer"
         >
             <transition name="fade">
-                <div class="ScoreContainer" v-if="!show && pronouns" key="pronouns">
+                <div v-if="!show && pronouns" key="pronouns" class="ScoreContainer">
                     <text-fit :text="pronouns"></text-fit>
                 </div>
-                <div class="ScoreContainer" v-else-if="show && score" key="score">
+                <div v-else-if="show && score" key="score" class="ScoreContainer">
                     <text-fit :text="score"></text-fit>
                 </div>
                 <img
@@ -28,7 +28,7 @@
         <div :class="medalClasses"></div>
         <div class="PlayerName">
             <transition name="fade">
-                <text-fit :key="text" :text="text" :align="reverseOrder?'right':'left'">
+                <text-fit :key="text" :align="reverseOrder?'right':'left'" :text="text">
                 </text-fit>
             </transition>
         </div>
@@ -38,22 +38,22 @@
             <img :src="'/bundles/bingothon-layouts/static/music-note.png'">
         </div>
         <div v-if="!!player.country"
-             class="Flag FlexContainer"
              :style="{'width' : `calc(${height} * 1.9)`}"
+             class="Flag FlexContainer"
         >
             <transition name="fade">
                 <img
                     :key="player.country"
-                    :style="{ 'visibility' : showFlag ? 'visbile' : 'hidden' }"
                     :src="getPlayerFlag(player.country)"
+                    :style="{ 'visibility' : showFlag ? 'visbile' : 'hidden' }"
                 >
             </transition>
         </div>
         <div
             v-if="bingoColorShown === true"
-            class="BingoColor FlexContainer"
             :class="`bingo-${bingoColor}`"
             :style="{ 'width' : height, 'height': height }"
+            class="BingoColor FlexContainer"
         >
             <span v-if="bingoCountShown === true">{{ bingoGoalCount }}</span>
         </div>
