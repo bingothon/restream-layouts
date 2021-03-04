@@ -160,6 +160,11 @@ export default class PlayerInfo extends Vue {
     }
 
     get finishTime(): string {
+        const finishTime = store.state.timer.teamFinishTimes[this.teamID];
+        //If forfeit, display that runner has forfeit
+        if (finishTime && finishTime.state === "forfeit") {
+            return '[Did Not Finish] ';
+        }
         // no individual finish time for one team runs
         // also this is disabled for some layouts
         if (this.hideFinishTime
@@ -168,7 +173,6 @@ export default class PlayerInfo extends Vue {
         }
         // get the team this player belongs to
         if (this.teamID) {
-            const finishTime = store.state.timer.teamFinishTimes[this.teamID];
             if (finishTime) {
                 // disable time if lockout, but still "change" it, to force a refit
                 if (store.state.runDataActiveRun.customData.Bingotype?.includes("lockout")) {
@@ -229,7 +233,7 @@ export default class PlayerInfo extends Vue {
         // get the team this player belongs to
         if (this.teamID) {
             const finishTime = store.state.timer.teamFinishTimes[this.teamID];
-            if (finishTime) {
+            if (finishTime && finishTime.state !== "forfeit") {
                 let place = 1;
                 Object.values(store.state.timer.teamFinishTimes).forEach(time => {
                     if (time.milliseconds < finishTime.milliseconds) {
