@@ -15,9 +15,9 @@
         </div>
         <test-timer-container id="timer"></test-timer-container>
         <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
-        <discord-interview id="discord-voice" iconHeight="150px" maxUserCount="6"
-                           nameWidth="250px"
-                           :voice-highlight-color="'blue'"></discord-interview>
+        <discord-interview id="discord-voice" :voice-highlight-color="'blue'" iconHeight="150px"
+                           maxUserCount="6"
+                           nameWidth="250px"></discord-interview>
     </div>
 </template>
 
@@ -104,6 +104,7 @@ export default class Interview extends Vue {
     background-image: url("../../../static/background-sunshine.jpg");
     background-repeat: no-repeat;
 }
+
 #discord-voice {
     position: absolute;
     top: -30px;
@@ -112,13 +113,15 @@ export default class Interview extends Vue {
     height: 1080px;
     /*background-color: var(--container-background-color);*/
 }
-#logo{
+
+#logo {
     position: absolute;
     left: 690px;
     top: 10px;
     width: 568px;
     height: 200px;
 }
+
 #Bingo-board {
     position: absolute;
     top: 500px;
@@ -126,6 +129,7 @@ export default class Interview extends Vue {
     width: 500px;
     height: 500px;
 }
+
 #game {
     position: absolute;
     top: 50px;
@@ -133,12 +137,14 @@ export default class Interview extends Vue {
     width: 1000px;
     height: 100px;
 }
+
 #gamec {
     position: absolute;
     left: 0px;
     width: 1000px;
     top: 200px;
 }
+
 #logo {
     position: absolute;
     height: 150px;
@@ -146,7 +152,8 @@ export default class Interview extends Vue {
     top: 25px;
     left: 370px;
 }
-#timer{
+
+#timer {
     position: absolute;
     top: 325px;
     left: 710px;
