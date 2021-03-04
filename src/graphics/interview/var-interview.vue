@@ -15,8 +15,9 @@
         </div>
         <test-timer-container id="timer"></test-timer-container>
         <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
-        <discord-voice-display id="discord-voice" iconHeight="40px" maxUserCount="6"
-                               nameWidth="114px"></discord-voice-display>
+        <discord-interview id="discord-voice" iconHeight="150px" maxUserCount="6"
+                           nameWidth="250px"
+                           :voice-highlight-color="'blue'"></discord-interview>
     </div>
 </template>
 
@@ -30,9 +31,11 @@ import PlayerInfo from "../components/playerInfo.vue";
 import TeamInfo from "../components/teamInfo.vue";
 import PlayerTeamContainer from "../components/playerTeamContainer.vue";
 import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
+import DiscordInterview from "../components/discordInterview.vue";
 
 @Component({
     components: {
+        DiscordInterview,
         BingoBoard,
         TestGameContainer,
         PlayerInfo,
@@ -103,11 +106,11 @@ export default class Interview extends Vue {
 }
 #discord-voice {
     position: absolute;
-    top: 650px;
-    left: 1330px;
-    width: 500px;
-    height: 200px;
-    background-color: var(--container-background-color);
+    top: -30px;
+    left: 1220px;
+    width: 700px;
+    height: 1080px;
+    /*background-color: var(--container-background-color);*/
 }
 #logo{
     position: absolute;
