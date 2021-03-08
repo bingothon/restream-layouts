@@ -1,0 +1,283 @@
+<template>
+    <div>
+        <div>
+            <!--<twitch-player id="stream1" streamIndex="0"></twitch-player>
+            <twitch-player id="stream2" streamIndex="1"></twitch-player>-->
+            <div id="borderlineBOTW"></div>
+            <div id="ti1">
+                <team-info team-index="0" height="45px"></team-info>
+            </div>
+            <div id="ti2">
+                <team-info team-index="1" height="45px" :reverse-order="true"></team-info>
+            </div>
+            <div id="fillStream1" class="flexContainer"></div>
+            <div id="fillStream2" class="flexContainer"></div>
+            <div id="fillStream3" class="flexContainer"></div>
+            <div id="fillStream4" class="flexContainer"></div>
+            <div id="fillStream5" class="flexContainer"></div>
+            <div id="fillStream6" class="flexContainer"></div>
+            <div id="fillvoiceBOTW" class="flexContainer"></div>
+            <player-info id="pi1BOTW" height=45px playerIndex="0" :hide-finish-time="true"
+                         :show-color="!coop"></player-info>
+            <player-info id="pi2BOTW" height=45px playerIndex="1" :hide-finish-time="true"
+                         :show-color="!coop"></player-info>
+            <player-info id="pi3BOTW" height=45px playerIndex="2" :hide-finish-time="true"
+                         :show-color="!coop"></player-info>
+            <player-info id="pi4BOTW" height=45px playerIndex="3" :hide-finish-time="true" :show-color="!coop"
+                         reverse-order></player-info>
+            <player-info id="pi5BOTW" height=45px playerIndex="4" :hide-finish-time="true" :show-color="!coop"
+                         reverse-order></player-info>
+            <player-info id="pi6BOTW" height=45px playerIndex="5" :hide-finish-time="true" :show-color="!coop"
+                         reverse-order></player-info>
+            <test-timer-container id="timerBOTW"></test-timer-container>
+            <discord-voice-display id="discord-voiceBOTW" iconHeight="40px" maxUserCount="6"
+                                   nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
+            <test-game-container id="gameBOTW" :class="{'CoOp':coop}"></test-game-container>
+            <bingo-board id="Bingo-boardBOTW" fontSize="30px"></bingo-board>
+        </div>
+    </div>
+</template>
+
+<script lang="ts">
+import {Component, Vue} from "vue-property-decorator";
+import {store} from "../../browser-util/state";
+import TestTimerContainer from "../components/timerContainer.vue";
+import TestGameContainer from "../components/gameContainer.vue";
+import BingoBoard from "../components/bingoboard.vue";
+import PlayerInfo from "../components/playerInfo.vue";
+import TeamInfo from "../components/teamInfo.vue";
+import PlayerTeamContainer from "../components/playerTeamContainer.vue";
+import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
+import TwitchPlayer from "../components/twitchPlayer.vue";
+import {RunDataTeam} from "../../../speedcontrol-types";
+
+@Component({
+    components: {
+        BingoBoard,
+        TestGameContainer,
+        PlayerInfo,
+        TeamInfo,
+        PlayerTeamContainer,
+        TestTimerContainer,
+        DiscordVoiceDisplay,
+        TwitchPlayer,
+    }
+})
+
+export default class GameLayout extends Vue {
+    get teams(): RunDataTeam[] {
+        return store.state.runDataActiveRun.teams;
+    }
+
+    get game(): string {
+        return store.state.gameMode.game;
+    }
+
+    get coop(): boolean {
+        return store.state.runDataActiveRun.teams[0].players.length > 1;
+    }
+}
+</script>
+
+<style scoped>
+
+#fillStream1 {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 640px;
+    height: 360px;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px var(--container-border-color) solid;
+}
+
+#fillStream2 {
+    position: absolute;
+    top: 360px;
+    left: 0px;
+    width: 640px;
+    height: 360px;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px var(--container-border-color) solid;
+}
+
+#fillStream3 {
+    position: absolute;
+    top: 720px;
+    left: 0px;
+    width: 640px;
+    height: 360px;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px var(--container-border-color) solid;
+}
+
+#fillStream4 {
+    position: absolute;
+    top: 0px;
+    left: 1280px;
+    width: 640px;
+    height: 360px;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px var(--container-border-color) solid;
+}
+
+#fillStream5 {
+    position: absolute;
+    top: 360px;
+    left: 1280px;
+    width: 640px;
+    height: 360px;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px var(--container-border-color) solid;
+}
+
+#fillStream6 {
+    position: absolute;
+    top: 720px;
+    left: 1280px;
+    width: 640px;
+    height: 360px;
+    background-image: url("../../../static/middle-info-background.png");
+    border: 2px var(--container-border-color) solid;
+}
+
+#ti1 {
+    position: absolute;
+    top: 0px;
+    left: 640px;
+    width: 320px;
+    height: 60px;
+    background-image: linear-gradient(#6d001d, #280000);
+    border: 2px var(--container-border-color) solid;
+}
+
+#ti2 {
+    position: absolute;
+    top: 0px;
+    left: 960px;
+    width: 320px;
+    height: 60px;
+    background-image: linear-gradient(#6d001d, #280000);
+    border: 2px var(--container-border-color) solid;
+}
+
+#discord-voiceBOTW {
+    position: absolute;
+    top: 400px;
+    left: 640px;
+    width: 640px;
+    height: 200px;
+    border: 2px var(--container-border-color) solid;
+    background-image: url("../../../static/middle-info-background.png");
+}
+
+#pi1BOTW {
+    position: absolute;
+    top: 340px;
+    left: 640px;
+    border: 2px var(--container-border-color) solid;
+    width: 304px;
+}
+
+#pi2BOTW {
+    position: absolute;
+    top: 600px;
+    left: 640px;
+    border: 2px var(--container-border-color) solid;
+    width: 304px;
+}
+
+#pi3BOTW {
+    position: absolute;
+    top: 1020px;
+    left: 640px;
+    border: 2px var(--container-border-color) solid;
+    width: 304px;
+}
+
+#pi4BOTW {
+    position: absolute;
+    top: 340px;
+    left: 960px;
+    border: 2px var(--container-border-color) solid;
+    width: 304px;
+}
+
+#pi5BOTW {
+    position: absolute;
+    top: 600px;
+    left: 960px;
+    border: 2px var(--container-border-color) solid;
+    width: 304px;
+}
+
+#pi6BOTW {
+    position: absolute;
+    top: 1020px;
+    left: 960px;
+    border: 2px var(--container-border-color) solid;
+    width: 304px;
+}
+
+#Bingo-boardBOTW {
+    position: absolute;
+    top: 660px;
+    left: 640px;
+    border: 2px var(--container-border-color) solid;
+    width: 640px;
+    height: 360px;
+}
+
+#gameBOTW.CoOp {
+    background-image: url("../../../static/middle-info-background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 60px;
+    left: 640px;
+    width: 640px;
+    border: 2px var(--container-border-color) solid;
+    height: 160px;
+}
+
+#gameBOTW {
+    background-image: url("../../../static/middle-info-background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0px;
+    left: 640px;
+    width: 640px;
+    border: 2px var(--container-border-color) solid;
+    height: 220px;
+}
+
+
+#logoBOTW {
+    position: absolute;
+    height: 190px;
+    top: 70px;
+    left: 245px;
+}
+
+#timerBOTW {
+    position: absolute;
+    top: 220px;
+    left: 640px;
+    width: 640px;
+    height: 120px;
+    border: 2px var(--container-border-color) solid;
+    background-image: url("../../../static/middle-info-background.png");
+}
+
+/*#timer-and-discord-containerBOTW {
+    position: absolute;
+    left: 1190px;
+    top: 600px;
+    width: 730px;
+    height: 480px;
+    background-image: url("../../../static/middle-info-background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}*/
+</style>

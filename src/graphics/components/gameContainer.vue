@@ -42,6 +42,7 @@ export default class TestGameContainer extends Vue {
     align-content: center;
     align-items: center;
     flex-direction: column;
+    height: 100%;
 }
 .GameContainer > .GameName {
     font-weight: 500;

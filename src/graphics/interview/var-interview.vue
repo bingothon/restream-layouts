@@ -21,8 +21,8 @@
         </div>
         <test-timer-container id="timer"></test-timer-container>
         <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
-        <discord-interview id="discord-voice" iconHeight="150px" maxUserCount="6"
-                               nameWidth="250px"
+        <discord-interview id="discord-voice" iconHeight="150px" maxUserCount="9"
+                           nameWidth="250px"
                            :voice-highlight-color="game === 'sms' ? 'blue' : 'linear-gradient(var(--lighter-main-color-bingothon), var(--darker-main-color-bingothon))'"></discord-interview>
     </div>
 </template>

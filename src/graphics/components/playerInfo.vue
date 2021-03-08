@@ -173,7 +173,7 @@ export default class PlayerInfo extends Vue {
         const finishTime = store.state.timer.teamFinishTimes[this.teamID];
         //If forfeit, display that runner has forfeit
         if ( finishTime && finishTime.state === "forfeit" ) {
-            return '[Did Not Finish] ';
+            return '[DNF] ';
         }
         // no individual finish time for one team runs
         // also this is disabled for some layouts
@@ -237,7 +237,7 @@ export default class PlayerInfo extends Vue {
     get medalClasses(): string {
         // no individual finish time for one team runs
         // also this is disabled for some layouts
-        if (store.state.runDataActiveRun.teams.length == 1) {
+        if (store.state.runDataActiveRun.teams.length == 1 || this.hideFinishTime) {
             return '';
         }
         // get the team this player belongs to
