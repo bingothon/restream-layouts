@@ -27,7 +27,9 @@
                 >
             </transition>
         </div>
-        <BestOfX v-if="boXEnabled" :player-index="playerIndex"></BestOfX>
+        <div>
+            <BestOfX v-if="boXEnabled" :player-index="playerIndex" id="boX" :height="height"></BestOfX>
+        </div>
         <div :class="medalClasses"></div>
         <div class="PlayerName">
             <transition name="fade">
@@ -283,6 +285,11 @@ export default class PlayerInfo extends Vue {
 
 <style>
 @import './medals.css';
+
+#boX {
+    margin-left: 10px;
+    /*width: 200px;*/
+}
 
 .PlayerInfoBox {
     /*background-image: linear-gradient(var(--lighter-main-color), var(--darker-main-color));*/

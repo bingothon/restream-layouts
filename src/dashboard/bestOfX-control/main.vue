@@ -1,24 +1,27 @@
 <template>
     <div>
         <v-checkbox
-            v-model="activated"
+            dark
+            v-model="enabled"
             :label="'Enable Best Of ' + totalMatches"
             @change="changeEnabled"
         ></v-checkbox>
+        <span>Total Amount of Matches</span>
         <v-text-field
-            v-model="total"
+            v-model="totalMatches"
             background-color="#455A64"
             class="score-count"
             dark
             type="number"
             @change="updateTotal"
         />
-        <div
-            v-for="(count,i) in matchCounts"
-            :key="i"
+        <div v-if="enabled"
+             v-for="(count,i) in teams"
+             :key="i"
         >
+            <span>Player {{ i }} won Matches</span>
             <v-text-field
-                v-model="matches[i]"
+                v-model="matchCounts[i]"
                 background-color="#455A64"
                 class="score-count"
                 dark
@@ -33,6 +36,7 @@
 import {Component, Vue} from 'vue-property-decorator';
 import {getReplicant, store} from '../../browser-util/state';
 import {BestOfX} from "../../../schemas";
+import {RunDataTeam} from "../../../speedcontrol-types";
 
 
 @Component({})
@@ -47,12 +51,8 @@ export default class BingoControl extends Vue {
         return store.state.bestOfX.matchCounts;
     }
 
-    get totalMatches(): number {
-        return store.state.bestOfX.totalMatches
-    }
-
-    get total(): number {
-        return this.totalMatches ? this.totalMatches : 3;
+    get totalMatches(): string {
+        return `${store.state.bestOfX.totalMatches}`;
     }
 
     get matchCounts(): string[] {
@@ -63,8 +63,8 @@ export default class BingoControl extends Vue {
         return this.enabled ? this.enabled : false;
     }
 
-    get matches(): string[] {
-        return this.matchCounts ? this.matchCounts : ['0', '0', '0', '0'];
+    get teams(): RunDataTeam[] {
+        return store.state.runDataActiveRun.teams;
     }
 
     updateMatchScores() {
@@ -78,7 +78,7 @@ export default class BingoControl extends Vue {
     }
 
     updateTotal() {
-        getReplicant<BestOfX>('bestOfX').value.totalMatches = this.totalMatches;
+        getReplicant<BestOfX>('bestOfX').value.totalMatches = parseInt(this.totalMatches, 10);
     }
 }
 </script>
