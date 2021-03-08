@@ -140,12 +140,11 @@
         "width": 4
       },
       {
-        "name": "twitch-resizer-dashboard",
-        "title": "Twitch Resizer",
-        "width": 10,
-        "file": "crop-control.html",
+        "name": "bestOfX-control",
+        "title": "Best Of X Control",
+        "file": "bestOfX-control.html",
         "headerColor": "#b92b36",
-        "workspace": "Twitch Resizing"
+        "width": 2
       }
     ],
     "graphics": [
