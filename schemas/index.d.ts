@@ -1,6 +1,7 @@
 export * from './allCamNames';
 export * from './allGameLayouts';
 export * from './allInterviews';
+export * from './bestOfX';
 export * from './bingoboard';
 export * from './bingoboardMeta';
 export * from './bingoboardMode';

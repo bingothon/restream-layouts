@@ -131,6 +131,13 @@
         "file": "checklist.html",
         "headerColor": "#b92b36",
         "width": 4
+      },
+      {
+        "name": "bestOfX-control",
+        "title": "Best Of X Control",
+        "file": "bestOfX-control.html",
+        "headerColor": "#b92b36",
+        "width": 2
       }
     ],
     "graphics": [
