@@ -6,7 +6,9 @@
         <div
             v-if="bingoColorShown"
             :class="`bingo-${bingoColor}`"
-            :style="{'height' : height, 'width' : height}"
+            :style="{'height' : height, 'width' : height,
+            'margin-left' : reverseOrder ? '20px' : '0px',
+            'margin-right' : reverseOrder ? '0px' : '20px'}"
             class="BingoColor FlexContainer"
         >
             <span v-if="bingoCountShown">{{ bingoGoalCount }}</span>

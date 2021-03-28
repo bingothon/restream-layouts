@@ -23,17 +23,17 @@
                 <div id="ti2">
                     <team-info :reverse-order="true" height="45px" team-index="1"></team-info>
                 </div>
-                <player-info id="pi1BOTW" :hide-finish-time="true" :show-color="!coop" height=45px
+                <player-info id="pi1BOTW" :hide-finish-time="true" :show-color="!coop" height=30px
                              playerIndex="0"></player-info>
-                <player-info id="pi2BOTW" :hide-finish-time="true" :show-color="!coop" height=45px
+                <player-info id="pi2BOTW" :hide-finish-time="true" :show-color="!coop" height=30px
                              playerIndex="1"></player-info>
-                <player-info id="pi3BOTW" :hide-finish-time="true" :show-color="!coop" height=45px
+                <player-info id="pi3BOTW" :hide-finish-time="true" :show-color="!coop" height=30px
                              playerIndex="2"></player-info>
-                <player-info id="pi4BOTW" :hide-finish-time="true" :show-color="!coop" height=45px playerIndex="3"
+                <player-info id="pi4BOTW" :hide-finish-time="true" :show-color="!coop" height=30px playerIndex="3"
                              reverse-order></player-info>
-                <player-info id="pi5BOTW" :hide-finish-time="true" :show-color="!coop" height=45px playerIndex="4"
+                <player-info id="pi5BOTW" :hide-finish-time="true" :show-color="!coop" height=30px playerIndex="4"
                              reverse-order></player-info>
-                <player-info id="pi6BOTW" :hide-finish-time="true" :show-color="!coop" height=45px playerIndex="5"
+                <player-info id="pi6BOTW" :hide-finish-time="true" :show-color="!coop" height=30px playerIndex="5"
                              reverse-order></player-info>
             </div>
             <div v-else>
@@ -101,6 +101,7 @@ export default class GameLayout extends Vue {
 #fillMiddle {
     top: 0px;
     left: 640px;
+    width: 1920px;
     height: 1080px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px var(--container-border-color) solid;
@@ -198,7 +199,7 @@ export default class GameLayout extends Vue {
 
 #discord-voiceBOTW.CoOp {
     position: absolute;
-    top: 400px;
+    top: 360px;
     left: 640px;
     width: 640px;
     height: 200px;
@@ -208,50 +209,50 @@ export default class GameLayout extends Vue {
 
 #pi1BOTW {
     position: absolute;
-    top: 340px;
+    top: 314px;
     left: 640px;
     border: 2px var(--container-border-color) solid;
-    width: 304px;
+    width: 306px;
 }
 
 #pi2BOTW {
     position: absolute;
-    top: 600px;
+    top: 562px;
     left: 640px;
     border: 2px var(--container-border-color) solid;
-    width: 304px;
+    width: 306px;
 }
 
 #pi3BOTW {
     position: absolute;
-    top: 1020px;
+    top: 1034px;
     left: 640px;
     border: 2px var(--container-border-color) solid;
-    width: 304px;
+    width: 306px;
 }
 
 #pi4BOTW {
     position: absolute;
-    top: 340px;
+    top: 314px;
     left: 960px;
     border: 2px var(--container-border-color) solid;
-    width: 304px;
+    width: 306px;
 }
 
 #pi5BOTW {
     position: absolute;
-    top: 600px;
+    top: 562px;
     left: 960px;
     border: 2px var(--container-border-color) solid;
-    width: 304px;
+    width: 306px;
 }
 
 #pi6BOTW {
     position: absolute;
-    top: 1020px;
+    top: 1034px;
     left: 960px;
     border: 2px var(--container-border-color) solid;
-    width: 304px;
+    width: 306px;
 }
 
 #pi1 {
@@ -313,11 +314,11 @@ export default class GameLayout extends Vue {
 
 #Bingo-boardBOTW.CoOp {
     position: absolute;
-    top: 660px;
+    top: 608px;
     left: 640px;
     border: 2px var(--container-border-color) solid;
     width: 640px;
-    height: 360px;
+    height: 423px;
 }
 
 #gameBOTW.CoOp {
@@ -367,7 +368,7 @@ export default class GameLayout extends Vue {
     top: 220px;
     left: 640px;
     width: 640px;
-    height: 120px;
+    height: 96px;
     border: 2px var(--container-border-color) solid;
     background-image: url("../../../static/middle-info-background.png");
 }

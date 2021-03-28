@@ -14,7 +14,7 @@
              :style="{ 'width' : `calc(${height} * 1.5)` }"
         >
             <transition name="fade">
-                <div class="ScoreContainer" v-if="show && pronouns" key="pronouns">
+                <div class="ScoreContainer" v-if="pronouns" key="pronouns">
                     <text-fit :text="pronouns"></text-fit>
                 </div>
                 <div class="ScoreContainer" v-else-if="!show && score" key="score">
@@ -325,7 +325,7 @@ export default class PlayerInfo extends Vue {
     color: white;
     height: 75%;
     position: absolute;
-    width: 70px;
+    width: 55px;
 }
 
 .PlayerInfoBox > .PlayerName {
@@ -369,7 +369,7 @@ export default class PlayerInfo extends Vue {
 }
 
 .PlayerInfoBox > .Sound > img {
-    width: 30px;
+    width: 25px;
 }
 
 /* Bingosync styled gradients */
