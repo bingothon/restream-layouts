@@ -177,43 +177,43 @@ export default class TeamInfo extends Vue {
 }
 
 /* Bingosync styled gradients */
-.PlayerInfoBox > .BingoColor.bingo-green {
-    background-image: linear-gradient(#129912, #108010 60%, #0c660c);
+.TeamInfoBox > .BingoColor.bingo-green {
+  background-image: linear-gradient(#129912, #108010 60%, #0c660c);
 }
 
-.PlayerInfoBox > .BingoColor.bingo-red {
-    background-image: linear-gradient(#FF4944, #DA4440 60%, #CE302C);
+.TeamInfoBox > .BingoColor.bingo-red {
+  background-image: linear-gradient(#FF4944, #DA4440 60%, #CE302C);
 }
 
-.PlayerInfoBox > .BingoColor.bingo-orange {
-    background-image: linear-gradient(#FF9C12, #F98E1E 60%, #D0800F);
+.TeamInfoBox > .BingoColor.bingo-orange {
+  background-image: linear-gradient(#FF9C12, #F98E1E 60%, #D0800F);
 }
 
-.PlayerInfoBox > .BingoColor.bingo-blue {
-    background-image: linear-gradient(#409CFF, #37A1DE 60%, #088CBD);
+.TeamInfoBox > .BingoColor.bingo-blue {
+  background-image: linear-gradient(#409CFF, #37A1DE 60%, #088CBD);
 }
 
-.PlayerInfoBox > .BingoColor.bingo-purple {
-    background-image: linear-gradient(#822dbf, #7120ab);
+.TeamInfoBox > .BingoColor.bingo-purple {
+  background-image: linear-gradient(#822dbf, #7120ab);
 }
 
-.PlayerInfoBox > .BingoColor.bingo-pink {
-    background-image: linear-gradient(#ed86aa, #cc6e8f);
+.TeamInfoBox > .BingoColor.bingo-pink {
+  background-image: linear-gradient(#ed86aa, #cc6e8f);
 }
 
-.PlayerInfoBox > .BingoColor.bingo-brown {
-    background-image: linear-gradient(#3bd45f, #30b050);
+.TeamInfoBox > .BingoColor.bingo-brown {
+  background-image: linear-gradient(#3bd45f, #30b050);
 }
 
-.PlayerInfoBox > .BingoColor.bingo-teal {
-    background-image: linear-gradient(#419695, #2e7372);
+.TeaInfoBox > .BingoColor.bingo-teal {
+  background-image: linear-gradient(#419695, #2e7372);
 }
 
-.PlayerInfoBox > .BingoColor.bingo-navy {
-    background-image: linear-gradient(#1a1aab, #1515be);
+.TeamInfoBox > .BingoColor.bingo-navy {
+  background-image: linear-gradient(#1a1aab, #1515be);
 }
 
-.PlayerInfoBox > .BingoColor.bingo-yellow {
-    background-image: linear-gradient(#80c8c8, #93e0e0);
+.TeaInfoBox > .BingoColor.bingo-yellow {
+  background-image: linear-gradient(#80c8c8, #93e0e0);
 }
 </style>
