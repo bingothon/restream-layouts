@@ -176,44 +176,44 @@ export default class TeamInfo extends Vue {
     border: 1px white solid;
 }
 
-/* Bingosync styled gradients */
-.TeamInfoBox > .BingoColor.bingo-green {
-    background-image: linear-gradient(#31D814, #00B500 60%, #20A00A);
+/ /* Bingosync styled gradients */
+.PlayerInfoBox > .BingoColor.bingo-green {
+    background-image: linear-gradient(#129912, #108010 60%, #0c660c);
 }
 
-.TeamInfoBox > .BingoColor.bingo-red {
+.PlayerInfoBox > .BingoColor.bingo-red {
     background-image: linear-gradient(#FF4944, #DA4440 60%, #CE302C);
 }
 
-.TeamInfoBox > .BingoColor.bingo-orange {
+.PlayerInfoBox > .BingoColor.bingo-orange {
     background-image: linear-gradient(#FF9C12, #F98E1E 60%, #D0800F);
 }
 
-.TeamInfoBox > .BingoColor.bingo-blue {
+.PlayerInfoBox > .BingoColor.bingo-blue {
     background-image: linear-gradient(#409CFF, #37A1DE 60%, #088CBD);
 }
 
-.TeamInfoBox > .BingoColor.bingo-purple {
+.PlayerInfoBox > .BingoColor.bingo-purple {
     background-image: linear-gradient(#822dbf, #7120ab);
 }
 
-.TeamInfoBox > .BingoColor.bingo-pink {
+.PlayerInfoBox > .BingoColor.bingo-pink {
     background-image: linear-gradient(#ed86aa, #cc6e8f);
 }
 
-.TeamInfoBox > .BingoColor.bingo-brown {
-    background-image: linear-gradient(#ab5c23, #6d3811);
+.PlayerInfoBox > .BingoColor.bingo-brown {
+    background-image: linear-gradient(#3bd45f, #30b050);
 }
 
-.TeamInfoBox > .BingoColor.bingo-teal {
+.PlayerInfoBox > .BingoColor.bingo-teal {
     background-image: linear-gradient(#419695, #2e7372);
 }
 
-.TeamInfoBox > .BingoColor.bingo-navy {
-    background-image: linear-gradient(#0d48b5, #022b75);
+.PlayerInfoBox > .BingoColor.bingo-navy {
+    background-image: linear-gradient(#1a1aab, #1515be);
 }
 
-.TeamInfoBox > .BingoColor.bingo-yellow {
-    background-image: linear-gradient(#d8d014, #c1ba0b);
+.PlayerInfoBox > .BingoColor.bingo-yellow {
+    background-image: linear-gradient(#80c8c8, #93e0e0);
 }
 </style>
