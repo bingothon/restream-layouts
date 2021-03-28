@@ -176,7 +176,7 @@ export default class TeamInfo extends Vue {
     border: 1px white solid;
 }
 
-/ /* Bingosync styled gradients */
+/* Bingosync styled gradients */
 .PlayerInfoBox > .BingoColor.bingo-green {
     background-image: linear-gradient(#129912, #108010 60%, #0c660c);
 }
