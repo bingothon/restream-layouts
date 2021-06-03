@@ -182,6 +182,11 @@
         "file": "big-board.html",
         "width": 1920,
         "height": 1080
+      },
+      {
+        "file": "exploration-bingo.html",
+        "width": 1920,
+        "height": 1080
       }
     ],
     "mount": [
