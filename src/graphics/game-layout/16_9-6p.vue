@@ -91,7 +91,7 @@ export default class GameLayout extends Vue {
     }
 
     get coop(): boolean {
-        return store.state.runDataActiveRun.teams[0].players.length > 1;
+        return store.state.runDataActiveRun.teams[0].players.length === 3;
     }
 }
 </script>
