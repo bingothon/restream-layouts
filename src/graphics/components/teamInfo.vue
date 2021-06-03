@@ -207,7 +207,7 @@ export default class TeamInfo extends Vue {
   background-image: linear-gradient(#3bd45f, #30b050);
 }
 
-.TeaInfoBox > .BingoColor.bingo-teal {
+.TeamInfoBox > .BingoColor.bingo-teal {
   background-image: linear-gradient(#419695, #2e7372);
 }
 
@@ -215,7 +215,7 @@ export default class TeamInfo extends Vue {
   background-image: linear-gradient(#1a1aab, #1515be);
 }
 
-.TeaInfoBox > .BingoColor.bingo-yellow {
+.TeamInfoBox > .BingoColor.bingo-yellow {
   background-image: linear-gradient(#80c8c8, #93e0e0);
 }
 </style>
