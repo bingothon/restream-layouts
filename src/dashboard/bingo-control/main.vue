@@ -73,7 +73,7 @@
         <div v-if="showExtraExplorationOptions">
             <div>
                 Bingosync json:
-                <v-text-field v-model="explorationCustomBoard" background-color="#455A64" clearable solo dark>
+                <v-text-field v-model="explorationCustomBoard" background-color="#455A64" clearable solo dark/>
             </div>
             <v-btn @click="updateExploration"
                    class="button"

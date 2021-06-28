@@ -374,42 +374,33 @@ export default class PlayerInfo extends Vue {
 
 /* Bingosync styled gradients */
 .PlayerInfoBox > .BingoColor.bingo-green {
-    background-image: linear-gradient(#129912, #108010 60%, #0c660c);
+    background-image: var(--bingo-color-green);
 }
-
 .PlayerInfoBox > .BingoColor.bingo-red {
-    background-image: linear-gradient(#FF4944, #DA4440 60%, #CE302C);
+    background-image: var(--bingo-color-red);
 }
-
 .PlayerInfoBox > .BingoColor.bingo-orange {
-    background-image: linear-gradient(#FF9C12, #F98E1E 60%, #D0800F);
+    background-image: var(--bingo-color-orange);
 }
-
 .PlayerInfoBox > .BingoColor.bingo-blue {
-    background-image: linear-gradient(#409CFF, #37A1DE 60%, #088CBD);
+    background-image: var(--bingo-color-blue);
 }
-
 .PlayerInfoBox > .BingoColor.bingo-purple {
-    background-image: linear-gradient(#822dbf, #7120ab);
+    background-image: var(--bingo-color-purple);
 }
-
 .PlayerInfoBox > .BingoColor.bingo-pink {
-    background-image: linear-gradient(#ed86aa, #cc6e8f);
+    background-image: var(--bingo-color-pink);
 }
-
 .PlayerInfoBox > .BingoColor.bingo-brown {
-    background-image: linear-gradient(#3bd45f, #30b050);
+    background-image: var(--bingo-color-brown);
 }
-
 .PlayerInfoBox > .BingoColor.bingo-teal {
-    background-image: linear-gradient(#419695, #2e7372);
+    background-image: var(--bingo-color-teal);
 }
-
 .PlayerInfoBox > .BingoColor.bingo-navy {
-    background-image: linear-gradient(#1a1aab, #1515be);
+    background-image: var(--bingo-color-navy);
 }
-
 .PlayerInfoBox > .BingoColor.bingo-yellow {
-    background-image: linear-gradient(#80c8c8, #93e0e0);
+    background-image: var(--bingo-color-yellow);
 }
 </style>

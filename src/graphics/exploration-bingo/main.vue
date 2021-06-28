@@ -105,11 +105,56 @@
         border-collapse: collapse;
     }
 
-    .square {
+    /*.square {
         padding: 0;
         height: 20%;
         width: 20%;
         border: 2px black solid;
+    }*/
+
+    /* plain old square */
+    .square {
+        color: #fff;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        padding: 0 5px;
+        cursor: pointer;
+        width: 105px;
+        height: 95px;
+        text-align: center;
+        border: 1px #424242 solid;
+        background: #181818;
+
+        /* vertical-align changed to top so background colors wont be pushed halfway down */
+        vertical-align: center;
+
+        /* position needs to be relative for overflow hidden to work */
+        position: relative;
+        overflow: hidden;
+    }
+
+    .square .bg-color, .square .shadow {
+        height: inherit;
+        position: absolute;
+        left: -2px;
+        right: -2px;
+    }
+
+    .square .bg-color {
+        transform-origin: top;
+        -webkit-transform-origin: top;
+        -moz-transform-origin: top;
+    }
+
+    .square:hover .shadow,
+    .square.hover .shadow {
+        box-shadow: inset 0px 0px 50px rgba(0, 0, 0, 0.6);
+        -moz-box-shadow: inset 0px 0px 50px rgba(0, 0, 0, 0.6);
+        -webkit-box-shadow: inset 0px 0px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .blanksquare:hover,
+    .blanksquare.hover {
+        background: #0a245a;
     }
 
     .square.shown {
