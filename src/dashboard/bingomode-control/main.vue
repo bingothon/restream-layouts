@@ -87,7 +87,7 @@ type ColorEnum = ('pink' | 'red' | 'orange' | 'brown' | 'yellow' | 'green' | 'te
 @Component({})
 export default class BingomodeControl extends Vue {
 
-    ALL_BINGO_MODES = Object.freeze(['invasion', 'normal']);
+    ALL_BINGO_MODES = Object.freeze(['invasion', 'normal', 'rowcontrol']);
     ALL_COLORS = Object.freeze(['pink', 'red', 'orange', 'brown', 'yellow', 'green', 'teal', 'blue', 'navy', 'purple']);
     currentBingomode: string = 'invasion';
     markerRedirects: [string, string][] = [];

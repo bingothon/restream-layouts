@@ -197,7 +197,9 @@ class BingosyncManager {
             this.invasionCtx.setMarkers(newBoardState);
         }
 
-        this.boardRep.value.colorCounts = goalCounts;
+        if (this.boardModeRep && this.boardModeRep.value.boardMode != "rowcontrol") {
+            this.boardRep.value.colorCounts = goalCounts;
+        }
 
         // Bail if nothing has changed.
         if (equal(this.boardRep.value.cells, newBoardState)) {
@@ -311,13 +313,8 @@ class BingosyncManager {
                         this.processCellForMarkers(cell);
                         this.boardRep.value.cells[index] = cell;
                         // update goal count
-                        if (json.remove) {
-                            this.boardRep.value.colorCounts[json.color] -= 1;
-                        } else {
-                            this.boardRep.value.colorCounts[json.color] += 1;
-                        }
-                        //Check if conditions for lockout win are fulfilled and stop timer
-                        console.log(runData.value)
+                        this.countScore(json)
+                       //Check if conditions for lockout win are fulfilled and stop timer
                         if (runData.value && lockoutVariants.includes(runData.value.customData.Bingotype) && this.boardRep.value.colorCounts[json.color] == 13) {
                             console.log('lockout AND 13 goals');
                             let colorTo13 = json.color;
@@ -380,6 +377,38 @@ class BingosyncManager {
                 };
             }
         );
+    }
+
+    private countScore(json: any) {
+        let boardModeRep = nodecg.Replicant<BingoboardMode>('bingoboardMode');
+        if (boardModeRep.value.boardMode === 'rowcontrol') {
+            //count rows
+            let board = []
+            console.log("Board-Cells: ", this.boardRep.value.cells)
+            while(this.boardRep.value.cells.length) board.push(this.boardRep.value.cells.splice(0,5));
+            let rowCounter = 0;
+            board.forEach(row => {
+                let goalsInRow = 0;
+                row.forEach(cell => {
+                    if (cell.colors.includes(json.color)) {
+                        goalsInRow++;
+                    }
+                })
+                console.log("Goals in Row: ", goalsInRow)
+                if (goalsInRow >= 3) {
+                    rowCounter++;
+                }
+            })
+            console.log("Rowcounter: ", rowCounter)
+            this.boardRep.value.colorCounts[json.color] = rowCounter;
+        } else {
+            //normal count
+            if (json.remove) {
+                this.boardRep.value.colorCounts[json.color] -= 1;
+            } else {
+                this.boardRep.value.colorCounts[json.color] += 1;
+            }
+        }
     }
 
     public destroyWebsocket(): void {
