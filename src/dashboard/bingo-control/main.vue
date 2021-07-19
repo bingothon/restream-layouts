@@ -376,38 +376,30 @@ export default class BingoControl extends Vue {
 .v-app {
     width: 100%;
 }
-
 #app {
     width: 100%;
 }
-
 .error-warning {
     color: red;
     font-size: small;
 }
-
 input.manual-score {
     width: 3em;
 }
-
 .override {
     width: 100%;
 }
-
 .lineButton >>> .v-btn {
     width: 100%;
     margin-bottom: 4px;
     margin-top: 4px;
 }
-
 .v-btn:not(.v-btn--round).v-size--x-small {
     margin: 2px;
 }
-
 .halfLine >>> .v-btn {
     width: 49%;
 }
-
 .v-btn {
     margin: 5px;
 }
