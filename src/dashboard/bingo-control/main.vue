@@ -232,10 +232,6 @@ export default class BingoControl extends Vue {
         }
     }
 
-    get showExtraBingosyncOptions(): boolean {
-        return ['bingoboard', 'hostingBingoboard'].includes(this.currentBoardRep);
-    }
-
     get showExtraOriOptions(): boolean {
         return this.currentBoardRep === 'oriBingoboard';
     }
@@ -263,35 +259,33 @@ export default class BingoControl extends Vue {
     connectAction() {
         // only expanded options for the bingosync connection,
         // otherwise something else is there to handle the board
-        if (this.showExtraBingosyncOptions) {
-            const socketRepName = BOARD_TO_SOCKET_REP[this.currentBoardRep];
-            if (!socketRepName) {
-                throw new Error('unreachable');
-            }
-            switch (store.state[socketRepName].status) {
-                case 'connected':
-                    nodecg.sendMessage('bingosync:leaveRoom', {name: this.currentBoardRep})
-                        .catch((error) => {
-                            nodecg.log.error(error);
-                            this.errorMessage = error.message;
-                        });
-                    break;
-                case 'disconnected':
-                case 'error':
-                    getReplicant<CurrentMainBingoboard>('currentMainBingoboard').value.boardReplicant = this.currentBoardRep as BingoRepEnum;
-                    nodecg.sendMessage('bingosync:joinRoom', {
-                        roomCode: this.roomCode,
-                        passphrase: this.passphrase,
-                        name: this.currentBoardRep
-                    })
-                        .catch((error) => {
-                            nodecg.log.error(error);
-                            this.errorMessage = error.message;
-                        });
-                    break;
-                default:
-                    break;
-            }
+        const socketRepName = BOARD_TO_SOCKET_REP[this.currentBoardRep];
+        if (!socketRepName) {
+            throw new Error('unreachable');
+        }
+        switch (store.state[socketRepName].status) {
+            case 'connected':
+                nodecg.sendMessage('bingosync:leaveRoom', {name: this.currentBoardRep})
+                    .catch((error) => {
+                        nodecg.log.error(error);
+                        this.errorMessage = error.message;
+                    });
+                break;
+            case 'disconnected':
+            case 'error':
+                getReplicant<CurrentMainBingoboard>('currentMainBingoboard').value.boardReplicant = this.currentBoardRep as BingoRepEnum;
+                nodecg.sendMessage('bingosync:joinRoom', {
+                    roomCode: this.roomCode,
+                    passphrase: this.passphrase,
+                    name: this.currentBoardRep
+                })
+                    .catch((error) => {
+                        nodecg.log.error(error);
+                        this.errorMessage = error.message;
+                    });
+                break;
+            default:
+                break;
         }
     }
 
