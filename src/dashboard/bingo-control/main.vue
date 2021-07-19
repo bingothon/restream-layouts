@@ -1,13 +1,5 @@
 <template>
-    <div>
-        <!--<ul>
-          <li
-            v-for="(count,i) in colorCounts"
-            :key="i"
-          >
-            {{ count["color"] }}:{{ count["count"] }}
-          </li>
-        </ul>-->
+    <v-app>
         <span
             class="error-warning"
             @click="errorMessage=''"
@@ -18,6 +10,7 @@
                    dark
                    small
                    @click="toggleManualScoreOverride"
+                   :style="`width: 100%`"
             >
                 {{ manualScoreOverrideText }}
             </v-btn>
@@ -27,41 +20,41 @@
             :key="i"
         >
             P{{ i }}:
-            <select
-                :value="color"
-                @change="updatePlayerColor(i, $event)"
-            >
-                <option
-                    v-for="(sColor,j) in allColors"
-                    :key="j"
-                    :value="sColor"
-                >
-                    <!--<v-list-item-content>
-                        <v-list-item-title>-->
-                    {{ sColor }}
-                    <!--</v-list-item-title>
-                </v-list-item-content>-->
-                </option>
-            </select>
-            <span v-show="isManualScoreOverride">
-        <v-text-field
-            v-model="manualScore[i]"
-            background-color="#455A64"
-            class="manual-score"
-            dark
-            type="number"
-            @change="updateManualScore"
-        />
-      </span>
+            <v-row>
+                <v-col>
+                    <v-select
+                        :value="color"
+                        @input="updatePlayerColor(i, $event)"
+                        :items="allColors"
+                    >
+                    </v-select>
+                </v-col>
+                <v-col v-show="isManualScoreOverride">
+                    <v-text-field
+                        v-model="manualScore[i]"
+                        background-color="#455A64"
+                        class="manual-score"
+                        dark
+                        solo
+                        type="number"
+                        @change="updateManualScore"
+                    />
+                </v-col>
+            </v-row>
         </div>
-        <div v-if="showExtraBingosyncOptions">
+        Select Board:
+        <v-select v-model="currentBoardRep"
+                  :items="allBingoReps">
+        </v-select>
+        <!-- Normal Bingosync Stuff -->
+        <div>
             <div>
                 Room Code:
-                <v-text-field v-model="roomCode" background-color="#455A64" dark/>
+                <v-text-field v-model="roomCode" background-color="#455A64" clearable solo dark/>
             </div>
             <div>
                 Passphrase:
-                <v-text-field v-model="passphrase" background-color="#455A64" dark/>
+                <v-text-field v-model="passphrase" background-color="#455A64" clearable solo dark/>
             </div>
             <div class="d-flex justify-center line-buttons">
                 <v-btn
@@ -70,17 +63,30 @@
                     dark
                     small
                     @click="connectAction"
+                    :style="`width: 100%`"
                 >
                     {{ connectActionText }}
                 </v-btn>
             </div>
         </div>
+
         <div class="boardOptions">
+            <v-btn
+                :disabled="currentBoardActive"
+                @click="switchAction"
+                small
+                class="button"
+                :style="`width: 100%`"
+            >
+                {{ currentBoardActive ? "[Active] " : "" }}Switch
+            </v-btn>
             <v-btn
                 class="button"
                 dark
                 small
-                @click="toggleCard">
+                @click="toggleCard"
+                :style="`width: 43%`"
+            >
                 {{ toggleCardText }}
             </v-btn>
             <v-btn
@@ -88,8 +94,8 @@
                 dark
                 small
                 @click="toggleColors"
+                :style="`width: 43%`"
             >
-
                 {{ toggleColorsText }}
             </v-btn>
             <v-btn
@@ -97,11 +103,12 @@
                 dark
                 small
                 @click="toggleCount"
+                :style="`width: 100%`"
             >
                 {{ toggleCountText }}
             </v-btn>
         </div>
-    </div>
+    </v-app>
 </template>
 
 <script lang="ts">
@@ -133,7 +140,14 @@ export default class BingoControl extends Vue {
 
     allColors = Object.freeze(['pink', 'red', 'orange', 'brown', 'yellow', 'green', 'teal', 'blue', 'navy', 'purple']);
 
-    allBingoReps: readonly BingoRepEnum[] = Object.freeze(['bingoboard', 'oriBingoboard', 'hostingBingoboard', 'explorationBingoboard']);
+    allBingoReps: readonly BingoRepEnum[] = Object.freeze(['bingoboard', 'explorationBingoboard']);
+    d
+
+    mounted() {
+        store.watch(state => state.currentMainBingoboard, (newVal) => {
+            this.currentBoardRep = newVal.boardReplicant;
+        }, {immediate: true});
+    }
 
     // --- computed properties
     get connectActionText(): string {
@@ -177,9 +191,9 @@ export default class BingoControl extends Vue {
 
     get manualScoreOverrideText(): string {
         if (store.state.bingoboardMeta.manualScoreOverride) {
-            return 'Disable Score Override';
+            return 'Disable Manual Score Override';
         }
-        return 'Enable Score Override';
+        return 'Enable Manual Score Override';
     }
 
     get isManualScoreOverride(): boolean {
@@ -194,7 +208,7 @@ export default class BingoControl extends Vue {
     }
 
     get oriCanActivate(): boolean {
-        return !!this.oriBoardID && !!this.oriPlayerID;
+        return store.state.oriBingoMeta.active ? true : (!!this.oriBoardID && !!this.oriPlayerID);
     }
 
     get playerColors(): Array<ColorEnum> {
@@ -237,25 +251,6 @@ export default class BingoControl extends Vue {
     get manualScore(): string[] {
         return store.state.bingoboardMeta.manualScores.map(i => `${i}`);
     }
-
-    mounted() {
-        this.currentBoardRep = 'bingoboard';
-    }
-
-    // test
-    /* get colorCounts(): Array<{color: string, count: number}> {
-      const counts = store.state.bingoboardMeta.colorCounts;
-      const countArray = [];
-      for (const key in counts) {
-        if (counts.hasOwnProperty(key)) {
-          const element = counts[key];
-          if (element > 0) {
-            countArray.push({ color: key, count: element });
-          }
-        }
-      }
-      return countArray;
-    } */
 
     // --- handlers
 
@@ -334,8 +329,8 @@ export default class BingoControl extends Vue {
         getReplicant<CurrentMainBingoboard>('currentMainBingoboard').value.boardReplicant = this.currentBoardRep as BingoRepEnum;
     }
 
-    updatePlayerColor(idx: number, evt: any) {
-        getReplicant<BingoboardMeta>('bingoboardMeta').value.playerColors[idx] = evt.target.value;
+    updatePlayerColor(idx: number, val: any) {
+        getReplicant<BingoboardMeta>('bingoboardMeta').value.playerColors[idx] = val;
     }
 
     toggleCard() {
@@ -357,6 +352,14 @@ export default class BingoControl extends Vue {
 </script>
 
 <style>
+.v-app {
+    width: 100%;
+}
+
+#app {
+    width: 100%;
+}
+
 .error-warning {
     color: red;
     font-size: small;
@@ -366,13 +369,25 @@ input.manual-score {
     width: 3em;
 }
 
-.button {
-    margin: 3px;
-}
-
-.line-buttons > .v-btn {
+.override {
     width: 100%;
 }
 
+.lineButton >>> .v-btn {
+    width: 100%;
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
 
+.v-btn:not(.v-btn--round).v-size--x-small {
+    margin: 2px;
+}
+
+.halfLine >>> .v-btn {
+    width: 49%;
+}
+
+.v-btn {
+    margin: 5px;
+}
 </style>
