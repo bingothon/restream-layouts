@@ -145,6 +145,14 @@
         "file": "bestOfX-control.html",
         "headerColor": "#b92b36",
         "width": 2
+      },
+      {
+        "name": "smsBingo-Import",
+        "title": "sms.bingo Import",
+        "file": "smsBingoImport.html",
+        "headerColor": "#b92b36",
+        "workspace": "Run Modifications",
+        "width": 2
       }
     ],
     "graphics": [
