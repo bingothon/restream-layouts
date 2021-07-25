@@ -33,6 +33,7 @@ export interface RunDataPlayer {
   social: {
     twitch?: string;
   };
+  pronouns: string;
   customData: {
     [key: string]: string;
   };

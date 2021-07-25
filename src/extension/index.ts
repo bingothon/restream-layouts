@@ -14,6 +14,7 @@ export = (nodecg: NodeCG): void => {
   require('./countdownTimer');
   require('./oriBingoBoard');
   require('./explorationBingo');
+  require('./smsBingoImport');
   if (nodecg.bundleConfig.discord) {
     if (!nodecg.bundleConfig.discord.test) {
       require('./discord');

@@ -12,10 +12,10 @@
              class="CurrentIcon FlexContainer"
         >
             <transition name="fade">
-                <div v-if="!show && pronouns" key="pronouns" class="ScoreContainer">
+                <div v-if="show && pronouns" key="pronouns" class="ScoreContainer">
                     <text-fit :text="pronouns"></text-fit>
                 </div>
-                <div v-else-if="show && score" key="score" class="ScoreContainer">
+                <div v-else-if="!show && score" key="score" class="ScoreContainer">
                     <text-fit :text="score"></text-fit>
                 </div>
                 <img
@@ -123,12 +123,12 @@ export default class PlayerInfo extends Vue {
                 id: "-1",
                 teamID: "-1",
                 country: "eu",
+                pronouns: "they/them",
                 social: {
                     twitch: ""
                 },
                 customData: {
                     score: "0 - 0",
-                    pronouns: "they/them",
                 },
             };
         }
@@ -161,7 +161,13 @@ export default class PlayerInfo extends Vue {
     }
 
     get pronouns(): string {
-        return this.player.customData.pronouns || '';
+        switch (this.player.pronouns) {
+            case 'None':
+            case '':
+                return '';
+            default:
+                return this.player.pronouns
+        }
     }
 
     get finishTime(): string {
