@@ -13,6 +13,7 @@ export = (nodecg: NodeCG): void => {
     require('./countdownTimer');
     require('./oriBingoBoard');
     require('./explorationBingo');
+    require('./smsBingoImport');
 
     const defaultAvatar = 'https://discordapp.com/assets/dd4dbc0016779df1378e7812eabaa04d.png';
     const discordTestMembers = [

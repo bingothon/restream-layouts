@@ -14,7 +14,7 @@
              :style="{ 'width' : `calc(${height} * 1.5)` }"
         >
             <transition name="fade">
-                <div class="ScoreContainer" v-if="pronouns" key="pronouns">
+                <div class="ScoreContainer" v-if="show && pronouns" key="pronouns">
                     <text-fit :text="pronouns"></text-fit>
                 </div>
                 <div class="ScoreContainer" v-else-if="!show && score" key="score">
@@ -128,12 +128,12 @@ export default class PlayerInfo extends Vue {
                 id: "-1",
                 teamID: "-1",
                 country: "eu",
+                pronouns: "they/them",
                 social: {
                     twitch: ""
                 },
                 customData: {
                     score: "0 - 0",
-                    pronouns: "they/them",
                 },
             };
         }
@@ -166,7 +166,13 @@ export default class PlayerInfo extends Vue {
     }
 
     get pronouns(): string {
-        return this.player.customData.pronouns || '';
+        switch (this.player.pronouns) {
+            case '':
+            case 'None':
+                return '';
+            default:
+                return this.player.pronouns;
+        }
     }
 
     get finishTime(): string {
