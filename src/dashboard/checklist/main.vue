@@ -19,7 +19,7 @@
 import {Component, Vue} from "vue-property-decorator"
 import {store} from '../../browser-util/state'
 
-const ACTION_LIST_SUNSHINE: string[] = ["Set Run Game to correct Division Number", "Set Run Category and Bingomode", "Set Runners", "Play Run", "Set Up Bingosync Room (Super Mario Sunshine, Variant: 1 v 1)", "Ask for Player Colors",
+const ACTION_LIST_SUNSHINE: string[] = ["Import Runs from sms.bingo in Run Modifications Tab", "Play Next Run in Run Player", "Set Up Bingosync Room (Super Mario Sunshine, Variant: 1 v 1)", "Ask for Player Colors",
     "Check if all RTMP streams are loaded correctly", "Give Commentators and Runners 'Current Match' Role in Discord",
     "Make sure that the streams are cropped correctly", "Unmute the correct stream",  "Final Check", "Go live, unmute Discord and stay hydrated"];
 

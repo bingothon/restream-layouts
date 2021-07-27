@@ -2,7 +2,6 @@
     <div>
         <div v-if="game === 'sms'"  class="GameContainer FlexContainer">
             <div class="GameName FlexContainer">Bingo League</div>
-            <div class="DivName FlexContainer">Division {{gameName}}</div>
             <div class="GameExtra FlexContainer">{{gameCategory}}</div>
         </div>
         <div v-else  class="GameContainer FlexContainer">
