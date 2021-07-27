@@ -1,7 +1,6 @@
 <template>
     <div class="GameContainer FlexContainer">
         <div class="GameName FlexContainer">Bingo League</div>
-        <div class="DivName FlexContainer">Division {{gameName}}</div>
         <div class="GameExtra FlexContainer">{{gameCategory}}</div>
     </div>
 </template>
@@ -31,6 +30,7 @@ export default class TestGameContainer extends Vue {
     align-content: center;
     align-items: center;
     flex-direction: column;
+    height: 100%;
 }
 .GameContainer > .GameName {
     font-weight: 500;
