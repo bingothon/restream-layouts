@@ -6,9 +6,19 @@ const nodecg = nodecgApiContext.get();
 const client = RequestPromise.defaults({});
 const log = new nodecg.Logger(`${nodecg.bundleName}:sms.bingo`);
 
-nodecg.listenFor('importSMSBingo', (): void => {
-    console.log('Received Import Message')
-    client.get('https://sms.bingo/api/getSchedule', {json: true})
+nodecg.listenFor('importSMSBingo', (data): void => {
+    let query = ''
+    switch (data.channel) {
+        case 'Bingothon':
+            query = '?channel=bingothon';
+            break
+        case 'SunshineCommunity':
+            query = '?channel=sunshine';
+            break;
+        default:
+            break;
+    }
+    client.get('https://sms.bingo/api/getSchedule' + query, {json: true})
         .then((data): void => {
             console.log('Got Data from sms.bingo: ', data)
             data.forEach((run: RunData) => {
