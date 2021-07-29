@@ -21,13 +21,17 @@ nodecg.listenFor('importSMSBingo', (data): void => {
     client.get('https://sms.bingo/api/getSchedule' + query, {json: true})
         .then((data): void => {
             console.log('Got Data from sms.bingo: ', data)
+            console.log("Data Length: ", data.length)
+            let i = 0;
             data.forEach((run: RunData) => {
+                console.log("Importing Run #", i)
                 nodecg.sendMessageToBundle('modifyRun', 'nodecg-speedcontrol', {
                     runData: run,
                     updateTwitch: true
                 }, (err) => {
                     log.error('error importing run: ', err)
                 })
+                console.log("Run #", i, " imported");
             })
         })
         .catch((err: any): void => {
