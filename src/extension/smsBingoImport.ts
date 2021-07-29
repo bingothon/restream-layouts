@@ -22,16 +22,16 @@ nodecg.listenFor('importSMSBingo', (data): void => {
         .then((data): void => {
             console.log('Got Data from sms.bingo: ', data)
             console.log("Data Length: ", data.length)
-            let i = 0;
-            data.forEach((run: RunData) => {
+            data.forEach((run: RunData, i) => {
                 console.log("Importing Run #", i)
                 nodecg.sendMessageToBundle('modifyRun', 'nodecg-speedcontrol', {
                     runData: run,
                     updateTwitch: true
-                }, (err) => {
-                    log.error('error importing run: ', err)
                 })
-                console.log("Run #", i, " imported");
+                    .then((noTwitchGame: boolean) => {
+                        console.log("Succesfully imported Run #" + i)
+                    })
+                    .catch((err: any) => { console.error("Error importing Run #" + i + ":", err) });
             })
         })
         .catch((err: any): void => {
