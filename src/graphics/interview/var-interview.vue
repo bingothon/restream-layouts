@@ -1,6 +1,6 @@
 <template>
     <div class="Interview">
-        <div class="Interview" :class="game === 'sms' ? 'InterviewSMS' : 'InterviewBOTW'"></div>
+        <div class="Interview" :class="game === 'sms' ? 'InterviewSMS' : game === 'botw' ? 'InterviewBOTW' : 'InterviewNeutral'"></div>
         <div id="fillvoice" class="flexContainer"></div>
         <div v-if="playerCount.length===4 && teamCount.length===2" id="team-container">
             <player-team-container v-for="teamIndex in teamCount" :key="teamIndex" :teamIndex="teamIndex" class="team"
@@ -10,12 +10,15 @@
             <player-info v-for="playerIndex in playerCount" :key="playerIndex" :playerIndex="playerIndex" class="player"
                          height=45px :hide-finish-time="true"></player-info>
         </div>
+        <div v-if="game === 'neutral'">
+            <img id="logoNeutral" src="../../../static/bingothon-long-neutral.png">
+        </div>
         <div id="game" class="flexContainer">
             <test-game-container id="gamec"></test-game-container>
             <div v-if="game === 'sms'">
                 <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">
             </div>
-            <div v-else>
+            <div v-else-if="game === 'botw'">
                 <img id="logoBOTW" src="../../../static/the-legend-of-zelda-breath-of-the-wild-logo.png">
             </div>
         </div>
@@ -126,6 +129,13 @@ export default class Interview extends Vue {
     filter: sepia(100%) saturate(360%) brightness(40%) hue-rotate(298deg) blur(3px);
 }
 
+.InterviewNeutral {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(grey, #554d4d);
+    filter: sepia(100%) saturate(360%) brightness(40%) hue-rotate(298deg) blur(3px);
+}
+
 #discord-voice {
     position: absolute;
     top: -30px;
@@ -140,6 +150,13 @@ export default class Interview extends Vue {
     left: 690px;
     top: 10px;
     width: 568px;
+    height: 200px;
+}
+
+#logoNeutral {
+    position: absolute;
+    left: 60px;
+    top: 60px;
     height: 200px;
 }
 

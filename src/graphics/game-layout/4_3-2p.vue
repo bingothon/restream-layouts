@@ -18,7 +18,7 @@
             </div>
             <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
         </div>
-        <div v-else>
+        <div v-else-if="game === 'botw'">
             <!--<twitch-player id="stream1" streamIndex="0"></twitch-player>
             <twitch-player id="stream2" streamIndex="1"></twitch-player>-->
             <div id="borderlineBOTW"></div>
@@ -32,6 +32,20 @@
                 <test-game-container id="gamecBOTW"></test-game-container>
                 <img id="logoBOTW" src="../../../static/the-legend-of-zelda-breath-of-the-wild-logo.png">
             </div>
+            <bingo-board id="Bingo-boardBOTW" fontSize="30px"></bingo-board>
+        </div>
+        <div v-else>
+            <div id="borderlineBOTW"></div>
+            <player-info id="pi1BOTW" height=45px playerIndex="0" :hide-finish-time="true"></player-info>
+            <player-info id="pi2BOTW" height=45px playerIndex="1" :hide-finish-time="true"></player-info>
+            <test-timer-container id="timerNeutral"></test-timer-container>
+            <discord-voice-display id="discord-voiceNeutral" iconHeight="40px" maxUserCount="4"
+            nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
+            <div id="gameBOTW" class="flexContainer">
+                <test-game-container id="gamecNeutral"></test-game-container>
+            </div>
+            <div id="Cam1" class="flexContainer"></div>
+            <div id="Cam2" class="flexContainer"></div>
             <bingo-board id="Bingo-boardBOTW" fontSize="30px"></bingo-board>
         </div>
     </div>
@@ -79,6 +93,15 @@ export default class GameLayout extends Vue {
     position: absolute;
     top: 0px;
     height: 720px;
+    left: 959px;
+    width: 2px;
+    background: white;
+}
+
+#borderlineBOTW {
+    position: absolute;
+    top: 0px;
+    height: 540px;
     left: 959px;
     width: 2px;
     background: white;
@@ -193,6 +216,16 @@ export default class GameLayout extends Vue {
     background-image: url("../../../static/middle-info-background.png");
 }
 
+#discord-voiceNeutral {
+    position: absolute;
+    top: 780px;
+    left: 1192px;
+    width: 320px;
+    height: 299px;
+    border: 2px var(--container-border-color) solid;
+    background-image: url("../../../static/middle-info-background.png");
+}
+
 #pi1BOTW {
     position: absolute;
     top: 540px;
@@ -237,6 +270,13 @@ export default class GameLayout extends Vue {
     width: 730px;
 }
 
+#gamecNeutral {
+    position: absolute;
+    top: 270px;
+    left: 0px;
+    width: 730px;
+}
+
 #logoBOTW {
     position: absolute;
     height: 190px;
@@ -252,6 +292,36 @@ export default class GameLayout extends Vue {
     height: 480px;
     border: 2px var(--container-border-color) solid;
     background-image: url("../../../static/middle-info-background.png");
+}
+
+#timerNeutral {
+    position: absolute;
+    top: 600px;
+    left: 1490px;
+    width: 440px;
+    height: 480px;
+    border: 2px var(--container-border-color) solid;
+    background-image: url("../../../static/middle-info-background.png");
+}
+
+#Cam1 {
+    position: absolute;
+    top: 600px;
+    left: 398px;
+    width: 320px;
+    height: 180px;
+    background-color: green;
+    border: 2px var(--container-border-color) solid;
+}
+
+#Cam2 {
+    position: absolute;
+    top: 600px;
+    left: 1192px;
+    width: 320px;
+    height: 180px;
+    background-color: green;
+    border: 2px var(--container-border-color) solid;
 }
 
 /*#timer-and-discord-containerBOTW {

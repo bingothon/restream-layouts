@@ -4,9 +4,13 @@
             <div class="GameName FlexContainer">Bingo League</div>
             <div class="GameExtra FlexContainer">{{gameCategory}}</div>
         </div>
-        <div v-else  class="GameContainer FlexContainer">
+        <div v-else-if="game === 'botw'"  class="GameContainer FlexContainer">
             <div class="GameName FlexContainer">The Legend of Zelda: Breath of the Wild</div>
             <div class="DivName FlexContainer">{{gameName}}</div>
+            <div class="GameExtra FlexContainer">{{gameCategory}}</div>
+        </div>
+        <div v-else class="GameContainer FlexContainer">
+            <div class="GameName FlexContainer">{{ gameName }}</div>
             <div class="GameExtra FlexContainer">{{gameCategory}}</div>
         </div>
     </div>

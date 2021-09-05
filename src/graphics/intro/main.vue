@@ -10,17 +10,28 @@
                 <source src="../../../static/Loop_v1_1.mp4" type="video/mp4">
             </video>
         </div>
-        <div id="soom" class="FlexContainer">
+        <div v-if="game === 'sms' || game === 'botw'" class="soom FlexContainer">
             The next match will start soon
         </div>
+        <div v-else class="soom FlexContainer">
+            Starting soon
+        </div>
         <div id="matchupC">
-            <div v-if="game !== 'sms'" id="matchupName"><!--{{runnersToString(match)}}-->
+            <div v-if="game === 'botw'" class="matchupName">
                 The Legend of Zelda: Breath of the Wild
                 <br>
                 -
                 <br>
                 Bingo Bash
             </div>
+            <div v-else-if="game === 'neutral'" class="matchupName">
+                {{match.game}}
+                <br>
+                -
+                <br>
+                {{match.category}}
+            </div>
+            <br>
             <div id="matchup">{{ runnersToString(match) }}</div>
         </div>
         <div id="Countdown">
@@ -109,7 +120,7 @@ video {
     left: 0;
 }
 
-#soom {
+.soom {
     position: absolute;
     left: 0px;
     width: 1920px;
@@ -137,7 +148,7 @@ video {
     left: 0px;
     width: 1920px;
     align-content: center;
-    top: 600px;
+    top: 620px;
     font-size: 100px;
     color: white;
     text-align: center;

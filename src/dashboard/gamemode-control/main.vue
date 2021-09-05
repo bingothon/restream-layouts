@@ -1,9 +1,11 @@
 <template>
     <v-app>
-        <v-switch
+        <v-select
             :label="`Current Game: ${game === 'sms' ? 'Super Mario Sunshine': 'Breath of the Wild' }`"
+            :items="ALL_GAME_MODES"
+            v-model="gameMode"
             @change="updateGame"
-        ></v-switch>
+        ></v-select>
     </v-app>
 </template>
 <script lang="ts">
@@ -14,18 +16,16 @@ import {CurrentInterview, GameMode} from '../../../schemas'
 
 @Component({})
 export default class GameModeControl extends Vue {
-    gameModeSwitch : boolean = this.game === "sms";
+    gameMode : "botw" | "sms" | "neutral" = "sms";
+
+    ALL_GAME_MODES = ["sms", "botw", "neutral"]
 
     get game() {
         return store.state.gameMode.game
     }
 
     updateGame(){
-        if (this.game === "sms") {
-            getReplicant<GameMode>('gameMode').value.game = "botw"
-        }  else {
-            getReplicant<GameMode>('gameMode').value.game = "sms"
-        }
+            getReplicant<GameMode>('gameMode').value.game = this.gameMode;
     }
 }
 </script>
