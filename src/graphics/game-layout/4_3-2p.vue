@@ -47,6 +47,7 @@
             <div id="Cam1" class="flexContainer"></div>
             <div id="Cam2" class="flexContainer"></div>
             <bingo-board id="Bingo-boardBOTW" fontSize="30px"></bingo-board>
+            <SubNotifs id="SubNotifsNeutral"></SubNotifs>
         </div>
     </div>
 </template>
@@ -63,6 +64,7 @@ import PlayerTeamContainer from "../components/playerTeamContainer.vue";
 import DiscordVoiceDisplay from "../components/discordVoiceDisplay.vue";
 import TwitchPlayer from "../components/twitchPlayer.vue";
 import {RunDataTeam} from "../../../speedcontrol-types";
+import SubNotifs from "../components/subNotifs.vue";
 
 @Component({
     components: {
@@ -74,6 +76,7 @@ import {RunDataTeam} from "../../../speedcontrol-types";
         TestTimerContainer,
         DiscordVoiceDisplay,
         TwitchPlayer,
+        SubNotifs,
     }
 })
 
@@ -322,6 +325,12 @@ export default class GameLayout extends Vue {
     height: 180px;
     background-color: green;
     border: 2px var(--container-border-color) solid;
+}
+
+#SubNotifsNeutral {
+    position: absolute;
+    top: 888px;
+    left: 300px;
 }
 
 /*#timer-and-discord-containerBOTW {
