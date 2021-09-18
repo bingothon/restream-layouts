@@ -26,9 +26,12 @@
             <test-timer-container id="timerBOTW"></test-timer-container>
             <discord-voice-display id="discord-voiceBOTW" iconHeight="40px" maxUserCount="6"
                                    nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
-            <div id="gameBOTW" class="flexContainer">
+            <div v-if="game === 'botw'" id="gameBOTW" class="flexContainer">
                 <test-game-container id="gamecBOTW"></test-game-container>
                 <img id="logoBOTW" src="../../../static/the-legend-of-zelda-breath-of-the-wild-logo.png">
+            </div>
+            <div v-else id="gameNeutral" class="flexContainer">
+                <test-game-container id="gamecNeutral"></test-game-container>
             </div>
             <bingo-board id="Bingo-boardBOTW" fontSize="30px"></bingo-board>
             <div id="bingo-bottom-borderBOTW" class="FlexContainer"></div>
@@ -251,11 +254,30 @@ export default class GameLayout extends Vue {
     height: 372px;
 }
 
+#gameNeutral {
+    background-image: url("../../../static/middle-info-background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0px;
+    left: 560px;
+    width: 280px;
+    border: 2px var(--container-border-color) solid;
+    height: 372px;
+}
+
 #gamecBOTW {
     position: absolute;
     left: 0px;
     width: 280px;
     top: 210px;
+}
+
+#gamecNeutral {
+    position: absolute;
+    left: 0px;
+    width: 280px;
+    top: 100px;
 }
 
 #logoBOTW {

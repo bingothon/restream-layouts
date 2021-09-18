@@ -1,8 +1,8 @@
 import {NodeCG} from 'nodecg/types/server'; // eslint-disable-line
 import * as nodecgApiContext from './util/nodecg-api-context';
 import {ShowPictureDuringIntermission, SongData, VoiceActivity, VoiceActivitySunshine} from '../../schemas';
-import {requireService} from "nodecg-io-core";
-import { StreamElementsServiceClient } from "nodecg-io-streamelements";
+// import {requireService} from "nodecg-io-core";
+// import { StreamElementsServiceClient } from "nodecg-io-streamelements";
 
 /* eslint-disable global-require */
 
@@ -162,6 +162,7 @@ export = (nodecg: NodeCG): void => {
     nodecg.Replicant<ShowPictureDuringIntermission>('showPictureDuringIntermission');
     //const text = fs.readFileSync('src/graphics/host-dashboard/fhfacts.txt', 'utf-8');
 
+/*
     //idk where to put this lol
     const streamElements = requireService<StreamElementsServiceClient>(nodecg, "streamelements");
 
@@ -219,4 +220,5 @@ export = (nodecg: NodeCG): void => {
     });
 
     streamElements?.onUnavailable(() => nodecg.log.info("SE client has been unset."));
+    */
 };

@@ -47,7 +47,7 @@
             <div id="Cam1" class="flexContainer"></div>
             <div id="Cam2" class="flexContainer"></div>
             <bingo-board id="Bingo-boardBOTW" fontSize="30px"></bingo-board>
-            <SubNotifs id="SubNotifsNeutral"></SubNotifs>
+<!--            <SubNotifs id="SubNotifsNeutral"></SubNotifs>-->
         </div>
     </div>
 </template>
