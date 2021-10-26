@@ -148,6 +148,9 @@ export = (nodecg: NodeCG): void => {
     require('./streams');
     require('./util/obs');
     require('./obsremotecontrol');
+    if(bundleConfig.twitchEventSub){
+        require('./twitchEventSub');
+    }
     if (bundleConfig.mpd && bundleConfig.mpd.enable) {
         require('./music');
     } else {

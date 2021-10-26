@@ -4,14 +4,45 @@ import {DirectConnectionAdapter, EventSubListener, ReverseProxyAdapter} from 'tw
 import {Configschema} from "../../configschema";
 import * as nodecgApiContext from "./util/nodecg-api-context";
 
+let isRunningQueue = false
+let subscriptionAndFollowQueue: any = []
+let waitForNext: any = false
+
+const delay = (milliseconds: Number) => new Promise(resolve => { setTimeout(resolve, Number(milliseconds)) })
+
 const nodecg = nodecgApiContext.get();
 const config = nodecg.bundleConfig as Configschema;
 // @ts-ignore
-const clientId = config.twitchPubSub.clientID;
+const clientId = config.twitchEventSub.clientID;
 // @ts-ignore
-const accessToken = config.twitchPubSub.accessToken;
+const accessToken = config.twitchEventSub.accessToken;
 // @ts-ignore
-const clientSecret = config.twitchPubSub.clientSecret;
+const clientSecret = config.twitchEventSub.clientSecret;
+
+const queueSendHandler = async (waitForNext: any) => {
+    //console.log("Checking for new Subs and Follows")
+    if(!waitForNext){
+        while(subscriptionAndFollowQueue.length > 0){
+            isRunningQueue = true;
+            nodecg.sendMessage("newSub", {username: subscriptionAndFollowQueue[0]})
+            console.log(subscriptionAndFollowQueue[0])
+            await delay(1000)
+            subscriptionAndFollowQueue.shift()
+        }
+        isRunningQueue = false;
+    }
+}
+
+const newFollowerAndSubscriberCheck = async() => {  
+    if(isRunningQueue){
+        waitForNext = true
+    }else{
+        waitForNext = false;
+    }
+    await queueSendHandler(waitForNext)
+}
+
+const sendMessagesToScreen = setInterval(newFollowerAndSubscriberCheck, 1000)
 
 const main = async () => {
     const authProvider = new ClientCredentialsAuthProvider(clientId, clientSecret);
@@ -19,10 +50,10 @@ const main = async () => {
 
     const listener = new EventSubListener(client, new ReverseProxyAdapter({
         // @ts-ignore
-        hostName: config.twitchPubSub.hostName, // The host name the server is available from
+        hostName: config.twitchEventSub.hostName, // The host name the server is available from
         externalPort: 443 // The external port (optional, defaults to 443)
         // @ts-ignore
-    }), config.twitchPubSub.eventSubListenerKey);
+    }), config.twitchEventSub.eventSubListenerKey);
 
     const userId = '539920154';
 
@@ -37,18 +68,20 @@ const main = async () => {
     const followSubscription = await listener.subscribeToChannelFollowEvents(userId, e => {
         console.log(e)
         console.log(`${e.userDisplayName} just followed`);
+        subscriptionAndFollowQueue.push(e.userDisplayName)
     });
 
     const subscribeSubscription = await listener.subscribeToChannelSubscriptionEvents(userId, e => {
         console.log(e)
         console.log(`${e.userDisplayName} just subscribed`);
-        nodecg.sendMessage("newSub", {username: e.userDisplayName})
+        subscriptionAndFollowQueue.push(e.userDisplayName)
     });
 
     // await subscribeSubscription.stop()
     // await onlineSubscription.stop()
     // await offlineSubscription.stop()
     // await followSubscription.start()
+    sendMessagesToScreen
     await listener.listen();
 }
 

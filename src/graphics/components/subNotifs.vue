@@ -30,7 +30,9 @@ export default class SubNotifs extends Vue {
 
     mounted() {
         nodecg.listenFor("newSub", (data) => {
+            console.log(`here should be data:`, data)
             this.username = data.username;
+            document.getElementById("SubNotifsNeutral").style.top = "0px"; 
             //TODO trigger animation
         })
     }
