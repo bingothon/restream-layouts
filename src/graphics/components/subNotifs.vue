@@ -1,10 +1,12 @@
 <template>
-    <div class="SubNotifs">
-        <img id="emote" src="../../../static/emote-ayaya.png">
-        <img id="bubble" src="../../../static/speechbubble.png">
-        <div id="subText">Thank you<br>for subscribing</div>
-        <div id="subName">
-            <text-fit id="text" :text="`${username}`" align="center"></text-fit>
+    <div class="SubTop">
+        <div id="SubNotifs">
+            <img id="emote" src="../../../static/emote-ayaya.png">
+            <img id="bubble" src="../../../static/speechbubble.png">
+            <div id="subText">Thank you<br>for subscribing</div>
+            <div id="subName">
+                <text-fit id="text" :text="`${username}`" align="center"></text-fit>
+            </div>
         </div>
     </div>
 </template>
@@ -13,6 +15,7 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import TextFit from "../helpers/text-fit.vue";
+import {nodecg} from "../../browser-util/nodecg";
 
 @Component({
     components: {
@@ -25,10 +28,24 @@ export default class SubNotifs extends Vue {
 
     username: string = "LongerName";
 
+    mounted() {
+        nodecg.listenFor("newSub", (data) => {
+            this.username = data.username;
+            //TODO trigger animation
+        })
+    }
+
 }
+
 </script>
 
 <style scoped>
+
+#SubNotifs {
+    position: relative;
+    top: 200px;
+}
+
 #emote {
     height: 100px;
 }

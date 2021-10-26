@@ -61,6 +61,7 @@
     "html-webpack-plugin": "^4.3.0",
     "json-schema-to-typescript": "^9.1.1",
     "mini-css-extract-plugin": "^0.9.0",
+    "moment": "^2.29.1",
     "nodecg": "^1.7.0",
     "nodecg-io-core": "^0.1.2",
     "nodecg-io-streamelements": "^0.1.0",
@@ -88,8 +89,7 @@
     "vuex-class-state2way": "^1.0.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-livereload-plugin": "^2.3.0",
-    "moment": "^2.29.1"
+    "webpack-livereload-plugin": "^2.3.0"
   },
   "alias": {
     "vue": "./node_modules/vue/dist/vue.esm.js"
@@ -232,7 +232,10 @@
     "sass-loader": "^10.0.5",
     "tmi.js": "^1.7.1",
     "ts-loader": "^8.0.7",
-    "vuetify": "^2.4.2",
+    "twitch": "^4.6.7",
+    "twitch-auth": "^4.6.7",
+    "twitch-eventsub": "^4.6.7",
+    "vuetify": "^2.5.10",
     "vuetify-loader": "^1.6.0",
     "vuex": "^3.1.1",
     "webpack-livereload-plugin": "^2.3.0",

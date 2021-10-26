@@ -46,5 +46,12 @@ export interface Configschema {
     port: number;
   };
   esaRepeaterPostKey: string;
+  twitchPubSub?: {
+    clientID: string;
+    clientSecret: string;
+    accessToken: string;
+    hostName: string;
+    eventSubListenerKey: string;
+  };
   [k: string]: unknown;
 }
