@@ -29,10 +29,41 @@ export default class SubNotifs extends Vue {
     username: string = "LongerName";
 
     mounted() {
-        nodecg.listenFor("newSub", (data) => {
+        nodecg.listenFor("CHANNEL_FOLLOW_EVENTS", data => {
             console.log(`here should be data:`, data)
             this.username = data.username;
-            document.getElementById("SubNotifsNeutral").style.top = "0px"; 
+
+            const runNotification = async() => {
+                const delay = (milliseconds: Number) => new Promise(resolve => { setTimeout(resolve, Number(milliseconds)) })
+                const $subBox = document.getElementById("SubNotifsNeutral");
+                    const $subBoxFrames = [
+                        { 
+                            transform: 'none',
+                            
+                        },
+                        { 
+                            transform: 'translateY(-100px) scale(1)', 
+                            offset: 0.6
+                        },
+                        {
+                            transform: 'translateY(-200px)',
+                            offset: 0.99
+                        },
+                        {
+                            transform: 'translateY(0px)',
+                        }
+                    
+                    ]
+                    $subBox.animate($subBoxFrames, {
+                        duration: 12000,
+                        fill: 'forwards',
+                        easing: 'cubic-bezier(.6, 1, 0, .9)',
+                        iterations: 1
+                    })
+
+            }
+
+            runNotification()
             //TODO trigger animation
         })
     }

@@ -331,6 +331,7 @@ export default class GameLayout extends Vue {
     position: absolute;
     top: 888px;
     left: 300px;
+    height: 200px;
 }
 
 /*#timer-and-discord-containerBOTW {
