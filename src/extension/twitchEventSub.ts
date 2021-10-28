@@ -39,15 +39,22 @@ const getChannelEventSubscriptions = (obj: object) => {
     return [...properties.keys()].filter(item => (item as string).includes('subscribeToChannel'))
 }
 
-const delay = (milliseconds: Number) => new Promise(resolve => { setTimeout(resolve, Number(milliseconds)) })
+const delay = (milliseconds: number) => new Promise(resolve => { setTimeout(resolve, milliseconds) })
 
 const queueSendHandler = async (waitForNext: boolean) => {
+
+    // eventsQueue[0].data has EventSubHandler object attached with it's own properties.
+    // You'd actaully want to forward all as in `data: eventsQueue[0].data`
+    // then in the vue file, use the property that is suitable for information you'd need.
+    // see, twurple documentation on EventSubHandler for properties specific to eventsubscription types.
+
     //console.log("Checking for new Subs and Follows")
     if(!waitForNext){
         while(eventsQueue.length > 0){
             isRunningQueue = true;
+            await delay(10000)
             nodecg.sendMessage(`${eventsQueue[0].type}`, {username: eventsQueue[0].data.userDisplayName})
-            await delay(1000)
+            await delay(10000)
             eventsQueue.shift()
         }
         isRunningQueue = false;

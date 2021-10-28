@@ -29,7 +29,7 @@ export default class SubNotifs extends Vue {
     username: string = "LongerName";
 
     mounted() {
-        nodecg.listenFor("CHANNEL_FOLLOW_EVENTS", data => {
+        nodecg.listenFor("CHANNEL_FOLLOW_EVENTS", data => { //change to CHANNEL_SUBSCRIBTION_EVENTS later
             console.log(`here should be data:`, data)
             this.username = data.username;
 
@@ -55,7 +55,7 @@ export default class SubNotifs extends Vue {
                     
                     ]
                     $subBox.animate($subBoxFrames, {
-                        duration: 12000,
+                        duration: 10000,
                         fill: 'forwards',
                         easing: 'cubic-bezier(.6, 1, 0, .9)',
                         iterations: 1
@@ -64,7 +64,6 @@ export default class SubNotifs extends Vue {
             }
 
             runNotification()
-            //TODO trigger animation
         })
     }
 
