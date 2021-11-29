@@ -4,25 +4,21 @@ import * as RequestPromise from 'request-promise';
 import WebSocket from 'ws';
 
 // Ours
-import {Replicant} from 'nodecg/types/server'; // eslint-disable-line import/no-extraneous-dependencies
-import * as nodecgApiContext from './util/nodecg-api-context'
-import {Bingoboard, BingoboardMeta, BingoboardMode, BingosyncSocket} from '../../schemas';
+import { Replicant } from 'nodecg/types/server'; // eslint-disable-line import/no-extraneous-dependencies
+import * as nodecgApiContext from './util/nodecg-api-context';
+import { BingoboardMeta, Bingoboard, BingosyncSocket, BingoboardMode } from '../../schemas';
 
 import equal from 'deep-equal';
 import clone from 'clone';
-import {InvasionContext} from './util/invasion';
-import {BingoboardCell, BingosyncCell, BoardColor} from '../../types';
-import {RunDataActiveRun, RunDataPlayer, RunDataTeam} from "../../speedcontrol-types";
+import { InvasionContext } from './util/invasion';
+import { waitForReplicants } from './util/waitForReplicants';
+import { BingoboardCell, BoardColor, BingosyncCell } from '../../types';
 
 const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger(`${nodecg.bundleName}:bingosync`);
 const boardMetaRep = nodecg.Replicant<BingoboardMeta>('bingoboardMeta');
 
-const runData = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
-const lockoutVariants = ['lockout', 'draftlockout', 'invasion', 'connect5'];
-
-const noop = (): void => {
-}; // tslint:disable-line:no-empty
+const noop = (): void => {}; // tslint:disable-line:no-empty
 const bingosyncSocketUrl = 'wss://sockets.bingosync.com';
 const bingosyncSiteUrl = 'https://bingosync.com';
 
@@ -32,106 +28,152 @@ const ALL_COLORS: readonly BoardColor[] = Object.freeze(['pink', 'red', 'orange'
 //  log.error(`Failed to recover connection to room ${socketRep.value.roomCode}:`, error);
 // });
 
+const BINGOSYNC_ROOM_URL_RE = /^(.+)\/room\/([0-9a-zA-Z_-]+)$/g;
+const BINGOSYNC_SLUG_RE = /^[0-9a-zA-Z_-]+$/g;
+
+const SOCKET_URLS: Record<string, string> = Object.freeze({
+  "https://bingosync.com": "wss://sockets.bingosync.com",
+  "https://bingosync.bingothon.com": "wss://bingosock.bingothon.com",
+});
+
 class BingosyncManager {
 
-    private request = RequestPromise.defaults({jar: true});
+  private request = RequestPromise.defaults({ jar: true });
 
-    // <= Automatically saves and re-uses cookies.
-    // interval for a complete update to not miss stuff
-    private fullUpdateInterval: NodeJS.Timer | undefined;
+  // <= Automatically saves and re-uses cookies.
+  // interval for a complete update to not miss stuff
+  private fullUpdateInterval: NodeJS.Timer | undefined;
 
-    // interval the fullUpdate function uses to make sure
-    // there wasn't an event that cancels the interval
-    private tempFullUpdateInterval: NodeJS.Timer | undefined;
+  // interval the fullUpdate function uses to make sure
+  // there wasn't an event that cancels the interval
+  private tempFullUpdateInterval: NodeJS.Timer | undefined;
 
-    private websocket: WebSocket | null = null;
+  private websocket: WebSocket | null = null;
 
-    private invasionCtx: InvasionContext | null = null;
+  private invasionCtx: InvasionContext | null = null;
 
-    public constructor(public name: string, public boardRep: Replicant<Bingoboard>,
-                       public socketRep: Replicant<BingosyncSocket>,
-                       public boardModeRep: Replicant<BingoboardMode> | null) {
+  public constructor(public name: string, public boardRep: Replicant<Bingoboard>,
+    public socketRep: Replicant<BingosyncSocket>,
+    public boardModeRep: Replicant<BingoboardMode> | null) {
 
-        this.boardModeRep?.on('change', (newVal, old) => {
-            log.info(newVal);
-            if (newVal.boardMode === 'invasion') {
-                if (this.invasionCtx === null) {
-                    const playerColors = boardMetaRep.value.playerColors;
-                    this.invasionCtx = new InvasionContext(playerColors[0] || 'red', playerColors[1] || 'orange');
-                    this.invasionCtx.initSides(this.boardRep.value.cells);
-                }
-            } else {
-                this.invasionCtx = null;
-            }
-            this.fullUpdateMarkers();
-        });
-        boardMetaRep.on('change', newVal => {
-            if (this.invasionCtx !== null) {
-                this.invasionCtx.setPlayerColor1(newVal.playerColors[0] || 'red');
-                this.invasionCtx.setPlayerColor2(newVal.playerColors[1] || 'orange');
-            }
-        });
-        // recovering past connection
-        // catch startup errors when this is all empty
-        if (!this.socketRep.value
-            || !this.socketRep.value.roomCode
-            || !this.socketRep.value.passphrase) {
-            if (!this.socketRep.value) {
-                this.socketRep.value = {status: 'disconnected'};
-                return;
-            }
-            this.socketRep.value.status = 'disconnected';
+    this.boardModeRep?.on('change', (newVal, old) => {
+      log.info(newVal);
+      if (newVal.boardMode === 'invasion') {
+        if (this.invasionCtx === null) {
+          const playerColors = boardMetaRep.value.playerColors;
+          this.invasionCtx = new InvasionContext(playerColors[0] || 'red', playerColors[1] || 'orange');
+          this.invasionCtx.initSides(this.boardRep.value.cells);
         }
-        // Restore previous connection on startup
-        const {roomCode, passphrase} = this.socketRep.value;
-        if (roomCode && passphrase) {
-            log.info(`Recovering connection to room ${this.socketRep.value.roomCode}`);
-            this.joinRoom(roomCode, passphrase)
-                .then((): void => {
-                    log.info(`Successfully recovered connection to room ${this.socketRep.value.roomCode}`);
-                })
-                .catch((e): void => {
-                    this.socketRep.value.status = 'error';
-                    log.error(`Couldn't join room ${this.socketRep.value.roomCode}`, e);
-                });
-        }
+      } else {
+        this.invasionCtx = null;
+      }
+      if (this.boardRep.value.cells.length == 25) {
+        this.fullUpdateMarkers();
+      }
+    });
+    boardMetaRep.on('change', newVal => {
+      if (this.invasionCtx !== null) {
+        this.invasionCtx.setPlayerColor1(newVal.playerColors[0] || 'red');
+        this.invasionCtx.setPlayerColor2(newVal.playerColors[1] || 'orange');
+      }
+    });
+    // recovering past connection
+    // catch startup errors when this is all empty
+    if (!this.socketRep.value
+      || !this.socketRep.value.roomCode
+      || !this.socketRep.value.passphrase) {
+      if (!this.socketRep.value) {
+        this.socketRep.value = { status: 'disconnected' };
+        return;
+      }
+      this.socketRep.value.status = 'disconnected';
     }
-
-    public async joinRoom(roomCode: string, passphrase: string): Promise<void> {
-        this.socketRep.value.passphrase = passphrase;
-        this.socketRep.value.roomCode = roomCode;
-        this.socketRep.value.status = 'connecting';
-        if (this.fullUpdateInterval) {
-            clearInterval(this.fullUpdateInterval);
-        }
-        this.destroyWebsocket();
-
-        log.info('Fetching bingosync socket key...');
-        const data = await this.request.post({
-            uri: `${bingosyncSiteUrl}/api/join-room`,
-            followAllRedirects: true,
-            json: {
-                room: roomCode,
-                is_specator: 'on',
-                nickname: 'bingothon',
-                password: passphrase,
-            },
+    // Restore previous connection on startup
+    const { roomCode, passphrase, siteUrl, socketUrl } = this.socketRep.value;
+    if (roomCode && passphrase && siteUrl) {
+      log.info(`Recovering connection to room ${this.socketRep.value.roomCode}`);
+      this.joinRoom(roomCode, siteUrl, socketUrl, passphrase)
+        .then((): void => {
+          log.info(`Successfully recovered connection to room ${this.socketRep.value.roomCode}`);
+        })
+        .catch((e): void => {
+          this.socketRep.value.status = 'error';
+          log.error(`Couldn't join room ${this.socketRep.value.roomCode}`, e);
         });
-
-        const socketKey = data.socket_key;
-        log.info('Got bingosync socket key!');
-
-        const thisInterval = setInterval((): void => {
-            this.fullUpdate(roomCode).catch((error): void => {
-                log.error('Failed to fullUpdate:', error);
-            });
-        }, 60 * 1000);
-        this.fullUpdateInterval = thisInterval;
-        this.tempFullUpdateInterval = thisInterval;
-
-        await this.fullUpdate(roomCode);
-        await this.createWebsocket(bingosyncSocketUrl, socketKey);
     }
+  }
+
+  public async joinRoomUrlOrCode(roomUrlOrCode: string, passphrase: string): Promise<void> {
+    let siteUrl = bingosyncSiteUrl;
+    let socketUrl: string | undefined = bingosyncSocketUrl;
+    let roomCode: string;
+    if (BINGOSYNC_SLUG_RE.test(roomUrlOrCode)) {
+      // this is only the code, assume standard bingosync
+      roomCode = roomUrlOrCode;
+    } else {
+      const match = BINGOSYNC_ROOM_URL_RE.exec(roomUrlOrCode);
+      if (match === null) {
+        throw new Error("can only join room with room code or url!!");
+      }
+      siteUrl = match[1];
+      // if the site is not one of the known urls, we get undefined
+      // that's fine, we try to get the socket url from the api
+      socketUrl = SOCKET_URLS[siteUrl];
+      roomCode = match[2];
+    }
+    await this.joinRoom(roomCode, siteUrl, socketUrl, passphrase);
+  }
+
+  /**
+   * connects to the room, sets up everything basically
+   * @param roomCode Can be only the roomcode or the entire url
+   * @param passphrase the password
+   */
+  public async joinRoom(roomCode: string, siteUrl: string, socketUrl: string | undefined,  passphrase: string): Promise<void> {
+    this.socketRep.value.siteUrl = siteUrl;
+    this.socketRep.value.socketUrl = socketUrl;
+    this.socketRep.value.passphrase = passphrase;
+    this.socketRep.value.roomCode = roomCode;
+
+    this.socketRep.value.status = 'connecting';
+    if (this.fullUpdateInterval) {
+      clearInterval(this.fullUpdateInterval);
+    }
+    this.destroyWebsocket();
+
+    log.info('Fetching bingosync socket key...');
+    const data = await this.request.post({
+      uri: `${siteUrl}/api/join-room`,
+      followAllRedirects: true,
+      json: {
+        room: roomCode,
+        nickname: 'bingothon',
+        password: passphrase,
+      },
+    });
+
+    const socketKey = data.socket_key;
+    if (socketUrl === undefined) {
+      // see: https://github.com/kbuzsaki/bingosync/pull/180
+      socketUrl = data.sockets_url;
+      if (socketUrl === undefined) {
+        throw new Error("unknown bingosync instance, couldn't get sockets url!");
+      }
+    }
+    this.socketRep.value.socketUrl = socketUrl;
+    log.info('Got bingosync socket key!');
+
+    const thisInterval = setInterval((): void => {
+      this.fullUpdate(siteUrl, roomCode).catch((error): void => {
+        log.error('Failed to fullUpdate:', error);
+      });
+    }, 60 * 1000);
+    this.fullUpdateInterval = thisInterval;
+    this.tempFullUpdateInterval = thisInterval;
+
+    await this.fullUpdate(siteUrl, roomCode);
+    await this.createWebsocket(socketUrl, socketKey);
+  }
 
     public async leaveRoom(): Promise<void> {
         if (this.fullUpdateInterval) {
@@ -150,11 +192,11 @@ class BingosyncManager {
         }
     }
 
-    public async fullUpdate(roomCode: string): Promise<void> {
-        const bingosyncBoard: BingosyncCell[] = await this.request.get({
-            uri: `${bingosyncSiteUrl}/room/${roomCode}/board`,
-            json: true,
-        });
+  public async fullUpdate(siteUrl: string, roomCode: string): Promise<void> {
+    const bingosyncBoard: BingosyncCell[] = await this.request.get({
+      uri: `${siteUrl}/room/${roomCode}/board`,
+      json: true,
+    });
 
         // Bail if the room changed while this request was in-flight.
         if (this.fullUpdateInterval !== this.tempFullUpdateInterval) {
@@ -450,31 +492,31 @@ bingosyncInstances.set('hostingBingoboard', new BingosyncManager('hostingBingobo
 // listeners for messages to interact from the dashboard
 
 nodecg.listenFor('bingosync:joinRoom', async (data, callback): Promise<void> => {
-    const manager = bingosyncInstances.get(data.name);
-    try {
-        if (!manager) {
-            if (callback && !callback.handled) {
-                callback(new Error(`No Bingosync Manager with name ${data.name} found`));
-            }
-        } else {
-            await manager.joinRoom(
-                data.roomCode,
-                data.passphrase,
-            );
-            log.info(`Successfully joined room ${data.roomCode}.`);
-            if (callback && !callback.handled) {
-                callback(null);
-            }
-        }
-    } catch (error) {
-        if (manager) {
-            manager.socketRep.value.status = 'error';
-        }
-        log.error(`Failed to join room ${data.roomCode}:`, error);
-        if (callback && !callback.handled) {
-            callback(error);
-        }
+  const manager = bingosyncInstances.get(data.name);
+  try {
+    if (!manager) {
+      if (callback && !callback.handled) {
+        callback(new Error(`No Bingosync Manager with name ${data.name} found`));
+      }
+    } else {
+      await manager.joinRoomUrlOrCode(
+        data.roomCode,
+        data.passphrase,
+      );
+      log.info(`Successfully joined room ${data.roomCode}.`);
+      if (callback && !callback.handled) {
+        callback(null);
+      }
     }
+  } catch (error) {
+    if (manager) {
+      manager.socketRep.value.status = 'error';
+    }
+    log.error(`Failed to join room ${data.roomCode}:`, error);
+    if (callback && !callback.handled) {
+      callback(error);
+    }
+  }
 });
 
 nodecg.listenFor('bingosync:leaveRoom', async (data, callback): Promise<void> => {
