@@ -92,7 +92,7 @@ import {
 } from '../../../schemas';
 import { store, getReplicant } from '../../browser-util/state';
 
-const bundleName = 'bingothon-layouts';
+const bundleName = 'restream-layouts';
 
 @Component({})
 export default class OBSControl extends Vue {

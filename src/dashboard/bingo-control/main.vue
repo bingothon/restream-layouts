@@ -332,7 +332,7 @@ export default class BingoControl extends Vue {
         try {
             const goals = JSON.parse(this.explorationCustomBoard);
             const onlyNames = goals.map(g => g.name);
-            nodecg.sendMessageToBundle('exploration:newGoals', 'bingothon-layouts', onlyNames)
+            nodecg.sendMessageToBundle('exploration:newGoals', 'restream-layouts', onlyNames)
                 .catch((e) => {
                     this.errorMessage = e.message;
                     nodecg.log.error(e);
@@ -343,7 +343,7 @@ export default class BingoControl extends Vue {
     }
 
     resetExploration() {
-        nodecg.sendMessageToBundle('exploration:resetBoard', 'bingothon-layouts');
+        nodecg.sendMessageToBundle('exploration:resetBoard', 'restream-layouts');
     }
 
     switchAction() {

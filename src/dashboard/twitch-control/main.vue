@@ -31,7 +31,7 @@ import {nodecg} from '../../browser-util/nodecg';
 import {TwitchStreams,} from '../../../schemas';
 import {getReplicant, store} from '../../browser-util/state';
 
-const bingothonBundleName = 'bingothon-layouts';
+const bingothonBundleName = 'restream-layouts';
 
 @Component({})
 export default class TwitchControl extends Vue {

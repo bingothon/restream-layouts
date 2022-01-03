@@ -37,7 +37,7 @@ const cooldowns = {
 // Setting up replicants.
 const twichAPIDataRep = nodecg.Replicant<TwitchAPIData>('twitchAPIData', 'nodecg-speedcontrol');
 const runDataActiveRunRep = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
-const gameModeRep = nodecg.Replicant<GameMode>('gameMode', 'bingothon-layouts');
+const gameModeRep = nodecg.Replicant<GameMode>('gameMode', 'restream-layouts');
 const bundleConfig = nodecg.bundleConfig as Configschema;
 
 function getTwitchAccessToken(): string {

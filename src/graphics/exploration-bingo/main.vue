@@ -82,7 +82,7 @@
 
         squareClicked(cell: BingoCell) {
             if (!cell.hidden) {
-                nodecg.sendMessageToBundle('exploration:goalClicked','bingothon-layouts',{index: cell.row * 5 + cell.column})
+                nodecg.sendMessageToBundle('exploration:goalClicked','restream-layouts',{index: cell.row * 5 + cell.column})
                     .catch(e => {
                         console.error(e);
                     });

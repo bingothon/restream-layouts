@@ -141,11 +141,11 @@ export default class BingoBoard extends Vue {
             this.bingoboardWatch = store.watch(state => state[this.bingoboardRep], this.onBingoBoardUpdate, {immediate: true});
             this.onBingoBoardUpdate(store.state[this.bingoboardRep]);
         }
-        nodecg.listenFor('showBingoAnimation','bingothon-layouts',this.showBingoSplash);
+        nodecg.listenFor('showBingoAnimation','restream-layouts',this.showBingoSplash);
     }
 
     destroyed() {
-        nodecg.unlisten('showBingoAnimation', 'bingothon-layouts', this.showBingoSplash);
+        nodecg.unlisten('showBingoAnimation', 'restream-layouts', this.showBingoSplash);
     }
 
     showBingoSplash(data: {color?: string}) {

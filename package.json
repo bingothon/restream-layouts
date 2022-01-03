@@ -1,14 +1,14 @@
 {
-  "name": "bingothon-layouts",
+  "name": "restream-layouts",
   "version": "1.0.0",
-  "description": "Layouts for Bingothon using the template for NodeCG bundles that use Vue.js and TypeScript.",
-  "homepage": "https://github.com/bingothon/bingothon-layouts",
+  "description": "Layouts for Bingothon Restreams using the template for NodeCG bundles that use Vue.js and TypeScript.",
+  "homepage": "https://github.com/bingothon/restream-layouts",
   "bugs": {
-    "url": "https://github.com/bingothon/bingothon-layouts/issues"
+    "url": "https://github.com/bingothon/restream-layouts/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bingothon/bingothon-layouts.git"
+    "url": "git+https://github.com/bingothon/restream-layouts.git"
   },
   "license": "MIT",
   "author": "Bingothon",
@@ -62,9 +62,7 @@
     "json-schema-to-typescript": "^9.1.1",
     "mini-css-extract-plugin": "^0.9.0",
     "moment": "^2.29.1",
-    "nodecg": "^1.7.0",
-    "nodecg-io-core": "^0.1.2",
-    "nodecg-io-streamelements": "^0.1.0",
+    "nodecg": "^1.8.1",
     "npm-run-all": "^4.1.5",
     "parcel-bundler": "^1.12.4",
     "sass": "^1.26.10",
@@ -95,7 +93,7 @@
     "vue": "./node_modules/vue/dist/vue.esm.js"
   },
   "nodecg": {
-    "compatibleRange": "^1.5.0",
+    "compatibleRange": "^1.8.0",
     "bundleDependencies": {
       "nodecg-speedcontrol": "^2.0.0"
     },

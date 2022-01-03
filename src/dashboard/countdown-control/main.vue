@@ -44,7 +44,7 @@ import {Component, Vue, Watch} from 'vue-property-decorator';
 import {nodecg} from '../../browser-util/nodecg';
 import {store} from '../../browser-util/state';
 
-const bingothonBundleName = 'bingothon-layouts';
+const bingothonBundleName = 'restream-layouts';
 @Component({})
 export default class CountdownControl extends Vue {
     time: string = "00:00";

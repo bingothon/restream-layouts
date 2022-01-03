@@ -5,7 +5,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-const bundleName = 'bingothon-layouts';
+const bundleName = 'restream-layouts';
 
 @Component({})
 export default class CamName extends Vue {

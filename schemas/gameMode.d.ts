@@ -6,5 +6,5 @@
  */
 
 export interface GameMode {
-  game: "botw" | "sms" | "neutral";
+  game: "botw" | "sms" | "sa2b" | "neutral";
 }

@@ -40,7 +40,7 @@
         <div v-if="showSound"
              class="Sound"
         >
-            <img :src="'/bundles/bingothon-layouts/static/music-note.png'">
+            <img :src="'/bundles/restream-layouts/static/music-note.png'">
         </div>
         <div v-if="!!player.country"
              class="Flag FlexContainer"
@@ -280,7 +280,7 @@ export default class PlayerInfo extends Vue {
     }
 
     getPlayerFlag(rawFlag: string | undefined): string {
-        return `/bundles/bingothon-layouts/static/flags/${rawFlag}.png`
+        return `/bundles/restream-layouts/static/flags/${rawFlag}.png`
     }
 
     get boXEnabled(): boolean {

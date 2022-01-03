@@ -7,7 +7,7 @@
         "game": {
             "default": "sms",
             "type":"string",
-            "enum":["botw", "sms", "neutral"]
+            "enum":["botw", "sms", "sa2b", "neutral"]
         }
     }
 }
