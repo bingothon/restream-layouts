@@ -18,10 +18,11 @@ import {GameMode} from '../../../schemas'
 
 @Component({})
 export default class GameModeControl extends Vue {
-    gameMode: "botw" | "sms" | "neutral" = this.game;
+    gameMode: "botw" | "sms" | "sa2b" | "neutral" = this.game;
 
     ALL_GAME_MODES = [{name: "Super Mario Sunshine", id: "sms"},
-        {name: "Breath of the Wild", id: "botw"}, {name: "Neutral", id: "neutral"}]
+        {name: "Breath of the Wild", id: "botw"}, {name: "Sonic Adventure 2: Battle", id: "sa2b"},
+        {name: "Neutral", id: "neutral"}]
 
     get game() {
         return store.state.gameMode.game

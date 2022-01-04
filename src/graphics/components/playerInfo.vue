@@ -8,7 +8,7 @@
         :class="{'ReverseOrder':reverseOrder}"
         :style="{
         'height':height,
-        'background-image':(game === `sms` ? 'linear-gradient(var(--lighter-main-color), var(--darker-main-color))' : 'linear-gradient(#6d001d, #280000)')}"
+        'background-image': 'linear-gradient(' + colorBackgrounds[game] + ')'}"
     >
         <div class="CurrentIcon FlexContainer"
              :style="{ 'width' : `calc(${height} * 1.5)` }"
@@ -74,6 +74,12 @@ import BestOfX from "../components/bestOfX.vue"
 
 const playerSoloImg = require('../_misc/player-solo.png');
 const twitchIconImg = require('../_misc/twitch-icon.png');
+const colors = {
+    'sms': 'var(--lighter-main-color), var(--darker-main-color)',
+    'sa2b': '#230A70FF, #2B0385FF',
+    'botw': '#6d001d, #280000',
+    'neutral': '#6d001d, #280000'
+}
 
 @Component({
     components: {
@@ -105,6 +111,10 @@ export default class PlayerInfo extends Vue {
 
     get game() : string {
         return store.state.gameMode.game;
+    }
+
+    get colorBackgrounds() {
+        return colors
     }
     get player(): RunDataPlayer {
         let idx = 0;
