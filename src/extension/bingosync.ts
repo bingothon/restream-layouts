@@ -13,6 +13,7 @@ import clone from 'clone';
 import { InvasionContext } from './util/invasion';
 import { waitForReplicants } from './util/waitForReplicants';
 import { BingoboardCell, BoardColor, BingosyncCell } from '../../types';
+import {RunDataActiveRun, RunDataPlayer, RunDataTeam} from "../../speedcontrol-types";
 
 const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger(`${nodecg.bundleName}:bingosync`);
@@ -21,6 +22,8 @@ const boardMetaRep = nodecg.Replicant<BingoboardMeta>('bingoboardMeta');
 const noop = (): void => {}; // tslint:disable-line:no-empty
 const bingosyncSocketUrl = 'wss://sockets.bingosync.com';
 const bingosyncSiteUrl = 'https://bingosync.com';
+const runData = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
+const lockoutVariants = ['lockout', 'draftlockout', 'invasion', 'connect5'];
 
 const ALL_COLORS: readonly BoardColor[] = Object.freeze(['pink', 'red', 'orange', 'brown', 'yellow', 'green', 'teal', 'blue', 'navy', 'purple']);
 
