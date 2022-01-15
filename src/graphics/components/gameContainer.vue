@@ -1,16 +1,16 @@
 <template>
     <div>
-        <div v-if="game === 'sms'"  class="GameContainer FlexContainer">
+        <div v-if="gameMode.game === 'sms' || gameMode.game === 'sa2b'"  class="GameContainer FlexContainer">
             <div class="GameName FlexContainer">Bingo League</div>
             <div class="GameExtra FlexContainer">{{gameCategory}}</div>
         </div>
-        <div v-else-if="game === 'botw'"  class="GameContainer FlexContainer">
+        <div v-else-if="gameMode.game === 'botw'"  class="GameContainer FlexContainer">
             <div class="GameName FlexContainer">The Legend of Zelda: Breath of the Wild</div>
             <div class="DivName FlexContainer">{{gameName}}</div>
             <div class="GameExtra FlexContainer">{{gameCategory}}</div>
         </div>
         <div v-else class="GameContainer FlexContainer">
-            <div class="GameName FlexContainer">{{ gameName }}</div>
+            <div class="GameName FlexContainer">Bingo league</div>
             <div class="GameExtra FlexContainer">{{gameCategory}}</div>
         </div>
     </div>
@@ -19,6 +19,7 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { store } from '../../browser-util/state';
+import {GameMode} from "../../../schemas";
 @Component({})
 export default class TestGameContainer extends Vue {
     get gameName(): string {
@@ -34,8 +35,8 @@ export default class TestGameContainer extends Vue {
         return store.state.runDataActiveRun.estimate;
     }
 
-    get game(): string {
-        return store.state.gameMode.game;
+    get gameMode(): GameMode {
+        return store.state.gameMode;
     }
 }
 </script>
