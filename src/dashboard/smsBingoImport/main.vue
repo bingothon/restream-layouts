@@ -1,8 +1,14 @@
 <template>
     <v-app>
+        <span>Import Runs from Website</span>
+        <v-select
+            :items="ALL_SITES"
+            v-model="website"
+        >
+        </v-select>
         <span>Import Runs for Channel</span>
         <v-select
-            :items="ALL_CHANNELS"
+            :items="website === 'sa2.bingothon.com' ? ALL_CHANNELS_SONIC : ALL_CHANNELS_SUNSHINE"
             v-model="channel">
         </v-select>
         <v-btn
@@ -12,7 +18,7 @@
             <v-icon class="pr-2">
                 mdi-plus-box
             </v-icon>
-            Import from sms.bingo
+            Import from {{ website }}
         </v-btn>
     </v-app>
 </template>
@@ -24,7 +30,10 @@ import {nodecg} from '../../browser-util/nodecg';
 @Component({})
 export default class SMSBingoImport extends Vue {
 
-    ALL_CHANNELS = ["Bingothon", "SunshineCommunity"];
+    ALL_CHANNELS_SUNSHINE = ["Bingothon", "SunshineCommunity"];
+    ALL_CHANNELS_SONIC = ["Bingothon", "SonicSpeedrunCommunity", "SonicAdventureEraSRComm"];
+    ALL_SITES = ["sa2.bingothon.com", "sms.bingo"];
+    website: string = 'sa2.bingothon.com';
     channel: string = 'Bingothon';
 
     async removeAllRuns(confirm: boolean): Promise<void> {
@@ -46,7 +55,7 @@ export default class SMSBingoImport extends Vue {
     async importRuns(): Promise<void> {
         console.log("Started Import Function")
         try {
-            await nodecg.sendMessage('importSMSBingo', {channel: this.channel})
+            await nodecg.sendMessage('importSMSBingo', {website: this.website, channel: this.channel})
             console.log('Sent Import Message')
         } catch (err) {
             // unsuccessful

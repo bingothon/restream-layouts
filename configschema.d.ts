@@ -19,18 +19,14 @@ export interface Configschema {
     ignoredUsers?: string[];
   };
   discordSunshine: {
-    test: boolean;
-    token: string;
     serverID: string;
     commandChannelID: string;
     voiceChannelID: string;
-    ignoredUsers?: string[];
   };
-  donationtracker: {
-    enable: boolean;
-    url: string;
-    eventSlug: string;
-    test?: boolean;
+  discordSA2: {
+    serverID: string;
+    commandChannelID: string;
+    voiceChannelID: string;
   };
   obs: {
     enable: boolean;
@@ -45,7 +41,6 @@ export interface Configschema {
     address: string;
     port: number;
   };
-  esaRepeaterPostKey: string;
   twitchPubSub?: {
     clientID: string;
     clientSecret: string;

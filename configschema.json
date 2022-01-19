@@ -5,9 +5,8 @@
         "twitch",
         "discord",
         "discordSunshine",
-        "donationtracker",
-        "obs",
-        "esaRepeaterPostKey"
+        "discordSA2",
+        "obs"
     ],
     "additionalItems": false,
     "properties": {
@@ -73,22 +72,12 @@
         "discordSunshine": {
             "type": "object",
             "required": [
-                "test",
-                "token",
                 "serverID",
                 "commandChannelID",
                 "voiceChannelID"
             ],
             "additionalProperties": false,
             "properties": {
-                "test": {
-                    "type": "boolean",
-                    "default": true
-                },
-                "token": {
-                    "type": "string",
-                    "default": "DISCORD_BOT_TOKEN"
-                },
                 "serverID": {
                     "type": "string",
                     "default": "DISCORD_SERVER_ID"
@@ -100,41 +89,29 @@
                 "voiceChannelID": {
                     "type": "string",
                     "default": "DISCORD_VC_ID"
-                },
-                "ignoredUsers": {
-                    "type": "array",
-                    "default": [],
-                    "$comment": "discord tags of users that won't show up in the layout (for the bot), example `Bot#1234`",
-                    "items": {
-                        "type": "string"
-                    }
                 }
             }
         },
-        "donationtracker": {
+        "discordSA2": {
             "type": "object",
             "required": [
-                "enable",
-                "url",
-                "eventSlug"
+                "serverID",
+                "commandChannelID",
+                "voiceChannelID"
             ],
             "additionalProperties": false,
             "properties": {
-                "enable": {
-                    "type": "boolean",
-                    "default": false
-                },
-                "url": {
+                "serverID": {
                     "type": "string",
-                    "default": "https://devdonations.bingothon.com"
+                    "default": "DISCORD_SERVER_ID"
                 },
-                "eventSlug": {
+                "commandChannelID": {
                     "type": "string",
-                    "default": "bingothon18"
+                    "default": "DISCORD_COMMAND_CHANNEL_ID"
                 },
-                "test": {
-                    "type": "boolean",
-                    "default": false
+                "voiceChannelID": {
+                    "type": "string",
+                    "default": "DISCORD_VC_ID"
                 }
             }
         },
@@ -198,10 +175,6 @@
                     "default": 6600
                 }
             }
-        },
-        "esaRepeaterPostKey": {
-            "type": "string",
-            "default": "DEFAULT_KEY"
         },
         "twitchPubSub": {
             "type": "object",

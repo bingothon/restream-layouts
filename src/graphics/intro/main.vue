@@ -5,12 +5,15 @@
                 <source src="../../../static/epicindeed.mp4" type="video/mp4">
             </video>
         </div>
+        <div v-else-if="game === 'sa2b'">
+            <img src="../../../static/sa2_background.png" class="bgvid">
+        </div>
         <div v-else>
             <video autoplay class="bgvid" loop muted>
                 <source src="../../../static/Loop_v1_1.mp4" type="video/mp4">
             </video>
         </div>
-        <div v-if="game === 'sms' || game === 'botw'" class="soom FlexContainer">
+        <div v-if="game === 'sms' || game === 'botw' || game === 'sa2b'" class="soom FlexContainer">
             The next match will start soon
         </div>
         <div v-else class="soom FlexContainer">
@@ -25,11 +28,11 @@
                 Bingo Bash
             </div>
             <div v-else-if="game === 'neutral'" class="matchupName">
-                {{match.game}}
+                {{ match.game }}
                 <br>
                 -
                 <br>
-                {{match.category}}
+                {{ match.category }}
             </div>
             <br>
             <div id="matchup">{{ runnersToString(match) }}</div>
@@ -112,6 +115,15 @@ export default class Intermission extends Vue {
 }
 
 video {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.bgvid {
     object-fit: cover;
     width: 100vw;
     height: 100vh;

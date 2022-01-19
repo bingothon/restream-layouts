@@ -128,23 +128,7 @@ export = (nodecg: NodeCG): void => {
             };
         }
     }
-    if (nodecg.bundleConfig.discordSunshine) {
-        if (!nodecg.bundleConfig.discordSunshine.test) {
-            require('./discord-sunshine');
-        } else {
-            const voiceActivity = nodecg.Replicant<VoiceActivitySunshine>('voiceActivitySunshine', {
-                defaultValue: {
-                    members: [],
-                },
-                persistent: true,
-            });
-            voiceActivity.value = {
-                members: discordTestMembers
-            };
-        }
-    }
     require('./twitch-chat-bot');
-    require('./gdq-donationtracker');
     require('./streams');
     require('./util/obs');
     require('./obsremotecontrol');

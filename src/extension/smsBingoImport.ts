@@ -7,20 +7,26 @@ const client = RequestPromise.defaults({});
 const log = new nodecg.Logger(`${nodecg.bundleName}:sms.bingo`);
 
 nodecg.listenFor('importSMSBingo', (data): void => {
-    let query = ''
+    let query = '?channel='
     switch (data.channel) {
         case 'Bingothon':
-            query = '?channel=bingothon';
+            query += 'bingothon';
             break
         case 'SunshineCommunity':
-            query = '?channel=sunshine';
+            query += 'sunshine';
             break;
+        case 'SonicSpeedrunCommunity':
+            query += 'ssc';
+            break;
+        case 'SonicAdventureEraSRComm':
+            query += 'saesr'
         default:
+            query = '';
             break;
     }
-    client.get('https://sms.bingo/api/getSchedule' + query, {json: true})
+    client.get(`${data.website}/api/getSchedule` + query, {json: true})
         .then((data): void => {
-            console.log('Got Data from sms.bingo: ', data)
+            console.log('Got Data from ', data.website, ': ', data)
             data.forEach((run: RunData) => {
                 nodecg.sendMessageToBundle('modifyRun', 'nodecg-speedcontrol', {
                     runData: run,
@@ -31,6 +37,6 @@ nodecg.listenFor('importSMSBingo', (data): void => {
             })
         })
         .catch((err: any): void => {
-            log.error('error getting data from sms.bingo: ', err);
+            log.error('error getting data from ', data.website, ': ', err);
         });
 });
