@@ -9,6 +9,7 @@ import { Readable } from 'stream';
 import * as nodecgApiContext from './util/nodecg-api-context';
 import { VoiceActivity } from '../../schemas';
 import { Configschema } from '../../configschema';
+import {GameMode} from "../../schemas";
 
 const nodecg = nodecgApiContext.get();
 
@@ -28,11 +29,17 @@ const voiceDelayRep = nodecg.Replicant<number>('voiceDelay', { defaultValue: 0, 
 const bot = new Discord.Client();
 
 // config
+const gameModeToConfigKey : Record<string, string>= {neutral: 'discord', botw: 'discord', sms: 'discordSunshine', sa2b: 'discordSA2'};
+
+const gameModeRep = nodecg.Replicant<GameMode>('gameMode');
 const config = nodecg.bundleConfig as Configschema;
 const botToken = config.discord.token;
-const botServerID = config.discord.serverID;
-const botCommandChannelID = config.discord.commandChannelID;
-const botVoiceCommentaryChannelID = config.discord.voiceChannelID;
+// @ts-ignore
+const botServerID = config[gameModeToConfigKey[gameModeRep.value.game]].serverID;
+// @ts-ignore
+const botCommandChannelID = config[gameModeToConfigKey[gameModeRep.value.game]].commandChannelID;
+// @ts-ignore
+const botVoiceCommentaryChannelID = config[gameModeToConfigKey[gameModeRep.value.game]].voiceChannelID;
 
 if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChannelID)) {
   log.error('botToken, botServerID, botCommandChannelID, botVoiceCommentaryChannelID all have to be set!');
@@ -47,6 +54,9 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
       return;
     }
     log.info('Logged in as %s - %s\n', bot.user.username, bot.user.id);
+    log.info('Server ID: ', botServerID);
+    log.info('Command Channel ID: ', botCommandChannelID);
+    log.info('Voice Channel ID: ', botVoiceCommentaryChannelID);
   });
   bot.on('error', (): void => {
     log.error('The bot encountered a connection error!!');
@@ -172,6 +182,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
     if (message.content.toLowerCase() === '!commands') {
       message.reply('ADMIN: [!bot join | !bot leave]');
     } else if (message.content.toLowerCase() === '!bot join') {
+        log.info('Received Join command')
       if (voiceStatus !== 'disconnected') {
         message.reply('I already entered the podcast channel!');
         return;
