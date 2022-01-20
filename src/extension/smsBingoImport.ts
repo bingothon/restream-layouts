@@ -19,12 +19,13 @@ nodecg.listenFor('importSMSBingo', (data): void => {
             query += 'ssc';
             break;
         case 'SonicAdventureEraSRComm':
-            query += 'saesr'
+            query += 'saesr';
+            break;
         default:
             query = '';
             break;
     }
-    client.get(`${data.website}/api/getSchedule` + query, {json: true})
+    client.get(`https://${data.website}/api/getSchedule` + query, {json: true})
         .then((data): void => {
             console.log('Got Data from ', data.website, ': ', data)
             data.forEach((run: RunData) => {
