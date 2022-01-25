@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div id="bg"></div>
         <twitch-player id="stream1" streamIndex="0"
                        :style="{'border': '2px var(--border-color-' + teamColor1 + ') solid'}"></twitch-player>
         <twitch-player id="stream2" streamIndex="1"
@@ -57,15 +58,11 @@
             show-color="false"
             :style="{'border': '5px var(--border-color-' + teamColor2 + ') solid'}"
         ></player-info>
-        <div v-if="gameMode === 'sa2b'" id="gameCSA2">
-            <test-game-container id="gameSA2"></test-game-container>
-            <img src="../../../static/Sonic-Adventure-2-HD-logo.png" id="logo-sa2">
-        </div>
-        <test-game-container v-else id="game"></test-game-container>
-        <test-timer-container id="timer"></test-timer-container>
+        <test-game-container :style="gameMode === 'sa2b' ? 'background-image: none' : '' " id="game"></test-game-container>
+        <test-timer-container id="timer" :style="gameMode === 'sa2b' ? 'background-image: none' : '' "></test-timer-container>
         <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
         <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"
-                               maxUserCount="4"></discord-voice-display>
+                               maxUserCount="4" :style="gameMode === 'sa2b' ? 'background-image: none' : '' "></discord-voice-display>
         <SubNotifs id="SubNotifsNeutral" class="SubNotifs"></SubNotifs>
     </div>
 </template>
@@ -113,6 +110,16 @@ export default class GameLayout extends Vue {
 </script>
 
 <style scoped>
+
+#bg {
+    position: absolute;
+    left: 771px;
+    width: 384px;
+    height: 540px;
+    top: 0px;
+    background-image: url("../../../static/sa2bg.png");
+    background-size: cover;
+}
 #stream1 {
     position: absolute;
     top: 69px;
@@ -151,10 +158,10 @@ export default class GameLayout extends Vue {
 
 #discord-voice {
     position: absolute;
-    top: 406px;
+    top: 356px;
     left: 772px;
     width: 377px;
-    height: 132px;
+    height: 182px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px var(--container-border-color) solid;
 }
@@ -209,12 +216,6 @@ export default class GameLayout extends Vue {
     border: 2px var(--container-border-color) solid;
 }
 
-#logo-sa2 {
-    position: absolute;
-    left: 70px;
-    width: 250px;
-}
-
 #Bingo-board {
     position: absolute;
     top: 540px;
@@ -234,31 +235,14 @@ export default class GameLayout extends Vue {
     height: 195px;
 }
 
-#gameCSA2 {
-    background-image: url("../../../static/middle-info-background.png");
-    position: absolute;
-    top: 0px;
-    left: 771px;
-    width: 377px;
-    border: 2px var(--container-border-color) solid;
-    height: 245px;
-}
-
-#gameSA2 {
-    position: absolute;
-    top: 175px;
-    width: 377px;
-    height: 45px;
-}
-
 #timer {
     position: absolute;
-    top: 248px;
+    top: 198px;
     left: 771px;
     background-image: url("../../../static/middle-info-background.png");
     width: 377px;
     border: 2px var(--container-border-color) solid;
-    height: 156px;
+    height: 155px;
 }
 
 .SubNotifs {
