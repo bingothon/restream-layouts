@@ -1,6 +1,6 @@
 <template>
     <div class="Interview">
-        <div class="Interview" :class="game === 'sms' ? 'InterviewSMS' : game === 'botw' ? 'InterviewBOTW' : 'InterviewNeutral'"></div>
+        <div class="Interview" :class="game === 'sms' ? 'InterviewSMS' : game === 'botw' ? 'InterviewBOTW' : game === 'sa2b' ? 'InterviewSA2' : 'InterviewNeutral'"></div>
         <div id="fillvoice" class="flexContainer"></div>
         <div v-if="playerCount.length===4 && teamCount.length===2" id="team-container">
             <player-team-container v-for="teamIndex in teamCount" :key="teamIndex" :teamIndex="teamIndex" class="team"
@@ -20,6 +20,9 @@
             </div>
             <div v-else-if="game === 'botw'">
                 <img id="logoBOTW" src="../../../static/the-legend-of-zelda-breath-of-the-wild-logo.png">
+            </div>
+            <div v-else-if="game === 'sa2b'">
+                <img id="logoSA2" src="../../../static/Sonic-Adventure-2-HD-logo.png">
             </div>
         </div>
         <test-timer-container id="timer"></test-timer-container>
@@ -136,6 +139,13 @@ export default class Interview extends Vue {
     filter: sepia(100%) saturate(360%) brightness(40%) hue-rotate(298deg) blur(3px);
 }
 
+.InterviewSA2 {
+    background-size: cover;
+    background-image: url("../../../static/sa2_background.png");
+    filter: sepia(50%) saturate(360%) brightness(40%) blur(3px);
+}
+
+
 #discord-voice {
     position: absolute;
     top: -30px;
@@ -196,6 +206,13 @@ export default class Interview extends Vue {
     width: 255px;
     top: -15px;
     left: 370px;
+}
+
+#logoSA2 {
+    position: absolute;
+    width: 400px;
+    top: -50px;
+    left: 325px;
 }
 
 #timer {
