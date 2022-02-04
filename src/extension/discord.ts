@@ -212,8 +212,13 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
             UpdateCommentaryChannelMembers();
             nodecg.log.info('joined voice channel!');
 
-            // @ts-ignore
-            const receiver = getVoiceConnection(botServerID).receiver;
+            let connection = getVoiceConnection(botServerID);
+
+            if (!connection) {
+                connection = Voice.joinVoiceChannel(joinConfig);
+            }
+            const receiver = connection.receiver;
+            console.log("receiver", receiver);
             receiver.speaking.on('start', (userID) => {
                 // nodecg.log.info(`updating user ${user.tag} to speaking`);
                 if (!voiceActivity.value.members || voiceActivity.value.members.length < 1) {
@@ -236,6 +241,25 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
                     });
                 }, voiceDelayRep.value);
             });
+
+            receiver.speaking.on('end', (userID => {
+                setTimeout((): void => {
+                    voiceActivity.value.members.find((voiceMember): boolean => {
+                        if (voiceMember === undefined || userID === undefined) {
+                            return false;
+                        }
+                        if (voiceMember.id === userID) {
+                            // Delay this by streamleader delay/current obs
+                            // timeshift delay if its activated with setTimeout
+                            // eslint-disable-next-line no-param-reassign
+                            voiceMember.isSpeaking = receiver.speaking.users.has(voiceMember.id);
+                            return true;
+                        }
+
+                        return false;
+                    });
+                }, voiceDelayRep.value);
+            }))
         }
     }
 
@@ -282,7 +306,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
             throw new Error('Discord Guild-ID is invalid! Was ' + serverID);
         }
         const channel = guild.channels.cache.get(voiceChannelID);
-        console.log(guild.channels.cache);
+        //console.log(guild.channels.cache);
         if (channel === undefined) {
             throw new Error('Discord Voice channel ID is invalid!');
         }
