@@ -92,7 +92,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
         UpdateCommentaryChannelMembers();
         // reconnect to voice channel on disconnect
         if (voiceStatus === 'disconnected') {
-            joinVoiceChannel();
+            joinVC();
         }
     });
 
@@ -121,7 +121,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
         // @ts-ignore
         botVoiceCommentaryChannelID = config[gameModeToConfigKey[gameModeRep.value.game]].voiceChannelID;
 
-        joinVoiceChannel();
+        joinVC();
 
     }
 
@@ -158,7 +158,6 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
                         userAvatar = 'https://discordapp.com/assets/dd4dbc0016779df1378e7812eabaa04d.png';
                     } // Default avatar
 
-                    //let speakStatus = voiceMember.voice.speaking;
                     let speakStatus = getVoiceConnection(botServerID)?.receiver.speaking.users.has(voiceMember.id);
 
                     if (!speakStatus) {
@@ -179,7 +178,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
         }
     }
 
-    function joinVoiceChannel(): void {
+    function joinVC(): void {
         voiceStatus = 'connecting';
 
         let guild = bot.guilds.cache.get(botServerID);
@@ -218,7 +217,6 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
                 connection = Voice.joinVoiceChannel(joinConfig);
             }
             const receiver = connection.receiver;
-            console.log("receiver", receiver);
             receiver.speaking.on('start', (userID) => {
                 // nodecg.log.info(`updating user ${user.tag} to speaking`);
                 if (!voiceActivity.value.members || voiceActivity.value.members.length < 1) {
@@ -266,25 +264,32 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
     // Commands
     function commandChannel(message: Discord.Message): void {
         // ADMIN COMMANDS
-        if (message.content.toLowerCase() === '!commands') {
-            message.reply('ADMIN: [!bot join | !bot leave]');
-        } else if (message.content.toLowerCase() === '!bot join') {
-            log.info('Received Join command')
-            if (voiceStatus !== 'disconnected') {
-                message.reply('I already entered the podcast channel!');
+        let command = message.content.toLowerCase();
+        switch (command) {
+            case "!commands":
+                message.reply('ADMIN: [!bot join | !bot leave]');
                 return;
-            }
-            joinVoiceChannel();
-        } else if (message.content.toLowerCase() === '!bot leave') {
-            if (voiceStatus !== 'connected') {
-                message.reply('I\'m not in the podcast channel!');
+
+            case "!bot join":
+                log.info('Received Join command')
+                if (voiceStatus !== 'disconnected') {
+                    message.reply('I already entered the podcast channel!');
+                    return;
+                }
+                joinVC();
                 return;
-            }
 
+            case "!bot leave":
+                if (voiceStatus !== 'connected') {
+                    message.reply('I\'m not in the podcast channel!');
+                    return;
+                }
+                getVoiceConnection(botServerID)?.destroy();
+                voiceStatus = 'disconnected';
+                return;
 
-            getVoiceConnection(botServerID)?.destroy();
-
-            voiceStatus = 'disconnected';
+            default:
+                return;
         }
     }
 
@@ -306,7 +311,6 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
             throw new Error('Discord Guild-ID is invalid! Was ' + serverID);
         }
         const channel = guild.channels.cache.get(voiceChannelID);
-        //console.log(guild.channels.cache);
         if (channel === undefined) {
             throw new Error('Discord Voice channel ID is invalid!');
         }
