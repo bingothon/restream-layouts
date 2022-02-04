@@ -12,6 +12,7 @@
         <div v-else class="GameContainer FlexContainer">
             <div class="GameName FlexContainer">{{ gameName }}</div>
             <div class="GameExtra FlexContainer">{{gameCategory}}</div>
+            <div class="FlexContainer" id="est">Est: {{gameEstimate}}</div>
         </div>
     </div>
 </template>
@@ -75,10 +76,10 @@ export default class TestGameContainer extends Vue {
     text-align: center;
     text-shadow: 1px 1px 5px black;
 }
-/*#est {
+#est {
     font-size: 20px;
     align-content: center;
     color: white;
     text-align: center;
-}*/
+}
 </style>
