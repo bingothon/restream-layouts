@@ -10,7 +10,7 @@
             <div class="GameExtra FlexContainer">{{gameCategory}}</div>
         </div>
         <div v-else class="GameContainer FlexContainer">
-            <div class="GameName FlexContainer">Bingo league</div>
+            <div class="GameName FlexContainer">{{ gameName }}</div>
             <div class="GameExtra FlexContainer">{{gameCategory}}</div>
         </div>
     </div>
