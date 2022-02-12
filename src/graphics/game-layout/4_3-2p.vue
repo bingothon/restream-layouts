@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="game === 'sms'">
+        <div v-if="game === 'neutral'">
             <!--<twitch-player id="stream1" streamIndex="0"></twitch-player
             <twitch-player id="stream2" streamIndex="1"></twitch-player>-->
             <div id="borderline"></div>
@@ -14,7 +14,7 @@
             </div>
             <div id="game" class="flexContainer">
                 <test-game-container id="gamec"></test-game-container>
-                <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">
+<!--                <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">-->
             </div>
             <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
             <SubNotifs id="SubNotifsSMS" class="SubNotifs"></SubNotifs>
@@ -146,7 +146,7 @@ export default class GameLayout extends Vue {
 }
 
 #game {
-    background-image: url("../../../static/background-sunshine.jpg");
+    background-image: url("../../../static/middle-info-background.png");
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
@@ -186,7 +186,7 @@ export default class GameLayout extends Vue {
     width: 730px;
     height: 300px;
     border: 2px var(--container-border-color) solid;
-    background-image: url("../../../static/background-sunshine.jpg");
+    background-image: url("../../../static/middle-info-background.png");
     background-size: cover;
     background-repeat: no-repeat;
 }
