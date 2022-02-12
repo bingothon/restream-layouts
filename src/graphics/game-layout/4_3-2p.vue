@@ -10,7 +10,7 @@
             <div id="timer-and-discord-container">
                 <test-timer-container id="timer"></test-timer-container>
                 <discord-voice-display id="discord-voice" iconHeight="40px" maxUserCount="4"
-                                       nameWidth="125px"></discord-voice-display>
+                                       nameWidth="125px" voice-highlight-color="red"></discord-voice-display>
             </div>
             <div id="game" class="flexContainer">
                 <test-game-container id="gamec"></test-game-container>
@@ -159,7 +159,7 @@ export default class GameLayout extends Vue {
 
 #gamec {
     position: absolute;
-    top: 185px;
+    top: 100px;
     left: 0px;
     width: 730px;
 }
