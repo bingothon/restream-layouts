@@ -14,7 +14,7 @@
             <img id="logoNeutral" src="../../../static/bingothon-long-neutral.png">
         </div>
         <div id="game" class="flexContainer">
-            <test-game-container id="gamec"></test-game-container>
+            <game-container id="gamec"></game-container>
             <div v-if="game === 'sms'">
                 <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">
             </div>
@@ -25,7 +25,7 @@
                 <img id="logoSA2" src="../../../static/Sonic-Adventure-2-HD-logo.png">
             </div>
         </div>
-        <test-timer-container id="timer"></test-timer-container>
+        <timer-container id="timer"></timer-container>
         <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
         <discord-interview id="discord-voice" iconHeight="150px" maxUserCount="9"
                            nameWidth="250px"
@@ -36,8 +36,8 @@
 <script lang="ts">
 import {store} from "../../browser-util/state";
 import {Component, Vue} from "vue-property-decorator";
-import TestTimerContainer from "../components/timerContainer.vue";
-import TestGameContainer from "../components/gameContainer.vue";
+import TimerContainer from "../components/timerContainer.vue";
+import GameContainer from "../components/gameContainer.vue";
 import BingoBoard from "../components/bingoboard.vue";
 import PlayerInfo from "../components/playerInfo.vue";
 import TeamInfo from "../components/teamInfo.vue";
@@ -49,11 +49,11 @@ import DiscordInterview from "../components/discordInterview.vue";
     components: {
         DiscordInterview,
         BingoBoard,
-        TestGameContainer,
+        GameContainer,
         PlayerInfo,
         TeamInfo,
         PlayerTeamContainer,
-        TestTimerContainer,
+        TimerContainer,
         DiscordVoiceDisplay,
     }
 })

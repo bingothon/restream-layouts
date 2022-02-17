@@ -18,7 +18,7 @@ import { Vue, Component } from "vue-property-decorator";
 import { store } from '../../browser-util/state';
 import { Timer } from "../../../speedcontrol-types";
 @Component({})
-export default class TestTimerContainer extends Vue {
+export default class TimerContainer extends Vue {
     show = true;
     backupTimerTO: NodeJS.Timer = null;
     time = '';

@@ -8,12 +8,12 @@
             <player-info id="pi1" height=45px playerIndex="0" :hide-finish-time="true"></player-info>
             <player-info id="pi2" height=45px playerIndex="1" :hide-finish-time="true"></player-info>
             <div id="timer-and-discord-container">
-                <test-timer-container id="timer"></test-timer-container>
+                <timer-container id="timer"></timer-container>
                 <discord-voice-display id="discord-voice" iconHeight="40px" maxUserCount="4"
                                        nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
             </div>
             <div id="game" class="flexContainer">
-                <test-game-container id="gamec"></test-game-container>
+                <game-container id="gamec"></game-container>
 <!--                <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">-->
             </div>
             <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
@@ -26,11 +26,11 @@
             <div id="fillvoiceBOTW" class="flexContainer"></div>
             <player-info id="pi1BOTW" height=45px playerIndex="0" :hide-finish-time="true"></player-info>
             <player-info id="pi2BOTW" height=45px playerIndex="1" :hide-finish-time="true"></player-info>
-                <test-timer-container id="timerBOTW"></test-timer-container>
+                <timer-container id="timerBOTW"></timer-container>
                 <discord-voice-display id="discord-voiceBOTW" iconHeight="40px" maxUserCount="4"
                                        nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
             <div id="gameBOTW" class="flexContainer">
-                <test-game-container id="gamecBOTW"></test-game-container>
+                <game-container id="gamecBOTW"></game-container>
                 <img id="logoBOTW" src="../../../static/the-legend-of-zelda-breath-of-the-wild-logo.png">
             </div>
             <bingo-board id="Bingo-boardBOTW" fontSize="30px"></bingo-board>
@@ -40,11 +40,11 @@
             <div id="borderlineBOTW"></div>
             <player-info id="pi1BOTW" height=45px playerIndex="0" :hide-finish-time="true"></player-info>
             <player-info id="pi2BOTW" height=45px playerIndex="1" :hide-finish-time="true"></player-info>
-            <test-timer-container id="timerNeutral"></test-timer-container>
+            <timer-container id="timerNeutral"></timer-container>
             <discord-voice-display id="discord-voiceNeutral" iconHeight="40px" maxUserCount="4"
             nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
             <div id="gameBOTW" class="flexContainer">
-                <test-game-container id="gamecNeutral"></test-game-container>
+                <game-container id="gamecNeutral"></game-container>
             </div>
             <div id="Cam1" class="flexContainer"></div>
             <div id="Cam2" class="flexContainer"></div>
@@ -57,8 +57,8 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import {store} from "../../browser-util/state";
-import TestTimerContainer from "../components/timerContainer.vue";
-import TestGameContainer from "../components/gameContainer.vue";
+import TimerContainer from "../components/timerContainer.vue";
+import GameContainer from "../components/gameContainer.vue";
 import BingoBoard from "../components/bingoboard.vue";
 import PlayerInfo from "../components/playerInfo.vue";
 import TeamInfo from "../components/teamInfo.vue";
@@ -71,11 +71,11 @@ import SubNotifs from "../components/subNotifs.vue";
 @Component({
     components: {
         BingoBoard,
-        TestGameContainer,
+        GameContainer,
         PlayerInfo,
         TeamInfo,
         PlayerTeamContainer,
-        TestTimerContainer,
+        TimerContainer,
         DiscordVoiceDisplay,
         TwitchPlayer,
         SubNotifs,

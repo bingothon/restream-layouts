@@ -10,11 +10,11 @@
             <div id="fillStream5" class="flexContainer"></div>
             <div id="fillStream6" class="flexContainer"></div>
             <div id="fillvoiceBOTW" class="flexContainer"></div>
-            <test-timer-container id="timerBOTW" :class="{'CoOp':coop}"></test-timer-container>
+            <timer-container id="timerBOTW" :class="{'CoOp':coop}"></timer-container>
             <discord-voice-display id="discord-voiceBOTW" iconHeight="40px" maxUserCount="6"
                                    nameWidth="125px" voice-highlight-color="darkred"
                                    :class="{'CoOp':coop}"></discord-voice-display>
-            <test-game-container id="gameBOTW" :class="{'CoOp':coop}"></test-game-container>
+            <game-container id="gameBOTW" :class="{'CoOp':coop}"></game-container>
             <bingo-board id="Bingo-boardBOTW" :class="{'CoOp':coop}" fontSize="30px"></bingo-board>
             <div v-if="coop">
                 <div id="ti1">
@@ -58,8 +58,8 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import {store} from "../../browser-util/state";
-import TestTimerContainer from "../components/timerContainer.vue";
-import TestGameContainer from "../components/gameContainer.vue";
+import TimerContainer from "../components/timerContainer.vue";
+import GameContainer from "../components/gameContainer.vue";
 import BingoBoard from "../components/bingoboard.vue";
 import PlayerInfo from "../components/playerInfo.vue";
 import TeamInfo from "../components/teamInfo.vue";
@@ -71,11 +71,11 @@ import {RunDataTeam} from "../../../speedcontrol-types";
 @Component({
     components: {
         BingoBoard,
-        TestGameContainer,
+        GameContainer,
         PlayerInfo,
         TeamInfo,
         PlayerTeamContainer,
-        TestTimerContainer,
+        TimerContainer,
         DiscordVoiceDisplay,
         TwitchPlayer,
     }

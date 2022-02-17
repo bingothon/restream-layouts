@@ -10,8 +10,8 @@
         <player-info id="pi2" height=45px playerIndex="1"></player-info>
         <player-info id="pi3" height=45px playerIndex="2"></player-info>
         <player-info id="pi4" height=45px playerIndex="3"></player-info>
-        <test-game-container id="game"></test-game-container>
-        <test-timer-container id="timer"></test-timer-container>
+        <game-container id="game"></game-container>
+        <timer-container id="timer"></timer-container>
         <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
         <discord-voice-display id="discord-voice" iconHeight="40px" maxUserCount="6"
                                nameWidth="114px"></discord-voice-display>
@@ -21,8 +21,8 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import {store} from "../../browser-util/state";
-import TestTimerContainer from "../components/timerContainer.vue";
-import TestGameContainer from "../components/gameContainer.vue";
+import TimerContainer from "../components/timerContainer.vue";
+import GameContainer from "../components/gameContainer.vue";
 import BingoBoard from "../components/bingoboard.vue";
 import PlayerInfo from "../components/playerInfo.vue";
 import TeamInfo from "../components/teamInfo.vue";
@@ -34,11 +34,11 @@ import TwitchPlayer from "../components/twitchPlayer.vue";
 @Component({
     components: {
         BingoBoard,
-        TestGameContainer,
+        GameContainer,
         PlayerInfo,
         TeamInfo,
         PlayerTeamContainer,
-        TestTimerContainer,
+        TimerContainer,
         DiscordVoiceDisplay,
         TwitchPlayer,
     }

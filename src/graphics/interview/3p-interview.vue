@@ -5,8 +5,8 @@
     <player-info id="pi1" playerIndex="0" height=45px></player-info>
     <player-info id="pi2" playerIndex="1" height=45px></player-info>
     <player-info id="pi3" playerIndex="2" height=45px></player-info>
-		<test-game-container id="game"></test-game-container>
-    <test-timer-container id="timer"></test-timer-container>
+		<game-container id="game"></game-container>
+    <timer-container id="timer"></timer-container>
     <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
     <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px" maxUserCount="16"></discord-voice-display>
 	<test-next-game-container id="nextGame"></test-next-game-container>
@@ -15,8 +15,8 @@
 
 <script lang="ts">
 	import { Component, Vue } from "vue-property-decorator";
-  import TestTimerContainer from "../components/timerContainer.vue";
-	import TestGameContainer from "../components/gameContainer.vue";
+  import TimerContainer from "../components/timerContainer.vue";
+	import GameContainer from "../components/gameContainer.vue";
   import BingoBoard from "../components/bingoboard.vue";
   import PlayerInfo from "../components/playerInfo.vue";
   import TeamInfo from "../components/teamInfo.vue";
@@ -26,11 +26,11 @@
 	@Component({
 		components: {
 			BingoBoard,
-      TestGameContainer,
+      GameContainer,
       PlayerInfo,
       TeamInfo,
       PlayerTeamContainer,
-      TestTimerContainer,
+      TimerContainer,
       DiscordVoiceDisplay,
 		}
 	})

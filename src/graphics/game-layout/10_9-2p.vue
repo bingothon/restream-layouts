@@ -8,8 +8,8 @@
         <div id="fillvoice" class="flexContainer"></div>
         <player-info id="pi1" playerIndex="0" height=45px></player-info>
         <player-info id="pi2" playerIndex="1" height=45px></player-info>
-        <test-game-container id="game"></test-game-container>
-        <test-timer-container id="timer"></test-timer-container>
+        <game-container id="game"></game-container>
+        <timer-container id="timer"></timer-container>
         <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
         <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="125px"
                                maxUserCount="4"></discord-voice-display>
@@ -19,8 +19,8 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import {store} from "../../browser-util/state";
-import TestTimerContainer from "../components/timerContainer.vue";
-import TestGameContainer from "../components/gameContainer.vue";
+import TimerContainer from "../components/timerContainer.vue";
+import GameContainer from "../components/gameContainer.vue";
 import BingoBoard from "../components/bingoboard.vue";
 import PlayerInfo from "../components/playerInfo.vue";
 import TeamInfo from "../components/teamInfo.vue";
@@ -31,11 +31,11 @@ import {RunDataTeam} from "../../../speedcontrol-types";
 @Component({
     components: {
         BingoBoard,
-        TestGameContainer,
+        GameContainer,
         PlayerInfo,
         TeamInfo,
         PlayerTeamContainer,
-        TestTimerContainer,
+        TimerContainer,
         DiscordVoiceDisplay
     }
 })

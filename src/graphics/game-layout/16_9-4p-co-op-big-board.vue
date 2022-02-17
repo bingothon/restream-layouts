@@ -10,10 +10,10 @@
         <player-info id="pi2BOTW" height=45px playerIndex="1" :hide-finish-time="true"></player-info>
         <player-info id="pi3" height=45px playerIndex="2" :hide-finish-time="true"></player-info>
         <player-info id="pi4" height=45px playerIndex="3" :hide-finish-time="true"></player-info>
-        <test-timer-container id="timerBOTW"></test-timer-container>
+        <timer-container id="timerBOTW"></timer-container>
         <discord-voice-display id="discord-voiceBOTW" iconHeight="40px" maxUserCount="6"
                                nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
-        <test-game-container id="gamecNeutral"></test-game-container>
+        <game-container id="gamecNeutral"></game-container>
         <bingo-board id="Bingo-boardBOTW" fontSize="30px"></bingo-board>
     </div>
 </template>
@@ -21,8 +21,8 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import {store} from "../../browser-util/state";
-import TestTimerContainer from "../components/timerContainer.vue";
-import TestGameContainer from "../components/gameContainer.vue";
+import TimerContainer from "../components/timerContainer.vue";
+import GameContainer from "../components/gameContainer.vue";
 import BingoBoard from "../components/bingoboard.vue";
 import PlayerInfo from "../components/playerInfo.vue";
 import TeamInfo from "../components/teamInfo.vue";
@@ -34,11 +34,11 @@ import {RunDataTeam} from "../../../speedcontrol-types";
 @Component({
     components: {
         BingoBoard,
-        TestGameContainer,
+        GameContainer,
         PlayerInfo,
         TeamInfo,
         PlayerTeamContainer,
-        TestTimerContainer,
+        TimerContainer,
         DiscordVoiceDisplay,
         TwitchPlayer,
     }

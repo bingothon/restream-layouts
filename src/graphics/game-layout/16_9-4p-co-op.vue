@@ -58,8 +58,8 @@
             show-color="false"
             :style="{'border': '5px var(--border-color-' + teamColor2 + ') solid'}"
         ></player-info>
-        <test-game-container :style="gameMode === 'sa2b' ? 'background-image: none' : '' " id="game"></test-game-container>
-        <test-timer-container id="timer" :style="gameMode === 'sa2b' ? 'background-image: none' : '' "></test-timer-container>
+        <game-container :style="gameMode === 'sa2b' ? 'background-image: none' : '' " id="game"></game-container>
+        <timer-container id="timer" :style="gameMode === 'sa2b' ? 'background-image: none' : '' "></timer-container>
         <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
         <discord-voice-display id="discord-voice" iconHeight="40px" nameWidth="114px"
                                maxUserCount="4" :style="gameMode === 'sa2b' ? 'background-image: none' : '' "></discord-voice-display>
@@ -70,8 +70,8 @@
 <script lang="ts">
 import {Component, Vue, Watch, Prop} from "vue-property-decorator";
 import {store, getReplicant} from "../../browser-util/state";
-import TestTimerContainer from "../components/timerContainer.vue";
-import TestGameContainer from "../components/gameContainer.vue";
+import TimerContainer from "../components/timerContainer.vue";
+import GameContainer from "../components/gameContainer.vue";
 import BingoBoard from "../components/bingoboard.vue";
 import PlayerInfo from "../components/playerInfo.vue";
 import TeamInfo from "../components/teamInfo.vue";
@@ -83,11 +83,11 @@ import SubNotifs from "../components/subNotifs.vue";
 @Component({
     components: {
         BingoBoard,
-        TestGameContainer,
+        GameContainer,
         PlayerInfo,
         TeamInfo,
         PlayerTeamContainer,
-        TestTimerContainer,
+        TimerContainer,
         DiscordVoiceDisplay,
         SubNotifs
     }

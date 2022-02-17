@@ -12,7 +12,6 @@
         <div v-else class="GameContainer FlexContainer">
             <div class="GameName FlexContainer">{{ gameName }}</div>
             <div class="GameExtra FlexContainer">{{gameCategory}}</div>
-            <div class="FlexContainer" id="est">Est: {{gameEstimate}}</div>
         </div>
     </div>
 </template>
@@ -22,7 +21,7 @@ import { Vue, Component } from "vue-property-decorator";
 import { store } from '../../browser-util/state';
 import {GameMode} from "../../../schemas";
 @Component({})
-export default class TestGameContainer extends Vue {
+export default class GameContainer extends Vue {
     get gameName(): string {
         return store.state.runDataActiveRun.game;
     }
@@ -75,11 +74,5 @@ export default class TestGameContainer extends Vue {
     color: white;
     text-align: center;
     text-shadow: 1px 1px 5px black;
-}
-#est {
-    font-size: 20px;
-    align-content: center;
-    color: white;
-    text-align: center;
 }
 </style>

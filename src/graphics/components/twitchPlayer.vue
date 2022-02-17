@@ -20,7 +20,7 @@ import { TwitchStreams } from "../../../schemas";
 declare const Twitch: any;
 
 @Component({})
-export default class TestGameContainer extends Vue {
+export default class GameContainer extends Vue {
     @Prop({required: true})
     streamIndex: number;
 
