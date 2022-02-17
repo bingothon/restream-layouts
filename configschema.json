@@ -180,6 +180,7 @@
             "type": "object",
             "additionalProperties": false,
             "required": [
+                "enabled",
                 "clientID",
                 "clientSecret",
                 "accessToken",
@@ -187,6 +188,10 @@
                 "eventSubListenerKey"
             ],
             "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "default": false
+                },
                 "clientID": {
                     "type": "string",
                     "default": "CLIENT_ID"

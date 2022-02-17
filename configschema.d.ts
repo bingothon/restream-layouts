@@ -42,6 +42,7 @@ export interface Configschema {
     port: number;
   };
   twitchPubSub?: {
+    enabled: boolean;
     clientID: string;
     clientSecret: string;
     accessToken: string;
