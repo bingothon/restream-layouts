@@ -1,6 +1,6 @@
-import {ApiClient} from "twitch";
-import {ClientCredentialsAuthProvider, StaticAuthProvider} from 'twitch-auth';
-import {DirectConnectionAdapter, EventSubListener, ReverseProxyAdapter} from 'twitch-eventsub';
+import { ApiClient } from "@twurple/api";
+import {ClientCredentialsAuthProvider} from '@twurple/auth';
+import {EventSubListener, ReverseProxyAdapter} from '@twurple/eventsub';
 import {Configschema} from "../../configschema";
 import * as nodecgApiContext from "./util/nodecg-api-context";
 import { sentenceCase } from "sentence-case";
@@ -23,12 +23,12 @@ const clientSecret = config.twitchEventSub.clientSecret;
 const authProvider = new ClientCredentialsAuthProvider(clientId, clientSecret);
     const client = new ApiClient({authProvider});
 
-    const listener = new EventSubListener(client, new ReverseProxyAdapter({
+    const listener = new EventSubListener({apiClient: client, adapter: new ReverseProxyAdapter({
         // @ts-ignore
         hostName: config.twitchEventSub.hostName, // The host name the server is available from
-        externalPort: 443 // The external port (optional, defaults to 443)
+        port: 443 // The external port (optional, defaults to 443)
         // @ts-ignore
-    }), config.twitchEventSub.eventSubListenerKey);
+    }), secret: config.twitchEventSub.eventSubListenerKey});
 
 const getChannelEventSubscriptions = (obj: object) => {
     let properties = new Set()
@@ -61,20 +61,20 @@ const queueSendHandler = async (waitForNext: boolean) => {
     }
 }
 
-const newEventCheck = async() => {  
+const newEventCheck = async() => {
     if(isRunningQueue){
         waitForNext = true
     }else{
         waitForNext = false;
     }
     await queueSendHandler(waitForNext)
-} 
+}
 
 const main = async () => {
 	const eventSubscriptions = getChannelEventSubscriptions(listener)
 	for(let eventSubscription of eventSubscriptions){
 		try {
-            
+
             // @ts-ignore
             let parsedEventType = sentenceCase(eventSubscription.slice(11, eventSubscription.length))
                                   .replace(/ /g, "_").toUpperCase()
@@ -87,7 +87,7 @@ const main = async () => {
                     eventsQueue.push({
                         // @ts-ignore
                         type: parsedEventType,
-                        // @ts-ignore 
+                        // @ts-ignore
                         data: e
                     })
                 });
