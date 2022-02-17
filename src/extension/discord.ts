@@ -28,7 +28,7 @@ const voiceActivity = nodecg.Replicant<VoiceActivity>('voiceActivity', {
 const voiceDelayRep = nodecg.Replicant<number>('voiceDelay', {defaultValue: 0, persistent: true});
 
 // Discord API
-const bot = new Discord.Client({intents: 32767});
+const bot = new Discord.Client({intents: 32767}); // all intents cause I'm too lazy to figure out which are the correct ones
 
 // config
 const gameModeToConfigKey: Record<string, string> = {
