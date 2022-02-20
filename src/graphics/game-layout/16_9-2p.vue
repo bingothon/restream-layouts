@@ -1,22 +1,18 @@
 <template>
     <div>
-            <!--<twitch-player id="stream1" streamIndex="0"></twitch-player
-            <twitch-player id="stream2" streamIndex="1"></twitch-player>-->
-            <div id="borderline"></div>
-            <div id="fillvoice" class="flexContainer"></div>
-            <player-info id="pi1" height=45px playerIndex="0" :hide-finish-time="true"></player-info>
-            <player-info id="pi2" height=45px playerIndex="1" :hide-finish-time="true"></player-info>
-            <div id="timer-and-discord-container">
-                <timer-container id="timer"></timer-container>
-                <discord-voice-display id="discord-voice" iconHeight="40px" maxUserCount="4"
-                                       nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
-            </div>
-            <div id="game" class="flexContainer">
-                <game-container id="gamec"></game-container>
-<!--                <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">-->
-            </div>
-            <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
-            <SubNotifs id="SubNotifsSMS" class="SubNotifs"></SubNotifs>
+        <div>
+            <div id="borderlineBOTW"></div>
+            <player-info id="pi1BOTW" height=45px playerIndex="0" :hide-finish-time="true"></player-info>
+            <player-info id="pi2BOTW" height=45px playerIndex="1" :hide-finish-time="true"></player-info>
+            <timer-container id="timerNeutral"></timer-container>
+            <discord-voice-display id="discord-voiceNeutral" iconHeight="40px" maxUserCount="4"
+                                   nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
+            <game-container id="gameBOTW"></game-container>
+            <!--            <div id="Cam1" class="flexContainer"></div>
+                        <div id="Cam2" class="flexContainer"></div>-->
+            <bingo-board id="Bingo-boardBOTW" fontSize="30px"></bingo-board>
+            <SubNotifs id="SubNotifsNeutral" class="SubNotifs"></SubNotifs>
+        </div>
     </div>
 </template>
 
@@ -53,14 +49,13 @@ export default class GameLayout extends Vue {
         return store.state.runDataActiveRun.teams;
     }
 
-    get game():string {
+    get game(): string {
         return store.state.gameMode.game;
     }
 }
 </script>
 
 <style scoped>
-
 #borderline {
     position: absolute;
     top: 0px;
@@ -69,6 +64,16 @@ export default class GameLayout extends Vue {
     width: 2px;
     background: white;
 }
+
+#borderlineBOTW {
+    position: absolute;
+    top: 0px;
+    height: 540px;
+    left: 959px;
+    width: 2px;
+    background: white;
+}
+
 #discord-voice {
     position: absolute;
     top: 0px;
@@ -180,10 +185,10 @@ export default class GameLayout extends Vue {
 
 #discord-voiceNeutral {
     position: absolute;
-    top: 780px;
-    left: 1192px;
-    width: 320px;
-    height: 299px;
+    top: 600px;
+    left: 1200px;
+    width: 288px;
+    height: 480px;
     border: 2px var(--container-border-color) solid;
     background-image: url("../../../static/middle-info-background.png");
 }
@@ -260,7 +265,7 @@ export default class GameLayout extends Vue {
     position: absolute;
     top: 600px;
     left: 1490px;
-    width: 440px;
+    width: 430px;
     height: 480px;
     border: 2px var(--container-border-color) solid;
     background-image: url("../../../static/middle-info-background.png");

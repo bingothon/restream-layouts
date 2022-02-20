@@ -9,6 +9,12 @@
             :class="timerStateClass"
             v-html="time"
         ></div>
+        <div
+            v-if="game === 'neutral'"
+            class="EstimateBox FlexContainer"
+        >
+            Est: {{estimate}}
+        </div>
     </div>
     <!-- eslint-enable -->
 </template>
@@ -33,6 +39,9 @@ export default class TimerContainer extends Vue {
     }
     get estimate(): string {
         return store.state.runDataActiveRun.estimate
+    }
+    get game(): string {
+        return store.state.gameMode.game
     }
     updateData(timer: Timer) {
         this.time = this.splitStringToSpans(timer.time);

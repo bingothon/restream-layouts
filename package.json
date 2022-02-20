@@ -165,7 +165,12 @@
         "height": 1080
       },
       {
-        "file": "game.html",
+        "file": "2p-4_3-layout.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "2p-16_9-layout.html",
         "width": 1920,
         "height": 1080
       },
