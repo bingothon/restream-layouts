@@ -17,8 +17,10 @@ import {
     CurrentInterview,
     CurrentMainBingoboard,
     DiscordDelayInfo,
+    DiscordDelayInfoSunshine,
     DonationTotal,
     ExplorationBingoboard,
+    GameMode,
     HostingBingoboard,
     HostingBingosocket,
     HostsSpeakingDuringIntermission,
@@ -36,7 +38,8 @@ import {
     TrackerOpenBids,
     TrackerPrizes,
     TwitchStreams,
-    VoiceActivity
+    VoiceActivity,
+    VoiceActivitySunshine
 } from "../../schemas";
 import {RunDataActiveRun, RunDataArray, Timer} from "../../speedcontrol-types";
 import {Scene} from 'obs-websocket-js';
@@ -59,7 +62,9 @@ const replicantNames = [
     'currentMainBingoboard',
     'donationTotal',
     'discordDelayInfo',
+    'discordDelayInfoSunshine',
     'explorationBingoboard',
+    'gameMode',
     'hostingBingoboard',
     'hostingBingosocket',
     'hostsSpeakingDuringIntermission',
@@ -80,6 +85,7 @@ const replicantNames = [
     'trackerPrizes',
     'twitchStreams',
     'voiceActivity',
+    'voiceActivitySunshine',
     'songData'
 ];
 const nodecgSpeedcontrolReplicantNames = [
@@ -108,8 +114,10 @@ export const store = new Vuex.Store({
         currentCamNames: {} as CurrentCamNames,
         currentMainBingoboard: {} as CurrentMainBingoboard,
         discordDelayInfo: {} as DiscordDelayInfo,
+        discordDelayInfoSunshine: {} as DiscordDelayInfoSunshine,
         donationTotal: 0 as DonationTotal,
         explorationBingoboard: {} as ExplorationBingoboard,
+        gameMode: {} as GameMode,
         hostingBingoboard: {} as HostingBingoboard,
         hostingBingosocket: {} as HostingBingosocket,
         hostsSpeakingDuringIntermission: {} as HostsSpeakingDuringIntermission,
@@ -130,6 +138,7 @@ export const store = new Vuex.Store({
         trackerPrizes: [] as TrackerPrizes,
         twitchStreams: [] as TwitchStreams,
         voiceActivity: {} as VoiceActivity,
+        voiceActivitySunshine: {} as VoiceActivitySunshine,
         songData: {} as SongData,
         // nodecg-speedcontrol
         runDataActiveRun: {} as RunDataActiveRun,

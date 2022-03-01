@@ -1,15 +1,27 @@
 <template>
-    <div class="GameContainer FlexContainer">
-        <div class="GameName FlexContainer">Bingo League</div>
-        <div class="GameExtra FlexContainer">{{gameCategory}}</div>
+    <div>
+        <div v-if="gameMode.game === 'sms' || gameMode.game === 'sa2b'"  class="GameContainer FlexContainer">
+            <div class="GameName FlexContainer">Bingo League</div>
+            <div class="GameExtra FlexContainer">{{gameCategory}}</div>
+        </div>
+        <div v-else-if="gameMode.game === 'botw'"  class="GameContainer FlexContainer">
+            <div class="GameName FlexContainer">The Legend of Zelda: Breath of the Wild</div>
+            <div class="DivName FlexContainer">{{gameName}}</div>
+            <div class="GameExtra FlexContainer">{{gameCategory}}</div>
+        </div>
+        <div v-else class="GameContainer FlexContainer">
+            <div class="GameName FlexContainer">{{ gameName }}</div>
+            <div class="GameExtra FlexContainer">{{gameCategory}}</div>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { store } from '../../browser-util/state';
+import {GameMode} from "../../../schemas";
 @Component({})
-export default class TestGameContainer extends Vue {
+export default class GameContainer extends Vue {
     get gameName(): string {
         return store.state.runDataActiveRun.game;
     }
@@ -22,6 +34,10 @@ export default class TestGameContainer extends Vue {
     get gameEstimate(): string {
         return store.state.runDataActiveRun.estimate;
     }
+
+    get gameMode(): GameMode {
+        return store.state.gameMode;
+    }
 }
 </script>
 
@@ -30,6 +46,7 @@ export default class TestGameContainer extends Vue {
     align-content: center;
     align-items: center;
     flex-direction: column;
+    height: 100%;
 }
 .GameContainer > .GameName {
     font-weight: 500;
@@ -58,10 +75,4 @@ export default class TestGameContainer extends Vue {
     text-align: center;
     text-shadow: 1px 1px 5px black;
 }
-/*#est {
-    font-size: 20px;
-    align-content: center;
-    color: white;
-    text-align: center;
-}*/
 </style>

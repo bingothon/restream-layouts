@@ -10,6 +10,7 @@ Vue.use(VueRouter);
 const routes = [
     {name: "2p 4:3 Layout", path: "/2p-4_3-layout", component: Layouts.Layout_4x3_2p},
     {name: "1p 4:3 Layout", path: "/1p-4_3-layout", component: Layouts.Layout_4x3_1p},
+    {name: "6p 16:9 layout", path: "/6p-16_9-layout", component: Layouts.Layout_16x9_6p},
     {path: "*", redirect: "/2p-4_3-layout"},
 ];
 

@@ -82,7 +82,7 @@
 
         squareClicked(cell: BingoCell) {
             if (!cell.hidden) {
-                nodecg.sendMessageToBundle('exploration:goalClicked','bingothon-layouts',{index: cell.row * 5 + cell.column})
+                nodecg.sendMessageToBundle('exploration:goalClicked','restream-layouts',{index: cell.row * 5 + cell.column})
                     .catch(e => {
                         console.error(e);
                     });
@@ -105,11 +105,56 @@
         border-collapse: collapse;
     }
 
-    .square {
+    /*.square {
         padding: 0;
         height: 20%;
         width: 20%;
         border: 2px black solid;
+    }*/
+
+    /* plain old square */
+    .square {
+        color: #fff;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        padding: 0 5px;
+        cursor: pointer;
+        width: 105px;
+        height: 95px;
+        text-align: center;
+        border: 1px #424242 solid;
+        background: #181818;
+
+        /* vertical-align changed to top so background colors wont be pushed halfway down */
+        vertical-align: center;
+
+        /* position needs to be relative for overflow hidden to work */
+        position: relative;
+        overflow: hidden;
+    }
+
+    .square .bg-color, .square .shadow {
+        height: inherit;
+        position: absolute;
+        left: -2px;
+        right: -2px;
+    }
+
+    .square .bg-color {
+        transform-origin: top;
+        -webkit-transform-origin: top;
+        -moz-transform-origin: top;
+    }
+
+    .square:hover .shadow,
+    .square.hover .shadow {
+        box-shadow: inset 0px 0px 50px rgba(0, 0, 0, 0.6);
+        -moz-box-shadow: inset 0px 0px 50px rgba(0, 0, 0, 0.6);
+        -webkit-box-shadow: inset 0px 0px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .blanksquare:hover,
+    .blanksquare.hover {
+        background: #0a245a;
     }
 
     .square.shown {
@@ -117,42 +162,42 @@
     }
 
     .greensquare {
-        background-image: linear-gradient(#31D814, #00B500 60%, #20A00A);
+        background-image: var(--bingo-color-green);
     }
 
     .redsquare {
-        background-image: linear-gradient(#FF4944, #DA4440 60%, #CE302C);
+        background-image: var(--bingo-color-red);
     }
 
     .orangesquare {
-        background-image: linear-gradient(#FF9C12, #F98E1E 60%, #D0800F);
+        background-image: var(--bingo-color-orange);
     }
 
     .bluesquare {
-        background-image: linear-gradient(#409CFF, #37A1DE 60%, #088CBD);
+        background-image: var(--bingo-color-blue);
     }
 
     .purplesquare {
-        background-image: linear-gradient(#822dbf, #7120ab);
+        background-image: var(--bingo-color-purple);
     }
 
     .pinksquare {
-        background-image: linear-gradient(#ed86aa, #cc6e8f);
+        background-image: var(--bingo-color-pink);
     }
 
     .brownsquare {
-        background-image: linear-gradient(#ab5c23, #6d3811);
+        background-image: var(--bingo-color-brown);
     }
 
     .tealsquare {
-        background-image: linear-gradient(#419695, #2e7372);
+        background-image: var(--bingo-color-teal);
     }
 
     .navysquare {
-        background-image: linear-gradient(#0d48b5, #022b75);
+        background-image: var(--bingo-color-navy);
     }
 
     .yellowsquare {
-        background-image: linear-gradient(#d8d014, #c1ba0b);
+        background-image: var(--bingo-color-yellow);
     }
 </style>

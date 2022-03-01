@@ -1,72 +1,218 @@
 {
-	"$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "http://json-schema.org/draft-07/schema#",
     "type": "object",
-    "required": ["twitch", "discord","donationtracker","obs","esaRepeaterPostKey"],
+    "required": [
+        "twitch",
+        "discord",
+        "discordSunshine",
+        "discordSA2",
+        "obs"
+    ],
     "additionalItems": false,
-	"properties": {
-		"twitch": {
-            "type":"object",
-            "required": ["enable","chatBot"],
-            "additionalProperties": false,
-			"properties": {
-				"enable": {"type":"boolean", "default": false},
-				"chatBot": {"type":"boolean", "default": false}
-			}
-		},
-		"discord": {
+    "properties": {
+        "twitch": {
             "type": "object",
-            "required": ["test","token","serverID","commandChannelID","voiceChannelID"],
+            "required": [
+                "enable",
+                "chatBot"
+            ],
             "additionalProperties": false,
-			"properties": {
-				"test": {"type": "boolean", "default": true},
-				"token": {"type": "string", "default": "DISCORD_BOT_TOKEN"},
-				"serverID": {"type": "string", "default": "DISCORD_SERVER_ID"},
-				"commandChannelID": {"type": "string", "default": "DISCORD_COMMAND_CHANNEL_ID"},
-				"voiceChannelID": {"type": "string", "default": "DISCORD_VC_ID"},
-				"ignoredUsers": {
-					"type":"array",
-					"default":[],
-					"$comment": "discord tags of users that won't show up in the layout (for the bot), example `Bot#1234`",
-					"items": {
-						"type": "string"
-					}
-				}
-			}
-		},
-		"donationtracker": {
+            "properties": {
+                "enable": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "chatBot": {
+                    "type": "boolean",
+                    "default": false
+                }
+            }
+        },
+        "discord": {
             "type": "object",
-            "required": ["enable","url","eventSlug"],
+            "required": [
+                "test",
+                "token",
+                "serverID",
+                "commandChannelID",
+                "voiceChannelID"
+            ],
             "additionalProperties": false,
-			"properties": {
-				"enable": {"type": "boolean", "default": false},
-				"url": {"type": "string", "default": "https://devdonations.bingothon.com"},
-				"eventSlug": {"type": "string", "default": "bingothon18"},
-				"test": {"type": "boolean", "default": false}
-			}
-		},
-		"obs": {
-            "type":"object",
-            "required": ["discordAudio","streamsAudio","mpdAudio","address","password","enable"],
+            "properties": {
+                "test": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "token": {
+                    "type": "string",
+                    "default": "DISCORD_BOT_TOKEN"
+                },
+                "serverID": {
+                    "type": "string",
+                    "default": "DISCORD_SERVER_ID"
+                },
+                "commandChannelID": {
+                    "type": "string",
+                    "default": "DISCORD_COMMAND_CHANNEL_ID"
+                },
+                "voiceChannelID": {
+                    "type": "string",
+                    "default": "DISCORD_VC_ID"
+                },
+                "ignoredUsers": {
+                    "type": "array",
+                    "default": [],
+                    "$comment": "discord tags of users that won't show up in the layout (for the bot), example `Bot#1234`",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "discordSunshine": {
+            "type": "object",
+            "required": [
+                "serverID",
+                "commandChannelID",
+                "voiceChannelID"
+            ],
             "additionalProperties": false,
-			"properties": {
-				"enable": {"type": "boolean", "default": false},
-				"address": { "type": "string", "default": "localhost:4444" },
-				"password": { "type": "string", "default": "" },
-				"discordAudio": {"type":"string", "default":"Discord-Audio"},
-				"mpdAudio": {"type":"string", "default":"MPD-Audio"},
-				"streamsAudio": {"type":"string", "default":"Desktop-Audio"}
-			}
-		},
-		"mpd": {
-			"type":"object",
-			"required": ["enable","address","port"],
-			"additionalProperties": false,
-			"properties": {
-				"enable": {"type":"boolean", "default": false},
-				"address": {"type": "string", "default": "localhost"},
-				"port": {"type": "number", "default": 6600}
-			}
-		},
-		"esaRepeaterPostKey": {"type": "string", "default": "DEFAULT_KEY"}
-	}
+            "properties": {
+                "serverID": {
+                    "type": "string",
+                    "default": "DISCORD_SERVER_ID"
+                },
+                "commandChannelID": {
+                    "type": "string",
+                    "default": "DISCORD_COMMAND_CHANNEL_ID"
+                },
+                "voiceChannelID": {
+                    "type": "string",
+                    "default": "DISCORD_VC_ID"
+                }
+            }
+        },
+        "discordSA2": {
+            "type": "object",
+            "required": [
+                "serverID",
+                "commandChannelID",
+                "voiceChannelID"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "serverID": {
+                    "type": "string",
+                    "default": "DISCORD_SERVER_ID"
+                },
+                "commandChannelID": {
+                    "type": "string",
+                    "default": "DISCORD_COMMAND_CHANNEL_ID"
+                },
+                "voiceChannelID": {
+                    "type": "string",
+                    "default": "DISCORD_VC_ID"
+                }
+            }
+        },
+        "obs": {
+            "type": "object",
+            "required": [
+                "discordAudio",
+                "streamsAudio",
+                "mpdAudio",
+                "address",
+                "password",
+                "enable"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "enable": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "address": {
+                    "type": "string",
+                    "default": "localhost:4444"
+                },
+                "password": {
+                    "type": "string",
+                    "default": ""
+                },
+                "discordAudio": {
+                    "type": "string",
+                    "default": "Discord-Audio"
+                },
+                "mpdAudio": {
+                    "type": "string",
+                    "default": "MPD-Audio"
+                },
+                "streamsAudio": {
+                    "type": "string",
+                    "default": "Desktop-Audio"
+                }
+            }
+        },
+        "mpd": {
+            "type": "object",
+            "required": [
+                "enable",
+                "address",
+                "port"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "enable": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "address": {
+                    "type": "string",
+                    "default": "localhost"
+                },
+                "port": {
+                    "type": "number",
+                    "default": 6600
+                }
+            }
+        },
+        "twitchPubSub": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "enabled",
+                "clientID",
+                "clientSecret",
+                "accessToken",
+                "hostName",
+                "eventSubListenerKey"
+            ],
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "clientID": {
+                    "type": "string",
+                    "default": "CLIENT_ID"
+                },
+                "clientSecret": {
+                    "type": "string",
+                    "default": "SECRET"
+                },
+                "accessToken": {
+                    "type": "string",
+                    "default": "ACCESS_TOKEN"
+                },
+                "hostName": {
+                    "type": "string",
+                    "default": "eventsub.bingothon.com"
+                },
+                "eventSubListenerKey": {
+                    "type": "string",
+                    "default": "SECRET"
+                }
+            }
+        }
+    }
 }

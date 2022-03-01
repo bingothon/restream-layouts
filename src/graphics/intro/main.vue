@@ -1,12 +1,40 @@
 <template>
     <div id="Intro">
-        <video autoplay muted loop id="bgvid">
-            <source src="../../../static/epicindeed.mp4" type="video/mp4">
-        </video>
-        <div class="FlexContainer" id="soom">
+        <div v-if="game === 'sms'">
+            <video autoplay class="bgvid" loop muted>
+                <source src="../../../static/epicindeed.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div v-else-if="game === 'sa2b'">
+            <img src="../../../static/sa2_background.png" class="bgvid">
+        </div>
+        <div v-else>
+            <video autoplay class="bgvid" loop muted>
+                <source src="../../../static/Loop_v1_1.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div v-if="game === 'sms' || game === 'botw' || game === 'sa2b'" class="soom FlexContainer">
             The next match will start soon
         </div>
+        <div v-else class="soom FlexContainer">
+            Starting soon
+        </div>
         <div id="matchupC">
+            <div v-if="game === 'botw'" class="matchupName">
+                The Legend of Zelda: Breath of the Wild
+                <br>
+                -
+                <br>
+                Bingo Bash
+            </div>
+            <div v-else-if="game === 'neutral'" class="matchupName">
+                {{ match.game }}
+                <br>
+                -
+                <br>
+                {{ match.category }}
+            </div>
+            <br>
             <div id="matchup">{{ runnersToString(match) }}</div>
         </div>
         <div id="Countdown">
@@ -21,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator";
+import {Component, Vue, Watch} from "vue-property-decorator";
 import {RunData} from "../../../speedcontrol-types";
 import {store} from "../../browser-util/state";
 import Music from "./components/Music.vue";
@@ -36,8 +64,17 @@ import Countdown from "../components/countdownTimer.vue";
 
 export default class Intermission extends Vue {
 
+    @Watch('store.state.gameMode.game')
+    onGameChange() {
+        window.location.reload()
+    }
+
     get match(): RunData {
         return store.state.runDataActiveRun;
+    }
+
+    get game(): string {
+        return store.state.gameMode.game;
     }
 
     runnersToString(run: RunData): string {
@@ -86,7 +123,16 @@ video {
     left: 0;
 }
 
-#soom {
+.bgvid {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.soom {
     position: absolute;
     left: 0px;
     width: 1920px;
@@ -114,7 +160,7 @@ video {
     left: 0px;
     width: 1920px;
     align-content: center;
-    top: 500px;
+    top: 620px;
     font-size: 100px;
     color: white;
     text-align: center;

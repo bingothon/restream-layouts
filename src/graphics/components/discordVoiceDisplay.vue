@@ -48,7 +48,7 @@ export default class DiscordVoiceDisplay extends Vue {
     maxUserCount: number;
 
     get voiceActivityMembers(): VoiceActivityMember[] {
-        const members = store.state.voiceActivity.members;
+        const members = store.state.gameMode.game === "sms" ? store.state.voiceActivitySunshine.members : store.state.voiceActivity.members;
         if (members.length > this.maxUserCount) {
             return members.slice(0, this.maxUserCount);
         }

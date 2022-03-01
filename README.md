@@ -1,4 +1,4 @@
-# bingothon-layouts
+# restream-layouts
 
 > The on-screen graphics used during Bingothon events.
 

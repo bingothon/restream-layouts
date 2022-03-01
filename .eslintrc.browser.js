@@ -4,6 +4,7 @@ module.exports = {
   parserOptions: {
     parser: '@typescript-eslint/parser',
     project: 'tsconfig.browser.json',
+    extraFileExtensions: true,
   },
   env: {
     browser: true,

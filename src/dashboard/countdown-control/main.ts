@@ -4,9 +4,9 @@ import { create } from '../../browser-util/state';
 import vuetify from '../_misc/vuetify';
 
 create().then(() => {
-    new Vue({
-        vuetify,
-        el: '#App',
-        render: (h) => h(App),
-    });
+  new Vue({
+    vuetify,
+    el: '#App',
+    render: (h) => h(App),
+  });
 });

@@ -4,18 +4,20 @@
 
 <template>
     <div
-        :class="{'ReverseOrder':reverseOrder}"
-        :style="{'height':height}"
         class="FlexContainer PlayerInfoBox"
+        :class="{'ReverseOrder':reverseOrder}"
+        :style="{
+        'height':height,
+        'background-image': 'linear-gradient(' + colorBackgrounds[game] + ')'}"
     >
-        <div :style="{ 'width' : `calc(${height} * 1.5)` }"
-             class="CurrentIcon FlexContainer"
+        <div class="CurrentIcon FlexContainer"
+             :style="{ 'width' : `calc(${height} * 1.5)` }"
         >
             <transition name="fade">
-                <div v-if="show && pronouns" key="pronouns" class="ScoreContainer">
+                <div class="ScoreContainer" v-if="show && pronouns" key="pronouns">
                     <text-fit :text="pronouns"></text-fit>
                 </div>
-                <div v-else-if="!show && score" key="score" class="ScoreContainer">
+                <div class="ScoreContainer" v-else-if="!show && score" key="score">
                     <text-fit :text="score"></text-fit>
                 </div>
                 <img
@@ -31,32 +33,32 @@
         <div :class="medalClasses"></div>
         <div class="PlayerName">
             <transition name="fade">
-                <text-fit :key="text" :align="reverseOrder?'right':'left'" :text="text">
+                <text-fit :key="text" :text="finishTime+text" :align="reverseOrder?'right':'left'">
                 </text-fit>
             </transition>
         </div>
         <div v-if="showSound"
              class="Sound"
         >
-            <img :src="'/bundles/bingothon-layouts/static/music-note.png'">
+            <img :src="'/bundles/restream-layouts/static/music-note.png'">
         </div>
         <div v-if="!!player.country"
-             :style="{'width' : `calc(${height} * 1.9)`}"
              class="Flag FlexContainer"
+             :style="{'width' : `calc(${height} * 1.9)`}"
         >
             <transition name="fade">
                 <img
                     :key="player.country"
-                    :src="getPlayerFlag(player.country)"
                     :style="{ 'visibility' : showFlag ? 'visbile' : 'hidden' }"
+                    :src="getPlayerFlag(player.country)"
                 >
             </transition>
         </div>
         <div
             v-if="bingoColorShown === true"
+            class="BingoColor FlexContainer"
             :class="`bingo-${bingoColor}`"
             :style="{ 'width' : height, 'height': height }"
-            class="BingoColor FlexContainer"
         >
             <span v-if="bingoCountShown === true">{{ bingoGoalCount }}</span>
         </div>
@@ -72,6 +74,12 @@ import BestOfX from "../components/bestOfX.vue"
 
 const playerSoloImg = require('../_misc/player-solo.png');
 const twitchIconImg = require('../_misc/twitch-icon.png');
+const colors = {
+    'sms': 'var(--lighter-main-color), var(--darker-main-color)',
+    'sa2b': '#230A70FF, #2B0385FF',
+    'botw': '#6d001d, #280000',
+    'neutral': '#6d001d, #280000'
+}
 
 @Component({
     components: {
@@ -101,6 +109,13 @@ export default class PlayerInfo extends Vue {
     @Prop({default: false})
     hideFinishTime: boolean;
 
+    get game() : string {
+        return store.state.gameMode.game;
+    }
+
+    get colorBackgrounds() {
+        return colors
+    }
     get player(): RunDataPlayer {
         let idx = 0;
         let correctPlayer;
@@ -162,19 +177,19 @@ export default class PlayerInfo extends Vue {
 
     get pronouns(): string {
         switch (this.player.pronouns) {
-            case 'None':
             case '':
+            case 'None':
                 return '';
             default:
-                return this.player.pronouns
+                return this.player.pronouns;
         }
     }
 
     get finishTime(): string {
         const finishTime = store.state.timer.teamFinishTimes[this.teamID];
         //If forfeit, display that runner has forfeit
-        if (finishTime && finishTime.state === "forfeit") {
-            return '[Did Not Finish] ';
+        if ( finishTime && finishTime.state === "forfeit" ) {
+            return '[DNF] ';
         }
         // no individual finish time for one team runs
         // also this is disabled for some layouts
@@ -238,7 +253,7 @@ export default class PlayerInfo extends Vue {
     get medalClasses(): string {
         // no individual finish time for one team runs
         // also this is disabled for some layouts
-        if (this.hideFinishTime || store.state.runDataActiveRun.teams.length == 1) {
+        if (store.state.runDataActiveRun.teams.length == 1 || this.hideFinishTime) {
             return '';
         }
         // get the team this player belongs to
@@ -253,6 +268,9 @@ export default class PlayerInfo extends Vue {
                 });
                 let medalColor = null;
                 switch (place) {
+                    case -1:
+                        medalColor = 'forfeit'
+                        break;
                     case 1:
                         medalColor = 'gold';
                         break;
@@ -272,7 +290,7 @@ export default class PlayerInfo extends Vue {
     }
 
     getPlayerFlag(rawFlag: string | undefined): string {
-        return `/bundles/bingothon-layouts/static/flags/${rawFlag}.png`
+        return `/bundles/restream-layouts/static/flags/${rawFlag}.png`
     }
 
     get boXEnabled(): boolean {
@@ -290,7 +308,7 @@ export default class PlayerInfo extends Vue {
 }
 
 .PlayerInfoBox {
-    background-image: linear-gradient(var(--lighter-main-color), var(--darker-main-color));
+    /*background-image: linear-gradient(var(--lighter-main-color), var(--darker-main-color));*/
     color: var(--font-color);
     padding: 7px;
     font-weight: 500;
@@ -323,7 +341,7 @@ export default class PlayerInfo extends Vue {
     color: white;
     height: 75%;
     position: absolute;
-    width: 70px;
+    width: 55px;
 }
 
 .PlayerInfoBox > .PlayerName {
@@ -367,7 +385,7 @@ export default class PlayerInfo extends Vue {
 }
 
 .PlayerInfoBox > .Sound > img {
-    width: 30px;
+    width: 25px;
 }
 
 /* Bingosync styled gradients */

@@ -47,9 +47,9 @@
                   :items="allBingoReps">
         </v-select>
         <!-- Normal Bingosync Stuff -->
-        <div>
+        <div v-if="showExtraBingosyncOptions">
             <div>
-                Room Code:
+                Room Code or URL:
                 <v-text-field v-model="roomCode" background-color="#455A64" clearable solo dark/>
             </div>
             <div>
@@ -68,6 +68,27 @@
                     {{ connectActionText }}
                 </v-btn>
             </div>
+        </div>
+        <!-- Exploration Stuff -->
+        <div v-if="showExtraExplorationOptions">
+            <div>
+                Bingosync json:
+                <v-text-field v-model="explorationCustomBoard" background-color="#455A64" clearable solo dark/>
+            </div>
+            <v-btn @click="updateExploration"
+                   class="button"
+                   dark
+                   small
+                   :style="'width: 100%'">
+                Update Exploration
+            </v-btn>
+            <v-btn @click="resetExploration"
+                   class="button"
+                   dark
+                   small
+                   :style="'width: 100%'">
+                Reset Exploration
+            </v-btn>
         </div>
 
         <div class="boardOptions">
@@ -232,6 +253,10 @@ export default class BingoControl extends Vue {
         }
     }
 
+    get showExtraBingosyncOptions(): boolean {
+        return ['bingoboard', 'hostingBingoboard'].includes(this.currentBoardRep);
+    }
+
     get showExtraOriOptions(): boolean {
         return this.currentBoardRep === 'oriBingoboard';
     }
@@ -259,33 +284,35 @@ export default class BingoControl extends Vue {
     connectAction() {
         // only expanded options for the bingosync connection,
         // otherwise something else is there to handle the board
-        const socketRepName = BOARD_TO_SOCKET_REP[this.currentBoardRep];
-        if (!socketRepName) {
-            throw new Error('unreachable');
-        }
-        switch (store.state[socketRepName].status) {
-            case 'connected':
-                nodecg.sendMessage('bingosync:leaveRoom', {name: this.currentBoardRep})
-                    .catch((error) => {
-                        nodecg.log.error(error);
-                        this.errorMessage = error.message;
-                    });
-                break;
-            case 'disconnected':
-            case 'error':
-                getReplicant<CurrentMainBingoboard>('currentMainBingoboard').value.boardReplicant = this.currentBoardRep as BingoRepEnum;
-                nodecg.sendMessage('bingosync:joinRoom', {
-                    roomCode: this.roomCode,
-                    passphrase: this.passphrase,
-                    name: this.currentBoardRep
-                })
-                    .catch((error) => {
-                        nodecg.log.error(error);
-                        this.errorMessage = error.message;
-                    });
-                break;
-            default:
-                break;
+        if (this.showExtraBingosyncOptions) {
+            const socketRepName = BOARD_TO_SOCKET_REP[this.currentBoardRep];
+            if (!socketRepName) {
+                throw new Error('unreachable');
+            }
+            switch (store.state[socketRepName].status) {
+                case 'connected':
+                    nodecg.sendMessage('bingosync:leaveRoom', {name: this.currentBoardRep})
+                        .catch((error) => {
+                            nodecg.log.error(error);
+                            this.errorMessage = error.message;
+                        });
+                    break;
+                case 'disconnected':
+                case 'error':
+                    getReplicant<CurrentMainBingoboard>('currentMainBingoboard').value.boardReplicant = this.currentBoardRep as BingoRepEnum;
+                    nodecg.sendMessage('bingosync:joinRoom', {
+                        roomCode: this.roomCode,
+                        passphrase: this.passphrase,
+                        name: this.currentBoardRep
+                    })
+                        .catch((error) => {
+                            nodecg.log.error(error);
+                            this.errorMessage = error.message;
+                        });
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -305,7 +332,7 @@ export default class BingoControl extends Vue {
         try {
             const goals = JSON.parse(this.explorationCustomBoard);
             const onlyNames = goals.map(g => g.name);
-            nodecg.sendMessageToBundle('exploration:newGoals', 'bingothon-layouts', onlyNames)
+            nodecg.sendMessageToBundle('exploration:newGoals', 'restream-layouts', onlyNames)
                 .catch((e) => {
                     this.errorMessage = e.message;
                     nodecg.log.error(e);
@@ -316,7 +343,7 @@ export default class BingoControl extends Vue {
     }
 
     resetExploration() {
-        nodecg.sendMessageToBundle('exploration:resetBoard', 'bingothon-layouts');
+        nodecg.sendMessageToBundle('exploration:resetBoard', 'restream-layouts');
     }
 
     switchAction() {
@@ -349,38 +376,30 @@ export default class BingoControl extends Vue {
 .v-app {
     width: 100%;
 }
-
 #app {
     width: 100%;
 }
-
 .error-warning {
     color: red;
     font-size: small;
 }
-
 input.manual-score {
     width: 3em;
 }
-
 .override {
     width: 100%;
 }
-
 .lineButton >>> .v-btn {
     width: 100%;
     margin-bottom: 4px;
     margin-top: 4px;
 }
-
 .v-btn:not(.v-btn--round).v-size--x-small {
     margin: 2px;
 }
-
 .halfLine >>> .v-btn {
     width: 49%;
 }
-
 .v-btn {
     margin: 5px;
 }
