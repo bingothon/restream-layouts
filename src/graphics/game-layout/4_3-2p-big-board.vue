@@ -1,7 +1,6 @@
 <template>
-
     <div>
-        <div v-if="game === 'sms'">
+        <div>
             <!--<twitch-player id="stream1" streamIndex="0"></twitch-player>
             <twitch-player id="stream2" streamIndex="1"></twitch-player>-->
             <div id="fillvoice" class="flexContainer"></div>
@@ -9,32 +8,13 @@
             <player-info id="pi2" height=45px playerIndex="1" :hide-finish-time="true"></player-info>
             <timer-container id="timer"></timer-container>
             <discord-voice-display id="discord-voice" iconHeight="40px" maxUserCount="6"
-                                   nameWidth="125px"></discord-voice-display>
+                                   nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
             <div id="game" class="flexContainer">
                 <game-container id="gamec"></game-container>
                 <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">
             </div>
             <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
             <div id="bingo-bottom-border" class="FlexContainer"></div>
-        </div>
-        <div v-else>
-            <!--<twitch-player id="stream1" streamIndex="0"></twitch-player>
-            <twitch-player id="stream2" streamIndex="1"></twitch-player>-->
-            <div id="fillvoiceBOTW" class="flexContainer"></div>
-            <player-info id="pi1BOTW" height=45px playerIndex="0" :hide-finish-time="true"></player-info>
-            <player-info id="pi2BOTW" height=45px playerIndex="1" :hide-finish-time="true"></player-info>
-            <timer-container id="timerBOTW"></timer-container>
-            <discord-voice-display id="discord-voiceBOTW" iconHeight="40px" maxUserCount="6"
-                                   nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
-            <div v-if="game === 'botw'" id="gameBOTW" class="flexContainer">
-                <game-container id="gamecBOTW"></game-container>
-                <img id="logoBOTW" src="../../../static/the-legend-of-zelda-breath-of-the-wild-logo.png">
-            </div>
-            <div v-else id="gameNeutral" class="flexContainer">
-                <game-container id="gamecNeutral"></game-container>
-            </div>
-            <bingo-board id="Bingo-boardBOTW" fontSize="30px"></bingo-board>
-            <div id="bingo-bottom-borderBOTW" class="FlexContainer"></div>
         </div>
     </div>
 </template>

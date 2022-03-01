@@ -13,10 +13,9 @@
             </div>
             <div id="game" class="flexContainer">
                 <game-container id="gamec"></game-container>
-<!--                <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">-->
+                <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">
             </div>
             <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
-            <SubNotifs id="SubNotifsSMS" class="SubNotifs"></SubNotifs>
     </div>
 </template>
 
@@ -103,7 +102,7 @@ export default class GameLayout extends Vue {
 }
 
 #game {
-    background-image: url("../../../static/middle-info-background.png");
+    background-image: url("../../../static/background-sunshine.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
@@ -116,7 +115,7 @@ export default class GameLayout extends Vue {
 
 #gamec {
     position: absolute;
-    top: 100px;
+    top: 180px;
     left: 0px;
     width: 730px;
 }
@@ -143,7 +142,7 @@ export default class GameLayout extends Vue {
     width: 730px;
     height: 300px;
     border: 2px var(--container-border-color) solid;
-    background-image: url("../../../static/middle-info-background.png");
+    background-image: url("../../../static/background-sunshine.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }

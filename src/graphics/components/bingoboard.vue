@@ -15,18 +15,7 @@
           </tbody>
       </table>
       <div class="bingo-board-hide" :hidden="!boardHidden">
-          <p id="soon">Bingo Board will be revealed soon&trade;</p>
-		  <!--<tbody>
-			  <tr :key="i" v-for="(column,i) in defaultBoard">
-				  <td class="square" :key="i+''+j" v-for="(cell,j) in column">
-					  <div :key="color.name" v-for="color in cell.colors" :class="'bg-color '+color.color+'square'" :style="color.style"></div>
-					  <div class="shadow"></div>
-					  <div class="CellTextFitContainer">
-						  <CellTextFit :text="cell.name" :fontSize="fontSize"/>
-					  </div>
-				  </td>
-			  </tr>
-		  </tbody>-->
+          <div id="soon">Bingo Board will be revealed soon&trade;</div>
 	  </div>
       <!-- disabled cause it doesn't work properly
       <div class="bingo-splash" :style="{color: bingoAnimColor}" :class="splashActivated">BINGO!</div>-->
@@ -308,7 +297,9 @@ export default class BingoBoard extends Vue {
         margin: 0;
         position: absolute;
         top: 50%;
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
+        -ms-transform: translateY(-50%) translateX(-50%);
+        transform: translateY(-50%) translateX(-50%);
+        left: 50%;
+        width: 100%;
     }
 </style>

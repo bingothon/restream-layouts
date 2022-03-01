@@ -170,42 +170,7 @@
         "height": 1080
       },
       {
-        "file": "2p-16_9-layout.html",
-        "width": 1920,
-        "height": 1080
-      },
-      {
-        "file": "6p-layout.html",
-        "width": 1920,
-        "height": 1080
-      },
-      {
-        "file": "4p-layout.html",
-        "width": 1920,
-        "height": 1080
-      },
-      {
-        "file": "4p-co-op-layout.html",
-        "width": 1920,
-        "height": 1080
-      },
-      {
         "file": "big-board.html",
-        "width": 1920,
-        "height": 1080
-      },
-      {
-        "file": "4p-big-board.html",
-        "width": 1920,
-        "height": 1080
-      },
-      {
-        "file": "2p-gb-layout.html",
-        "width": 1920,
-        "height": 1080
-      },
-      {
-        "file": "exploration-bingo.html",
         "width": 1920,
         "height": 1080
       }
