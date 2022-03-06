@@ -80,10 +80,10 @@ export default class GameLayout extends Vue {
 
 #discord-voice {
     position: absolute;
-    top: 663px;
+    top: 658px;
     left: 480px;
     width: 360px;
-    height: 420px;
+    height: 418px;
     background-image: url("../../../static/background-sunshine.jpg");
     background-size: cover;
     background-repeat: no-repeat;
@@ -100,7 +100,7 @@ export default class GameLayout extends Vue {
 
 #pi2 {
     position: absolute;
-    top: 1020px;
+    top: 1017px;
     left: 0px;
     border: 2px var(--container-border-color) solid;
     width: 467px;
@@ -109,8 +109,8 @@ export default class GameLayout extends Vue {
 #Bingo-board {
     position: absolute;
     top: 0px;
-    left: 843px;
-    width: 1073px;
+    left: 842px;
+    width: 1074px;
     height: 1076px;
     border: 2px var(--container-border-color) solid;
     border-bottom: 2px var(--container-border-color) solid;;
@@ -122,7 +122,6 @@ export default class GameLayout extends Vue {
     top: 1078px;
     width: 1080px;
     height: 2px;
-    background: white;
 }
 
 #game {
@@ -156,7 +155,7 @@ export default class GameLayout extends Vue {
     top: 420px;
     left: 0px;
     width: 840px;
-    height: 240px;
+    height: 236px;
     background-image: url("../../../static/background-sunshine.jpg");
     background-size: cover;
     background-repeat: no-repeat;
