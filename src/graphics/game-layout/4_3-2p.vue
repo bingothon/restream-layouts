@@ -79,27 +79,27 @@ export default class GameLayout extends Vue {
 
 #pi1 {
     position: absolute;
-    top: 720px;
+    top: 719px;
     left: 0px;
     border: 2px var(--container-border-color) solid;
-    width: 715px;
+    width: 713px;
 }
 
 #pi2 {
     position: absolute;
-    top: 720px;
+    top: 719px;
     left: 1190px;
     border: 2px var(--container-border-color) solid;
-    width: 715px;
+    width: 712px;
 }
 
 #Bingo-board {
     position: absolute;
-    top: 720px;
-    left: 730px;
+    top: 719px;
+    left: 728px;
     border: 2px var(--container-border-color) solid;
     width: 460px;
-    height: 360px;
+    height: 357px;
 }
 
 #game {
@@ -107,16 +107,16 @@ export default class GameLayout extends Vue {
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
-    top: 780px;
+    top: 779px;
     left: 0px;
-    width: 730px;
+    width: 727px;
     border: 2px var(--container-border-color) solid;
-    height: 300px;
+    height: 297px;
 }
 
 #gamec {
     position: absolute;
-    top: 100px;
+    top: 180px;
     left: 0px;
     width: 730px;
 }
@@ -138,10 +138,10 @@ export default class GameLayout extends Vue {
 
 #timer-and-discord-container {
     position: absolute;
-    left: 1190px;
-    top: 780px;
-    width: 730px;
-    height: 300px;
+    left: 1189px;
+    top: 779px;
+    width: 727px;
+    height: 297px;
     border: 2px var(--container-border-color) solid;
     background-image: url("../../../static/middle-info-background.png");
     background-size: cover;
