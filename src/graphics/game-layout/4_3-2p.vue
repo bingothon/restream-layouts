@@ -103,7 +103,7 @@ export default class GameLayout extends Vue {
 }
 
 #game {
-    background-image: url("../../../static/middle-info-background.png");
+    background-image: url("../../../static/background-sunshine.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
@@ -143,7 +143,7 @@ export default class GameLayout extends Vue {
     width: 730px;
     height: 300px;
     border: 2px var(--container-border-color) solid;
-    background-image: url("../../../static/middle-info-background.png");
+    background-image: url("../../../static/background-sunshine.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }
