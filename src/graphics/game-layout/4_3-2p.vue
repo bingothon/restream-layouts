@@ -13,7 +13,7 @@
             </div>
             <div id="game" class="flexContainer">
                 <game-container id="gamec"></game-container>
-<!--                <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">-->
+               <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">
             </div>
             <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
             <SubNotifs id="SubNotifsSMS" class="SubNotifs"></SubNotifs>
@@ -116,7 +116,7 @@ export default class GameLayout extends Vue {
 
 #gamec {
     position: absolute;
-    top: 100px;
+    top: 250px;
     left: 0px;
     width: 730px;
 }
