@@ -116,7 +116,7 @@ export default class GameLayout extends Vue {
 
 #gamec {
     position: absolute;
-    top: 250px;
+    top: 150px;
     left: 0px;
     width: 730px;
 }
