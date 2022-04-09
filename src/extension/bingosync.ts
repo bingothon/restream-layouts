@@ -152,6 +152,7 @@ class BingosyncManager {
             followAllRedirects: true,
             json: {
                 room: roomCode,
+                is_specator: 'on',
                 nickname: 'bingothon',
                 password: passphrase,
             },
