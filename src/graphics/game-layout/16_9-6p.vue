@@ -263,7 +263,7 @@ export default class GameLayout extends Vue {
     width: 426px;
 }
 
-#pi4 {
+#pi2 {
     position: absolute;
     top: 300px;
     left: 840px;
@@ -271,7 +271,7 @@ export default class GameLayout extends Vue {
     width: 426px;
 }
 
-#pi2 {
+#pi3 {
     position: absolute;
     top: 560px;
     left: 640px;
@@ -279,7 +279,7 @@ export default class GameLayout extends Vue {
     width: 426px;
 }
 
-#pi5 {
+#pi4 {
     position: absolute;
     top: 620px;
     left: 840px;
@@ -287,7 +287,7 @@ export default class GameLayout extends Vue {
     width: 426px;
 }
 
-#pi3 {
+#pi5 {
     position: absolute;
     top: 960px;
     left: 640px;
