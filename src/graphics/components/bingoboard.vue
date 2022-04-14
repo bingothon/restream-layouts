@@ -309,6 +309,7 @@ export default class BingoBoard extends Vue {
         position: absolute;
         top: 50%;
         -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
+        transform: translateY(-50%) translateX(-50%);
+        left: 50%;
     }
 </style>
