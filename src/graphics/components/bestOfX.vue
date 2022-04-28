@@ -6,11 +6,11 @@
     <div class="MatchCounter FlexContainer">
         <div v-for="i in Math.ceil(totalMatches/2)" class="ScoreCounter FlexContainer" :style="{'height':height}">
             <div v-if="i <= score" class="Score Counter" :style="{'height':height}">
-                <img v-if="game === 'sms'" :src="scoreImg" :style="{'height':height}">
+                <img v-if="game === 'sms'" :src="scoreImg" class="notGreySMS" :style="{'height':height}">
                 <div v-else class="ScoreIndicator" :style="{'height':height}"></div>
             </div>
             <div v-else class="NoScore Counter" :style="{'height':height}">
-                <img v-if="game === 'sms'" class="grey" :src="noScoreImg" :style="{'height':height}">
+                <img v-if="game === 'sms'" class="greySMS" :src="noScoreImg" :style="{'height':height}">
                 <div v-else class="ScoreIndicator grey" :style="{'height':height}"></div>
             </div>
         </div>
@@ -69,7 +69,6 @@ export default class BestOfX extends Vue {
     height: 100%;
     width: auto;
     position: relative;
-    filter: drop-shadow(0 0 0.75rem)
 }
 
 
@@ -93,8 +92,12 @@ export default class BestOfX extends Vue {
     filter: invert(1);
 }
 
-.MatchCounter.ScoreCounter.NoScore > img {
-    filter: grayscale(100%);
+.greySMS {
+    filter: grayscale(100%) drop-shadow(0 0 0.75rem);
+}
+
+.notGreySMS {
+    filter: drop-shadow(0 0 0.75rem);
 }
 
 .grey {
