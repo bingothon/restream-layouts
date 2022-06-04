@@ -170,7 +170,17 @@
         "height": 1080
       },
       {
+        "file": "4p-layout.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
         "file": "big-board.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "4p-big-board.html",
         "width": 1920,
         "height": 1080
       }

@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import App from '../game-layout/16_9-4p-co-op-big-board.vue';
+import App from '../game-layout/4_3-4p-big-board.vue';
 import {create} from '../../browser-util/state';
 
 create().then(() => {
