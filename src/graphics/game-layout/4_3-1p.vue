@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<twitch-player id="stream1" streamIndex="0"></twitch-player>
     <div id="fillbar" class="flexContainer"></div>
     <div id="fillvoice" class="flexContainer"></div>
     <player-info id="pi1" playerIndex="0" height=45px hideSoundIcon="true"></player-info>
@@ -35,7 +34,6 @@
       PlayerTeamContainer,
       TimerContainer,
       DiscordVoiceDisplay,
-      TwitchPlayer,
 		}
 	})
 
@@ -47,7 +45,7 @@
 </script>
 
 <style scoped>
-  #stream1 {
+  /*#stream1 {
     position: absolute;
     top: 0px;
     left: 587px;
@@ -55,8 +53,8 @@
     height: 1000px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px var(--container-border-color) solid;
-  }
-  #fillbar {
+  }*/
+  /*#fillbar {
     position: absolute;
     top: 1000px;
     left: 0px;
@@ -64,12 +62,12 @@
     height: 80px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px var(--container-border-color) solid;
-  }
+  }*/
   #discord-voice {
     position: absolute;
     top: 460px;
     left: 0px;
-    width: 586px;
+    width: 480px;
     height: 200px;
     background-image: url("../../../static/middle-info-background.png");
     border: 2px var(--container-border-color) solid;
@@ -79,22 +77,22 @@
     top: 0px;
     left: 0px;
     border: 2px var(--container-border-color) solid;
-    width: 572px;
+    width: 466px;
   }
   #Bingo-board {
     position: absolute;
     top: 660px;
     left: 0px;
     border: 2px var(--container-border-color) solid;
-    width: 587px;
-    height: 340px;
+    width: 480px;
+    height: 420px;
   }
   #game {
     background-image: url("../../../static/middle-info-background.png");
     position: absolute;
     top: 60px;
     left: 0px;
-    width: 586px;
+    width: 480px;
     border: 2px var(--container-border-color) solid;
     height: 180px;
   }
@@ -103,7 +101,7 @@
     top: 240px;
     left: 0px;
     background-image: url("../../../static/middle-info-background.png");
-    width: 586px;
+    width: 480px;
     border: 2px var(--container-border-color) solid;
     height: 220px;
   }
