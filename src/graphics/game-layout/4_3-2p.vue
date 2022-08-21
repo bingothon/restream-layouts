@@ -1,22 +1,25 @@
 <template>
     <div>
-            <!--<twitch-player id="stream1" streamIndex="0"></twitch-player
-            <twitch-player id="stream2" streamIndex="1"></twitch-player>-->
-            <div id="borderline"></div>
-            <div id="fillvoice" class="flexContainer"></div>
-            <player-info id="pi1" height=45px playerIndex="0" :hide-finish-time="true"></player-info>
-            <player-info id="pi2" height=45px playerIndex="1" :hide-finish-time="true"></player-info>
-            <div id="timer-and-discord-container">
-                <timer-container id="timer"></timer-container>
-                <discord-voice-display id="discord-voice" iconHeight="40px" maxUserCount="4"
-                                       nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
-            </div>
-            <div id="game" class="flexContainer">
-                <game-container id="gamec"></game-container>
-               <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">
-            </div>
-            <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
-            <SubNotifs id="SubNotifsSMS" class="SubNotifs"></SubNotifs>
+        <!--<twitch-player id="stream1" streamIndex="0"></twitch-player
+        <twitch-player id="stream2" streamIndex="1"></twitch-player>-->
+        <div id="borderline"></div>
+        <div id="fillvoice" class="flexContainer"></div>
+        <player-info id="pi1" height=45px playerIndex="0" :hide-finish-time="true"></player-info>
+        <player-info id="pi2" height=45px playerIndex="1" :hide-finish-time="true"></player-info>
+        <div id="timer-and-discord-container" :class="game === 'sms' ? 'SMS' : 'Neutral'">
+            <timer-container id="timer"></timer-container>
+            <discord-voice-display id="discord-voice" iconHeight="40px" maxUserCount="4"
+                                   nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
+        </div>
+        <div v-if="game === 'sms'" id="gameSMS" class="flexContainer">
+            <game-container id="gamecSMS"></game-container>
+            <img id="logo" src="../../../static/Super_Mario_Sunshine_logo.png">
+        </div>
+        <div v-else id="game" class="flexContainer">
+            <game-container id="gamec"></game-container>
+        </div>
+        <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
+        <SubNotifs id="SubNotifsSMS" class="SubNotifs"></SubNotifs>
     </div>
 </template>
 
@@ -53,7 +56,7 @@ export default class GameLayout extends Vue {
         return store.state.runDataActiveRun.teams;
     }
 
-    get game():string {
+    get game(): string {
         return store.state.gameMode.game;
     }
 }
@@ -69,6 +72,7 @@ export default class GameLayout extends Vue {
     width: 2px;
     background: white;
 }
+
 #discord-voice {
     position: absolute;
     top: 0px;
@@ -102,7 +106,7 @@ export default class GameLayout extends Vue {
     height: 360px;
 }
 
-#game {
+#gameSMS {
     background-image: url("../../../static/background-sunshine.jpg");
     background-size: cover;
     background-repeat: no-repeat;
@@ -114,9 +118,28 @@ export default class GameLayout extends Vue {
     height: 300px;
 }
 
-#gamec {
+#game {
+    background-image: url("../../../static/middle-info-background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 780px;
+    left: 0px;
+    width: 730px;
+    border: 2px var(--container-border-color) solid;
+    height: 300px;
+}
+
+#gamecSMS {
     position: absolute;
     top: 200px;
+    left: 0px;
+    width: 730px;
+}
+
+#gamec {
+    position: absolute;
+    top: 100px;
     left: 0px;
     width: 730px;
 }
@@ -143,9 +166,16 @@ export default class GameLayout extends Vue {
     width: 730px;
     height: 300px;
     border: 2px var(--container-border-color) solid;
+}
+
+.SMS {
     background-image: url("../../../static/background-sunshine.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+.Neutral {
+    background-image: url("../../../static/middle-info-background.png");
 }
 
 #stream1 {
