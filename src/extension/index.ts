@@ -129,7 +129,6 @@ export = (nodecg: NodeCG): void => {
         }
     }
     require('./twitch-chat-bot');
-    require('./streams');
     require('./util/obs');
     require('./obsremotecontrol');
     if(bundleConfig.twitchEventSub && bundleConfig.twitchEventSub.enabled){

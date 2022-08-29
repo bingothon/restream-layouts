@@ -174,51 +174,13 @@ export default class BingomodeControl extends Vue {
 
     ALL_REDIRECTS = {
         options: [
-            {
-                title: 'pink',
-                colorId: 'color-control-pink'
-            },
-            {
-                title: 'red',
-                colorId: 'color-control-red'
-            },
-            {
-                title: 'orange',
-                colorId: 'color-control-orange'
-            },
-            {
-                title: 'brown',
-                colorId: 'color-control-brown'
-            },
-            {
-                title: 'yellow',
-                colorId: 'color-control-yellow'
-            },
-            {
-                title: 'green',
-                colorId: 'color-control-green'
-            },
-            {
-                title: 'teal',
-                colorId: 'color-control-teal'
-            },
-            {
-                title: 'blue',
-                colorId: 'color-control-blue'
-            },
-            {
-                title: 'navy',
-                colorId: 'color-control-navy'
-            },
-            {
-                title: 'purple',
-                colorId: 'color-control-purple'
-            },
+            ...this.ALL_COLORS.options,
             {
                 title: 'black',
                 colorId: 'color-control-black'
             }
-        ]}
+        ]
+    }
     //Object.freeze(['pink', 'red', 'orange', 'brown', 'yellow', 'green', 'teal', 'blue', 'navy', 'purple']);
     currentBingomode: string = 'invasion';
     markerRedirects: [string, string][] = [];
