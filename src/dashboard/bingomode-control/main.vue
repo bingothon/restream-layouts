@@ -53,7 +53,7 @@
                 <div class="bingomode-color-control">
                     <v-select
                         v-model="markerRedirect[1]"
-                        v-bind:items="ALL_COLORS.options"
+                        v-bind:items="ALL_REDIRECTS.options"
                         item-text="title"
                         item-value="title"
                     >
@@ -69,7 +69,7 @@
                             </template>
                             <template v-else>
                                 <v-list-content>
-                                    {{data.item.title}}
+                                    {{ data.item.title }}
                                 </v-list-content>
                             </template>
                         </template>
@@ -169,6 +169,55 @@ export default class BingomodeControl extends Vue {
                 title: 'purple',
                 colorId: 'color-control-purple'
             }
+        ]
+    }
+
+    ALL_REDIRECTS = {
+        options: [
+            {
+                title: 'pink',
+                colorId: 'color-control-pink'
+            },
+            {
+                title: 'red',
+                colorId: 'color-control-red'
+            },
+            {
+                title: 'orange',
+                colorId: 'color-control-orange'
+            },
+            {
+                title: 'brown',
+                colorId: 'color-control-brown'
+            },
+            {
+                title: 'yellow',
+                colorId: 'color-control-yellow'
+            },
+            {
+                title: 'green',
+                colorId: 'color-control-green'
+            },
+            {
+                title: 'teal',
+                colorId: 'color-control-teal'
+            },
+            {
+                title: 'blue',
+                colorId: 'color-control-blue'
+            },
+            {
+                title: 'navy',
+                colorId: 'color-control-navy'
+            },
+            {
+                title: 'purple',
+                colorId: 'color-control-purple'
+            },
+            {
+                title: 'black',
+                colorId: 'color-control-black'
+            }
         ]}
     //Object.freeze(['pink', 'red', 'orange', 'brown', 'yellow', 'green', 'teal', 'blue', 'navy', 'purple']);
     currentBingomode: string = 'invasion';
@@ -217,20 +266,53 @@ export default class BingomodeControl extends Vue {
 <style>
 /* import bingo colors */
 
-#color-control-pink{background: var(--bingo-color-pink);}
-#color-control-red{background: var(--bingo-color-red);}
-#color-control-orange{background: var(--bingo-color-orange);}
-#color-control-brown{background: var(--bingo-color-brown);}
-#color-control-yellow{background: var(--bingo-color-yellow);}
-#color-control-green{background: var(--bingo-color-green);}
-#color-control-teal{background: var(--bingo-color-teal);}
-#color-control-blue{background: var(--bingo-color-blue);}
-#color-control-navy{background: var(--bingo-color-navy);}
-#color-control-purple{background: var(--bingo-color-purple);}
+#color-control-pink {
+    background: var(--bingo-color-pink);
+}
+
+#color-control-red {
+    background: var(--bingo-color-red);
+}
+
+#color-control-orange {
+    background: var(--bingo-color-orange);
+}
+
+#color-control-brown {
+    background: var(--bingo-color-brown);
+}
+
+#color-control-yellow {
+    background: var(--bingo-color-yellow);
+}
+
+#color-control-green {
+    background: var(--bingo-color-green);
+}
+
+#color-control-teal {
+    background: var(--bingo-color-teal);
+}
+
+#color-control-blue {
+    background: var(--bingo-color-blue);
+}
+
+#color-control-navy {
+    background: var(--bingo-color-navy);
+}
+
+#color-control-purple {
+    background: var(--bingo-color-purple);
+}
+
+#color-control-black {
+    background: black;
+}
 
 .override {
     width: 100%;
-    align-items:center;
+    align-items: center;
 }
 
 #fromToColor {

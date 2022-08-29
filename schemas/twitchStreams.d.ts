@@ -7,13 +7,13 @@
 
 export type TwitchStreams = {
   channel: string;
-  widthPercent: number;
-  heightPercent: number;
-  topPercent: number;
-  leftPercent: number;
+  widthPercent: number & string;
+  heightPercent: number & string;
+  topPercent: number & string;
+  leftPercent: number & string;
   quality: string;
-  volume: number;
-  paused: boolean;
+  volume: number & string;
+  paused: boolean & string;
   delay: number;
   availableQualities: {
     name: string;

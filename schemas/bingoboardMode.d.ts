@@ -9,7 +9,7 @@ export interface BingoboardMode {
   boardMode: "normal" | "lockout" | "invasion" | "rowcontrol" | "draft" | "draftlockout";
   alwaysShowMarkers: boolean;
   markerRedirects: [
-    "pink" | "red" | "orange" | "brown" | "yellow" | "green" | "teal" | "blue" | "navy" | "purple",
-    "pink" | "red" | "orange" | "brown" | "yellow" | "green" | "teal" | "blue" | "navy" | "purple"
+    "pink" | "red" | "orange" | "brown" | "yellow" | "green" | "teal" | "blue" | "navy" | "purple" | "black",
+    "pink" | "red" | "orange" | "brown" | "yellow" | "green" | "teal" | "blue" | "navy" | "purple" | "black"
   ][];
 }
