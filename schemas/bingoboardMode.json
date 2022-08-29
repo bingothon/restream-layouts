@@ -22,7 +22,7 @@
                 "maxItems": 2,
                 "items": {
                     "type": "string",
-                    "enum": ["pink", "red", "orange", "brown", "yellow", "green", "teal", "blue", "navy", "purple"]
+                    "enum": ["pink", "red", "orange", "brown", "yellow", "green", "teal", "blue", "navy", "purple", "black"]
                 }
             }
         }

@@ -4,11 +4,11 @@
           <tbody>
             <tr :key="i" v-for="(column,i) in bingoCells">
                 <td class="square" :key="i+''+j" v-for="(cell,j) in column">
-                    <div :key="color.name" v-for="color in cell.colors" :class="'bg-color '+color.color+'square'" :style="color.style"></div>
+                    <div :key="color.name" v-for="color in cell.colors" :class="'bg-color '+color.color+'square '" :style="color.style"></div>
                     <div class="shadow"></div>
                     <div :class="getMarkerClasses(marker, k)" :key="k" v-for="(marker, k) in cell.markers"></div>
                     <div class="CellTextFitContainer">
-                        <CellTextFit :text="cell.name" :fontSize="fontSize"/>
+                        <CellTextFit :text="cell.name" :fontSize="fontSize" :strikethrough="getStrikethrough(cell.markers)"/>
                     </div>
                 </td>
             </tr>
@@ -198,11 +198,20 @@ export default class BingoBoard extends Vue {
     }
 
     getMarkerClasses(marker, markerIndex): string {
-        if (!marker) {
+        if (!marker || marker === 'black') {
             return '';
         } else {
             return `marker marker${markerIndex} ${marker}square`;
         }
+    }
+
+    getStrikethrough(markers: string[]) : boolean {
+        markers.forEach(marker => {
+            if (marker === 'black') {
+                return true;
+            }
+        })
+        return false;
     }
 }
 </script>
