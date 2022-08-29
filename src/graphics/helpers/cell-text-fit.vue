@@ -20,7 +20,7 @@ export default class CellTextFit extends Vue {
     @Prop({})
     fontSize: string = '20px';
     @Prop({})
-    strikethrough: boolean = false;
+    strikethrough: boolean;
     optimizedFontSize: string = this.fontSize;
     transform: string = "scaleX(1) scaleY(1)";
     top: string = "0";

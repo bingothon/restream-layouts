@@ -374,8 +374,8 @@ class BingosyncManager {
                         //Check if conditions for lockout win are fulfilled and stop timer
                         if (runData.value
                             && ((lockoutVariants.includes(runData.value.customData.Bingotype) && this.boardRep.value.colorCounts[json.color] == 13) //normal lockout up to 13
-                                || (runData.value.customData.Bingotype === "rowcontrol" && this.boardRep.value.colorCounts[json.color] == 3))) { //for rowcontrol, this can probably be simplified somehow
-                            console.log('lockout AND 13 goals');
+                                || (runData.value.customData.Bingotype === "rowcontrol" && this.boardRep.value.colorCounts[json.color] == 3) //for rowcontrol, this can probably be simplified somehow
+                                || (runData.value.customData.Bingotype === "blockout" && this.boardRep.value.colorCounts[json.color] == 10))) { // blockout stops at 10 goals
                             let colorTo13 = json.color;
                             let playerIndex = boardMetaRep.value.playerColors.findIndex((color) => (color == colorTo13));
                             let i = 0;
