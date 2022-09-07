@@ -5,11 +5,11 @@
             <player-info id="pi1BOTW" height=45px playerIndex="0" :hide-finish-time="true"></player-info>
             <player-info id="pi2BOTW" height=45px playerIndex="1" :hide-finish-time="true"></player-info>
             <timer-container id="timerNeutral"></timer-container>
-            <discord-voice-display id="discord-voiceNeutral" iconHeight="40px" maxUserCount="4"
-                                   nameWidth="125px" voice-highlight-color="darkred"></discord-voice-display>
+            <discord-voice-display id="discord-voiceNeutral" iconHeight="40px" maxUserCount="12"
+                                   nameWidth="98px" voice-highlight-color="darkred"></discord-voice-display>
             <game-container id="gameBOTW"></game-container>
-            <!--            <div id="Cam1" class="flexContainer"></div>
-                        <div id="Cam2" class="flexContainer"></div>-->
+            <div id="Cam1" class="flexContainer"></div>
+            <div id="Cam2" class="flexContainer"></div>
             <bingo-board id="Bingo-boardBOTW" fontSize="30px"></bingo-board>
             <SubNotifs id="SubNotifsNeutral" class="SubNotifs"></SubNotifs>
         </div>
@@ -185,10 +185,10 @@ export default class GameLayout extends Vue {
 
 #discord-voiceNeutral {
     position: absolute;
-    top: 600px;
+    top: 780px;
     left: 1200px;
-    width: 288px;
-    height: 480px;
+    width: 320px;
+    height: 300px;
     border: 2px var(--container-border-color) solid;
     background-image: url("../../../static/middle-info-background.png");
 }
@@ -264,8 +264,8 @@ export default class GameLayout extends Vue {
 #timerNeutral {
     position: absolute;
     top: 600px;
-    left: 1490px;
-    width: 430px;
+    left: 1520px;
+    width: 400px;
     height: 480px;
     border: 2px var(--container-border-color) solid;
     background-image: url("../../../static/middle-info-background.png");
@@ -274,7 +274,7 @@ export default class GameLayout extends Vue {
 #Cam1 {
     position: absolute;
     top: 600px;
-    left: 398px;
+    left: 400px;
     width: 320px;
     height: 180px;
     background-color: green;
@@ -284,7 +284,7 @@ export default class GameLayout extends Vue {
 #Cam2 {
     position: absolute;
     top: 600px;
-    left: 1192px;
+    left: 1200px;
     width: 320px;
     height: 180px;
     background-color: green;
