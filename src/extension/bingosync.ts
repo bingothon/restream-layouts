@@ -242,6 +242,10 @@ class BingosyncManager {
             return newCell;
         });
 
+        newBoardState.forEach((cell, cellIdx) => {
+            this.addBomberMarker(cell, cellIdx, newBoardState);
+        })
+
         if (this.invasionCtx !== null) {
             this.invasionCtx.updateSides(newBoardState);
             this.invasionCtx.setMarkers(newBoardState);
@@ -266,10 +270,14 @@ class BingosyncManager {
 
     private fullUpdateMarkers(): void {
         const clonedCells = clone(this.boardRep.value.cells);
-        clonedCells.forEach((cell: BingoboardCell): void => {
+        clonedCells.forEach((cell: BingoboardCell, cellIdx): void => {
 
             cell.markers = [null, null, null, null];
-            this.processCellForMarkers(cell);
+            if (this.boardModeRep?.value.boardMode === "bomber") {
+                this.addBomberMarker(cell, cellIdx, clonedCells);
+            } else {
+                this.processCellForMarkers(cell);
+            }
         });
 
         if (this.invasionCtx !== null) {
@@ -309,6 +317,28 @@ class BingosyncManager {
         }
         cell.colors = newColors;
         cell.markers = markers;
+    }
+
+    private addBomberMarker(cell: BingoboardCell, cellIdx: number, otherCells: BingoboardCell[]) {
+        let neighbors = [/* up */ (cellIdx + 5) % 25, /* down */ (cellIdx + 20) % 25];
+        if (cellIdx % 5 === 0) {
+            neighbors.push(cellIdx + 4);
+        } else {
+            neighbors.push(cellIdx - 1)
+        }
+        if (cellIdx % 5 === 4) {
+            neighbors.push(cellIdx - 4)
+        } else {
+            neighbors.push(cellIdx + 1);
+        }
+        if (cell.colors.length === 0 && neighbors.some(neighbor => otherCells[neighbor].colors.length !== 0)) {
+            const playerColors = boardMetaRep.value.playerColors;
+            cell.markers[0] = playerColors[0] || 'red';
+            cell.markers[1] = playerColors[1] || 'orange';
+        } else {
+            cell.markers[0] = null;
+            cell.markers[1] = null;
+        }
     }
 
     public async createWebsocket(socketUrl: string, socketKey: string): Promise<void> {
@@ -368,7 +398,16 @@ class BingosyncManager {
                             rawColors: json.square.colors,
                         };
                         this.processCellForMarkers(cell);
-                        this.boardRep.value.cells[index] = cell;
+                        if (this.boardModeRep?.value.boardMode === "bomber") {
+                            const newBoardState = clone(this.boardRep.value.cells);
+                            newBoardState[index] = cell;
+                            newBoardState.forEach((cell, cellIdx) => {
+                                this.addBomberMarker(cell, cellIdx, newBoardState);
+                            });
+                            this.boardRep.value.cells = newBoardState;
+                        } else {
+                            this.boardRep.value.cells[index] = cell;
+                        }
                         // update goal count
                         this.countScore(json)
                         //Check if conditions for lockout win are fulfilled and stop timer

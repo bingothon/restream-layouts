@@ -125,7 +125,7 @@ type ColorEnum = ('pink' | 'red' | 'orange' | 'brown' | 'yellow' | 'green' | 'te
 @Component({})
 export default class BingomodeControl extends Vue {
 
-    ALL_BINGO_MODES = Object.freeze(['invasion', 'normal', 'rowcontrol']);
+    ALL_BINGO_MODES: Readonly<BingoboardMode["boardMode"][]> = Object.freeze(['invasion', 'normal', 'rowcontrol', 'bomber']);
 
     ALL_COLORS = {
         options: [
