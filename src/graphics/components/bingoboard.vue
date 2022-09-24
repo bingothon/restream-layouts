@@ -1,10 +1,10 @@
 <template>
     <div class="BingoBoard">
-        <table class="bingo-table">
+        <table class="bingo-table" ref="bingoBoard">
             <tbody>
             <tr :key="i" v-for="(column,i) in bingoCells">
                 <td class="square" :key="i+''+j" v-for="(cell,j) in column">
-                    <div :key="color.name" v-for="color in cell.colors" :class="'bg-color '+color.color+'square '"
+                    <div :key="color.name" v-for="color in cell.colors" :class="'bg-color '+color.color+'square'"
                          :style="color.style"></div>
                     <div class="shadow"></div>
                     <div :class="getMarkerClasses(marker, k)" :key="k" v-for="(marker, k) in cell.markers"></div>
@@ -115,7 +115,6 @@ export default class BingoBoard extends Vue {
     defaultBoard: BingoCell[][] = defaultBingoBoard();
     @Prop({default: "10px"})
     fontSize: string;
-    skewAngle = 1;
     @Prop({default: null})
     bingoboardRep: string | null;
     @Prop({default: false})
@@ -127,9 +126,15 @@ export default class BingoBoard extends Vue {
     bingoAnimColor: string = "black";
 
     mounted() {
-        const height = this.$el.scrollHeight;
-        const width = this.$el.scrollWidth;
-        this.skewAngle = Math.atan(width / height);
+        this.waitForBoundsDefined(() => {
+            if (this.bingoboardRep == null) {
+                const mainBingoboard = store.state.currentMainBingoboard.boardReplicant;
+                const board = store.state[mainBingoboard] as any;
+                this.onBingoBoardUpdate(board);
+            } else {
+                this.onBingoBoardUpdate(store.state[this.bingoboardRep]);
+            }
+        });
         // no specific bingoboardRep means use the replicant
         if (this.bingoboardRep == null) {
             store.watch(state => state.currentMainBingoboard, newBoard => {
@@ -145,6 +150,23 @@ export default class BingoBoard extends Vue {
             this.onBingoBoardUpdate(store.state[this.bingoboardRep]);
         }
         nodecg.listenFor('showBingoAnimation', 'restream-layouts', this.showBingoSplash);
+    }
+
+    waitForBoundsDefined(cb: () => void) {
+        if (isNaN(this.getSkewAngle())) {
+            setTimeout(() => this.waitForBoundsDefined(cb), 100);
+            // Vue.nextTick(() => this.waitForBoundsDefined(cb));
+        } else {
+            cb()
+        }
+    }
+
+    getSkewAngle() {
+        return Math.atan((this.$el as Element | undefined)?.clientWidth / (this.$el as Element | undefined)?.clientHeight);
+    }
+
+    onSkewAngleUpdate() {
+
     }
 
     destroyed() {
@@ -164,6 +186,7 @@ export default class BingoBoard extends Vue {
     }
 
     onBingoBoardUpdate(newGoals: Bingoboard, oldGoals?: Bingoboard | undefined) {
+        const skewAngle = this.getSkewAngle() || Math.atan(1);
         if (!newGoals) return;
         let idx = 0;
         this.bingoCells.forEach((row, rowIndex) => {
@@ -185,9 +208,10 @@ export default class BingoBoard extends Vue {
                             // how bingosync handles the backgrounds, set style here to simply bind it to html later
                             newColors.push({
                                 color: colors[i], style:
-                                    `transform: skew(-${this.skewAngle}rad) translateX(${translations[i]}%); border-right: solid 1.5px #444444`
+                                    `transform: skew(-${skewAngle}rad) translateX(${translations[i]}%); border-right: solid 1.5px #444444`
                             });
                         }
+                        console.log(newColors);
                         Vue.set(this.bingoCells[rowIndex][columnIndex], 'colors', newColors);
                     } else {
                         Vue.set(this.bingoCells[rowIndex][columnIndex], 'colors', []);
