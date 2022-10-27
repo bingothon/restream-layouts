@@ -320,24 +320,26 @@ class BingosyncManager {
     }
 
     private addBomberMarker(cell: BingoboardCell, cellIdx: number, otherCells: BingoboardCell[]) {
-        let neighbors = [/* up */ (cellIdx + 5) % 25, /* down */ (cellIdx + 20) % 25];
-        if (cellIdx % 5 === 0) {
-            neighbors.push(cellIdx + 4);
-        } else {
-            neighbors.push(cellIdx - 1)
-        }
-        if (cellIdx % 5 === 4) {
-            neighbors.push(cellIdx - 4)
-        } else {
-            neighbors.push(cellIdx + 1);
-        }
-        if (cell.colors.length === 0 && neighbors.some(neighbor => otherCells[neighbor].colors.length !== 0)) {
-            const playerColors = boardMetaRep.value.playerColors;
-            cell.markers[0] = playerColors[0] || 'red';
-            cell.markers[1] = playerColors[1] || 'orange';
-        } else {
-            cell.markers[0] = null;
-            cell.markers[1] = null;
+        if (this.boardModeRep?.value.boardMode === "bomber") {
+            let neighbors = [/* up */ (cellIdx + 5) % 25, /* down */ (cellIdx + 20) % 25];
+            if (cellIdx % 5 === 0) {
+                neighbors.push(cellIdx + 4);
+            } else {
+                neighbors.push(cellIdx - 1)
+            }
+            if (cellIdx % 5 === 4) {
+                neighbors.push(cellIdx - 4)
+            } else {
+                neighbors.push(cellIdx + 1);
+            }
+            if (cell.colors.length === 0 && neighbors.some(neighbor => otherCells[neighbor].colors.length !== 0)) {
+                const playerColors = boardMetaRep.value.playerColors;
+                cell.markers[0] = playerColors[0] || 'red';
+                cell.markers[1] = playerColors[1] || 'orange';
+            } else {
+                cell.markers[0] = null;
+                cell.markers[1] = null;
+            }
         }
     }
 
