@@ -1,33 +1,40 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "type": "object",
-    "additionalProperties": false,
-    "required": ["members"],
-    "properties": {
-        "members": {
-            "type": "array",
-            "items": {
-                "additionalProperties": false,
-                "required": ["id","name","avatar","isSpeaking"],
-                "properties": {
-                    "id": {
-                        "type":"string",
-                        "default": ""
-                    },
-                    "name": {
-                        "type":"string",
-                        "default":""
-                    },
-                    "avatar": {
-                        "type":"string",
-                        "default":""
-                    },
-                    "isSpeaking": {
-                        "type":"boolean",
-                        "default":false
-                    }
-                }
-            }
-        }
-    }
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"type": "object",
+	"additionalProperties": false,
+	"required": [
+		"members"
+	],
+	"properties": {
+		"members": {
+			"type": "array",
+			"items": {
+				"required": [
+					"id",
+					"name",
+					"avatar",
+					"isSpeaking"
+				],
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"default": ""
+					},
+					"name": {
+						"type": "string",
+						"default": ""
+					},
+					"avatar": {
+						"type": "string",
+						"default": ""
+					},
+					"isSpeaking": {
+						"type": "boolean",
+						"default": false
+					}
+				}
+			}
+		}
+	}
 }

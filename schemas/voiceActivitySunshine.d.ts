@@ -11,5 +11,6 @@ export interface VoiceActivitySunshine {
     name: string;
     avatar: string;
     isSpeaking: boolean;
+    [k: string]: unknown;
   }[];
 }

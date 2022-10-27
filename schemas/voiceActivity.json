@@ -7,7 +7,8 @@
         "members": {
             "type": "array",
             "items": {
-                "additionalProperties": false,
+				"type": "object",
+				"additionalProperties": false,
                 "required": ["id","name","avatar","isSpeaking"],
                 "properties": {
                     "id": {

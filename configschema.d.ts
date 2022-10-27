@@ -6,11 +6,11 @@
  */
 
 export interface Configschema {
-  twitch: {
+  twitch?: {
     enable: boolean;
     chatBot: boolean;
   };
-  discord: {
+  discord?: {
     test: boolean;
     token: string;
     serverID: string;
@@ -18,17 +18,17 @@ export interface Configschema {
     voiceChannelID: string;
     ignoredUsers?: string[];
   };
-  discordSunshine: {
+  discordSunshine?: {
     serverID: string;
     commandChannelID: string;
     voiceChannelID: string;
   };
-  discordSA2: {
+  discordSA2?: {
     serverID: string;
     commandChannelID: string;
     voiceChannelID: string;
   };
-  obs: {
+  obs?: {
     enable: boolean;
     address: string;
     password: string;
@@ -49,5 +49,14 @@ export interface Configschema {
     hostName: string;
     eventSubListenerKey: string;
   };
-  [k: string]: unknown;
+  firebaseConfig?: {
+    apiKey: string;
+    authDomain: string;
+    databaseURL: string;
+    projectId: string;
+    storageBucket: string;
+    messagingSenderId: string;
+    appId: string;
+    measurementId: string;
+  };
 }
