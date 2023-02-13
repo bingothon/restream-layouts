@@ -28,7 +28,7 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
 import {nodecg} from '../../browser-util/nodecg';
-import {TwitchStreams,} from '../../../schemas';
+import {SoundOnTwitchStream, TwitchStreams,} from '../../../schemas';
 import {getReplicant, store} from '../../browser-util/state';
 
 const bingothonBundleName = 'restream-layouts';
@@ -60,9 +60,9 @@ export default class TwitchControl extends Vue {
 
     muteChange(id: number) {
         if (this.soundOnTwitchStream === id) {
-            nodecg.sendMessageToBundle('streams:setSoundOnTwitchStream', bingothonBundleName, -1);
+            getReplicant<SoundOnTwitchStream>('soundOnTwitchStream').value = -1;
         } else {
-            nodecg.sendMessageToBundle('streams:setSoundOnTwitchStream', bingothonBundleName, id);
+            getReplicant<SoundOnTwitchStream>('soundOnTwitchStream').value = id;
         }
     }
 
