@@ -13,7 +13,7 @@
                     small
                     @click="muteChange(i)"
                 >
-                    <v-icon v-if="i == soundOnTwitchStream">
+                    <v-icon v-if="i === soundOnTwitchStream">
                         mdi-volume-off
                     </v-icon>
                     <v-icon v-else>
