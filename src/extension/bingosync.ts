@@ -365,7 +365,6 @@ class BingosyncManager {
                     let json;
                     try {
                         json = JSON.parse(event.data as string);
-                        log.info("New WS Message: ", json);
                     } catch (error) { // tslint:disable-line:no-unused
                         log.error('Failed to parse message:', event.data);
                     }
