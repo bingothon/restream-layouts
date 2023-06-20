@@ -236,10 +236,17 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
             });
 
             // default if they somehow not exist
-            [bundleConfig.obs.discordAudio, bundleConfig.obs.mpdAudio, bundleConfig.obs.streamsAudio]
+            [bundleConfig.obs?.discordAudio, bundleConfig.obs?.mpdAudio, bundleConfig.obs?.streamsAudio]
                 .forEach((audioSource): void => {
-                    if (!Object.getOwnPropertyNames(obsAudioSourcesRep.value).includes(audioSource)) {
-                        obsAudioSourcesRep.value[audioSource] = { volume: 0.5, muted: false, delay: 0, volumeMultiplier: 1};
+                    if(audioSource) {
+                        if (!Object.getOwnPropertyNames(obsAudioSourcesRep.value).includes(audioSource)) {
+                            obsAudioSourcesRep.value[audioSource] = {
+                                volume: 0.5,
+                                muted: false,
+                                delay: 0,
+                                volumeMultiplier: 1,
+                            }
+                        }
                     }
                 });
 
@@ -275,7 +282,7 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
                     const oldStream = old[i] || {}; // old stream might be undefined
                     if (stream === undefined) {
                         // this stream should not be displayed
-                        let transProps: OBSTransformParams = {
+                        const transProps: OBSTransformParams = {
                             visible: false,
                         };
                         // fire and forget

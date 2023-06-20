@@ -52,11 +52,13 @@ waitTillConnected().then((): void => {
   logger.info('connected to OBS, setting up remote control utils...');
 
   // default if they somehow not exist
-  [bundleConfig.obs.discordAudio, bundleConfig.obs.mpdAudio, bundleConfig.obs.streamsAudio]
+  [bundleConfig.obs?.discordAudio, bundleConfig.obs?.mpdAudio, bundleConfig.obs?.streamsAudio]
     .forEach((audioSource): void => {
-      if (!Object.getOwnPropertyNames(obsDashboardAudioSourcesRep.value).includes(audioSource)) {
-        obsDashboardAudioSourcesRep.value[audioSource] = { baseVolume: 0.5, fading: 'unmuted' };
-      }
+		if (audioSource) {
+			if (!Object.getOwnPropertyNames(obsDashboardAudioSourcesRep.value).includes(audioSource)) {
+				obsDashboardAudioSourcesRep.value[audioSource] = { baseVolume: 0.5, fading: 'unmuted' }
+			}
+		}
     });
 
   obsDashboardAudioSourcesRep.on('change', (newVal, old): void => {
@@ -170,14 +172,14 @@ waitTillConnected().then((): void => {
   // update discord display and audio delays to the stream leader delay for the specified delay info
   function updateDiscordDelays(streamLeaderDelayMs: number | null, discordDelayInfo: DiscordDelayInfo): void {
     if (discordDelayInfo.discordAudioDelaySyncStreamLeader && streamLeaderDelayMs !== null) {
-      if (Math.abs(obsAudioSourcesRep.value[bundleConfig.obs.discordAudio].delay - streamLeaderDelayMs) > 1000) {
-        obsAudioSourcesRep.value[bundleConfig.obs.discordAudio].delay = streamLeaderDelayMs;
+      if (Math.abs(obsAudioSourcesRep.value[bundleConfig.obs!.discordAudio].delay - streamLeaderDelayMs) > 1000) {
+        obsAudioSourcesRep.value[bundleConfig.obs!.discordAudio].delay = streamLeaderDelayMs;
         if (discordDelayInfo.discordDisplayDelaySyncStreamLeader) {
           voiceDelayRep.value = streamLeaderDelayMs;
         }
       }
     } else {
-      obsAudioSourcesRep.value[bundleConfig.obs.discordAudio].delay = discordDelayInfo.discordAudioDelayMs;
+      obsAudioSourcesRep.value[bundleConfig.obs!.discordAudio].delay = discordDelayInfo.discordAudioDelayMs;
     }
     // already handled
     if (discordDelayInfo.discordDisplayDelaySyncStreamLeader && !discordDelayInfo.discordAudioDelaySyncStreamLeader
@@ -224,23 +226,23 @@ waitTillConnected().then((): void => {
     if (nextSceneName === 'intermission') {
       // updates the next run panels
       nodecg.sendMessage('forceRefreshIntermission');
-      nodecg.sendMessage('obsRemotecontrol:fadeInAudio', { source: bundleConfig.obs.mpdAudio }, (err): void => {
+      nodecg.sendMessage('obsRemotecontrol:fadeInAudio', { source: bundleConfig.obs?.mpdAudio }, (err): void => {
         logger.warn(`Problem fading in mpd during transition: ${err.error}`);
       });
     } else {
       // this should be false anyway, hosts should stop speaking before the transition to the next run
       hostDiscordDuringIntermissionRep.value.speaking = false;
-      nodecg.sendMessage('obsRemotecontrol:fadeOutAudio', { source: bundleConfig.obs.mpdAudio }, (err): void => {
+      nodecg.sendMessage('obsRemotecontrol:fadeOutAudio', { source: bundleConfig.obs?.mpdAudio }, (err): void => {
         logger.warn(`Problem fading out mpd during transition: ${err.error}`);
       });
     }
     // use player audio
     if (nextSceneName === 'game') {
-      nodecg.sendMessage('obsRemotecontrol:fadeInAudio', { source: bundleConfig.obs.streamsAudio }, (err): void => {
+      nodecg.sendMessage('obsRemotecontrol:fadeInAudio', { source: bundleConfig.obs?.streamsAudio }, (err): void => {
         logger.warn(`Problem fading in streams during transition: ${err.error}`);
       });
     } else {
-      nodecg.sendMessage('obsRemotecontrol:fadeOutAudio', { source: bundleConfig.obs.streamsAudio }, (err): void => {
+      nodecg.sendMessage('obsRemotecontrol:fadeOutAudio', { source: bundleConfig.obs?.streamsAudio }, (err): void => {
         logger.warn(`Problem fading out streams during transition: ${err.error}`);
       });
     }
@@ -257,32 +259,32 @@ waitTillConnected().then((): void => {
       }
       // if the next scene isn't intermission unmute discord, also don't fade out if hosts are speaking
       if (nextSceneName === 'intermission' && !hostsSpeaking) {
-        nodecg.sendMessage('obsRemotecontrol:fadeOutAudio', { source: bundleConfig.obs.discordAudio }, (err): void => {
+        nodecg.sendMessage('obsRemotecontrol:fadeOutAudio', { source: bundleConfig.obs?.discordAudio }, (err): void => {
           logger.warn(`Problem fading out discord during transition: ${err.error}`);
         });
       } else {
-        nodecg.sendMessage('obsRemotecontrol:fadeInAudio', { source: bundleConfig.obs.discordAudio }, (err): void => {
+        nodecg.sendMessage('obsRemotecontrol:fadeInAudio', { source: bundleConfig.obs?.discordAudio }, (err): void => {
           logger.warn(`Problem fading in discord during transition: ${err.error}`);
         });
       }
     } else if (streamMode === 'racer-audio-only') {
       // use player audio
       if (nextSceneName === 'game') {
-        nodecg.sendMessage('obsRemotecontrol:fadeInAudio', { source: bundleConfig.obs.streamsAudio }, (err): void => {
+        nodecg.sendMessage('obsRemotecontrol:fadeInAudio', { source: bundleConfig.obs?.streamsAudio }, (err): void => {
           logger.warn(`Problem fading in streams during transition: ${err.error}`);
         });
       } else {
-        nodecg.sendMessage('obsRemotecontrol:fadeOutAudio', { source: bundleConfig.obs.streamsAudio }, (err): void => {
+        nodecg.sendMessage('obsRemotecontrol:fadeOutAudio', { source: bundleConfig.obs?.streamsAudio }, (err): void => {
           logger.warn(`Problem fading out streams during transition: ${err.error}`);
         });
       }
       // discord muted exept for interview
       if (nextSceneName === 'interview' || (nextSceneName === 'intermission' && hostsSpeaking)) {
-        nodecg.sendMessage('obsRemotecontrol:fadeInAudio', { source: bundleConfig.obs.discordAudio }, (err): void => {
+        nodecg.sendMessage('obsRemotecontrol:fadeInAudio', { source: bundleConfig.obs?.discordAudio }, (err): void => {
           logger.warn(`Problem fading in discord during transition: ${err.error}`);
         });
       } else {
-        nodecg.sendMessage('obsRemotecontrol:fadeOutAudio', { source: bundleConfig.obs.discordAudio }, (err): void => {
+        nodecg.sendMessage('obsRemotecontrol:fadeOutAudio', { source: bundleConfig.obs?.discordAudio }, (err): void => {
           logger.warn(`Problem fading out discord during transition: ${err.error}`);
         });
       }
@@ -349,11 +351,11 @@ waitTillConnected().then((): void => {
   hostDiscordDuringIntermissionRep.on('change', (newVal): void => {
     if ((obsCurrentSceneRep.value || '').toLowerCase() === 'intermission') {
       if (newVal.speaking) {
-        nodecg.sendMessage('obsRemotecontrol:fadeInAudio', { source: bundleConfig.obs.discordAudio }, (err): void => {
+        nodecg.sendMessage('obsRemotecontrol:fadeInAudio', { source: bundleConfig.obs?.discordAudio }, (err): void => {
           logger.warn(`Problem fading in discord during transition: ${err.error}`);
         });
       } else {
-        nodecg.sendMessage('obsRemotecontrol:fadeOutAudio', { source: bundleConfig.obs.discordAudio }, (err): void => {
+        nodecg.sendMessage('obsRemotecontrol:fadeOutAudio', { source: bundleConfig.obs?.discordAudio }, (err): void => {
           logger.warn(`Problem fading out discord during transition: ${err.error}`);
         });
       }

@@ -8,9 +8,8 @@ import * as Discord from 'discord.js';
 import * as Voice from '@discordjs/voice';
 import {Readable} from 'stream';
 import * as nodecgApiContext from './util/nodecg-api-context';
-import {VoiceActivity} from '../../schemas';
+import {VoiceActivity, GameMode} from '../../schemas';
 import {Configschema} from '../../configschema';
-import {GameMode} from "../../schemas";
 import {getVoiceConnection} from "@discordjs/voice";
 
 const nodecg = nodecgApiContext.get();
@@ -40,7 +39,7 @@ const gameModeToConfigKey: Record<string, string> = {
 
 const gameModeRep = nodecg.Replicant<GameMode>('gameMode');
 const config = nodecg.bundleConfig as Configschema;
-const botToken = config.discord.token;
+const botToken = config.discord?.token;
 // @ts-ignore
 let botServerID = config[gameModeToConfigKey[gameModeRep.value.game]].serverID;
 // @ts-ignore
@@ -147,7 +146,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
 
             memberCollection.forEach((voiceMember): void => {
                 // Hide our bot and muted members cause that is the restreamer
-                if (config.discord.ignoredUsers
+                if (config.discord?.ignoredUsers
                     && config.discord.ignoredUsers.includes(voiceMember.user.tag)) {
                     return;
                 }
@@ -181,7 +180,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
     function joinVC(): void {
         voiceStatus = 'connecting';
 
-        let guild = bot.guilds.cache.get(botServerID);
+        const guild = bot.guilds.cache.get(botServerID);
 
         if (guild && bot.isReady()) {
 
@@ -264,7 +263,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
     // Commands
     function commandChannel(message: Discord.Message): void {
         // ADMIN COMMANDS
-        let command = message.content.toLowerCase();
+        const command = message.content.toLowerCase();
         switch (command) {
             case "!commands":
                 message.reply('ADMIN: [!bot join | !bot leave]');
