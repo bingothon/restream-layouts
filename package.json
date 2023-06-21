@@ -90,7 +90,7 @@
     "vue": "./node_modules/vue/dist/vue.esm.js"
   },
   "nodecg": {
-    "compatibleRange": "^1.8.0",
+    "compatibleRange": "^1.8.0||^2",
     "bundleDependencies": {
       "nodecg-speedcontrol": "^2.0.0"
     },
@@ -211,6 +211,21 @@
       },
       {
         "file": "4p-big-board.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "4p-4_3-big-board-layout.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "4p-4_3-co-op-layout.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "4p-4_3-layout.html",
         "width": 1920,
         "height": 1080
       },
