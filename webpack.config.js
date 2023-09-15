@@ -22,7 +22,7 @@ const config = (name) => {
 	const miniCSSOpts = {
 		loader: MiniCssExtractPlugin.loader,
 		options: {
-			hmr: !isProd,
+			//hmr: !isProd,
 			publicPath: '../',
 		},
 	};
