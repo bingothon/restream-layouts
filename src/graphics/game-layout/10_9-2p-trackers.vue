@@ -71,7 +71,6 @@
         width: 800px;
         height: 720px;
         border: 2px var(--container-border-color) solid;
-        background-color: blue;
     }
 
     #stream2 {
@@ -81,7 +80,6 @@
         width: 800px;
         height: 720px;
         border: 2px var(--container-border-color) solid;
-        background-color: red;
     }
 
     #discord-voice {
