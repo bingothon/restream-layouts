@@ -1,108 +1,136 @@
 <template>
-    <div
-        class="Tracker"
-        :style="`grid-template-columns: ${
-            alignment === 'horizontal'
-                ? '40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px'
-                : '35px 35px 35px 35px'
-        }`"
-    >
-        <div :class="`${!game.sword ? 'greyed' : ''}`">
-            <img :src="`${basePath}SWORD_${game.sword || 0}.png`" />
+    <div :class="`Tracker ${alignment === 'horizontal' ? 'horizontal' : 'vertical'}`">
+        <div :class="`counter-item ${!game.ep_boss ? 'greyed' : ''}`">
+            <img :src="`${basePath}ep_boss.png`" />
+            <img :class="`reward`" :src="`${basePath}/dungeon${game.ep_reward || 0}.png`" />
         </div>
-        <div :class="`${!game.feather ? 'greyed' : ''}`">
-            <img :src="`${basePath}FEATHER_1.png`" />
+        <div :class="`counter-item ${!game.dp_boss ? 'greyed' : ''}`">
+            <img :src="`${basePath}dp_boss.png`" />
+            <img :class="`reward`" :src="`${basePath}/dungeon${game.dp_reward || 0}.png`" />
         </div>
-        <div :class="`${!game.bracelet ? 'greyed' : ''}`">
-            <img :src="`${basePath}POWER_BRACELET_${game.bracelet || 0}.png`" />
+        <div :class="`counter-item ${!game.th_boss ? 'greyed' : ''}`">
+            <img :src="`${basePath}th_boss.png`" />
+            <img :class="`reward`" :src="`${basePath}/dungeon${game.th_reward || 0}.png`" />
         </div>
-        <div :class="`${!game.instrument1 ? 'greyed' : ''}`">
-            <img :src="`${basePath}INSTRUMENT1_1.png`" />
+        <div :class="`counter-item ${!game.pod_boss ? 'greyed' : ''}`">
+            <img :src="`${basePath}pod_boss.png`" />
+            <img :class="`reward`" :src="`${basePath}/dungeon${game.pod_reward || 0}.png`" />
         </div>
-        <div :class="`${!game.boots ? 'greyed' : ''}`">
-            <img :src="`${basePath}PEGASUS_BOOTS_1.png`" />
+        <div :class="`counter-item ${!game.sp_boss ? 'greyed' : ''}`">
+            <img :src="`${basePath}sp_boss.png`" />
+            <img :class="`reward`" :src="`${basePath}/dungeon${game.sp_reward || 0}.png`" />
         </div>
-        <div :class="`${!game.flippers ? 'greyed' : ''}`">
-            <img :src="`${basePath}FLIPPERS_1.png`" />
+        <div :class="`counter-item ${!game.sw_boss ? 'greyed' : ''}`">
+            <img :src="`${basePath}sw_boss.png`" />
+            <img :class="`reward`" :src="`${basePath}/dungeon${game.sw_reward || 0}.png`" />
         </div>
-        <div :class="`${!game.hookshot ? 'greyed' : ''}`">
-            <img :src="`${basePath}HOOKSHOT_1.png`" />
+        <div :class="`counter-item ${!game.tt_boss ? 'greyed' : ''}`">
+            <img :src="`${basePath}tt_boss.png`" />
+            <img :class="`reward`" :src="`${basePath}/dungeon${game.tt_reward || 0}.png`" />
         </div>
-        <div :class="`${!game.instrument2 ? 'greyed' : ''}`">
-            <img :src="`${basePath}INSTRUMENT2_1.png`" />
+        <div :class="`counter-item ${!game.ip_boss ? 'greyed' : ''}`">
+            <img :src="`${basePath}ip_boss.png`" />
+            <img :class="`reward`" :src="`${basePath}/dungeon${game.ip_reward || 0}.png`" />
         </div>
-        <div :class="`${!game.shield ? 'greyed' : ''}`">
-            <img :src="`${basePath}SHIELD_1.png`" />
+        <div :class="`counter-item ${!game.mm_boss ? 'greyed' : ''}`">
+            <img :src="`${basePath}mm_boss.png`" />
+            <img :class="`reward`" :src="`${basePath}/dungeon${game.mm_reward || 0}.png`" />
         </div>
-        <div :class="`${!game.rod ? 'greyed' : ''}`">
-            <img :src="`${basePath}MAGIC_ROD_1.png`" />
-        </div>
-        <div :class="`${!game.shovel ? 'greyed' : ''}`">
-            <img :src="`${basePath}SHOVEL_1.png`" />
-        </div>
-        <div :class="`${!game.instrument3 ? 'greyed' : ''}`">
-            <img :src="`${basePath}INSTRUMENT3_1.png`" />
+        <div :class="`counter-item ${!game.tr_boss ? 'greyed' : ''}`">
+            <img :src="`${basePath}tr_boss.png`" />
+            <img :class="`reward`" :src="`${basePath}/dungeon${game.tr_reward || 0}.png`" />
         </div>
         <div :class="`${!game.bow ? 'greyed' : ''}`">
-            <img :src="`${basePath}BOW_1	.png`" />
-        </div>
-        <div :class="`${!game.bombs ? 'greyed' : ''}`">
-            <img :src="`${basePath}BOMB_1.png`" />
-        </div>
-        <div :class="`Leaf ${!game.leafs ? 'greyed' : ''}`">
-            <img :src="`${basePath}GOLD_LEAF_1.png`" />
-            <span :class="`Counter`"> {{ game.leafs || 0 }} </span>
-        </div>
-        <div :class="`${!game.instrument4 ? 'greyed' : ''}`">
-            <img :src="`${basePath}INSTRUMENT4_1.png`" />
+            <img :src="`${basePath}bow${game.bow || 0}.png`" />
         </div>
         <div :class="`${!game.boomerang ? 'greyed' : ''}`">
-            <img :src="`${basePath}BOOMERANG_1.png`" />
+            <img :src="`${basePath}boomerangs${game.boomerang || 0}.png`" />
+        </div>
+        <div :class="`${!game.hookshot ? 'greyed' : ''}`">
+            <img :src="`${basePath}hookshot.png`" />
+        </div>
+        <div :class="`${!game.bombs ? 'greyed' : ''}`">
+            <img :src="`${basePath}bombs.png`" />
+        </div>
+        <div :class="`${!game.mushroom ? 'greyed' : ''}`">
+            <img :src="`${basePath}mushroom.png`" />
         </div>
         <div :class="`${!game.powder ? 'greyed' : ''}`">
-            <img :src="`${basePath}MAGIC_POWDER_1.png`" />
+            <img :src="`${basePath}powder.png`" />
         </div>
-        <div :class="`${!game.ocarina ? 'greyed' : ''}`">
-            <img :src="`${basePath}OCARINA_1.png`" />
+        <div :class="`${!game.glove ? 'greyed' : ''}`">
+            <img :src="`${basePath}glove${game.glove || 0}.png`" />
         </div>
-        <div :class="`${!game.instrument5 ? 'greyed' : ''}`">
-            <img :src="`${basePath}INSTRUMENT5_1.png`" />
+        <div :class="`${!game.boots ? 'greyed' : ''}`">
+            <img :src="`${basePath}boots.png`" />
         </div>
-        <div :class="`${!game.ballad ? 'greyed' : ''}`">
-            <img :src="`${basePath}SONG1_1.png`" />
+        <div :class="`${!game.flippers ? 'greyed' : ''}`">
+            <img :src="`${basePath}flippers.png`" />
         </div>
-        <div :class="`${!game.mambo ? 'greyed' : ''}`">
-            <img :src="`${basePath}SONG2_1.png`" />
+        <div :class="`${!game.pearl ? 'greyed' : ''}`">
+            <img :src="`${basePath}pearl.png`" />
         </div>
-        <div :class="`${!game.song ? 'greyed' : ''}`">
-            <img :src="`${basePath}SONG3_1.png`" />
+        <div :class="`${!game.firerod ? 'greyed' : ''}`">
+            <img :src="`${basePath}firerod.png`" />
         </div>
-        <div :class="`${!game.instrument6 ? 'greyed' : ''}`">
-            <img :src="`${basePath}INSTRUMENT6_1.png`" />
+        <div :class="`${!game.icerod ? 'greyed' : ''}`">
+            <img :src="`${basePath}icerod.png`" />
         </div>
-        <div :class="`${!game.tailkey ? 'greyed' : ''}`">
-            <img :src="`${basePath}TAIL_KEY_1.png`" />
+        <div :class="`${!game.bombos ? 'greyed' : ''}`">
+            <img :src="`${basePath}bombos.png`" />
         </div>
-        <div :class="`${!game.anglerkey ? 'greyed' : ''}`">
-            <img :src="`${basePath}ANGLER_KEY_1.png`" />
+        <div :class="`${!game.ether ? 'greyed' : ''}`">
+            <img :src="`${basePath}ether.png`" />
         </div>
-        <div :class="`${!game.facekey ? 'greyed' : ''}`">
-            <img :src="`${basePath}FACE_KEY_1.png`" />
+        <div :class="`${!game.quake ? 'greyed' : ''}`">
+            <img :src="`${basePath}quake.png`" />
         </div>
-        <div :class="`${!game.instrument7 ? 'greyed' : ''}`">
-            <img :src="`${basePath}INSTRUMENT7_1.png`" />
+        <div :class="`${!game.shovel ? 'greyed' : ''}`">
+            <img :src="`${basePath}shovel.png`" />
         </div>
-        <div :class="`${!game.birdkey ? 'greyed' : ''}`">
-            <img :src="`${basePath}BIRD_KEY_1.png`" />
+        <div :class="`${!game.lamp ? 'greyed' : ''}`">
+            <img :src="`${basePath}lamp.png`" />
         </div>
-        <div :class="`${!game.slimekey ? 'greyed' : ''}`">
-            <img :src="`${basePath}SLIME_KEY_1.png`" />
+        <div :class="`${!game.hammer ? 'greyed' : ''}`">
+            <img :src="`${basePath}hammer.png`" />
         </div>
-        <div :class="`${!game.rooster ? 'greyed' : ''}`">
-            <img :src="`${basePath}ROOSTER_1.png`" />
+        <div :class="`${!game.flute ? 'greyed' : ''}`">
+            <img :src="`${basePath}flute.png`" />
         </div>
-        <div :class="`${!game.instrument8 ? 'greyed' : ''}`">
-            <img :src="`${basePath}INSTRUMENT8_1.png`" />
+        <div :class="`${!game.net ? 'greyed' : ''}`">
+            <img :src="`${basePath}net.png`" />
+        </div>
+        <div :class="`${!game.book ? 'greyed' : ''}`">
+            <img :src="`${basePath}book.png`" />
+        </div>
+        <div :class="`counter-item ${!game.bottle ? 'greyed' : ''}`">
+            <img :src="`${basePath}bottle.png`" />
+            <span :class="`Counter`"> {{ game.bottle || 0 }} </span>
+        </div>
+        <div :class="`${!game.somaria ? 'greyed' : ''}`">
+            <img :src="`${basePath}somaria.png`" />
+        </div>
+        <div :class="`${!game.byrna ? 'greyed' : ''}`">
+            <img :src="`${basePath}byrna.png`" />
+        </div>
+        <div :class="`${!game.cape ? 'greyed' : ''}`">
+            <img :src="`${basePath}cape.png`" />
+        </div>
+        <div :class="`${!game.mirror ? 'greyed' : ''}`">
+            <img :src="`${basePath}mirror.png`" />
+        </div>
+
+        <div :class="`${!game.halfmagic ? 'greyed' : ''}`">
+            <img :src="`${basePath}halfmagic.png`" />
+        </div>
+        <div :class="`${!game.sword ? 'greyed' : ''}`">
+            <img :src="`${basePath}sword${game.sword || 0}.png`" />
+        </div>
+        <div>
+            <img :src="`${basePath}tunic${game.tunic || 0 + 1}.png`" />
+        </div>
+        <div :class="`${!game.aga ? 'greyed' : ''}`">
+            <img :src="`${basePath}aga.png`" />
         </div>
     </div>
 </template>
@@ -129,7 +157,7 @@
         @Prop({ default: 'vertical' })
         alignment: string
 
-        basePath = '/bundles/restream-layouts/static/tracker/ladxr/'
+        basePath = '/bundles/restream-layouts/static/tracker/alttpr/'
 
         mounted() {
             this.updateTrackers()
@@ -182,6 +210,17 @@
 <style scoped>
     .Tracker {
         display: grid;
+        justify-items: center;
+        align-items: center;
+    }
+
+    .horizontal {
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+    }
+
+    .vertical {
+        grid-template-columns: '35px 35px 35px 35px';
     }
 
     .greyed {
@@ -189,7 +228,7 @@
     }
 
     /* Number on Item */
-    .Leaf {
+    .counter-item {
         position: relative;
         align-content: center;
         text-align: center;
@@ -200,12 +239,21 @@
         transform: translate(-50%, -60%);
         left: 50%;
         top: 50%;
-        /*-webkit-text-stroke: 1px white;*/
+        /* -webkit-text-stroke: 1px white; */
+        color: white;
         font-weight: bold;
     }
 
+    .reward {
+        position: absolute;
+        transform: translate(-50%, -40%);
+        left: 80%;
+        top: 70%;
+        width: 25px;
+    }
+
     img {
-        width: 35px;
+        width: 30px;
         justify-self: center;
     }
 </style>

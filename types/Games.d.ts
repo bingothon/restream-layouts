@@ -1,34 +1,55 @@
 export type Games = {
-    instrument1: boolean | undefined
-    instrument2: boolean | undefined
-    instrument3: boolean | undefined
-    instrument4: boolean | undefined
-    instrument5: boolean | undefined
-    instrument6: boolean | undefined
-    instrument7: boolean | undefined
-    instrument8: boolean | undefined
-    sword: number | undefined
-    feather: boolean | undefined
-    bracelet: number | undefined
-    boots: boolean | undefined
-    flippers: boolean | undefined
-    hookshot: boolean | undefined
-    shield: number | undefined
-    rod: boolean | undefined
-    shovel: boolean | undefined
-    bow: boolean | undefined
-    bombs: boolean | undefined
-    leafs: number | undefined
-    boomerang: boolean | undefined
-    powder: boolean | undefined
-    ocarina: boolean | undefined
-    ballad: boolean | undefined
-    mambo: boolean | undefined
-    song: boolean | undefined
-    tailkey: boolean | undefined
-    anglerkey: boolean | undefined
-    facekey: boolean | undefined
-    birdkey: boolean | undefined
-    slimekey: boolean | undefined
-    rooster: boolean | undefined
+    ep_boss?: boolean
+    ep_reward?: number
+    dp_boss?: boolean
+    dp_reward?: number
+    th_boss?: boolean
+    th_reward?: number
+    pod_boss?: boolean
+    pod_reward?: number
+    sp_boss?: boolean
+    sp_reward?: number
+    sw_boss?: boolean
+    sw_reward?: number
+    tt_boss?: boolean
+    tt_reward?: number
+    ip_boss?: boolean
+    ip_reward?: number
+    mm_boss?: boolean
+    mm_reward?: number
+    tr_boss?: boolean
+    tr_reward?: number
+    bow?: number
+    boomerang?: number
+    hookshot?: boolean
+    bombs?: boolean
+    powder?: boolean
+    shovel?: boolean
+    flute?: boolean
+    mushroom?: boolean
+    firerod?: boolean
+    icerod?: boolean
+    bombos?: boolean
+    quake?: boolean
+    ether?: boolean
+    mushroom?: boolean
+    lamp?: boolean
+    hammer?: boolean
+    net?: boolean
+    book?: boolean
+    pearl?: boolean
+    bottle?: number
+    somaria?: boolean
+    byrna?: boolean
+    cape?: boolean
+    mirror?: boolean
+    go?: boolean
+    aga?: boolean
+    glove?: boolean
+    boots?: boolean
+    flippers?: boolean
+    halfmagic?: boolean
+    sword?: number
+    shield?: number
+    tunic?: number
 }
