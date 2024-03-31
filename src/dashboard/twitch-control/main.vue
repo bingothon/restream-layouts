@@ -1,11 +1,17 @@
 <template>
     <div>
         <div>
-            <div v-for="(stream, i) in twitchStreams" :key="i" class="stream-control">
-                <span class="stream-label">Player {{ i }}:</span>
-                <v-btn class="stream-mute" dark small @click="muteChange(i)">
-                    <v-icon v-if="i === soundOnTwitchStream"> mdi-volume-off </v-icon>
-                    <v-icon v-else> mdi-volume-high </v-icon>
+            <div v-for="(name, i) in playerNames" :key="i" class="stream-control">
+                <span class="stream-label">{{ name }}:</span>
+                <v-btn
+                    class="stream-mute"
+                    dark
+                    small
+                    @click="muteChange(i)"
+                    :title="i === soundOnTwitchStream ? 'currently unmuted' : 'currently muted'"
+                >
+                    <v-icon v-if="i === soundOnTwitchStream"> mdi-volume-high </v-icon>
+                    <v-icon v-else> mdi-volume-off </v-icon>
                 </v-btn>
             </div>
         </div>
@@ -34,6 +40,16 @@
 
         get game(): string {
             return store.state.gameMode.game
+        }
+
+        get playerNames(): string[] {
+            let arr = [];
+            store.state.runDataActiveRun.teams.forEach((t) => {
+                t.players.forEach((p) => {
+                    arr.push(p.name);
+                });
+            });
+            return arr;
         }
 
         volumeChange(id: number, event: any) {
