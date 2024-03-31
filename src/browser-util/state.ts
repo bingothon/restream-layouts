@@ -3,7 +3,7 @@ import { ReplicantBrowser } from 'nodecg/types/browser' // eslint-disable-line
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { vuexfireMutations, firebaseAction } from 'vuexfire'
-import { db } from './firebase'
+import { fb as db } from './firebase'
 import {
     AllCamNames,
     AllGameLayouts,
@@ -95,6 +95,47 @@ const nodecgSpeedcontrolReplicantNames = ['runDataActiveRun', 'runDataArray', 't
 const replicants: Map<string, ReplicantBrowser<any>> = new Map()
 
 var playerAlternateInterval: NodeJS.Timeout | null = null
+
+const firebaseActions = db
+    ? {
+          bindGameP1: firebaseAction<any, any>(({ bindFirebaseRef }, payload) => {
+              // return the promise returned by `bindFirebaseRef` hardcoded for now
+              let ref = `games/${payload.gameId || 'floha258'}/items`
+              console.log(ref)
+              return bindFirebaseRef('gameP1', db.ref(ref))
+          }),
+          unbindGameP1: firebaseAction<any, any>(({ unbindFirebaseRef }) => {
+              unbindFirebaseRef('gameP1')
+          }),
+          bindGameP2: firebaseAction<any, any>(({ bindFirebaseRef }, payload) => {
+              // return the promise returned by `bindFirebaseRef`
+              let ref = `games/${payload.gameId || 'lepelog'}/items`
+              console.log(ref)
+              return bindFirebaseRef('gameP2', db.ref(ref))
+          }),
+          unbindGameP2: firebaseAction<any, any>(({ unbindFirebaseRef }) => {
+              unbindFirebaseRef('gameP2')
+          }),
+          bindGameP3: firebaseAction<any, any>(({ bindFirebaseRef }, payload) => {
+              // return the promise returned by `bindFirebaseRef`
+              let ref = `games/${payload.gameId || 'cjs07'}/items`
+              console.log(ref)
+              return bindFirebaseRef('gameP3', db.ref(ref))
+          }),
+          unbindGameP3: firebaseAction<any, any>(({ unbindFirebaseRef }) => {
+              unbindFirebaseRef('gameP3')
+          }),
+          bindGameP4: firebaseAction<any, any>(({ bindFirebaseRef }, payload) => {
+              // return the promise returned by `bindFirebaseRef`
+              let ref = `games/${payload.gameId || 'player4'}/items`
+              console.log(ref)
+              return bindFirebaseRef('gameP4', db.ref(ref))
+          }),
+          unbindGameP4: firebaseAction<any, any>(({ unbindFirebaseRef }) => {
+              unbindFirebaseRef('gameP4')
+          }),
+      }
+    : {}
 
 interface StoreTypes {
     // bingothon
@@ -226,44 +267,7 @@ export const store = new Vuex.Store<StoreTypes>({
         },
         ...vuexfireMutations,
     },
-    actions: {
-        bindGameP1: firebaseAction<any, any>(({ bindFirebaseRef }, payload) => {
-            // return the promise returned by `bindFirebaseRef` hardcoded for now
-            let ref = `games/${payload.gameId || 'floha258'}/items`
-            console.log(ref)
-            return bindFirebaseRef('gameP1', db.ref(ref))
-        }),
-        unbindGameP1: firebaseAction<any, any>(({ unbindFirebaseRef }) => {
-            unbindFirebaseRef('gameP1')
-        }),
-        bindGameP2: firebaseAction<any, any>(({ bindFirebaseRef }, payload) => {
-            // return the promise returned by `bindFirebaseRef`
-            let ref = `games/${payload.gameId || 'lepelog'}/items`
-            console.log(ref)
-            return bindFirebaseRef('gameP2', db.ref(ref))
-        }),
-        unbindGameP2: firebaseAction<any, any>(({ unbindFirebaseRef }) => {
-            unbindFirebaseRef('gameP2')
-        }),
-        bindGameP3: firebaseAction<any, any>(({ bindFirebaseRef }, payload) => {
-            // return the promise returned by `bindFirebaseRef`
-            let ref = `games/${payload.gameId || 'cjs07'}/items`
-            console.log(ref)
-            return bindFirebaseRef('gameP3', db.ref(ref))
-        }),
-        unbindGameP3: firebaseAction<any, any>(({ unbindFirebaseRef }) => {
-            unbindFirebaseRef('gameP3')
-        }),
-        bindGameP4: firebaseAction<any, any>(({ bindFirebaseRef }, payload) => {
-            // return the promise returned by `bindFirebaseRef`
-            let ref = `games/${payload.gameId || 'player4'}/items`
-            console.log(ref)
-            return bindFirebaseRef('gameP4', db.ref(ref))
-        }),
-        unbindGameP4: firebaseAction<any, any>(({ unbindFirebaseRef }) => {
-            unbindFirebaseRef('gameP4')
-        }),
-    },
+    actions: firebaseActions
 })
 
 store.commit('startPlayerAlternateInterval', 10000)
