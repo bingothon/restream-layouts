@@ -145,8 +145,11 @@ if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.cha
             if (gameModeRep.value.game === 'sms') {
                 client.say(channel, "Current Bingo League standings can be found here: https://sms.bingo/standings")
                     .catch((e): void => log.error('', e));
-            } else {
+            } else if (gameModeRep.value.game === 'botw') {
                 client.say(channel, "The bracket for the BotW Bingo Bash can be found here: https://challonge.com/botwbingo1")
+                    .catch((e): void => log.error('', e));
+            } else {
+                client.say(channel, "The bracket for the Generic Bingo Tournament can be found here: https://challonge.com/v78sincg")
                     .catch((e): void => log.error('', e));
             }
         }
