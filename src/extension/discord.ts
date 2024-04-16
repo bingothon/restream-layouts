@@ -10,7 +10,7 @@ import {Readable} from 'stream';
 import * as nodecgApiContext from './util/nodecg-api-context';
 import {VoiceActivity, GameMode} from '../../schemas';
 import {Configschema} from '../../configschema';
-import {getVoiceConnection} from "@discordjs/voice";
+import { getVoiceConnection, VoiceConnection } from '@discordjs/voice'
 
 const nodecg = nodecgApiContext.get();
 
@@ -53,6 +53,8 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
     // Variables
     let voiceStatus: 'disconnected' | 'connecting' | 'connected' = 'disconnected';
 
+    let voiceConnection: VoiceConnection | undefined;
+
     // Connection
     bot.on('ready', (): void => {
         if (!bot.user) {
@@ -88,7 +90,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
 
     // Voice
     bot.on('voiceStateUpdate', (): void => {
-        UpdateCommentaryChannelMembers();
+        updateCommentaryChannelMembers();
         // reconnect to voice channel on disconnect
         if (voiceStatus === 'disconnected') {
             joinVC();
@@ -102,6 +104,16 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
         if (bot.isReady())
             updateDiscordConfig()
     })
+
+    if(voiceConnection) {
+        voiceConnection.receiver.speaking.on('start', () => {
+            updateCommentaryChannelMembers();
+        })
+
+        voiceConnection.receiver.speaking.on('end', () => {
+            updateCommentaryChannelMembers();
+        })
+    }
 
     function updateDiscordConfig(): void {
         // leave old channel
@@ -124,7 +136,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
 
     }
 
-    function UpdateCommentaryChannelMembers(): void {
+    function updateCommentaryChannelMembers(): void {
         if (!voiceActivity || !voiceActivity.value) return;
 
         if (bot.isReady()) {
@@ -164,7 +176,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
                     }
                     log.info(`${voiceMember.displayName} has changed their speaking status: ${speakStatus}`);
                     newVoiceArray.push({
-                        id: voiceMember.user.id,
+                        id: voiceMember.displayAvatarURL(),
                         name: voiceMember.displayName,
                         avatar: userAvatar,
                         isSpeaking: speakStatus,
@@ -193,9 +205,11 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
                 adapterCreator: guild.voiceAdapterCreator
             }
 
+            // @ts-expect-error Currently voice is built in mind with API v10 whereas discord.js v13 uses API v9. adapters are incompatible
             Voice.joinVoiceChannel(joinConfig);
 
             voiceStatus = 'connected';
+            voiceConnection = getVoiceConnection(botServerID);
 
 
             class Silence extends Readable {
@@ -207,12 +221,13 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
 
             //connection.play(new Silence(), {type: 'opus'});
 
-            UpdateCommentaryChannelMembers();
+            updateCommentaryChannelMembers();
             nodecg.log.info('joined voice channel!');
 
-            let connection = getVoiceConnection(botServerID);
+            let connection = voiceConnection;
 
             if (!connection) {
+                // @ts-expect-error Currently voice is built in mind with API v10 whereas discord.js v13 uses API v9.
                 connection = Voice.joinVoiceChannel(joinConfig);
             }
             const receiver = connection.receiver;
