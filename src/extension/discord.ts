@@ -7,9 +7,9 @@
 import * as Discord from 'discord.js';
 import * as Voice from '@discordjs/voice';
 import * as nodecgApiContext from './util/nodecg-api-context';
-import {VoiceActivity, GameMode} from '../../schemas';
-import {Configschema} from '../../configschema';
-import { getVoiceConnection, VoiceConnection } from '@discordjs/voice'
+import { VoiceActivity, GameMode } from '@/schemas';
+import { Configschema } from '@/configschema';
+import { getVoiceConnection, VoiceConnection } from '@discordjs/voice';
 
 const nodecg = nodecgApiContext.get();
 
@@ -17,20 +17,20 @@ const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger(`${nodecg.bundleName}:discord`);
 const voiceActivity = nodecg.Replicant<VoiceActivity>('voiceActivity', {
     defaultValue: {
-        members: [],
+        members: []
     },
-    persistent: true,
+    persistent: true
 });
 
 // delay in ms
-const voiceDelayRep = nodecg.Replicant<number>('voiceDelay', {defaultValue: 0, persistent: true});
+const voiceDelayRep = nodecg.Replicant<number>('voiceDelay', { defaultValue: 0, persistent: true });
 
-if(!voiceDelayRep.value) {
+if (!voiceDelayRep.value) {
     voiceDelayRep.value = 0;
 }
 
 // Discord API
-const bot = new Discord.Client({intents: 32767}); // all intents cause I'm too lazy to figure out which are the correct ones
+const bot = new Discord.Client({ intents: 32767 }); // all intents cause I'm too lazy to figure out which are the correct ones
 
 // enum is needed otherwise ts will complain about the keys
 enum discordConfigKeys {
@@ -60,9 +60,9 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
 } else {
     // Variables
     let voiceStatus: 'disconnected' | 'connecting' | 'connected' | 'error' = 'disconnected';
-
+    
     let voiceConnection: VoiceConnection | undefined;
-
+    
     // Connection
     bot.on('ready', (): void => {
         if (!bot.user) {
@@ -76,26 +76,26 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
     });
     bot.on('error', (): void => {
         log.error('The bot encountered a connection error!!');
-
+        
         voiceStatus = 'error';
-
+        
         setTimeout((): void => {
             bot.login(botToken);
         }, 10000);
     });
-
+    
     bot.on('disconnect', (): void => {
         log.error('The bot disconnected!!');
-
+        
         voiceStatus = 'disconnected';
-
+        
         setTimeout((): void => {
             bot.login(botToken);
         }, 10000);
     });
-
+    
     bot.login(botToken);
-
+    
     // Voice
     bot.on('voiceStateUpdate', (): void => {
         updateCommentaryChannelMembers();
@@ -104,58 +104,58 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
             joinVC();
         }
     });
-
+    
     gameModeRep.on('change', (newVal, oldVal) => {
         if (newVal && oldVal && newVal.game === oldVal.game) {
-            return
+            return;
         }
         if (bot.isReady())
-            updateDiscordConfig()
-    })
-
+            updateDiscordConfig();
+    });
+    
     function updateDiscordConfig(): void {
         // leave old channel
         try {
             getVoiceConnection(botServerID)?.disconnect();
         } catch (err) {
-            console.log('Bot not connected')
+            console.log('Bot not connected');
         }
         voiceStatus = 'disconnected';
-
+        
         // new config
         botServerID = config[gameModeToConfigKey[gameModeRep.value.game]]?.serverID || '';
         botCommandChannelID = config[gameModeToConfigKey[gameModeRep.value.game]]?.commandChannelID || '';
         botVoiceCommentaryChannelID = config[gameModeToConfigKey[gameModeRep.value.game]]?.voiceChannelID || '';
-
+        
         if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChannelID)) {
             log.error('botToken, botServerID, botCommandChannelID, botVoiceCommentaryChannelID all have to be set!');
             return;
         }
-
+        
         joinVC();
-
+        
     }
-
+    
     function updateCommentaryChannelMembers(): void {
         if (!voiceActivity || !voiceActivity.value) return;
-
+        
         if (bot.isReady()) {
-
+            
             const memberCollection = getVoiceChannelSafe(botServerID, botVoiceCommentaryChannelID)
                 .members;
-
+            
             if (!memberCollection || memberCollection.size < 1) {
                 voiceActivity.value.members = [];
                 return;
             }
-
+            
             const newVoiceArray: {
                 id: string;
                 name: string;
                 avatar: string;
                 isSpeaking: boolean;
             }[] = [];
-
+            
             memberCollection.forEach((voiceMember): void => {
                 // Hide our bot and muted members cause that is the restreamer
                 if (config.discord?.ignoredUsers
@@ -164,13 +164,13 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
                 }
                 if (!voiceMember.voice.mute) {
                     let userAvatar = voiceMember.displayAvatarURL();
-
+                    
                     if (!userAvatar) {
                         userAvatar = 'https://discordapp.com/assets/dd4dbc0016779df1378e7812eabaa04d.png';
                     } // Default avatar
-
+                    
                     let speakStatus = getVoiceConnection(botServerID)?.receiver.speaking.users.has(voiceMember.id);
-
+                    
                     if (!speakStatus) {
                         speakStatus = false;
                     }
@@ -179,23 +179,23 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
                         id: voiceMember.id,
                         name: voiceMember.displayName,
                         avatar: userAvatar,
-                        isSpeaking: speakStatus,
+                        isSpeaking: speakStatus
                     });
                 }
             });
-
+            
             voiceActivity.value.members = newVoiceArray;
-
+            
         }
     }
-
+    
     function joinVC(): void {
         voiceStatus = 'connecting';
-
+        
         const guild = bot.guilds.cache.get(botServerID);
-
+        
         if (guild && bot.isReady()) {
-
+            
             const joinConfig = {
                 guildId: botServerID,
                 channelId: botVoiceCommentaryChannelID,
@@ -203,31 +203,31 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
                 selfDeaf: false,
                 group: '',
                 adapterCreator: guild.voiceAdapterCreator
-            }
-
+            };
+            
             // @ts-expect-error Currently voice is built in mind with API v10 whereas discord.js v13 uses API v9. adapters are incompatible
             Voice.joinVoiceChannel(joinConfig);
-
+            
             voiceStatus = 'connected';
             voiceConnection = getVoiceConnection(botServerID);
-
-            if(voiceConnection) {
+            
+            if (voiceConnection) {
                 voiceConnection.receiver.speaking.on('start', () => {
                     nodecg.log.info('User started speaking');
                     updateCommentaryChannelMembers();
-                })
-        
+                });
+                
                 voiceConnection.receiver.speaking.on('end', () => {
                     nodecg.log.info('User stopped speaking');
                     updateCommentaryChannelMembers();
-                })
+                });
             }
-
+            
             updateCommentaryChannelMembers();
             nodecg.log.info('joined voice channel!');
-
+            
             let connection = voiceConnection;
-
+            
             if (!connection) {
                 // @ts-expect-error Currently voice is built in mind with API v10 whereas discord.js v13 uses API v9.
                 connection = Voice.joinVoiceChannel(joinConfig);
@@ -247,7 +247,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
                     }
                 }, voiceDelayRep.value);
             });
-
+            
             receiver.speaking.on('end', (userID => {
                 setTimeout((): void => {
                     const member = voiceActivity.value.members.find((voiceMember) => {
@@ -257,29 +257,29 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
                         member.isSpeaking = false;
                     }
                 }, voiceDelayRep.value);
-            }))
+            }));
         }
     }
-
+    
     // Commands
     function commandChannel(message: Discord.Message): void {
         // ADMIN COMMANDS
         const command = message.content.toLowerCase();
         switch (command) {
-            case "!commands":
+            case '!commands':
                 message.reply('ADMIN: [!bot join | !bot leave]');
                 return;
-
-            case "!bot join":
-                log.info('Received Join command')
+            
+            case '!bot join':
+                log.info('Received Join command');
                 if (voiceStatus !== 'disconnected') {
                     message.reply('I already entered the podcast channel!');
                     return;
                 }
                 joinVC();
                 return;
-
-            case "!bot leave":
+            
+            case '!bot leave':
                 if (voiceStatus !== 'connected') {
                     message.reply('I\'m not in the podcast channel!');
                     return;
@@ -288,12 +288,12 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
                 getVoiceConnection(botServerID)?.destroy();
                 voiceStatus = 'disconnected';
                 return;
-
+            
             default:
                 return;
         }
     }
-
+    
     // Message Handling
     bot.on('messageCreate', (message: Discord.Message): void => {
         if (message.channelId === botCommandChannelID) {
@@ -315,7 +315,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
             commandChannel(message);
         }
     });
-
+    
     // helper
     function getVoiceChannelSafe(serverID: string, voiceChannelID: string): Discord.VoiceChannel {
         const guild = bot.guilds.cache.get(serverID);
