@@ -6,7 +6,6 @@
 // Imports
 import * as Discord from 'discord.js';
 import * as Voice from '@discordjs/voice';
-import {Readable} from 'stream';
 import * as nodecgApiContext from './util/nodecg-api-context';
 import {VoiceActivity, GameMode} from '../../schemas';
 import {Configschema} from '../../configschema';
@@ -26,32 +25,41 @@ const voiceActivity = nodecg.Replicant<VoiceActivity>('voiceActivity', {
 // delay in ms
 const voiceDelayRep = nodecg.Replicant<number>('voiceDelay', {defaultValue: 0, persistent: true});
 
+if(!voiceDelayRep.value) {
+    voiceDelayRep.value = 0;
+}
+
 // Discord API
 const bot = new Discord.Client({intents: 32767}); // all intents cause I'm too lazy to figure out which are the correct ones
 
+// enum is needed otherwise ts will complain about the keys
+enum discordConfigKeys {
+    discord = 'discord',
+    discordSunshine = 'discordSunshine',
+    discordSA2 = 'discordSA2'
+}
+
 // config
-const gameModeToConfigKey: Record<string, string> = {
-    neutral: 'discord',
-    botw: 'discord',
-    sms: 'discordSunshine',
-    sa2b: 'discordSA2'
+const gameModeToConfigKey: Record<string, discordConfigKeys> = {
+    neutral: discordConfigKeys.discord,
+    botw: discordConfigKeys.discord,
+    sms: discordConfigKeys.discordSunshine,
+    sa2b: discordConfigKeys.discordSA2
 };
 
 const gameModeRep = nodecg.Replicant<GameMode>('gameMode');
 const config = nodecg.bundleConfig as Configschema;
 const botToken = config.discord?.token;
-// @ts-ignore
-let botServerID = config[gameModeToConfigKey[gameModeRep.value.game]].serverID;
-// @ts-ignore
-let botCommandChannelID = config[gameModeToConfigKey[gameModeRep.value.game]].commandChannelID;
-// @ts-ignore
-let botVoiceCommentaryChannelID = config[gameModeToConfigKey[gameModeRep.value.game]].voiceChannelID;
+
+let botServerID = config[gameModeToConfigKey[gameModeRep.value.game]]?.serverID || '';
+let botCommandChannelID = config[gameModeToConfigKey[gameModeRep.value.game]]?.commandChannelID || '';
+let botVoiceCommentaryChannelID = config[gameModeToConfigKey[gameModeRep.value.game]]?.voiceChannelID || '';
 
 if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChannelID)) {
     log.error('botToken, botServerID, botCommandChannelID, botVoiceCommentaryChannelID all have to be set!');
 } else {
     // Variables
-    let voiceStatus: 'disconnected' | 'connecting' | 'connected' = 'disconnected';
+    let voiceStatus: 'disconnected' | 'connecting' | 'connected' | 'error' = 'disconnected';
 
     let voiceConnection: VoiceConnection | undefined;
 
@@ -69,7 +77,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
     bot.on('error', (): void => {
         log.error('The bot encountered a connection error!!');
 
-        voiceStatus = 'disconnected';
+        voiceStatus = 'error';
 
         setTimeout((): void => {
             bot.login(botToken);
@@ -92,7 +100,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
     bot.on('voiceStateUpdate', (): void => {
         updateCommentaryChannelMembers();
         // reconnect to voice channel on disconnect
-        if (voiceStatus === 'disconnected') {
+        if (voiceStatus === 'error') {
             joinVC();
         }
     });
@@ -105,32 +113,24 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
             updateDiscordConfig()
     })
 
-    if(voiceConnection) {
-        voiceConnection.receiver.speaking.on('start', () => {
-            updateCommentaryChannelMembers();
-        })
-
-        voiceConnection.receiver.speaking.on('end', () => {
-            updateCommentaryChannelMembers();
-        })
-    }
-
     function updateDiscordConfig(): void {
         // leave old channel
-        /*try {
-            getVoiceChannelSafe(botServerID, botVoiceCommentaryChannelID).leave();
+        try {
+            getVoiceConnection(botServerID)?.disconnect();
         } catch (err) {
             console.log('Bot not connected')
-        }*/
+        }
         voiceStatus = 'disconnected';
 
         // new config
-        // @ts-ignore
-        botServerID = config[gameModeToConfigKey[gameModeRep.value.game]].serverID;
-        // @ts-ignore
-        botCommandChannelID = config[gameModeToConfigKey[gameModeRep.value.game]].commandChannelID;
-        // @ts-ignore
-        botVoiceCommentaryChannelID = config[gameModeToConfigKey[gameModeRep.value.game]].voiceChannelID;
+        botServerID = config[gameModeToConfigKey[gameModeRep.value.game]]?.serverID || '';
+        botCommandChannelID = config[gameModeToConfigKey[gameModeRep.value.game]]?.commandChannelID || '';
+        botVoiceCommentaryChannelID = config[gameModeToConfigKey[gameModeRep.value.game]]?.voiceChannelID || '';
+
+        if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChannelID)) {
+            log.error('botToken, botServerID, botCommandChannelID, botVoiceCommentaryChannelID all have to be set!');
+            return;
+        }
 
         joinVC();
 
@@ -163,7 +163,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
                     return;
                 }
                 if (!voiceMember.voice.mute) {
-                    let userAvatar = voiceMember.user.avatarURL();
+                    let userAvatar = voiceMember.displayAvatarURL();
 
                     if (!userAvatar) {
                         userAvatar = 'https://discordapp.com/assets/dd4dbc0016779df1378e7812eabaa04d.png';
@@ -176,7 +176,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
                     }
                     log.info(`${voiceMember.displayName} has changed their speaking status: ${speakStatus}`);
                     newVoiceArray.push({
-                        id: voiceMember.displayAvatarURL(),
+                        id: voiceMember.id,
                         name: voiceMember.displayName,
                         avatar: userAvatar,
                         isSpeaking: speakStatus,
@@ -211,15 +211,17 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
             voiceStatus = 'connected';
             voiceConnection = getVoiceConnection(botServerID);
 
-
-            class Silence extends Readable {
-                // eslint-disable-next-line no-underscore-dangle
-                public _read(): void {
-                    this.push(Buffer.from([0xF8, 0xFF, 0xFE]));
-                }
+            if(voiceConnection) {
+                voiceConnection.receiver.speaking.on('start', () => {
+                    nodecg.log.info('User started speaking');
+                    updateCommentaryChannelMembers();
+                })
+        
+                voiceConnection.receiver.speaking.on('end', () => {
+                    nodecg.log.info('User stopped speaking');
+                    updateCommentaryChannelMembers();
+                })
             }
-
-            //connection.play(new Silence(), {type: 'opus'});
 
             updateCommentaryChannelMembers();
             nodecg.log.info('joined voice channel!');
@@ -232,44 +234,28 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
             }
             const receiver = connection.receiver;
             receiver.speaking.on('start', (userID) => {
-                // nodecg.log.info(`updating user ${user.tag} to speaking`);
                 if (!voiceActivity.value.members || voiceActivity.value.members.length < 1) {
                     return;
                 }
                 setTimeout((): void => {
-                    voiceActivity.value.members.find((voiceMember): boolean => {
-                        if (voiceMember === undefined || userID === undefined) {
-                            return false;
-                        }
-                        if (voiceMember.id === userID) {
-                            // Delay this by streamleader delay/current obs
-                            // timeshift delay if its activated with setTimeout
-                            // eslint-disable-next-line no-param-reassign
-                            voiceMember.isSpeaking = receiver.speaking.users.has(voiceMember.id);
-                            return true;
-                        }
-
-                        return false;
+                    const member = voiceActivity.value.members.find((voiceMember) => {
+                        return voiceMember.id == userID;
                     });
+                    if (member) {
+                        // Ignoring the double check from receiver.speaking, user should be speaking anyways
+                        member.isSpeaking = true;
+                    }
                 }, voiceDelayRep.value);
             });
 
             receiver.speaking.on('end', (userID => {
                 setTimeout((): void => {
-                    voiceActivity.value.members.find((voiceMember): boolean => {
-                        if (voiceMember === undefined || userID === undefined) {
-                            return false;
-                        }
-                        if (voiceMember.id === userID) {
-                            // Delay this by streamleader delay/current obs
-                            // timeshift delay if its activated with setTimeout
-                            // eslint-disable-next-line no-param-reassign
-                            voiceMember.isSpeaking = receiver.speaking.users.has(voiceMember.id);
-                            return true;
-                        }
-
-                        return false;
+                    const member = voiceActivity.value.members.find((voiceMember) => {
+                        return voiceMember.id === userID;
                     });
+                    if (member) {
+                        member.isSpeaking = false;
+                    }
                 }, voiceDelayRep.value);
             }))
         }
@@ -298,6 +284,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
                     message.reply('I\'m not in the podcast channel!');
                     return;
                 }
+                getVoiceConnection(botServerID)?.disconnect();
                 getVoiceConnection(botServerID)?.destroy();
                 voiceStatus = 'disconnected';
                 return;
@@ -308,13 +295,24 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
     }
 
     // Message Handling
-    bot.on('message', (message: Discord.Message): void => {
+    bot.on('messageCreate', (message: Discord.Message): void => {
         if (message.channelId === botCommandChannelID) {
+            if (message.content.toLowerCase() === '!status') {
+                switch (voiceStatus) {
+                    case 'disconnected':
+                        message.reply('I\'m not in the podcast channel!');
+                        break;
+                    case 'connecting':
+                        message.reply('I\'m currently connecting to the podcast channel!');
+                        break;
+                    case 'connected':
+                        message.reply('I\'m currently in the podcast channel!');
+                        break;
+                }
+                message.reply('Hey! I\'m online and ready to track the voice channel!');
+                return;
+            }
             commandChannel(message);
-            return;
-        }
-        if (message.content.toLowerCase() === '!status') {
-            message.reply('Hey! I\'m online and ready to track the voice channel!');
         }
     });
 
