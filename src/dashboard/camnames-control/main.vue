@@ -11,42 +11,42 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator'
-    import { AllCamNames, CurrentCamNames } from '../../../schemas'
-    import { store, getReplicant } from '../../browser-util/state'
+    import { Component, Vue } from 'vue-property-decorator';
+    import { AllCamNames, CurrentCamNames } from '../../../schemas';
+    import { store, getReplicant } from '../../browser-util/state';
 
     @Component({})
     export default class InterviewControl extends Vue {
-        selectedCamNames: string = ''
+        selectedCamNames: string = '';
 
         mounted() {
             store.watch(
                 (state) => state.currentCamNames,
                 (newValue) => {
-                    this.selectedCamNames = newValue.name
+                    this.selectedCamNames = newValue.name;
                 },
-                { immediate: true },
-            )
+                { immediate: true }
+            );
         }
 
         get allCamNames(): AllCamNames {
-            return store.state.allCamNames
+            return store.state.allCamNames;
         }
 
         get allCamNamesNames(): string[] {
-            return this.allCamNames.map((l) => l.name)
+            return this.allCamNames.map((l) => l.name);
         }
 
         get currentCamNames(): CurrentCamNames {
-            return store.state.currentCamNames
+            return store.state.currentCamNames;
         }
 
         updateCurrentCamNames() {
-            const newCamNames = this.allCamNames.find((l) => l.name === this.selectedCamNames)
+            const newCamNames = this.allCamNames.find((l) => l.name === this.selectedCamNames);
             if (!newCamNames) {
-                throw new Error("The camNames selected is invalid, that shouldn't happen!")
+                throw new Error("The camNames selected is invalid, that shouldn't happen!");
             }
-            getReplicant<CurrentCamNames>('currentCamNames').value = newCamNames
+            getReplicant<CurrentCamNames>('currentCamNames').value = newCamNames;
         }
     }
 </script>

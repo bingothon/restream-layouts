@@ -89,31 +89,31 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator'
-    import { nodecg } from '../../browser-util/nodecg'
-    import { BingoboardMeta, CurrentMainBingoboard } from '../../../schemas'
-    import { getReplicant, store } from '../../browser-util/state'
+    import { Component, Vue } from 'vue-property-decorator';
+    import { nodecg } from '../../browser-util/nodecg';
+    import { BingoboardMeta, CurrentMainBingoboard } from '../../../schemas';
+    import { getReplicant, store } from '../../browser-util/state';
 
-    type ColorEnum = 'pink' | 'red' | 'orange' | 'brown' | 'yellow' | 'green' | 'teal' | 'blue' | 'navy' | 'purple'
-    type BingoRepEnum = 'bingoboard' | 'oriBingoboard' | 'hostingBingoboard' | 'explorationBingoboard'
+    type ColorEnum = 'pink' | 'red' | 'orange' | 'brown' | 'yellow' | 'green' | 'teal' | 'blue' | 'navy' | 'purple';
+    type BingoRepEnum = 'bingoboard' | 'oriBingoboard' | 'hostingBingoboard' | 'explorationBingoboard';
 
-    const BOARD_TO_SOCKET_REP = { bingoboard: 'bingosyncSocket', hostingBingoboard: 'hostingBingosocket' }
+    const BOARD_TO_SOCKET_REP = { bingoboard: 'bingosyncSocket', hostingBingoboard: 'hostingBingosocket' };
 
     @Component({})
     export default class BingoControl extends Vue {
-        roomCode: string = ''
+        roomCode: string = '';
 
-        passphrase: string = ''
+        passphrase: string = '';
 
-        currentBoardRep: BingoRepEnum = 'bingoboard'
+        currentBoardRep: BingoRepEnum = 'bingoboard';
 
-        oriBoardID: string = ''
+        oriBoardID: string = '';
 
-        oriPlayerID: string = ''
+        oriPlayerID: string = '';
 
-        explorationCustomBoard: string = ''
+        explorationCustomBoard: string = '';
 
-        errorMessage: string = ''
+        errorMessage: string = '';
 
         allColors = Object.freeze([
             'pink',
@@ -125,223 +125,223 @@
             'teal',
             'blue',
             'navy',
-            'purple',
-        ])
+            'purple'
+        ]);
 
-        allBingoReps: readonly BingoRepEnum[] = Object.freeze(['bingoboard', 'explorationBingoboard'])
-        d
+        allBingoReps: readonly BingoRepEnum[] = Object.freeze(['bingoboard', 'explorationBingoboard']);
+        d;
 
         mounted() {
             store.watch(
                 (state) => state.currentMainBingoboard,
                 (newVal) => {
-                    this.currentBoardRep = newVal.boardReplicant
+                    this.currentBoardRep = newVal.boardReplicant;
                 },
-                { immediate: true },
-            )
+                { immediate: true }
+            );
         }
 
         // --- computed properties
         get connectActionText(): string {
-            const socketRepName = BOARD_TO_SOCKET_REP[this.currentBoardRep]
+            const socketRepName = BOARD_TO_SOCKET_REP[this.currentBoardRep];
             if (!socketRepName) {
-                return 'invalid'
+                return 'invalid';
             }
             switch (store.state[socketRepName].status) {
                 case 'connected':
-                    return 'disconnect'
+                    return 'disconnect';
                 case 'disconnected':
                 case 'error':
-                    return 'connect'
+                    return 'connect';
                 case 'connecting':
-                    return 'connecting...'
+                    return 'connecting...';
                 default:
-                    return 'invalid'
+                    return 'invalid';
             }
         }
 
         get toggleCardText(): string {
             if (store.state.bingoboardMeta.boardHidden) {
-                return 'Show Card'
+                return 'Show Card';
             }
-            return 'Hide Card'
+            return 'Hide Card';
         }
 
         get toggleColorsText(): string {
             if (store.state.bingoboardMeta.colorShown) {
-                return 'Hide Colors'
+                return 'Hide Colors';
             }
-            return 'Show Colors'
+            return 'Show Colors';
         }
 
         get toggleCountText(): string {
             if (store.state.bingoboardMeta.countShown) {
-                return 'Hide Goalcount'
+                return 'Hide Goalcount';
             }
-            return 'Show Goalcount'
+            return 'Show Goalcount';
         }
 
         get manualScoreOverrideText(): string {
             if (store.state.bingoboardMeta.manualScoreOverride) {
-                return 'Disable Manual Score Override'
+                return 'Disable Manual Score Override';
             }
-            return 'Enable Manual Score Override'
+            return 'Enable Manual Score Override';
         }
 
         get isManualScoreOverride(): boolean {
-            return store.state.bingoboardMeta.manualScoreOverride
+            return store.state.bingoboardMeta.manualScoreOverride;
         }
 
         get toggleOriText(): string {
             if (store.state.oriBingoMeta.active) {
-                return 'Deactivate'
+                return 'Deactivate';
             }
-            return 'Activate'
+            return 'Activate';
         }
 
         get oriCanActivate(): boolean {
-            return store.state.oriBingoMeta.active ? true : !!this.oriBoardID && !!this.oriPlayerID
+            return store.state.oriBingoMeta.active ? true : !!this.oriBoardID && !!this.oriPlayerID;
         }
 
         get playerColors(): Array<ColorEnum> {
-            return store.state.bingoboardMeta.playerColors
+            return store.state.bingoboardMeta.playerColors;
         }
 
         get canDoConnectAction(): boolean {
-            const socketRepName = BOARD_TO_SOCKET_REP[this.currentBoardRep]
+            const socketRepName = BOARD_TO_SOCKET_REP[this.currentBoardRep];
             if (!socketRepName) {
-                return false
+                return false;
             }
             switch (store.state[socketRepName].status) {
                 case 'connected':
-                    return true
+                    return true;
                 case 'disconnected':
                 case 'error':
-                    return !!this.roomCode && !!this.passphrase
+                    return !!this.roomCode && !!this.passphrase;
                 case 'connecting':
                 default:
-                    return false
+                    return false;
             }
         }
 
         get showExtraBingosyncOptions(): boolean {
-            return ['bingoboard', 'hostingBingoboard'].includes(this.currentBoardRep)
+            return ['bingoboard', 'hostingBingoboard'].includes(this.currentBoardRep);
         }
 
         get showExtraOriOptions(): boolean {
-            return this.currentBoardRep === 'oriBingoboard'
+            return this.currentBoardRep === 'oriBingoboard';
         }
 
         get showExtraExplorationOptions(): boolean {
-            return this.currentBoardRep === 'explorationBingoboard'
+            return this.currentBoardRep === 'explorationBingoboard';
         }
 
         get currentBoardActive(): boolean {
-            return this.currentBoardRep === store.state.currentMainBingoboard.boardReplicant
+            return this.currentBoardRep === store.state.currentMainBingoboard.boardReplicant;
         }
 
         get manualScore(): string[] {
-            return store.state.bingoboardMeta.manualScores.map((i) => `${i}`)
+            return store.state.bingoboardMeta.manualScores.map((i) => `${i}`);
         }
 
         // --- handlers
 
         updateManualScore() {
             this.manualScore.forEach((score: string, idx: number) => {
-                getReplicant<BingoboardMeta>('bingoboardMeta').value.manualScores[idx] = parseInt(score, 10)
-            })
+                getReplicant<BingoboardMeta>('bingoboardMeta').value.manualScores[idx] = parseInt(score, 10);
+            });
         }
 
         connectAction() {
             // only expanded options for the bingosync connection,
             // otherwise something else is there to handle the board
             if (this.showExtraBingosyncOptions) {
-                const socketRepName = BOARD_TO_SOCKET_REP[this.currentBoardRep]
+                const socketRepName = BOARD_TO_SOCKET_REP[this.currentBoardRep];
                 if (!socketRepName) {
-                    throw new Error('unreachable')
+                    throw new Error('unreachable');
                 }
                 switch (store.state[socketRepName].status) {
                     case 'connected':
                         nodecg.sendMessage('bingosync:leaveRoom', { name: this.currentBoardRep }).catch((error) => {
-                            nodecg.log.error(error)
-                            this.errorMessage = error.message
-                        })
-                        break
+                            nodecg.log.error(error);
+                            this.errorMessage = error.message;
+                        });
+                        break;
                     case 'disconnected':
                     case 'error':
                         getReplicant<CurrentMainBingoboard>('currentMainBingoboard').value.boardReplicant = this
-                            .currentBoardRep as BingoRepEnum
+                            .currentBoardRep as BingoRepEnum;
                         nodecg
                             .sendMessage('bingosync:joinRoom', {
                                 roomCode: this.roomCode,
                                 passphrase: this.passphrase,
-                                name: this.currentBoardRep,
+                                name: this.currentBoardRep
                             })
                             .catch((error) => {
-                                nodecg.log.error(error)
-                                this.errorMessage = error.message
-                            })
-                        break
+                                nodecg.log.error(error);
+                                this.errorMessage = error.message;
+                            });
+                        break;
                     default:
-                        break
+                        break;
                 }
             }
         }
 
         toggleOriActivate() {
             if (store.state.oriBingoMeta.active) {
-                nodecg.sendMessage('oriBingo:deactivate')
+                nodecg.sendMessage('oriBingo:deactivate');
             } else {
                 nodecg
                     .sendMessage('oriBingo:activate', { boardID: this.oriBoardID, playerID: this.oriPlayerID })
                     .catch((error) => {
-                        nodecg.log.error(error)
-                        this.errorMessage = error.message
-                    })
+                        nodecg.log.error(error);
+                        this.errorMessage = error.message;
+                    });
             }
         }
 
         updateExploration() {
             try {
-                const goals = JSON.parse(this.explorationCustomBoard)
-                const onlyNames = goals.map((g) => g.name)
+                const goals = JSON.parse(this.explorationCustomBoard);
+                const onlyNames = goals.map((g) => g.name);
                 nodecg.sendMessageToBundle('exploration:newGoals', 'restream-layouts', onlyNames).catch((e) => {
-                    this.errorMessage = e.message
-                    nodecg.log.error(e)
-                })
+                    this.errorMessage = e.message;
+                    nodecg.log.error(e);
+                });
             } catch (e) {
-                this.errorMessage = "Couldn't parse the board"
+                this.errorMessage = "Couldn't parse the board";
             }
         }
 
         resetExploration() {
-            nodecg.sendMessageToBundle('exploration:resetBoard', 'restream-layouts')
+            nodecg.sendMessageToBundle('exploration:resetBoard', 'restream-layouts');
         }
 
         switchAction() {
             getReplicant<CurrentMainBingoboard>('currentMainBingoboard').value.boardReplicant = this
-                .currentBoardRep as BingoRepEnum
+                .currentBoardRep as BingoRepEnum;
         }
 
         updatePlayerColor(idx: number, val: any) {
-            getReplicant<BingoboardMeta>('bingoboardMeta').value.playerColors[idx] = val
+            getReplicant<BingoboardMeta>('bingoboardMeta').value.playerColors[idx] = val;
         }
 
         toggleCard() {
-            getReplicant<BingoboardMeta>('bingoboardMeta').value.boardHidden = !store.state.bingoboardMeta.boardHidden
+            getReplicant<BingoboardMeta>('bingoboardMeta').value.boardHidden = !store.state.bingoboardMeta.boardHidden;
         }
 
         toggleColors() {
-            getReplicant<BingoboardMeta>('bingoboardMeta').value.colorShown = !store.state.bingoboardMeta.colorShown
+            getReplicant<BingoboardMeta>('bingoboardMeta').value.colorShown = !store.state.bingoboardMeta.colorShown;
         }
 
         toggleCount() {
-            getReplicant<BingoboardMeta>('bingoboardMeta').value.countShown = !store.state.bingoboardMeta.countShown
+            getReplicant<BingoboardMeta>('bingoboardMeta').value.countShown = !store.state.bingoboardMeta.countShown;
         }
 
         toggleManualScoreOverride() {
             getReplicant<BingoboardMeta>('bingoboardMeta').value.manualScoreOverride =
-                !store.state.bingoboardMeta.manualScoreOverride
+                !store.state.bingoboardMeta.manualScoreOverride;
         }
     }
 </script>

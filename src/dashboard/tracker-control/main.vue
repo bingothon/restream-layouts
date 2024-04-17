@@ -17,45 +17,45 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator'
-    import { getReplicant, store } from '../../browser-util/state'
-    import { RunDataActiveRun } from '../../../speedcontrol-types'
-    import { TrackerData } from '../../../schemas'
+    import { Component, Vue } from 'vue-property-decorator';
+    import { getReplicant, store } from '../../browser-util/state';
+    import { RunDataActiveRun } from '../../../speedcontrol-types';
+    import { TrackerData } from '../../../schemas';
 
     interface IndexedPlayer {
-        name: string
-        index: number
+        name: string;
+        index: number;
     }
 
     @Component({})
     export default class TrackerControl extends Vue {
         get trackerIds(): string[] {
-            return store.state.trackerData.map((tracker) => tracker.id)
+            return store.state.trackerData.map((tracker) => tracker.id);
         }
 
         get trackerData(): TrackerData {
-            return store.state.trackerData
+            return store.state.trackerData;
         }
 
         get players(): IndexedPlayer[] {
-            let idx = 0
-            let arr: IndexedPlayer[] = []
+            let idx = 0;
+            let arr: IndexedPlayer[] = [];
             store.state.runDataActiveRun?.teams.forEach((t) => {
                 t.players.forEach((p) => {
-                    arr.push({ name: p.name, index: idx })
-                    idx++
-                })
-            })
-            return arr
+                    arr.push({ name: p.name, index: idx });
+                    idx++;
+                });
+            });
+            return arr;
         }
 
         updateTrackerData() {
-            console.log(this.trackerIds)
-            let newVal: TrackerData = []
+            console.log(this.trackerIds);
+            let newVal: TrackerData = [];
             this.trackerIds.forEach((id) => {
-                newVal.push({ id: id, password: '' })
-            })
-            getReplicant<TrackerData>('trackerData').value = newVal
+                newVal.push({ id: id, password: '' });
+            });
+            getReplicant<TrackerData>('trackerData').value = newVal;
         }
     }
 </script>

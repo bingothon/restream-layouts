@@ -83,13 +83,13 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Watch } from 'vue-property-decorator'
-    import { nodecg } from '../../browser-util/nodecg'
-    import { BingoboardMode } from '../../../schemas'
-    import { store } from '../../browser-util/state'
-    import clone from 'clone'
+    import { Component, Vue, Watch } from 'vue-property-decorator';
+    import { nodecg } from '../../browser-util/nodecg';
+    import { BingoboardMode } from '../../../schemas';
+    import { store } from '../../browser-util/state';
+    import clone from 'clone';
 
-    type ColorEnum = 'pink' | 'red' | 'orange' | 'brown' | 'yellow' | 'green' | 'teal' | 'blue' | 'navy' | 'purple'
+    type ColorEnum = 'pink' | 'red' | 'orange' | 'brown' | 'yellow' | 'green' | 'teal' | 'blue' | 'navy' | 'purple';
 
     @Component({})
     export default class BingomodeControl extends Vue {
@@ -97,101 +97,101 @@
             'invasion',
             'normal',
             'rowcontrol',
-            'bomber',
-        ])
+            'bomber'
+        ]);
 
         ALL_COLORS = {
             options: [
                 {
                     title: 'pink',
-                    colorId: 'color-control-pink',
+                    colorId: 'color-control-pink'
                 },
                 {
                     title: 'red',
-                    colorId: 'color-control-red',
+                    colorId: 'color-control-red'
                 },
                 {
                     title: 'orange',
-                    colorId: 'color-control-orange',
+                    colorId: 'color-control-orange'
                 },
                 {
                     title: 'brown',
-                    colorId: 'color-control-brown',
+                    colorId: 'color-control-brown'
                 },
                 {
                     title: 'yellow',
-                    colorId: 'color-control-yellow',
+                    colorId: 'color-control-yellow'
                 },
                 {
                     title: 'green',
-                    colorId: 'color-control-green',
+                    colorId: 'color-control-green'
                 },
                 {
                     title: 'teal',
-                    colorId: 'color-control-teal',
+                    colorId: 'color-control-teal'
                 },
                 {
                     title: 'blue',
-                    colorId: 'color-control-blue',
+                    colorId: 'color-control-blue'
                 },
                 {
                     title: 'navy',
-                    colorId: 'color-control-navy',
+                    colorId: 'color-control-navy'
                 },
                 {
                     title: 'purple',
-                    colorId: 'color-control-purple',
-                },
-            ],
-        }
+                    colorId: 'color-control-purple'
+                }
+            ]
+        };
 
         ALL_REDIRECTS = {
             options: [
                 ...this.ALL_COLORS.options,
                 {
                     title: 'black',
-                    colorId: 'color-control-black',
-                },
-            ],
-        }
+                    colorId: 'color-control-black'
+                }
+            ]
+        };
         //Object.freeze(['pink', 'red', 'orange', 'brown', 'yellow', 'green', 'teal', 'blue', 'navy', 'purple']);
-        currentBingomode: string = 'invasion'
-        markerRedirects: [string, string][] = []
-        alwaysShowMarkers: boolean = false
+        currentBingomode: string = 'invasion';
+        markerRedirects: [string, string][] = [];
+        alwaysShowMarkers: boolean = false;
 
         get bingoboardModeRep(): BingoboardMode {
-            return store.state.bingoboardMode
+            return store.state.bingoboardMode;
         }
 
         @Watch('bingoboardModeRep', { immediate: true })
         reset(): void {
-            this.currentBingomode = store.state.bingoboardMode.boardMode
-            this.markerRedirects = clone(store.state.bingoboardMode.markerRedirects)
-            this.alwaysShowMarkers = store.state.bingoboardMode.alwaysShowMarkers
+            this.currentBingomode = store.state.bingoboardMode.boardMode;
+            this.markerRedirects = clone(store.state.bingoboardMode.markerRedirects);
+            this.alwaysShowMarkers = store.state.bingoboardMode.alwaysShowMarkers;
         }
 
         update(): void {
             nodecg.sendMessage('bingomode:setBingoboardMode', {
                 boardMode: this.currentBingomode,
                 markerRedirects: this.markerRedirects,
-                alwaysShowMarkers: this.alwaysShowMarkers,
-            })
+                alwaysShowMarkers: this.alwaysShowMarkers
+            });
         }
 
         addOverride(): void {
-            this.markerRedirects.push(['red', 'red'])
+            this.markerRedirects.push(['red', 'red']);
         }
 
         removeOverride(index: number): void {
-            this.markerRedirects.splice(index, 1)
+            this.markerRedirects.splice(index, 1);
         }
 
         forceRefreshInvasion(): void {
-            nodecg.sendMessage('bingomode:forceRefreshInvasion')
+            nodecg.sendMessage('bingomode:forceRefreshInvasion');
         }
 
         get isNotInvasion(): boolean {
-            return this.currentBingomode !== 'invasion'
+            return this.currentBingomode !== 'invasion';
         }
     }
 </script>

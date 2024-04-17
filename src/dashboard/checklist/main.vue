@@ -10,8 +10,8 @@
     </v-app>
 </template>
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator'
-    import { store } from '../../browser-util/state'
+    import { Component, Vue } from 'vue-property-decorator';
+    import { store } from '../../browser-util/state';
 
     const ACTION_LIST_SUNSHINE: string[] = [
         'Import Runs from sms.bingo in Run Modifications Tab',
@@ -23,13 +23,13 @@
         'Make sure that the streams are cropped correctly',
         'Unmute the correct stream',
         'Final Check',
-        'Go live, unmute Discord and stay hydrated',
-    ]
+        'Go live, unmute Discord and stay hydrated'
+    ];
 
-    const ACTION_CHECKED_SUNSHINE: [string, boolean][] = []
+    const ACTION_CHECKED_SUNSHINE: [string, boolean][] = [];
     ACTION_LIST_SUNSHINE.forEach((a) => {
-        ACTION_CHECKED_SUNSHINE.push([a, false])
-    })
+        ACTION_CHECKED_SUNSHINE.push([a, false]);
+    });
 
     const ACTION_LIST: string[] = [
         'Set Run Game to current Round',
@@ -42,26 +42,26 @@
         'Make sure that the streams are cropped correctly',
         'Unmute the correct Twitch stream',
         'Final Check',
-        'Go live, unmute Discord and stay hydrated',
-    ]
+        'Go live, unmute Discord and stay hydrated'
+    ];
 
-    const ACTION_CHECKED: [string, boolean][] = []
+    const ACTION_CHECKED: [string, boolean][] = [];
     ACTION_LIST.forEach((a) => {
-        ACTION_CHECKED.push([a, false])
-    })
+        ACTION_CHECKED.push([a, false]);
+    });
 
     @Component({})
     export default class Checklist extends Vue {
-        actionsChecked = store.state.gameMode.game === 'sms' ? ACTION_CHECKED_SUNSHINE : ACTION_CHECKED
+        actionsChecked = store.state.gameMode.game === 'sms' ? ACTION_CHECKED_SUNSHINE : ACTION_CHECKED;
 
         get hostsSpeaking() {
-            return store.state.hostsSpeakingDuringIntermission.speaking
+            return store.state.hostsSpeakingDuringIntermission.speaking;
         }
 
         clearAll() {
             this.actionsChecked.forEach((action) => {
-                Vue.set(action, 1, false)
-            })
+                Vue.set(action, 1, false);
+            });
         }
     }
 </script>

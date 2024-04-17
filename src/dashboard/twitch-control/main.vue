@@ -19,27 +19,27 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator'
-    import { nodecg } from '../../browser-util/nodecg'
-    import { SoundOnTwitchStream, TwitchStreams } from '../../../schemas'
-    import { getReplicant, store } from '../../browser-util/state'
+    import { Component, Vue } from 'vue-property-decorator';
+    import { nodecg } from '../../browser-util/nodecg';
+    import { SoundOnTwitchStream, TwitchStreams } from '../../../schemas';
+    import { getReplicant, store } from '../../browser-util/state';
 
-    const bingothonBundleName = 'restream-layouts'
+    const bingothonBundleName = 'restream-layouts';
 
     @Component({})
     export default class TwitchControl extends Vue {
-        twitchChannelOverrides: string[] = ['', '', '', '']
+        twitchChannelOverrides: string[] = ['', '', '', ''];
 
         get twitchStreams(): TwitchStreams {
-            return store.state.twitchStreams
+            return store.state.twitchStreams;
         }
 
         get soundOnTwitchStream(): number {
-            return store.state.soundOnTwitchStream
+            return store.state.soundOnTwitchStream;
         }
 
         get game(): string {
-            return store.state.gameMode.game
+            return store.state.gameMode.game;
         }
 
         get playerNames(): string[] {
@@ -53,35 +53,35 @@
         }
 
         volumeChange(id: number, event: any) {
-            const newVolume = parseInt(event.target.value, 10) / 100
-            nodecg.sendMessageToBundle('streams:setStreamVolume', bingothonBundleName, { id, volume: newVolume })
+            const newVolume = parseInt(event.target.value, 10) / 100;
+            nodecg.sendMessageToBundle('streams:setStreamVolume', bingothonBundleName, { id, volume: newVolume });
         }
 
         updateStreamQuality(id: number, event: any) {
             nodecg.sendMessageToBundle('streams:setStreamQuality', bingothonBundleName, {
                 id,
-                quality: event.target.value,
-            })
+                quality: event.target.value
+            });
         }
 
         muteChange(id: number) {
             if (this.soundOnTwitchStream === id) {
-                getReplicant<SoundOnTwitchStream>('soundOnTwitchStream').value = -1
+                getReplicant<SoundOnTwitchStream>('soundOnTwitchStream').value = -1;
             } else {
-                getReplicant<SoundOnTwitchStream>('soundOnTwitchStream').value = id
+                getReplicant<SoundOnTwitchStream>('soundOnTwitchStream').value = id;
             }
         }
 
         togglePlayPause(id: number) {
-            nodecg.sendMessageToBundle('streams:toggleStreamPlayPause', bingothonBundleName, id)
+            nodecg.sendMessageToBundle('streams:toggleStreamPlayPause', bingothonBundleName, id);
         }
 
         refresh(id: number) {
-            nodecg.sendMessageToBundle('streams:refreshStream', bingothonBundleName, id)
+            nodecg.sendMessageToBundle('streams:refreshStream', bingothonBundleName, id);
         }
 
         overrideChannelName(id: number) {
-            getReplicant<TwitchStreams>('twitchStreams').value[id].channel = this.twitchChannelOverrides[id]
+            getReplicant<TwitchStreams>('twitchStreams').value[id].channel = this.twitchChannelOverrides[id];
         }
     }
 </script>

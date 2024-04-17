@@ -30,68 +30,68 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Watch } from 'vue-property-decorator'
-    import { nodecg } from '../../browser-util/nodecg'
-    import { store } from '../../browser-util/state'
+    import { Component, Vue, Watch } from 'vue-property-decorator';
+    import { nodecg } from '../../browser-util/nodecg';
+    import { store } from '../../browser-util/state';
 
-    const bingothonBundleName = 'restream-layouts'
+    const bingothonBundleName = 'restream-layouts';
     @Component({})
     export default class CountdownControl extends Vue {
-        time: string = '00:00'
+        time: string = '00:00';
 
         get timerState(): string {
-            return store.state.countdownTimer.state
+            return store.state.countdownTimer.state;
         }
 
         get timerTime(): string {
-            return store.state.countdownTimer.time
+            return store.state.countdownTimer.time;
         }
 
         get bgColour(): string {
             switch (store.state.countdownTimer.state) {
                 case 'stopped':
                 default:
-                    return '#455A64'
+                    return '#455A64';
                 case 'running':
-                    return ''
+                    return '';
             }
         }
 
         get disableEditing(): boolean {
-            return ['running'].includes(store.state.countdownTimer.state)
+            return ['running'].includes(store.state.countdownTimer.state);
         }
 
         get startStopActionName(): string {
-            return store.state.countdownTimer.state !== 'stopped' ? 'Stop' : 'Start'
+            return store.state.countdownTimer.state !== 'stopped' ? 'Stop' : 'Start';
         }
 
         @Watch('timerTime', { immediate: true })
         updateTime(val: string): void {
-            this.time = val
+            this.time = val;
         }
 
         abandonEdit(): void {
-            this.time = this.timerTime
+            this.time = this.timerTime;
         }
 
         finishEdit(): void {
-            const match = this.time.match(/^((?<hours>\d+):)?(?<minutes>\d{1}|\d{2}):(?<seconds>\d{2})$/)
+            const match = this.time.match(/^((?<hours>\d+):)?(?<minutes>\d{1}|\d{2}):(?<seconds>\d{2})$/);
             if (match) {
-                console.log(match.groups)
+                console.log(match.groups);
                 const seconds =
                     parseInt(match.groups['hours'] || '0') * 3600 +
                     parseInt(match.groups['minutes']) * 60 +
-                    parseInt(match.groups['seconds'])
-                nodecg.sendMessageToBundle('countdownTimer:setTime', bingothonBundleName, seconds)
+                    parseInt(match.groups['seconds']);
+                nodecg.sendMessageToBundle('countdownTimer:setTime', bingothonBundleName, seconds);
             }
-            ;(event.target as HTMLTextAreaElement).blur()
+            (event.target as HTMLTextAreaElement).blur();
         }
 
         doStartStopAction(): void {
             if (store.state.countdownTimer.state !== 'stopped') {
-                nodecg.sendMessageToBundle('countdownTimer:stop', bingothonBundleName)
+                nodecg.sendMessageToBundle('countdownTimer:stop', bingothonBundleName);
             } else {
-                nodecg.sendMessageToBundle('countdownTimer:start', bingothonBundleName)
+                nodecg.sendMessageToBundle('countdownTimer:start', bingothonBundleName);
             }
         }
     }

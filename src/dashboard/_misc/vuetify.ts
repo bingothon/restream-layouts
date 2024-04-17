@@ -1,13 +1,13 @@
-import '@mdi/font/css/materialdesignicons.css'
-import Vue from 'vue'
-import Vuetify from 'vuetify/lib'
-import './common.css'
-import '../../graphics/_misc/common.css'
+import '@mdi/font/css/materialdesignicons.css';
+import Vue from 'vue';
+import Vuetify from 'vuetify/lib';
+import './common.css';
+import '../../graphics/_misc/common.css';
 
-Vue.use(Vuetify)
+Vue.use(Vuetify);
 
 export default new Vuetify({
     theme: {
-        dark: true,
-    },
-})
+        dark: true
+    }
+});
