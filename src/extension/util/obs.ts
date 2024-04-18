@@ -1,7 +1,7 @@
 import obsWebsocketJs from 'obs-websocket-js';
 import * as nodecgApiContext from './nodecg-api-context';
-import { Configschema } from '../../../configschema';
-import { CurrentGameLayout, ObsAudioSources, ObsConnection, SoundOnTwitchStream, TwitchStreams } from '../../../schemas';
+import { Configschema } from '@/configschema';
+import { ObsAudioSources, ObsConnection, SoundOnTwitchStream, TwitchStreams } from '@/schemas';
 import { TwitchStream } from 'types';
 
 // this module is used to communicate directly with OBS
@@ -141,15 +141,17 @@ class OBSUtility extends obsWebsocketJs {
      */
     public async setMediasourcePlayPause(source: string, pause: boolean): Promise<void> {
         // TODO: remove this garbage once obs-websocket-js updates to proper bindings
-        await (this as any).send("PlayPauseMedia", {
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+        await (this).send("PlayPauseMedia", {
             sourceName: source,
             playPause: pause,
-        }).catch((e: any) => logger.error('could not set play pause', e));
+        }).catch((e: unknown) => logger.error('could not set play pause', e));
     }
 
     public async refreshMediasource(source: string): Promise<void> {
         // TODO: remove this garbage once obs-websocket-js updates to proper bindings
-        await (this as any).send("RestartMedia", {
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+        await (this).send("RestartMedia", {
             sourceName: source,
         }).catch((e: any) => logger.error('could not restart media', e));
     }
@@ -196,9 +198,9 @@ class OBSUtility extends obsWebsocketJs {
 
     public async refreshBrowserSource(source: string): Promise<void> {
         // outdating typings :(
-        await (this as any).send("RefreshBrowserSource", {
+        await (this).send("RefreshBrowserSource", {
             sourceName: source,
-        }).catch((e: any) => logger.error('could not refresh browser source', e));
+        }).catch((e: unknown) => logger.error('could not refresh browser source', e));
     }
 }
 
@@ -336,7 +338,6 @@ if (bundleConfig.obs && bundleConfig.obs.enable) {
         setTimeout(connect, 5000);
     });
 
-    // @ts-ignore: Pretty sure this emits an error.
     obs.on('error', (err): void => {
         logger.warn('OBS connection error.');
         logger.debug('OBS connection error:', err);

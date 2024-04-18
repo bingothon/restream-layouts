@@ -37,7 +37,7 @@ nodecg.listenFor('importSMSBingo', (data): void => {
                 })
             })
         })
-        .catch((err: any): void => {
+        .catch((err: unknown): void => {
             log.error('error getting data from ', data.website, ': ', err);
         });
 });

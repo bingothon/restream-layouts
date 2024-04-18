@@ -18,8 +18,7 @@ const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger(`${nodecg.bundleName}:bingosync`);
 const boardMetaRep = nodecg.Replicant<BingoboardMeta>('bingoboardMeta');
 
-const noop = (): void => {
-}; // tslint:disable-line:no-empty
+const noop = (): void => {log.info('This should not exist, someone wrote this in here, just fixing eslint problems')};
 const bingosyncSocketUrl = 'wss://sockets.bingosync.com';
 const bingosyncSiteUrl = 'https://bingosync.com';
 const runData = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
@@ -354,7 +353,6 @@ class BingosyncManager {
             this.websocket.onopen = (): void => {
                 log.info('Socket opened.');
                 if (this.websocket) {
-                    // eslint-disable-next-line @typescript-eslint/camelcase
                     this.websocket.send(JSON.stringify({socket_key: socketKey}));
                 }
             };
@@ -503,7 +501,8 @@ class BingosyncManager {
         this.boardRep.value.colorCounts[color] = rowCounter;
     }
 
-    private countScore(json: any) {
+    // probably not the correct typing for the json, but enough to deal with ts
+    private countScore(json: { remove: boolean, color:  BoardColor}) {
         const boardModeRep = nodecg.Replicant<BingoboardMode>('bingoboardMode');
         if (boardModeRep.value.boardMode === 'rowcontrol') {
             this.updateRowControlScore(this.boardRep.value.cells, json.color);
@@ -644,7 +643,7 @@ nodecg.listenFor('bingomode:setBingoboardMode', (data: BingoboardMode, callback)
     }
 });
 
-nodecg.listenFor('bingomode:forceRefreshInvasion', (_data: any, callback): void => {
+nodecg.listenFor('bingomode:forceRefreshInvasion', (_data: unknown, callback): void => {
     bingosyncInstances.get('bingoboard')?.forceRefreshInvasionCtx();
     if (callback && !callback.handled) {
         callback();

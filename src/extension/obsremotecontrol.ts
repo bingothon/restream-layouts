@@ -167,19 +167,20 @@ waitTillConnected().then((): void => {
         setTimeout(doFadeIn, 100);
     });
 
-    /* eslint-disable max-len */
-
     // update discord display and audio delays to the stream leader delay for the specified delay info
     function updateDiscordDelays(streamLeaderDelayMs: number | null, discordDelayInfo: DiscordDelayInfo): void {
+        if (!bundleConfig.obs) {
+            return;
+        }
         if (discordDelayInfo.discordAudioDelaySyncStreamLeader && streamLeaderDelayMs !== null) {
-            if (Math.abs(obsAudioSourcesRep.value[bundleConfig.obs!.discordAudio].delay - streamLeaderDelayMs) > 1000) {
-                obsAudioSourcesRep.value[bundleConfig.obs!.discordAudio].delay = streamLeaderDelayMs;
+            if (Math.abs(obsAudioSourcesRep.value[bundleConfig.obs.discordAudio].delay - streamLeaderDelayMs) > 1000) {
+                obsAudioSourcesRep.value[bundleConfig.obs.discordAudio].delay = streamLeaderDelayMs;
                 if (discordDelayInfo.discordDisplayDelaySyncStreamLeader) {
                     voiceDelayRep.value = streamLeaderDelayMs;
                 }
             }
         } else {
-            obsAudioSourcesRep.value[bundleConfig.obs!.discordAudio].delay = discordDelayInfo.discordAudioDelayMs;
+            obsAudioSourcesRep.value[bundleConfig.obs.discordAudio].delay = discordDelayInfo.discordAudioDelayMs;
         }
         // already handled
         if (discordDelayInfo.discordDisplayDelaySyncStreamLeader && !discordDelayInfo.discordAudioDelaySyncStreamLeader

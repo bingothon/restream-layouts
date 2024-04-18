@@ -1,6 +1,6 @@
 import {NodeCG} from 'nodecg/types/server'; // eslint-disable-line
 import * as nodecgApiContext from './util/nodecg-api-context';
-import {ShowPictureDuringIntermission, SongData, VoiceActivity, VoiceActivitySunshine} from '../../schemas';
+import {ShowPictureDuringIntermission, SongData, VoiceActivity} from '@/schemas';
 // import {requireService} from "nodecg-io-core";
 // import { StreamElementsServiceClient } from "nodecg-io-streamelements";
 
@@ -18,53 +18,6 @@ export = (nodecg: NodeCG): void => {
     require('./smsBingoImport');
 
     const defaultAvatar = 'https://discordapp.com/assets/dd4dbc0016779df1378e7812eabaa04d.png';
-    const discordTestMembers = [
-        {
-            id: '0', name: 'abc', avatar: defaultAvatar, isSpeaking: false,
-        },
-        {
-            id: '1', name: 'testlongname', avatar: defaultAvatar, isSpeaking: true,
-        },
-        {
-            id: '2', name: 'anotherone', avatar: defaultAvatar, isSpeaking: true,
-        },
-        {
-            id: '3', name: 'POGGERS', avatar: defaultAvatar, isSpeaking: false,
-        },
-        {
-            id: '4', name: 'asdfasdf', avatar: defaultAvatar, isSpeaking: false,
-        },
-        {
-            id: '5', name: 'someone', avatar: defaultAvatar, isSpeaking: false,
-        },
-        {
-            id: '6', name: 'idk this is a lot', avatar: defaultAvatar, isSpeaking: true,
-        },
-        {
-            id: '7', name: 'not creative', avatar: defaultAvatar, isSpeaking: true,
-        },
-        {
-            id: '8', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
-        },
-        {
-            id: '9', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
-        },
-        {
-            id: '10', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
-        },
-        {
-            id: '11', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
-        },
-        {
-            id: '12', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
-        },
-        {
-            id: '13', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
-        },
-        {
-            id: '14', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
-        },
-    ]
 
 
     if (nodecg.bundleConfig.discord) {

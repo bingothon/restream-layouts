@@ -1,42 +1,44 @@
 import { ApiClient } from "@twurple/api";
 import {ClientCredentialsAuthProvider} from '@twurple/auth';
-import {EventSubListener, ReverseProxyAdapter} from '@twurple/eventsub';
-import {Configschema} from "../../configschema";
+import {
+    EventSubChannelFollowEvent,
+    EventSubChannelSubscriptionEvent,
+    EventSubListener,
+    ReverseProxyAdapter
+} from '@twurple/eventsub';
+import {Configschema} from '@/configschema';
 import * as nodecgApiContext from "./util/nodecg-api-context";
 import { sentenceCase } from "sentence-case";
 
 let isRunningQueue = false
-const eventsQueue: {type: string, data: any}[] = []
+const eventsQueue: { type: string; data: EventSubChannelFollowEvent | EventSubChannelSubscriptionEvent }[] = [];
 let waitForNext = false
 
 const userId = '539920154';
 const nodecg = nodecgApiContext.get();
 const config = nodecg.bundleConfig as Configschema;
 
-// @ts-ignore
 const clientId = config.twitchEventSub.clientID;
-// @ts-ignore
-const accessToken = config.twitchEventSub.accessToken;
-// @ts-ignore
 const clientSecret = config.twitchEventSub.clientSecret;
 
 const authProvider = new ClientCredentialsAuthProvider(clientId, clientSecret);
 const client = new ApiClient({authProvider});
 
-const listener = new EventSubListener({apiClient: client, adapter: new ReverseProxyAdapter({
-    // @ts-ignore
+const listener = new EventSubListener({
+    apiClient: client, adapter: new ReverseProxyAdapter({
     hostName: config.twitchEventSub.hostName, // The host name the server is available from
     port: 443 // The external port (optional, defaults to 443)
-    // @ts-ignore
-}), secret: config.twitchEventSub.eventSubListenerKey});
+    }),
+    secret: config.twitchEventSub.eventSubListenerKey
+});
 
-const getChannelEventSubscriptions = (obj: object) => {
-    const properties = new Set()
+const getChannelEventSubscriptions = (obj: object) : string[] => {
+    const properties = new Set<string>()
     let currentObj = obj
     do {
         Object.getOwnPropertyNames(currentObj).map(item => properties.add(item))
     } while ((currentObj = Object.getPrototypeOf(currentObj)))
-    return [...properties.keys()].filter(item => (item as string).includes('subscribeToChannel'))
+    return [...properties.keys()].filter(item => item.includes('subscribeToChannel'))
 }
 
 const delay = (milliseconds: number) => new Promise(resolve => { setTimeout(resolve, milliseconds) })
@@ -62,11 +64,7 @@ const queueSendHandler = async (waitForNext: boolean) => {
 }
 
 const newEventCheck = async() => {
-    if(isRunningQueue){
-        waitForNext = true
-    }else{
-        waitForNext = false;
-    }
+    waitForNext = isRunningQueue;
     await queueSendHandler(waitForNext)
 }
 
@@ -74,20 +72,14 @@ const main = async () => {
     const eventSubscriptions = getChannelEventSubscriptions(listener)
     for(const eventSubscription of eventSubscriptions){
         try {
-
-            // @ts-ignore
             const parsedEventType = sentenceCase(eventSubscription.slice(11, eventSubscription.length))
                 .replace(/ /g, "_").toUpperCase()
             if(parsedEventType === 'CHANNEL_FOLLOW_EVENTS' || parsedEventType === 'CHANNEL_SUBSCRIBTION_EVENTS'){
-                // @ts-ignore
                 console.log(`Attempting to subscribe to ${parsedEventType}`)
-                // @ts-ignore
-                await listener[eventSubscription](userId, e => {
+                await listener[(eventSubscription as "subscribeToChannelFollowEvents" | 'subscribeToChannelSubscriptionEvents')](userId, e => {
                     console.log(`what is here`, typeof e)
                     eventsQueue.push({
-                        // @ts-ignore
                         type: parsedEventType,
-                        // @ts-ignore
                         data: e
                     })
                 });

@@ -41,10 +41,6 @@ function processStyling(goalName: string): string {
     return goalName;
 }
 
-async function sleep(ms: number): Promise<void> {
-    return new Promise((resolve): number => setTimeout(resolve, ms));
-}
-
 async function getBoard(boardID: number, playerID: number): Promise<OriApiResponse> {
     return request.get(`https://orirando.com/bingo/bingothon/${boardID}/player/${playerID}`, { json: true });
 }

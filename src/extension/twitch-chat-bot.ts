@@ -45,7 +45,7 @@ function getTwitchAccessToken(): string {
 }
 
 function waitForEverythingReady(): Promise<void> {
-    return new Promise((resolve, _) => {
+    return new Promise((resolve) => {
         waitForReplicants([twichAPIDataRep, runDataActiveRunRep], () => {
             twichAPIDataRep.on('change', val => {
                 if (val.state == 'on') {
@@ -179,7 +179,7 @@ if (bundleConfig.twitch && bundleConfig.twitch.enable && bundleConfig.twitch.cha
               }
           } */
         }
-        const tokenRefreshed = false;
+        
         function connectBot(attempts: number) {
             client.connect().catch(err => {
                 log.error(`failed connect attempt ${attempts}`,err);
