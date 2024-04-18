@@ -4,10 +4,10 @@ export function waitForReplicants(replicants: Replicant<unknown>[], callback: Fu
     let count = 0;
     replicants.forEach((r): void => {
         r.once('change', (): void => {
-        count += 1;
-        if (count === replicants.length) {
-            callback();
-        }
+            count += 1;
+            if (count === replicants.length) {
+                callback();
+            }
         });
     });
 }

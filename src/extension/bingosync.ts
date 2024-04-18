@@ -56,8 +56,8 @@ class BingosyncManager {
     private invasionCtx: InvasionContext | null = null;
 
     public constructor(public name: string, public boardRep: Replicant<Bingoboard>,
-                       public socketRep: Replicant<BingosyncSocket>,
-                       public boardModeRep: Replicant<BingoboardMode> | null) {
+        public socketRep: Replicant<BingosyncSocket>,
+        public boardModeRep: Replicant<BingoboardMode> | null) {
 
         this.boardModeRep?.on('change', (newVal) => {
             log.info(newVal);
@@ -226,7 +226,7 @@ class BingosyncManager {
         const newBoardState = bingosyncBoard.map((cell): BingoboardCell => {
             // remove blank cause thats not a color
             // count all the color occurences
-            let newCell: BingoboardCell = {
+            const newCell: BingoboardCell = {
                 name: cell.name,
                 slot: cell.slot,
                 colors: [],
@@ -321,7 +321,7 @@ class BingosyncManager {
 
     private addBomberMarker(cell: BingoboardCell, cellIdx: number, otherCells: BingoboardCell[]) {
         if (this.boardModeRep?.value.boardMode === "bomber") {
-            let neighbors = [/* up */ (cellIdx + 5) % 25, /* down */ (cellIdx + 20) % 25];
+            const neighbors = [/* up */ (cellIdx + 5) % 25, /* down */ (cellIdx + 20) % 25];
             if (cellIdx % 5 === 0) {
                 neighbors.push(cellIdx + 4);
             } else {
@@ -345,144 +345,144 @@ class BingosyncManager {
 
     public async createWebsocket(socketUrl: string, socketKey: string): Promise<void> {
         return new Promise((resolve, reject): void => {
-                let settled = false;
+            let settled = false;
 
-                log.info('Opening socket...');
-                this.socketRep.value.status = 'connecting';
-                this.websocket = new WebSocket(`${socketUrl}/broadcast`);
+            log.info('Opening socket...');
+            this.socketRep.value.status = 'connecting';
+            this.websocket = new WebSocket(`${socketUrl}/broadcast`);
 
-                this.websocket.onopen = (): void => {
-                    log.info('Socket opened.');
-                    if (this.websocket) {
-                        // eslint-disable-next-line @typescript-eslint/camelcase
-                        this.websocket.send(JSON.stringify({socket_key: socketKey}));
+            this.websocket.onopen = (): void => {
+                log.info('Socket opened.');
+                if (this.websocket) {
+                    // eslint-disable-next-line @typescript-eslint/camelcase
+                    this.websocket.send(JSON.stringify({socket_key: socketKey}));
+                }
+            };
+
+            this.websocket.onmessage = (event: {
+                data: WebSocket.Data; type: string; target: WebSocket;
+            }): void => {
+                let json;
+                try {
+                    json = JSON.parse(event.data as string);
+                } catch (error) { // tslint:disable-line:no-unused
+                    log.error('Failed to parse message:', event.data);
+                }
+
+                if (json.type === 'error') {
+                    if (this.fullUpdateInterval) {
+                        clearInterval(this.fullUpdateInterval);
                     }
-                };
-
-                this.websocket.onmessage = (event: {
-                    data: WebSocket.Data; type: string; target: WebSocket;
-                }): void => {
-                    let json;
-                    try {
-                        json = JSON.parse(event.data as string);
-                    } catch (error) { // tslint:disable-line:no-unused
-                        log.error('Failed to parse message:', event.data);
-                    }
-
-                    if (json.type === 'error') {
-                        if (this.fullUpdateInterval) {
-                            clearInterval(this.fullUpdateInterval);
-                        }
-                        this.destroyWebsocket();
-                        this.socketRep.value.status = 'error';
-                        log.error('Socket protocol error:', json.error ? json.error : json);
-                        if (!settled) {
-                            reject(new Error(json.error ? json.error : 'unknown error'));
-                            settled = true;
-                        }
-                        return;
-                    }
-
+                    this.destroyWebsocket();
+                    this.socketRep.value.status = 'error';
+                    log.error('Socket protocol error:', json.error ? json.error : json);
                     if (!settled) {
-                        resolve();
-                        this.socketRep.value.status = 'connected';
+                        reject(new Error(json.error ? json.error : 'unknown error'));
                         settled = true;
                     }
+                    return;
+                }
 
-                    if (json.type === 'goal') {
-                        const index = parseInt(json.square.slot.slice(4), 10) - 1;
-                        const cell: BingoboardCell = {
-                            name: json.square.name,
-                            slot: json.square.slot,
-                            colors: [],
-                            markers: [null, null, null, null],
-                            rawColors: json.square.colors,
-                        };
-                        this.processCellForMarkers(cell);
-                        if (this.boardModeRep?.value.boardMode === "bomber") {
-                            const newBoardState = clone(this.boardRep.value.cells);
-                            newBoardState[index] = cell;
-                            newBoardState.forEach((cell, cellIdx) => {
-                                this.addBomberMarker(cell, cellIdx, newBoardState);
-                            });
-                            this.boardRep.value.cells = newBoardState;
-                        } else {
-                            this.boardRep.value.cells[index] = cell;
-                        }
-                        // update goal count
-                        this.countScore(json)
-                        //Check if conditions for lockout win are fulfilled and stop timer
-                        if (runData.value
+                if (!settled) {
+                    resolve();
+                    this.socketRep.value.status = 'connected';
+                    settled = true;
+                }
+
+                if (json.type === 'goal') {
+                    const index = parseInt(json.square.slot.slice(4), 10) - 1;
+                    const cell: BingoboardCell = {
+                        name: json.square.name,
+                        slot: json.square.slot,
+                        colors: [],
+                        markers: [null, null, null, null],
+                        rawColors: json.square.colors,
+                    };
+                    this.processCellForMarkers(cell);
+                    if (this.boardModeRep?.value.boardMode === "bomber") {
+                        const newBoardState = clone(this.boardRep.value.cells);
+                        newBoardState[index] = cell;
+                        newBoardState.forEach((cell, cellIdx) => {
+                            this.addBomberMarker(cell, cellIdx, newBoardState);
+                        });
+                        this.boardRep.value.cells = newBoardState;
+                    } else {
+                        this.boardRep.value.cells[index] = cell;
+                    }
+                    // update goal count
+                    this.countScore(json)
+                    //Check if conditions for lockout win are fulfilled and stop timer
+                    if (runData.value
                             && ((lockoutVariants.includes(runData.value.customData.Bingotype) && this.boardRep.value.colorCounts[json.color] == 13) //normal lockout up to 13
                                 || (runData.value.customData.Bingotype === "rowcontrol" && this.boardRep.value.colorCounts[json.color] == 3) //for rowcontrol, this can probably be simplified somehow
                                 || (runData.value.customData.Bingotype === "blockout" && this.boardRep.value.colorCounts[json.color] == 10))) { // blockout stops at 10 goals
-                            let colorTo13 = json.color;
-                            let playerIndex = boardMetaRep.value.playerColors.findIndex((color) => (color == colorTo13));
-                            let i = 0;
-                            let teamId = '';
-                            let otherTeamIds: string[] = [];
-                            if (playerIndex >= 0) {
-                                runData.value.teams.forEach((team: RunDataTeam) => {
-                                    team.players.forEach((player: RunDataPlayer) => {
-                                        if (i === playerIndex) {
-                                            teamId = player.teamID;
-                                        } else {
-                                            otherTeamIds.push(player.teamID)
-                                        }
-                                        i++;
-                                    });
+                        const colorTo13 = json.color;
+                        const playerIndex = boardMetaRep.value.playerColors.findIndex((color) => (color == colorTo13));
+                        let i = 0;
+                        let teamId = '';
+                        const otherTeamIds: string[] = [];
+                        if (playerIndex >= 0) {
+                            runData.value.teams.forEach((team: RunDataTeam) => {
+                                team.players.forEach((player: RunDataPlayer) => {
+                                    if (i === playerIndex) {
+                                        teamId = player.teamID;
+                                    } else {
+                                        otherTeamIds.push(player.teamID)
+                                    }
+                                    i++;
                                 });
-                                if (teamId) {
-                                    let i = 1;
+                            });
+                            if (teamId) {
+                                let i = 1;
+                                setTimeout(function () {
+                                    nodecg.sendMessageToBundle('timerStop', 'nodecg-speedcontrol', {
+                                        id: teamId,
+                                        forfeit: false
+                                    });
+                                }, 1000 * i);
+                                i++;
+                                otherTeamIds.forEach(team => {
                                     setTimeout(function () {
                                         nodecg.sendMessageToBundle('timerStop', 'nodecg-speedcontrol', {
-                                            id: teamId,
+                                            id: team,
                                             forfeit: false
                                         });
                                     }, 1000 * i);
                                     i++;
-                                    otherTeamIds.forEach(team => {
-                                        setTimeout(function () {
-                                            nodecg.sendMessageToBundle('timerStop', 'nodecg-speedcontrol', {
-                                                id: team,
-                                                forfeit: false
-                                            });
-                                        }, 1000 * i);
-                                        i++;
-                                    })
-                                }
+                                })
                             }
                         }
-                        if (this.invasionCtx !== null) {
-                            this.invasionCtx.updateSides(this.boardRep.value.cells);
-                            const clonedCells = clone(this.boardRep.value.cells);
-                            this.invasionCtx.setMarkers(clonedCells);
-                            this.boardRep.value.cells = clonedCells;
-                        }
                     }
-
-                    if (json.type === 'chat') {
-                        if (json.text === 'GO!') {
-                            nodecg.sendMessageToBundle('timerStart', 'nodecg-speedcontrol');
-                        }
-                        if (json.text === 'pause') {
-                            nodecg.sendMessageToBundle('timerPause', 'nodecg-speedcontrol');
-                        }
+                    if (this.invasionCtx !== null) {
+                        this.invasionCtx.updateSides(this.boardRep.value.cells);
+                        const clonedCells = clone(this.boardRep.value.cells);
+                        this.invasionCtx.setMarkers(clonedCells);
+                        this.boardRep.value.cells = clonedCells;
                     }
-                };
+                }
 
-                this.websocket.onclose = (event: {
-                    wasClean: boolean; code: number; reason: string; target: WebSocket;
-                }): void => {
-                    this.socketRep.value.status = 'disconnected';
-                    log.info(`Socket closed (code: ${event.code}, reason: ${event.reason})`);
-                    this.destroyWebsocket();
-                    this.createWebsocket(socketUrl, socketKey).catch((): void => {
-                        // Intentionally discard errors raised here.
-                        // They will have already been logged in the onmessage handler.
-                    });
-                };
-            }
+                if (json.type === 'chat') {
+                    if (json.text === 'GO!') {
+                        nodecg.sendMessageToBundle('timerStart', 'nodecg-speedcontrol');
+                    }
+                    if (json.text === 'pause') {
+                        nodecg.sendMessageToBundle('timerPause', 'nodecg-speedcontrol');
+                    }
+                }
+            };
+
+            this.websocket.onclose = (event: {
+                wasClean: boolean; code: number; reason: string; target: WebSocket;
+            }): void => {
+                this.socketRep.value.status = 'disconnected';
+                log.info(`Socket closed (code: ${event.code}, reason: ${event.reason})`);
+                this.destroyWebsocket();
+                this.createWebsocket(socketUrl, socketKey).catch((): void => {
+                    // Intentionally discard errors raised here.
+                    // They will have already been logged in the onmessage handler.
+                });
+            };
+        }
         );
     }
 
@@ -504,7 +504,7 @@ class BingosyncManager {
     }
 
     private countScore(json: any) {
-        let boardModeRep = nodecg.Replicant<BingoboardMode>('bingoboardMode');
+        const boardModeRep = nodecg.Replicant<BingoboardMode>('bingoboardMode');
         if (boardModeRep.value.boardMode === 'rowcontrol') {
             this.updateRowControlScore(this.boardRep.value.cells, json.color);
         } else {

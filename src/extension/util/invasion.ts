@@ -33,14 +33,14 @@ export class InvasionContext {
     public initSides(cells: BingoboardCell[]) {
         if (isEmpty(cells)) return;
         // check for corner starts
-        for (let side of CORNER_STARTS) {
+        for (const side of CORNER_STARTS) {
             if (sideValid(cells, side, this.playerColor1) && sideValid(cells, getInverse(side), this.playerColor2)) {
                 this.player1start = side;
                 return;
             }
         }
         // check for side starts
-        for (let side of SIDE_STARTS) {
+        for (const side of SIDE_STARTS) {
             if (sideValid(cells, side, this.playerColor1) && sideValid(cells, getInverse(side), this.playerColor2)) {
                 this.player1start = side;
                 return;
@@ -69,7 +69,7 @@ export class InvasionContext {
         }
         if (this.player1start === null) {
             // if no goal has been clicked, all goals on edges should be marked
-            for (let side of SIDE_STARTS) {
+            for (const side of SIDE_STARTS) {
                 this.setMarkersI(cells, 0, this.playerColor1, side);
                 this.setMarkersI(cells, 1, this.playerColor2, side);
             }

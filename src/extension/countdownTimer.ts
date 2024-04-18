@@ -37,7 +37,7 @@ function stopTimer() {
 
 function nextTick() {
     if (countdownTimerRep.value.state !== 'running') return;
-    let secs = countdownTimerRep.value.timeS - 1;
+    const secs = countdownTimerRep.value.timeS - 1;
     if (secs <= 0) {
         countdownTimerRep.value = {
             state: "stopped",

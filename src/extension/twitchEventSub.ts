@@ -5,9 +5,9 @@ import {Configschema} from "../../configschema";
 import * as nodecgApiContext from "./util/nodecg-api-context";
 import { sentenceCase } from "sentence-case";
 
-let isRunningQueue: boolean = false
-let eventsQueue: {type: string, data: any}[] = []
-let waitForNext: boolean = false
+let isRunningQueue = false
+const eventsQueue: {type: string, data: any}[] = []
+let waitForNext = false
 
 const userId = '539920154';
 const nodecg = nodecgApiContext.get();
@@ -21,17 +21,17 @@ const accessToken = config.twitchEventSub.accessToken;
 const clientSecret = config.twitchEventSub.clientSecret;
 
 const authProvider = new ClientCredentialsAuthProvider(clientId, clientSecret);
-    const client = new ApiClient({authProvider});
+const client = new ApiClient({authProvider});
 
-    const listener = new EventSubListener({apiClient: client, adapter: new ReverseProxyAdapter({
-        // @ts-ignore
-        hostName: config.twitchEventSub.hostName, // The host name the server is available from
-        port: 443 // The external port (optional, defaults to 443)
-        // @ts-ignore
-    }), secret: config.twitchEventSub.eventSubListenerKey});
+const listener = new EventSubListener({apiClient: client, adapter: new ReverseProxyAdapter({
+    // @ts-ignore
+    hostName: config.twitchEventSub.hostName, // The host name the server is available from
+    port: 443 // The external port (optional, defaults to 443)
+    // @ts-ignore
+}), secret: config.twitchEventSub.eventSubListenerKey});
 
 const getChannelEventSubscriptions = (obj: object) => {
-    let properties = new Set()
+    const properties = new Set()
     let currentObj = obj
     do {
         Object.getOwnPropertyNames(currentObj).map(item => properties.add(item))
@@ -71,13 +71,13 @@ const newEventCheck = async() => {
 }
 
 const main = async () => {
-	const eventSubscriptions = getChannelEventSubscriptions(listener)
-	for(let eventSubscription of eventSubscriptions){
-		try {
+    const eventSubscriptions = getChannelEventSubscriptions(listener)
+    for(const eventSubscription of eventSubscriptions){
+        try {
 
             // @ts-ignore
-            let parsedEventType = sentenceCase(eventSubscription.slice(11, eventSubscription.length))
-                                  .replace(/ /g, "_").toUpperCase()
+            const parsedEventType = sentenceCase(eventSubscription.slice(11, eventSubscription.length))
+                .replace(/ /g, "_").toUpperCase()
             if(parsedEventType === 'CHANNEL_FOLLOW_EVENTS' || parsedEventType === 'CHANNEL_SUBSCRIBTION_EVENTS'){
                 // @ts-ignore
                 console.log(`Attempting to subscribe to ${parsedEventType}`)
@@ -91,12 +91,12 @@ const main = async () => {
                         data: e
                     })
                 });
-			}
-		}catch(err){
-			console.log(err)
-		}
-	}
-	await listener.listen();
+            }
+        }catch(err){
+            console.log(err)
+        }
+    }
+    await listener.listen();
     setInterval(newEventCheck, 1000)
 }
 
