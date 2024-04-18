@@ -27,7 +27,7 @@
                         </template>
                         <template slot="item" slot-scope="data">
                             <template v-if="typeof data.item !== 'object'">
-                                <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                                <v-list-tile-content"></v-list-tile-content>
                             </template>
                             <template v-else>
                                 <v-list-content>
@@ -52,7 +52,7 @@
                         </template>
                         <template slot="item" slot-scope="data">
                             <template v-if="typeof data.item !== 'object'">
-                                <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                                <v-list-tile-content></v-list-tile-content>
                             </template>
                             <template v-else>
                                 <v-list-content>
@@ -88,8 +88,6 @@
     import { BingoboardMode } from '../../../schemas';
     import { store } from '../../browser-util/state';
     import clone from 'clone';
-
-    type ColorEnum = 'pink' | 'red' | 'orange' | 'brown' | 'yellow' | 'green' | 'teal' | 'blue' | 'navy' | 'purple';
 
     @Component({})
     export default class BingomodeControl extends Vue {
