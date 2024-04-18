@@ -1,21 +1,21 @@
 <template>
     <div>
-        <div id='fillbar' class='flexContainer'></div>
-        <div id='fillvoice' class='flexContainer'></div>
-        <player-info id='pi1' playerIndex='0' height='45px' hideSoundIcon='true'></player-info>
-        <game-container id='game'></game-container>
-        <timer-container id='timer'></timer-container>
-        <bingo-board id='Bingo-board' fontSize='30px'></bingo-board>
+        <div id="fillbar" class="flexContainer"></div>
+        <div id="fillvoice" class="flexContainer"></div>
+        <player-info id="pi1" playerIndex="0" height="45px" hideSoundIcon="true"></player-info>
+        <game-container id="game"></game-container>
+        <timer-container id="timer"></timer-container>
+        <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
         <discord-voice-display
-            id='discord-voice'
-            iconHeight='40px'
-            nameWidth='125px'
-            maxUserCount='12'
+            id="discord-voice"
+            iconHeight="40px"
+            nameWidth="125px"
+            maxUserCount="12"
         ></discord-voice-display>
     </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
     import { store } from '../../browser-util/state';
     import TimerContainer from '../components/timerContainer.vue';

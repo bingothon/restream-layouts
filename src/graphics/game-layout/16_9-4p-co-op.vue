@@ -1,31 +1,31 @@
 <template>
     <div>
-        <div id='bg'></div>
+        <div id="bg"></div>
         <twitch-player
-            id='stream1'
-            streamIndex='0'
+            id="stream1"
+            streamIndex="0"
             :style="{ border: '2px var(--border-color-' + teamColor1 + ') solid' }"
         ></twitch-player>
         <twitch-player
-            id='stream2'
-            streamIndex='1'
+            id="stream2"
+            streamIndex="1"
             :style="{ border: '2px var(--border-color-' + teamColor1 + ') solid' }"
         ></twitch-player>
         <twitch-player
-            id='stream3'
-            streamIndex='2'
+            id="stream3"
+            streamIndex="2"
             :style="{ border: '2px var(--border-color-' + teamColor2 + ') solid' }"
         ></twitch-player>
         <twitch-player
-            id='stream4'
-            streamIndex='3'
+            id="stream4"
+            streamIndex="3"
             :style="{ border: '2px var(--border-color-' + teamColor2 + ') solid' }"
         ></twitch-player>
-        <div id='fillvoice' class='flexContainer'></div>
+        <div id="fillvoice" class="flexContainer"></div>
         <team-info
-            team-index='0'
-            height='45px'
-            id='ti1'
+            team-index="0"
+            height="45px"
+            id="ti1"
             :style="{
                 border: '5px var(--border-color-' + teamColor1 + ') solid',
                 'background-image':
@@ -33,25 +33,25 @@
             }"
         ></team-info>
         <player-info
-            id='pi1'
-            playerIndex='0'
-            height='45px'
-            hide-finish-time='true'
-            show-color='false'
+            id="pi1"
+            playerIndex="0"
+            height="45px"
+            hide-finish-time="true"
+            show-color="false"
             :style="{ border: '5px var(--border-color-' + teamColor1 + ') solid' }"
         ></player-info>
         <player-info
-            id='pi2'
-            playerIndex='1'
-            height='45px'
-            hide-finish-time='true'
-            show-color='false'
+            id="pi2"
+            playerIndex="1"
+            height="45px"
+            hide-finish-time="true"
+            show-color="false"
             :style="{ border: '5px var(--border-color-' + teamColor1 + ') solid' }"
         ></player-info>
         <team-info
-            team-index='1'
-            height='45px'
-            id='ti2'
+            team-index="1"
+            height="45px"
+            id="ti2"
             :style="{
                 border: '5px var(--border-color-' + teamColor2 + ') solid',
                 'background-image':
@@ -59,36 +59,36 @@
             }"
         ></team-info>
         <player-info
-            id='pi3'
-            playerIndex='2'
-            height='45px'
-            hide-finish-time='true'
-            show-color='false'
+            id="pi3"
+            playerIndex="2"
+            height="45px"
+            hide-finish-time="true"
+            show-color="false"
             :style="{ border: '5px var(--border-color-' + teamColor2 + ') solid' }"
         ></player-info>
         <player-info
-            id='pi4'
-            playerIndex='3'
-            height='45px'
-            hide-finish-time='true'
-            show-color='false'
+            id="pi4"
+            playerIndex="3"
+            height="45px"
+            hide-finish-time="true"
+            show-color="false"
             :style="{ border: '5px var(--border-color-' + teamColor2 + ') solid' }"
         ></player-info>
-        <game-container :style="gameMode === 'sa2b' ? 'background-image: none' : ''" id='game'></game-container>
-        <timer-container id='timer' :style="gameMode === 'sa2b' ? 'background-image: none' : ''"></timer-container>
-        <bingo-board id='Bingo-board' fontSize='20px'></bingo-board>
+        <game-container :style="gameMode === 'sa2b' ? 'background-image: none' : ''" id="game"></game-container>
+        <timer-container id="timer" :style="gameMode === 'sa2b' ? 'background-image: none' : ''"></timer-container>
+        <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
         <discord-voice-display
-            id='discord-voice'
-            iconHeight='40px'
-            nameWidth='114px'
-            maxUserCount='4'
+            id="discord-voice"
+            iconHeight="40px"
+            nameWidth="114px"
+            maxUserCount="4"
             :style="gameMode === 'sa2b' ? 'background-image: none' : ''"
         ></discord-voice-display>
-        <SubNotifs id='SubNotifsNeutral' class='SubNotifs'></SubNotifs>
+        <SubNotifs id="SubNotifsNeutral" class="SubNotifs"></SubNotifs>
     </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
     import { store } from '../../browser-util/state';
     import TimerContainer from '../components/timerContainer.vue';

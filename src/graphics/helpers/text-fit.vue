@@ -1,10 +1,10 @@
 <template>
-    <div id='TextContainer'>
-        <div id='FittedTextContent' :style='{ transform, top }'>{{ text }}</div>
+    <div id="TextContainer">
+        <div id="FittedTextContent" :style="{ transform, top }">{{ text }}</div>
     </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
 
     // stub cause fonts isn't known

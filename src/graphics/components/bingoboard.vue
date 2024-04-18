@@ -1,30 +1,30 @@
 <template>
-    <div class='BingoBoard'>
-        <table class='bingo-table' ref='bingoBoard'>
+    <div class="BingoBoard">
+        <table class="bingo-table" ref="bingoBoard">
             <tbody>
-            <tr :key='i' v-for='(column, i) in bingoCells'>
-                <td class='square' :key="i + '' + j" v-for='(cell, j) in column'>
-                    <div
-                        :key='color.name'
-                        v-for='color in cell.colors'
-                        :class="'bg-color ' + color.color + 'square'"
-                        :style='color.style'
-                    ></div>
-                    <div class='shadow'></div>
-                    <div :class='getMarkerClasses(marker, k)' :key='k' v-for='(marker, k) in cell.markers'></div>
-                    <div class='CellTextFitContainer'>
-                        <CellTextFit
-                            :text='cell.name'
-                            :fontSize='fontSize'
-                            :strikethrough='getStrikethrough(cell.markers)'
-                        />
-                    </div>
-                </td>
-            </tr>
+                <tr :key="i" v-for="(column, i) in bingoCells">
+                    <td class="square" :key="i + '' + j" v-for="(cell, j) in column">
+                        <div
+                            :key="color.name"
+                            v-for="color in cell.colors"
+                            :class="'bg-color ' + color.color + 'square'"
+                            :style="color.style"
+                        ></div>
+                        <div class="shadow"></div>
+                        <div :class="getMarkerClasses(marker, k)" :key="k" v-for="(marker, k) in cell.markers"></div>
+                        <div class="CellTextFitContainer">
+                            <CellTextFit
+                                :text="cell.name"
+                                :fontSize="fontSize"
+                                :strikethrough="getStrikethrough(cell.markers)"
+                            />
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
-        <div class='bingo-board-hide' :hidden='!boardHidden'>
-            <p id='soon'>Bingo Board will be revealed soon&trade;</p>
+        <div class="bingo-board-hide" :hidden="!boardHidden">
+            <p id="soon">Bingo Board will be revealed soon&trade;</p>
             <!--<tbody>
                 <tr :key="i" v-for="(column,i) in defaultBoard">
                     <td class="square" :key="i+''+j" v-for="(cell,j) in column">
@@ -42,7 +42,7 @@
     </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
     import { nodecg } from '@/browser-util/nodecg.js';
     import { Bingoboard } from '@/schemas';
@@ -193,8 +193,7 @@
             );
         }
 
-        onSkewAngleUpdate() {
-        }
+        onSkewAngleUpdate() {}
 
         destroyed() {
             nodecg.unlisten('showBingoAnimation', 'restream-layouts', this.showBingoSplash);
@@ -286,28 +285,31 @@
             transform: rotate(1800deg);
             opacity: 1;
             font-size: 100px;
-            text-shadow: -5px -5px 10px white,
-            5px -5px 10px white,
-            -5px 5px 10px white,
-            5px 5px 10px white;
+            text-shadow:
+                -5px -5px 10px white,
+                5px -5px 10px white,
+                -5px 5px 10px white,
+                5px 5px 10px white;
         }
         70% {
             transform: rotate(1800deg);
             opacity: 1;
             font-size: 100px;
-            text-shadow: -5px -5px 10px white,
-            5px -5px 10px white,
-            -5px 5px 10px white,
-            5px 5px 10px white;
+            text-shadow:
+                -5px -5px 10px white,
+                5px -5px 10px white,
+                -5px 5px 10px white,
+                5px 5px 10px white;
         }
         100% {
             transform: rotate(1800deg) translateY(30%);
             opacity: 0;
             font-size: 90px;
-            text-shadow: -5px -5px 50px white,
-            5px -5px 50px white,
-            -5px 5px 50px white,
-            5px 5px 50px white;
+            text-shadow:
+                -5px -5px 50px white,
+                5px -5px 50px white,
+                -5px 5px 50px white,
+                5px 5px 50px white;
         }
     }
 

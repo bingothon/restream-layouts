@@ -4,7 +4,12 @@
 
 <template>
     <div class="MatchCounter FlexContainer">
-        <div v-for="i in Math.ceil(totalMatches / 2)" :key="i" class="ScoreCounter FlexContainer" :style="{ height: height }">
+        <div
+            v-for="i in Math.ceil(totalMatches / 2)"
+            :key="i"
+            class="ScoreCounter FlexContainer"
+            :style="{ height: height }"
+        >
             <div v-if="i <= score" class="Score Counter" :style="{ height: height }">
                 <img v-if="game === 'sms'" :src="scoreImg" class="notGreySMS" :style="{ height: height }" />
                 <div v-else class="ScoreIndicator" :style="{ height: height }"></div>

@@ -1,110 +1,110 @@
 <template>
-    <div id='HostDashboard'>
-        <div id='intermission-live-warning' v-if='hostsSpeakingDuringIntermission'>
+    <div id="HostDashboard">
+        <div id="intermission-live-warning" v-if="hostsSpeakingDuringIntermission">
             You are currently live on stream
         </div>
-        <button @click='toggleHostsSpeakingDuringIntermission' :disabled='!hostsCanGoLive' id='Go-Live-Button'>
+        <button @click="toggleHostsSpeakingDuringIntermission" :disabled="!hostsCanGoLive" id="Go-Live-Button">
             {{ hostsSpeakingToggleButtonText }}
         </button>
-        <div id='Go-Live'>Go live on stream during intermission</div>
-        <div v-if='hostsCanGoLive'>Time since last intermission start: {{ timeSinceLastIntermission }}</div>
-        <div id='columnsWrapper'>
-            <div id='column1' class='column'>
-                <div id='PEFacts'>
-                    <div class='fact'>
+        <div id="Go-Live">Go live on stream during intermission</div>
+        <div v-if="hostsCanGoLive">Time since last intermission start: {{ timeSinceLastIntermission }}</div>
+        <div id="columnsWrapper">
+            <div id="column1" class="column">
+                <div id="PEFacts">
+                    <div class="fact">
                         {{ peFacts[factIndex] }}
                     </div>
-                    <button v-on:click='updateFactIndex()'>Update Text</button>
+                    <button v-on:click="updateFactIndex()">Update Text</button>
                 </div>
-                <div id='bidsHeader'>Upcoming Goals/Bidwars:</div>
-                <div id='bidsContainer'>
-                    <div class='bid' v-for='(bid, i) in openBids' :key='i'>
+                <div id="bidsHeader">Upcoming Goals/Bidwars:</div>
+                <div id="bidsContainer">
+                    <div class="bid" v-for="(bid, i) in openBids" :key="i">
                         {{ bid.game }} - {{ bid.bid }}
-                        <div v-if='bid.goal'>
-                            <div class='bidRaised'>
+                        <div v-if="bid.goal">
+                            <div class="bidRaised">
                                 {{ formatDollarAmount(bid.amount_raised) }} /
                                 {{ formatDollarAmount(bid.goal) }}
                             </div>
-                            <div class='bidLeft'>
+                            <div class="bidLeft">
                                 {{ formatDollarAmount(bid.goal - bid.amount_raised) }} left to go!
                             </div>
                         </div>
                         <div v-else>
-                            <div v-if='bid.options.length'>
-                                <div class='bidOption' v-for='(option, j) in bid.options' :key="i + ' ' + j">
+                            <div v-if="bid.options.length">
+                                <div class="bidOption" v-for="(option, j) in bid.options" :key="i + ' ' + j">
                                     {{ option.name }} - {{ formatDollarAmount(option.amount_raised) }}
                                 </div>
-                                <div v-if='bid.allow_custom_options' class='customOptions'>
+                                <div v-if="bid.allow_custom_options" class="customOptions">
                                     Users can submit their own options
                                 </div>
                             </div>
-                            <div v-else class='NoOptions'>No options submitted yet.</div>
+                            <div v-else class="NoOptions">No options submitted yet.</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id='column2' class='column'>
-                <div id='scheduleHeader'>Run Schedule:</div>
-                <div id='runsContainer'>
-                    <div id='currentRunInfo' class='run'>
+            <div id="column2" class="column">
+                <div id="scheduleHeader">Run Schedule:</div>
+                <div id="runsContainer">
+                    <div id="currentRunInfo" class="run">
                         Running right now:
                         <div>
                             {{ currentRun.game }} - {{ currentRun.category }}
-                            <div class='runners'>
+                            <div class="runners">
                                 {{ runnersToString(currentRun) }}
                             </div>
                         </div>
                     </div>
-                    <div id='comingUpInfo' class='run' v-if='comingUpRun'>
+                    <div id="comingUpInfo" class="run" v-if="comingUpRun">
                         Coming Up:
                         <div>
                             {{ comingUpRun.game }} - {{ comingUpRun.category }}
-                            <div class='runners'>
+                            <div class="runners">
                                 {{ runnersToString(comingUpRun) }}
                             </div>
                         </div>
                     </div>
-                    <div id='afterThatInfo' class='run' v-if='afterThatRun'>
+                    <div id="afterThatInfo" class="run" v-if="afterThatRun">
                         And next:
                         <div>
                             {{ afterThatRun.game }} - {{ afterThatRun.category }}
-                            <div class='runners'>
+                            <div class="runners">
                                 {{ runnersToString(afterThatRun) }}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id='column3' class='column'>
+            <div id="column3" class="column">
                 <div>
-                    Paste the entire image Url here: <input v-model='pictureDuringIntermissionUrl' />
-                    <button @click='clearPicture'>Clear picture</button>
+                    Paste the entire image Url here: <input v-model="pictureDuringIntermissionUrl" />
+                    <button @click="clearPicture">Clear picture</button>
                 </div>
-                <div id='donationTotalHeader'>Donation Total:</div>
-                <div id='donationTotal'>{{ donationTotal }}</div>
+                <div id="donationTotalHeader">Donation Total:</div>
+                <div id="donationTotal">{{ donationTotal }}</div>
                 <br />
-                <div id='prizesHeader'>Currently Available Prizes:</div>
-                <div id='prizesContainer'>
-                    <div class='prize' v-for='(prize, k) in prizes' :key='k'>
-                        <div class='prizeName'>
+                <div id="prizesHeader">Currently Available Prizes:</div>
+                <div id="prizesContainer">
+                    <div class="prize" v-for="(prize, k) in prizes" :key="k">
+                        <div class="prizeName">
                             {{ prize.name }}
                         </div>
-                        <div class='prizeInfo'>Provided by {{ prize.provider }}</div>
-                        <div class='prizeInfo'>Minimum Donation: {{ formatDollarAmount(prize.minDonation) }}</div>
-                        <div class='prizeInfo'>
+                        <div class="prizeInfo">Provided by {{ prize.provider }}</div>
+                        <div class="prizeInfo">Minimum Donation: {{ formatDollarAmount(prize.minDonation) }}</div>
+                        <div class="prizeInfo">
                             {{ getPrizeTimeUntilString(prize) }}
                         </div>
                     </div>
                 </div>
             </div>
-            <div id='column4' class='column'>
-                <div id='HostingBingo'>
+            <div id="column4" class="column">
+                <div id="HostingBingo">
                     <bingo-board
-                        class='BingoBoard'
-                        id='Bingo-board'
-                        bingoboardRep='hostingBingoboard'
-                        :alwaysShown='true'
-                        fontSize='25px'
+                        class="BingoBoard"
+                        id="Bingo-board"
+                        bingoboardRep="hostingBingoboard"
+                        :alwaysShown="true"
+                        fontSize="25px"
                     ></bingo-board>
                 </div>
             </div>
@@ -112,7 +112,7 @@
     </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
     const CHARITY_FACTS = `Fred Hutch was named the coordinating center for the COVID Vaccine Prevention Network (CoVPN) in July 2020. CoVPN brings together the expertise and resources of four of the United States's most sophisticated clinical trial networks to conduct clinical trials for COVID-19 vaccines.
 The NIH chose Fred Hutch for the pivotal role of the Coordinating Center for the COVID Vaccine Prevention Network (CoVPN) because they were ready, as they have been recruiting experts, pioneering new vaccine strategies, building trust in the community, and running complex trials for more than two decades through HVTN, the world’s largest international collaboration to develop vaccines that protect against HIV. This expertise, combined with their broad portfolio of COVID-19 research, puts them in a unique position to take on this immense challenge.
 With deep expertise engaging diverse populations affected by HIV, the Hutch’s CoVPN team is partnering with key communities and stakeholders to ensure groups that face the highest risk of severe infection and death from COVID-19 are equitably represented in the vaccine trials.
