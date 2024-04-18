@@ -169,7 +169,7 @@
 				}
 			}
 		},
-		"twitchPubSub": {
+		"twitchEventSub": {
 			"type": "object",
 			"additionalProperties": false,
 			"required": [

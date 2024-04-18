@@ -41,7 +41,7 @@ export interface Configschema {
     address: string;
     port: number;
   };
-  twitchPubSub?: {
+  twitchEventSub?: {
     enabled: boolean;
     clientID: string;
     clientSecret: string;
