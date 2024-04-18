@@ -2,36 +2,36 @@
     <div>
         <v-checkbox
             dark
-            v-model='enabled'
+            v-model="enabled"
             :label="'Enable Best Of ' + totalMatches"
-            @change='changeEnabled'
+            @change="changeEnabled"
         ></v-checkbox>
         <span>Total Amount of Matches</span>
         <v-text-field
-            :value='totalMatches'
-            @change='updateTotal'
-            background-color='#455A64'
-            class='score-count'
+            :value="totalMatches"
+            @change="updateTotal"
+            background-color="#455A64"
+            class="score-count"
             dark
-            type='number'
+            type="number"
         />
-        <div v-if='enabled'>
-            <div v-for='(team, i) in teams' :key='(team, i)'>
+        <div v-if="enabled">
+            <div v-for="(team, i) in teams" :key="(team, i)">
                 <span>Player {{ i }} won Matches</span>
                 <v-text-field
-                    v-model='matchCounts[i]'
-                    background-color='#455A64'
-                    class='score-count'
+                    v-model="matchCounts[i]"
+                    background-color="#455A64"
+                    class="score-count"
                     dark
-                    type='number'
-                    @change='updateMatchScores'
+                    type="number"
+                    @change="updateMatchScores"
                 />
             </div>
         </div>
     </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
     import { getReplicant, store } from '../../browser-util/state';
     import { BestOfX } from '../../../schemas';

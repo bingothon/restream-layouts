@@ -27,7 +27,7 @@
                         </template>
                         <template slot="item" slot-scope="data">
                             <template v-if="typeof data.item !== 'object'">
-                                <v-list-tile-content"></v-list-tile-content>
+                                <v-list-tile-content></v-list-tile-content>
                             </template>
                             <template v-else>
                                 <v-list-content>
