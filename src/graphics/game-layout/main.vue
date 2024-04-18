@@ -2,14 +2,10 @@
     <router-view></router-view>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
     import { Component, Vue } from 'vue-property-decorator';
-    import { nodecg } from '../../browser-util/nodecg';
-    import { ObsDashboardAudioSources, DiscordDelayInfo, ObsStreamMode } from '../../../schemas';
-    import { store, getReplicant } from '../../browser-util/state';
-
-    const bundleName = 'restream-layouts';
 
     @Component({})
-    export default class GameLayout extends Vue {}
+    export default class GameLayout extends Vue {
+    }
 </script>

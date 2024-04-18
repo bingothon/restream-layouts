@@ -30,7 +30,6 @@
 
     import PlayerInfo from './playerInfo.vue';
     import TeamInfo from './teamInfo.vue';
-    import { RunDataTeam } from '../../../speedcontrol-types';
     import { store } from '../../browser-util/state';
 
     @Component({

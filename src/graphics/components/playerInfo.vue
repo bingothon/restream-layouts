@@ -203,7 +203,7 @@
             let theTeamID = null;
             let playerNum = 0;
             store.state.runDataActiveRun.teams.forEach((t) => {
-                t.players.forEach((p) => {
+                t.players.forEach(() => {
                     if (playerNum == this.playerIndex) {
                         theTeamID = t.id;
                     }

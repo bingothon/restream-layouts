@@ -1,11 +1,11 @@
 <template>
-    <div id="TextContainer">
-        <div id="FittedTextContent" :style="{ transform, top }">{{ text }}</div>
+    <div id='TextContainer'>
+        <div id='FittedTextContent' :style='{ transform, top }'>{{ text }}</div>
     </div>
 </template>
 
-<script lang="ts">
-    import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
+<script lang='ts'>
+    import { Component, Prop, Vue } from 'vue-property-decorator';
 
     // stub cause fonts isn't known
     declare namespace document {
@@ -75,6 +75,7 @@
         width: 100%;
         white-space: nowrap;
     }
+
     #FittedTextContent {
         position: absolute;
     }

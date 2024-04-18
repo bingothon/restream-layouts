@@ -18,10 +18,8 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    import { store } from '../../browser-util/state';
-    import { TrackerPrize } from '../../../types';
-    import moment from 'moment';
-    import { TrackerOpenBids, ExplorationBingoboard } from '../../../schemas';
+    import { store } from '@/browser-util/state.js';
+    import { ExplorationBingoboard } from '@/schemas';
 
     interface BingoCell {
         name: string;

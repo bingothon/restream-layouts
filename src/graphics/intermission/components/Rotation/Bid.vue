@@ -162,7 +162,7 @@
                 .tickSize(0)
                 .orient('left');
 
-            var gy = svg.append('g').attr('class', 'y axis').call(yAxis);
+            svg.append('g').attr('class', 'y axis').call(yAxis);
 
             var bars = svg.selectAll('.bar').data(data).enter().append('g');
 

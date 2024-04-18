@@ -1,28 +1,26 @@
 <template>
-    <div id="GameLayout">
-        <twitch-player id="stream1" streamIndex="0"></twitch-player>
-        <twitch-player id="stream2" streamIndex="1"></twitch-player>
-        <div id="fillbar" class="flexContainer"></div>
-        <div id="fillvoice" class="flexContainer"></div>
-        <player-info id="pi1" height="45px" playerIndex="0" :hide-finish-time="true"></player-info>
-        <player-info id="pi2" height="45px" playerIndex="1" :hide-finish-time="true"></player-info>
-        <test-game-container id="game"></test-game-container>
-        <test-timer-container id="timer"></test-timer-container>
-        <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
+    <div id='GameLayout'>
+        <twitch-player id='stream1' streamIndex='0'></twitch-player>
+        <twitch-player id='stream2' streamIndex='1'></twitch-player>
+        <div id='fillbar' class='flexContainer'></div>
+        <div id='fillvoice' class='flexContainer'></div>
+        <player-info id='pi1' height='45px' playerIndex='0' :hide-finish-time='true'></player-info>
+        <player-info id='pi2' height='45px' playerIndex='1' :hide-finish-time='true'></player-info>
+        <test-game-container id='game'></test-game-container>
+        <test-timer-container id='timer'></test-timer-container>
+        <bingo-board id='Bingo-board' fontSize='30px'></bingo-board>
         <discord-voice-display
-            id="discord-voice"
-            iconHeight="40px"
-            nameWidth="125px"
-            maxUserCount="6"
+            id='discord-voice'
+            iconHeight='40px'
+            nameWidth='125px'
+            maxUserCount='6'
         ></discord-voice-display>
     </div>
 </template>
 
-<script lang="ts">
-    import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
-    import { nodecg, NodeCG } from '../../browser-util/nodecg';
-    import { Bingoboard, BingosyncSocket, BingoboardMeta } from '../../../schemas';
-    import { store, getReplicant } from '../../browser-util/state';
+<script lang='ts'>
+    import { Component, Vue } from 'vue-property-decorator';
+    import { store } from '../../browser-util/state';
     import TestTimerContainer from '../components/timerContainer.vue';
     import TestGameContainer from '../components/gameContainer.vue';
     import BingoBoard from '../components/bingoboard.vue';
@@ -30,7 +28,7 @@
     import TeamInfo from '../components/teamInfo.vue';
     import PlayerTeamContainer from '../components/playerTeamContainer.vue';
     import DiscordVoiceDisplay from '../components/discordVoiceDisplay.vue';
-    import { RunDataPlayer, RunDataTeam } from '../../../speedcontrol-types';
+    import { RunDataTeam } from '../../../speedcontrol-types';
 
     @Component({
         components: {

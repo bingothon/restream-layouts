@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
+    import { Component, Vue } from 'vue-property-decorator';
     import RotatingLogos from './components/RotatingLogos.vue';
     import Total from './components/DonationTotal.vue';
     import Ticker from './components/Ticker.vue';

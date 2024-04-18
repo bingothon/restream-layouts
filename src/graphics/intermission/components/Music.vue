@@ -19,9 +19,9 @@
 </template>
 
 <script lang="ts">
-    import { store } from '../../../browser-util/state';
-    import { SongData } from '../../../../schemas';
-    import { Component, Prop, Vue } from 'vue-property-decorator';
+    import { store } from '@/browser-util/state.js';
+    import { SongData } from '@/schemas';
+    import { Component, Vue } from 'vue-property-decorator';
 
     @Component({})
     export default class Music extends Vue {

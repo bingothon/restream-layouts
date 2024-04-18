@@ -12,10 +12,9 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component, Watch } from 'vue-property-decorator';
-    import { store } from '../../../browser-util/state';
-    import { TrackerDonations, TrackerOpenBids } from '../../../../schemas';
-    import { TrackerDonation, TrackerOpenBid } from '../../../../types';
+    import { Component, Vue } from 'vue-property-decorator';
+    import { store } from '@/browser-util/state.js';
+    import { TrackerDonation } from '../../../../types';
     import GenericMessage from './ticker/GenericMessage.vue';
     import UpcomingRun from './ticker/UpcomingRun.vue';
     import Prize from './ticker/Prize.vue';
@@ -156,10 +155,12 @@
         flex: 1;
         display: flex;
     }
+
     #Ticker .fade-enter-active,
     #Ticker .fade-leave-active {
         transition: opacity 0.5s;
     }
+
     #Ticker .fade-enter, #Ticker .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
         opacity: 0;
     }

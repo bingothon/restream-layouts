@@ -31,10 +31,6 @@
                 this.username = data.username;
 
                 const runNotification = async () => {
-                    const delay = (milliseconds: Number) =>
-                        new Promise((resolve) => {
-                            setTimeout(resolve, Number(milliseconds));
-                        });
                     const $subBox = document.getElementById('SubNotifs');
                     const $subBoxFrames = [
                         {

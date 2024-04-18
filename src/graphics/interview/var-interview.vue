@@ -92,7 +92,7 @@
             let count = 0;
             const playerIndexes = [];
             store.state.runDataActiveRun.teams.forEach((t) => {
-                t.players.forEach((p) => {
+                t.players.forEach(() => {
                     playerIndexes.push(count);
                     count++;
                 });
@@ -103,7 +103,7 @@
         get teamCount(): number[] {
             let count = 0;
             const teamIndexes = [];
-            store.state.runDataActiveRun.teams.forEach((t) => {
+            store.state.runDataActiveRun.teams.forEach(() => {
                 teamIndexes.push(count);
                 count++;
             });

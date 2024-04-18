@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
+    import { Vue, Component, Watch } from 'vue-property-decorator';
     import { TweenLite } from 'gsap';
-    import { store } from '../../../browser-util/state';
+    import { store } from '@/browser-util/state.js';
 
     @Component({})
     export default class DonationTotal extends Vue {
