@@ -1,33 +1,32 @@
 <template>
-	<div id="UpcomingRuns">
-		<run-upcoming
-			v-for="run in runs"
-			:key="`${Date.now()}${run[0].id}`"
-			:data="run[0]"
+    <div id="UpcomingRuns">
+        <run-upcoming
+            v-for="run in runs"
+            :key="`${Date.now()}${run[0].id}`"
+            :data="run[0]"
             :when="run[1]"
-		></run-upcoming>
-	</div>
+        ></run-upcoming>
+    </div>
 </template>
 
 <script lang="ts">
     import clone from 'clone';
     import RunUpcoming from '../RunUpcoming.vue';
-    import { store } from "../../../../browser-util/state";
-    import {Component, Prop, Vue} from "vue-property-decorator";
+    import { store } from '../../../../browser-util/state';
+    import { Component, Prop, Vue } from 'vue-property-decorator';
     import { RunData } from '../../../../../speedcontrol-types';
 
     @Component({
         components: {
             RunUpcoming
         }
-	})
-    export default class UpcomingRuns extends Vue{
-
-        @Prop({required: true})
+    })
+    export default class UpcomingRuns extends Vue {
+        @Prop({ required: true })
         nextRuns: RunData[];
 
         // runData, when
-        runs: [RunData, number|undefined][] = [];
+        runs: [RunData, number | undefined][] = [];
         whenTotal: number = 0;
 
         mounted() {
@@ -46,16 +45,16 @@
             }
             setTimeout(() => this.$emit('end'), 20 * 1000);
         }
-    };
+    }
 </script>
 
 <style>
-	#UpcomingRuns {
-		position: absolute;
-		display: flex;
-		height: 100%;
-		width: 100%;
-		flex-direction: column;
-		justify-content: space-around;
-	}
+    #UpcomingRuns {
+        position: absolute;
+        display: flex;
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+        justify-content: space-around;
+    }
 </style>

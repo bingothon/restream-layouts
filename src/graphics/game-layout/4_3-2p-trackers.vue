@@ -26,18 +26,18 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator'
-    import { store } from '../../browser-util/state'
-    import TimerContainer from '../components/timerContainer.vue'
-    import GameContainer from '../components/gameContainer.vue'
-    import BingoBoard from '../components/bingoboard.vue'
-    import PlayerInfo from '../components/playerInfo.vue'
-    import TeamInfo from '../components/teamInfo.vue'
-    import PlayerTeamContainer from '../components/playerTeamContainer.vue'
-    import DiscordVoiceDisplay from '../components/discordVoiceDisplay.vue'
-    import TwitchPlayer from '../components/twitchPlayer.vue'
-    import { RunDataTeam } from '../../../speedcontrol-types'
-    import Tracker from '../components/tracker.vue'
+    import { Component, Vue } from 'vue-property-decorator';
+    import { store } from '../../browser-util/state';
+    import TimerContainer from '../components/timerContainer.vue';
+    import GameContainer from '../components/gameContainer.vue';
+    import BingoBoard from '../components/bingoboard.vue';
+    import PlayerInfo from '../components/playerInfo.vue';
+    import TeamInfo from '../components/teamInfo.vue';
+    import PlayerTeamContainer from '../components/playerTeamContainer.vue';
+    import DiscordVoiceDisplay from '../components/discordVoiceDisplay.vue';
+    import TwitchPlayer from '../components/twitchPlayer.vue';
+    import { RunDataTeam } from '../../../speedcontrol-types';
+    import Tracker from '../components/tracker.vue';
 
     @Component({
         components: {
@@ -49,12 +49,12 @@
             TimerContainer,
             DiscordVoiceDisplay,
             TwitchPlayer,
-            Tracker,
-        },
+            Tracker
+        }
     })
     export default class GameLayout extends Vue {
         get teams(): RunDataTeam[] {
-            return store.state.runDataActiveRun.teams
+            return store.state.runDataActiveRun.teams;
         }
     }
 </script>

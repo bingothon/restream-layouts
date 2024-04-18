@@ -1,43 +1,42 @@
 <template>
-	<div id="ExplorationBingo">
+    <div id="ExplorationBingo">
         <table id="Board">
-           <tr :key="i" v-for="(column,i) in bingoCells">
+            <tr :key="i" v-for="(column, i) in bingoCells">
                 <td
                     class="square"
-                    :class="cell.colors+'square'+(cell.hidden?'':' shown')"
-                    :key="i+''+j"
-                    v-for="(cell,j) in column"
+                    :class="cell.colors + 'square' + (cell.hidden ? '' : ' shown')"
+                    :key="i + '' + j"
+                    v-for="(cell, j) in column"
                     @click="squareClicked(cell)"
                 >
-                    {{cell.name}}
+                    {{ cell.name }}
                 </td>
-           </tr>
+            </tr>
         </table>
-	</div>
+    </div>
 </template>
 
 <script lang="ts">
-	import {Component, Vue} from "vue-property-decorator";
-    import {store} from "../../browser-util/state";
-    import {TrackerPrize} from "../../../types";
+    import { Component, Vue } from 'vue-property-decorator';
+    import { store } from '../../browser-util/state';
+    import { TrackerPrize } from '../../../types';
     import moment from 'moment';
-    import {TrackerOpenBids, ExplorationBingoboard} from "../../../schemas";
+    import { TrackerOpenBids, ExplorationBingoboard } from '../../../schemas';
 
     interface BingoCell {
-        name: string,
-        hidden: boolean,
-        colors: string,
-        row: number,
-        column: number,
+        name: string;
+        hidden: boolean;
+        colors: string;
+        row: number;
+        column: number;
     }
-
 
     function defaultBingoBoard(): BingoCell[][] {
         var result = [];
         for (let i = 0; i < 5; i++) {
             var cur: BingoCell[] = [];
             for (let j = 0; j < 5; j++) {
-                cur.push({name: "", colors: "blank", row: i, column: j, hidden: true});
+                cur.push({ name: '', colors: 'blank', row: i, column: j, hidden: true });
             }
             result.push(cur);
         }
@@ -50,30 +49,30 @@
 
         mounted() {
             console.log(this.bingoCells);
-            store.watch(state => state.explorationBingoboard, this.onBingoBoardUpdate, {immediate: true});
+            store.watch((state) => state.explorationBingoboard, this.onBingoBoardUpdate, { immediate: true });
         }
 
         onBingoBoardUpdate(newGoals: ExplorationBingoboard, oldGoals?: ExplorationBingoboard | undefined) {
             let idx = 0;
-            this.bingoCells.forEach((row, rowIndex)=>{
-                row.forEach((cell,columnIndex)=>{
+            this.bingoCells.forEach((row, rowIndex) => {
+                row.forEach((cell, columnIndex) => {
                     // update cell with goal name, if changed
                     const newCell = newGoals.cells[idx];
                     if (!oldGoals || !oldGoals.cells.length || newCell.name != oldGoals.cells[idx].name) {
-                        Vue.set(this.bingoCells[rowIndex][columnIndex],'name', newCell.name);
+                        Vue.set(this.bingoCells[rowIndex][columnIndex], 'name', newCell.name);
                     }
                     // update cell with color background, if changed
                     if (!oldGoals || !oldGoals.cells.length || newCell.colors != oldGoals.cells[idx].colors) {
-                        Vue.set(this.bingoCells[rowIndex][columnIndex],'colors', newCell.colors);
+                        Vue.set(this.bingoCells[rowIndex][columnIndex], 'colors', newCell.colors);
                     }
-                    Vue.set(this.bingoCells[rowIndex][columnIndex],'hidden', newCell.hidden);
+                    Vue.set(this.bingoCells[rowIndex][columnIndex], 'hidden', newCell.hidden);
                     idx++;
                 });
             });
         }
 
         generateCellClasses(color: string, hidden: boolean): string {
-            let classes = color+'square';
+            let classes = color + 'square';
             if (!hidden) {
                 classes = classes + ' shown';
             }
@@ -82,8 +81,11 @@
 
         squareClicked(cell: BingoCell) {
             if (!cell.hidden) {
-                nodecg.sendMessageToBundle('exploration:goalClicked','restream-layouts',{index: cell.row * 5 + cell.column})
-                    .catch(e => {
+                nodecg
+                    .sendMessageToBundle('exploration:goalClicked', 'restream-layouts', {
+                        index: cell.row * 5 + cell.column
+                    })
+                    .catch((e) => {
                         console.error(e);
                     });
             }
@@ -92,12 +94,11 @@
 </script>
 
 <style>
-
-	body {
-		/*height: 100%;
+    body {
+        /*height: 100%;
 		width: 100%;
 		background-color: black;*/
-	}
+    }
 
     table#Board {
         height: 800px;
@@ -115,7 +116,7 @@
     /* plain old square */
     .square {
         color: #fff;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
         padding: 0 5px;
         cursor: pointer;
         width: 105px;
@@ -132,7 +133,8 @@
         overflow: hidden;
     }
 
-    .square .bg-color, .square .shadow {
+    .square .bg-color,
+    .square .shadow {
         height: inherit;
         position: absolute;
         left: -2px;

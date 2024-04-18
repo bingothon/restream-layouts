@@ -19,14 +19,14 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator'
-    import TimerContainer from '../components/timerContainer.vue'
-    import GameContainer from '../components/gameContainer.vue'
-    import BingoBoard from '../components/bingoboard.vue'
-    import PlayerInfo from '../components/playerInfo.vue'
-    import TeamInfo from '../components/teamInfo.vue'
-    import PlayerTeamContainer from '../components/playerTeamContainer.vue'
-    import DiscordVoiceDisplay from '../components/discordVoiceDisplay.vue'
+    import { Component, Vue } from 'vue-property-decorator';
+    import TimerContainer from '../components/timerContainer.vue';
+    import GameContainer from '../components/gameContainer.vue';
+    import BingoBoard from '../components/bingoboard.vue';
+    import PlayerInfo from '../components/playerInfo.vue';
+    import TeamInfo from '../components/teamInfo.vue';
+    import PlayerTeamContainer from '../components/playerTeamContainer.vue';
+    import DiscordVoiceDisplay from '../components/discordVoiceDisplay.vue';
 
     @Component({
         components: {
@@ -36,8 +36,8 @@
             TeamInfo,
             PlayerTeamContainer,
             TimerContainer,
-            DiscordVoiceDisplay,
-        },
+            DiscordVoiceDisplay
+        }
     })
     export default class GameLayout extends Vue {}
 </script>
