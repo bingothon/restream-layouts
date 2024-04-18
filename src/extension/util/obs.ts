@@ -153,7 +153,7 @@ class OBSUtility extends obsWebsocketJs {
         // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         await (this).send("RestartMedia", {
             sourceName: source,
-        }).catch((e: any) => logger.error('could not restart media', e));
+        }).catch((e: unknown) => logger.error('could not restart media', e));
     }
 
     public async setSourceBoundsAndCrop(source: string, params: OBSTransformParams): Promise<void> {

@@ -26,8 +26,8 @@ const client = new ApiClient({authProvider});
 
 const listener = new EventSubListener({
     apiClient: client, adapter: new ReverseProxyAdapter({
-    hostName: config.twitchEventSub.hostName, // The host name the server is available from
-    port: 443 // The external port (optional, defaults to 443)
+        hostName: config.twitchEventSub.hostName, // The host name the server is available from
+        port: 443 // The external port (optional, defaults to 443)
     }),
     secret: config.twitchEventSub.eventSubListenerKey
 });

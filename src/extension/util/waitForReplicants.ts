@@ -1,6 +1,6 @@
 import { Replicant } from 'nodecg/types/server';
 
-export function waitForReplicants(replicants: Replicant<unknown>[], callback: Function): void {
+export function waitForReplicants(replicants: Replicant<unknown>[], callback: () => void): void {
     let count = 0;
     replicants.forEach((r): void => {
         r.once('change', (): void => {
