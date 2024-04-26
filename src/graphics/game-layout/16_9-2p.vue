@@ -8,7 +8,7 @@
             <discord-voice-display
                 id="discord-voiceNeutral"
                 iconHeight="40px"
-                maxUserCount="4"
+                maxUserCount="8"
                 nameWidth="125px"
                 voice-highlight-color="darkred"
             ></discord-voice-display>
