@@ -33,7 +33,7 @@
     import { Component, Prop, Vue } from 'vue-property-decorator';
     import Logo from './components/Logo.vue';
     import Rotation from './components/Rotation.vue';
-    import { store } from '@/browser-util/state.js';
+    import { store } from '@/browser-util/state';
     import RunUpcoming from './components/RunUpcoming.vue';
     import { RunData } from '../../../speedcontrol-types';
     import InfoStorageBox from '../_misc/components/InfoStorageBox.vue';
