@@ -1,34 +1,41 @@
 import { ApiClient } from "@twurple/api";
-import {ClientCredentialsAuthProvider} from '@twurple/auth';
+import { AppTokenAuthProvider, RefreshingAuthProvider } from '@twurple/auth';
 import {
-    EventSubChannelFollowEvent,
-    EventSubChannelSubscriptionEvent,
-    EventSubListener,
-    ReverseProxyAdapter
-} from '@twurple/eventsub';
+    EventSubHttpListener,
+    // ReverseProxyAdapter
+} from '@twurple/eventsub-http';
+import { NgrokAdapter} from '@twurple/eventsub-ngrok';
 import {Configschema} from '@/configschema';
 import * as nodecgApiContext from "./util/nodecg-api-context";
 import { sentenceCase } from "sentence-case";
+import { EventSubChannelFollowEvent, EventSubChannelSubscriptionEvent } from '@twurple/eventsub-base';
 
 let isRunningQueue = false
 const eventsQueue: { type: string; data: EventSubChannelFollowEvent | EventSubChannelSubscriptionEvent }[] = [];
 let waitForNext = false
 
-const userId = '539920154';
+// bingothon const userId = '539920154';
+const userId = '53717309' //Floha258
 const nodecg = nodecgApiContext.get();
 const config = nodecg.bundleConfig as Configschema;
 
 const clientId = config.twitchEventSub.clientID;
 const clientSecret = config.twitchEventSub.clientSecret;
 
-const authProvider = new ClientCredentialsAuthProvider(clientId, clientSecret);
+const authProvider = new AppTokenAuthProvider(clientId, clientSecret, ['moderator:read:followers', 'channel:read:subscriptions']);
 const client = new ApiClient({authProvider});
 
-const listener = new EventSubListener({
-    apiClient: client, adapter: new ReverseProxyAdapter({
+const logger = new (nodecgApiContext.get()).Logger('eventSub')
+
+logger.info('Auth Provider Scopes', authProvider.currentScopes);
+
+const listener = new EventSubHttpListener({
+    apiClient: client,
+    /*adapter: new ReverseProxyAdapter({
         hostName: config.twitchEventSub.hostName, // The host name the server is available from
         port: 443 // The external port (optional, defaults to 443)
-    }),
+    }),*/
+    adapter: new NgrokAdapter({ngrokConfig: { authtoken: '' }}),
     secret: config.twitchEventSub.eventSubListenerKey
 });
 
@@ -74,13 +81,23 @@ const main = async () => {
         try {
             const parsedEventType = sentenceCase(eventSubscription.slice(11, eventSubscription.length))
                 .replace(/ /g, "_").toUpperCase()
-            if(parsedEventType === 'CHANNEL_FOLLOW_EVENTS' || parsedEventType === 'CHANNEL_SUBSCRIBTION_EVENTS'){
+            if(parsedEventType === 'CHANNEL_FOLLOW_EVENTS'){
                 console.log(`Attempting to subscribe to ${parsedEventType}`)
-                await listener[(eventSubscription as "subscribeToChannelFollowEvents" | 'subscribeToChannelSubscriptionEvents')](userId, e => {
-                    console.log(`what is here`, typeof e)
+                listener[(eventSubscription as 'onChannelFollow')](userId, userId, (event) => {
+                    console.log(`what is here`, typeof event)
                     eventsQueue.push({
                         type: parsedEventType,
-                        data: e
+                        data: event
+                    })
+                });
+            }
+            if(parsedEventType === 'CHANNEL_SUBSCRIBTION_EVENTS') {
+                console.log(`Attempting to subscribe to ${parsedEventType}`)
+                listener[(eventSubscription as 'onChannelSubscription')](userId, (event) => {
+                    console.log(`what is here`, typeof event)
+                    eventsQueue.push({
+                        type: parsedEventType,
+                        data: event
                     })
                 });
             }
@@ -88,7 +105,12 @@ const main = async () => {
             console.log(err)
         }
     }
-    await listener.listen();
+    listener.start();
+    
+    const channelSubscriptionEvent = listener.onChannelSubscription(userId, event => console.log(`sub by ${event.userDisplayName}`));
+    const channelFollowEvent = listener.onChannelFollow(userId, userId,event => console.log(`follow by ${event.userDisplayName}`));
+    logger.info('sub', await channelSubscriptionEvent.getCliTestCommand())
+    logger.info('follow', await channelFollowEvent.getCliTestCommand())
     setInterval(newEventCheck, 1000)
 }
 
