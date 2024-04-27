@@ -13,7 +13,7 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    import { store } from '@/browser-util/state.js';
+    import { store } from '@/browser-util/state';
     import { TrackerDonation } from '../../../../types';
     import GenericMessage from './ticker/GenericMessage.vue';
     import UpcomingRun from './ticker/UpcomingRun.vue';

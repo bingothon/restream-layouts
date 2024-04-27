@@ -122,7 +122,7 @@ Fred Hutch opened a first-of-its-kind space for COVID-19 clinical research, bein
 Dr. Larry Corey, virologist at Fred Hutch and co-leader of the COVID-19 Prevention Network's vaccine testing program, commented that "To immunize the entire global population, we’ll need multiple, successful vaccines. The vaccine trials in our program are ongoing. With this in mind, we encourage you to visit www.preventcovid.org to learn more about our vaccine testing program and how you can help end the uncertainty of this pandemic"`;
 
     import { Component, Vue } from 'vue-property-decorator';
-    import { getReplicant, store } from '@/browser-util/state.js';
+    import { getReplicant, store } from '@/browser-util/state';
     import { TrackerPrize } from '../../../types';
     import moment from 'moment';
     import { RunData } from '../../../speedcontrol-types';

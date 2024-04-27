@@ -18,7 +18,7 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    import { store } from '@/browser-util/state.js';
+    import { store } from '@/browser-util/state';
     import { ExplorationBingoboard } from '@/schemas';
 
     interface BingoCell {

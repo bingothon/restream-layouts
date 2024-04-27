@@ -44,10 +44,10 @@
 
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
-    import { nodecg } from '@/browser-util/nodecg.js';
+    import { nodecg } from '@/browser-util/nodecg';
     import { Bingoboard } from '@/schemas';
     import equals from 'deep-equal';
-    import { store } from '@/browser-util/state.js';
+    import { store } from '@/browser-util/state';
     import CellTextFit from '../helpers/cell-text-fit.vue';
 
     interface BingoCell {
