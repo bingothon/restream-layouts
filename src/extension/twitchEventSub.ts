@@ -5,11 +5,13 @@ import { NgrokAdapter } from '@twurple/eventsub-ngrok';
 import { Configschema } from '@/configschema';
 import * as nodecgApiContext from './util/nodecg-api-context';
 import { sentenceCase } from 'sentence-case';
-import { EventSubChannelFollowEvent, EventSubChannelSubscriptionEvent } from '@twurple/eventsub-base';
 
 let isRunningQueue = false;
-const eventsQueue: { type: string; data: EventSubChannelFollowEvent | EventSubChannelSubscriptionEvent }[] = [];
+const eventsQueue: unknown[] = [];
 let waitForNext = false;
+let lastTimestamp = 0;
+// Delay to wait for the animation to play
+const ANIMATION_DELAY = 10000;
 
 // bingothon const userId = '539920154';
 const userId = '53717309'; //Floha258
@@ -24,8 +26,8 @@ const client = new ApiClient({ authProvider });
 
 const logger = new (nodecgApiContext.get().Logger)('eventSub');
 
-// logger.info('Auth Provider Scopes', authProvider.currentScopes);
-
+// Make sure to register an application with twitch redirect does not matter
+// Then makes sure to go throught the proper auth process by following https://dev.twitch.tv/docs/authentication/getting-tokens-oauth/#authorization-code-grant-flow
 authProvider.addUser(
     userId,
     {
@@ -46,7 +48,7 @@ const listener = new EventSubHttpListener({
         hostName: config.twitchEventSub.hostName, // The host name the server is available from
         port: 443 // The external port (optional, defaults to 443)
     }),*/
-    adapter: new NgrokAdapter({ ngrokConfig: { authtoken: '2fewqxu78HjNhyyALMttGM6RbDc_4aQ4Tyt1zeDQapeGE4ot' } }),
+    adapter: new NgrokAdapter({ ngrokConfig: { authtoken: '2fggm41yy1APQKDsYHjdaUTKssP_63d6thJf7DcztvaBWXauE' } }),
     secret: config.twitchEventSub?.eventSubListenerKey || ''
 });
 
@@ -75,7 +77,7 @@ const queueSendHandler = async (waitForNext: boolean) => {
         while (eventsQueue.length > 0) {
             isRunningQueue = true;
             await delay(10000);
-            nodecg.sendMessage(`${eventsQueue[0].type}`, { username: eventsQueue[0].data.userDisplayName });
+            //nodecg.sendMessage(`${eventsQueue[0].type}`, { username: eventsQueue[0].data.userDisplayName });
             await delay(10000);
             eventsQueue.shift();
         }
@@ -119,11 +121,28 @@ const main = async () => {
     }
     listener.start();
 
-    const channelSubscriptionEvent = listener.onChannelSubscription(userId, (event) => console.log(`sub by ${event.userDisplayName}`));
-    const channelFollowEvent = listener.onChannelFollow(userId, userId, (event) => console.log(`follow by ${event.userDisplayName}`));
+    const channelSubscriptionEvent = listener.onChannelSubscription(userId, (event) => eventHandler(event, 'sub'));
+    const subGift = listener.onChannelSubscriptionGift(userId, (event) => eventHandler(event, 'giftSub'));
+    const channelFollowEvent = listener.onChannelFollow(userId, userId, (event) => eventHandler(event, 'follow'));
+    const resubEvent = listener.onChannelSubscriptionMessage(userId, (event) => eventHandler(event, 'resub'));
     logger.info('sub', await channelSubscriptionEvent.getCliTestCommand());
     logger.info('follow', await channelFollowEvent.getCliTestCommand());
+    logger.info('gift sub', await subGift.getCliTestCommand());
+    logger.info('resub', await resubEvent.getCliTestCommand());
     setInterval(newEventCheck, 1000);
 };
 
 main();
+
+function eventHandler(event: unknown, type: 'resub' | 'sub' | 'giftSub' | 'follow') {
+    eventsQueue.push(event);
+    while (eventsQueue.length > 0) {
+        if ((new Date().getTime()) - lastTimestamp <= ANIMATION_DELAY) {
+            continue;
+        }
+        lastTimestamp = new Date().getTime();
+        const event = eventsQueue.shift();
+        nodecg.sendMessage(type, event)
+        return;
+    }
+}

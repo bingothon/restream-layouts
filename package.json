@@ -38,6 +38,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.6",
     "@twurple/api": "^7.1.0",
     "@twurple/auth": "^7.1.0",
+    "@twurple/eventsub-base": "^7.1.0",
     "@twurple/eventsub-http": "^7.1.0",
     "cheerio": "^1.0.0-rc.3",
     "copy-webpack-plugin": "^6.3.1",
