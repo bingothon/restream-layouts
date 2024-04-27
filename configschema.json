@@ -194,8 +194,39 @@
 					"default": "SECRET"
 				},
 				"accessToken": {
-					"type": "string",
-					"default": "ACCESS_TOKEN"
+					"type": "object",
+					"additionalProperties": false,
+					"required": [
+						"token",
+						"refreshToken",
+						"scopes",
+						"expiresIn",
+						"obtained"
+					],
+					"properties": {
+						"token": {
+							"type": "string",
+							"default": "ACCESS_TOKEN"
+						},
+						"refreshToken": {
+							"type": "string",
+							"default": "REFRESH_TOKEN"
+						},
+						"scopes": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"expiresIn": {
+							"type": "number",
+							"default": 0
+						},
+						"obtained": {
+							"type": "number",
+							"default": 0
+						}
+					}
 				},
 				"hostName": {
 					"type": "string",

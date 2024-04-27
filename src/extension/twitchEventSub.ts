@@ -1,5 +1,5 @@
 import { ApiClient } from "@twurple/api";
-import { AppTokenAuthProvider, RefreshingAuthProvider } from '@twurple/auth';
+import { RefreshingAuthProvider } from '@twurple/auth';
 import {
     EventSubHttpListener,
     // ReverseProxyAdapter
@@ -19,15 +19,29 @@ const userId = '53717309' //Floha258
 const nodecg = nodecgApiContext.get();
 const config = nodecg.bundleConfig as Configschema;
 
-const clientId = config.twitchEventSub.clientID;
-const clientSecret = config.twitchEventSub.clientSecret;
+const clientId = config.twitchEventSub?.clientID || '';
+const clientSecret = config.twitchEventSub?.clientSecret || '';
 
-const authProvider = new AppTokenAuthProvider(clientId, clientSecret, ['moderator:read:followers', 'channel:read:subscriptions']);
+const authProvider = new RefreshingAuthProvider({ clientId, clientSecret });
 const client = new ApiClient({authProvider});
 
 const logger = new (nodecgApiContext.get()).Logger('eventSub')
 
-logger.info('Auth Provider Scopes', authProvider.currentScopes);
+// logger.info('Auth Provider Scopes', authProvider.currentScopes);
+
+authProvider.addUser(
+    userId,
+    {
+        accessToken: config.twitchEventSub?.accessToken.token || '',
+        refreshToken: config.twitchEventSub?.accessToken.refreshToken || '',
+        expiresIn: config.twitchEventSub?.accessToken.expiresIn || 0,
+        scope: config.twitchEventSub?.accessToken.scopes || [],
+        obtainmentTimestamp: config.twitchEventSub?.accessToken.obtained || 0
+    },
+    ['moderator:read:followers', 'channel:read:subscriptions']
+);
+
+logger.info('user in?', authProvider.hasUser(userId), 'scopes', authProvider.getCurrentScopesForUser(userId));
 
 const listener = new EventSubHttpListener({
     apiClient: client,
@@ -35,8 +49,8 @@ const listener = new EventSubHttpListener({
         hostName: config.twitchEventSub.hostName, // The host name the server is available from
         port: 443 // The external port (optional, defaults to 443)
     }),*/
-    adapter: new NgrokAdapter({ngrokConfig: { authtoken: '' }}),
-    secret: config.twitchEventSub.eventSubListenerKey
+    adapter: new NgrokAdapter({ngrokConfig: { authtoken: '2fewqxu78HjNhyyALMttGM6RbDc_4aQ4Tyt1zeDQapeGE4ot' }}),
+    secret: config.twitchEventSub?.eventSubListenerKey || ''
 });
 
 const getChannelEventSubscriptions = (obj: object) : string[] => {
