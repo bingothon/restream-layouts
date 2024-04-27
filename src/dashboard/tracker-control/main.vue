@@ -18,7 +18,7 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    import { getReplicant, store } from '@/browser-util/state.js';
+    import { getReplicant, store } from '@/browser-util/state';
     import { TrackerData } from '@/schemas';
 
     interface IndexedPlayer {
