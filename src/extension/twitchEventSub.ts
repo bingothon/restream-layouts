@@ -4,11 +4,16 @@ import { EventSubHttpListener } from '@twurple/eventsub-http';
 import { NgrokAdapter } from '@twurple/eventsub-ngrok';
 import { Configschema } from '@/configschema';
 import * as nodecgApiContext from './util/nodecg-api-context';
-import { sentenceCase } from 'sentence-case';
+import {
+    EventSubChannelFollowEvent,
+    EventSubChannelSubscriptionEvent, EventSubChannelSubscriptionGiftEvent,
+    EventSubChannelSubscriptionMessageEvent
+} from '@twurple/eventsub-base';
 
-let isRunningQueue = false;
-const eventsQueue: unknown[] = [];
-let waitForNext = false;
+type knownEvents = EventSubChannelSubscriptionEvent | EventSubChannelFollowEvent | EventSubChannelSubscriptionMessageEvent | EventSubChannelSubscriptionGiftEvent;
+type eventEnum = 'resub' | 'sub' | 'giftSub' | 'follow'
+
+const eventsQueue: {type: eventEnum, event: knownEvents}[] = [];
 let lastTimestamp = 0;
 // Delay to wait for the animation to play
 const ANIMATION_DELAY = 10000;
@@ -48,101 +53,41 @@ const listener = new EventSubHttpListener({
         hostName: config.twitchEventSub.hostName, // The host name the server is available from
         port: 443 // The external port (optional, defaults to 443)
     }),*/
-    adapter: new NgrokAdapter({ ngrokConfig: { authtoken: '2fggm41yy1APQKDsYHjdaUTKssP_63d6thJf7DcztvaBWXauE' } }),
+    adapter: new NgrokAdapter({ ngrokConfig: { authtoken: '' } }),
     secret: config.twitchEventSub?.eventSubListenerKey || ''
 });
 
-const getChannelEventSubscriptions = (obj: object): string[] => {
-    const properties = new Set<string>();
-    let currentObj = obj;
-    do {
-        Object.getOwnPropertyNames(currentObj).map((item) => properties.add(item));
-    } while ((currentObj = Object.getPrototypeOf(currentObj)));
-    return [...properties.keys()].filter((item) => item.includes('subscribeToChannel'));
-};
+listener.removeListener()
 
-const delay = (milliseconds: number) =>
-    new Promise((resolve) => {
-        setTimeout(resolve, milliseconds);
-    });
-
-const queueSendHandler = async (waitForNext: boolean) => {
-    // eventsQueue[0].data has EventSubHandler object attached with it's own properties.
-    // You'd actaully want to forward all as in `data: eventsQueue[0].data`
-    // then in the vue file, use the property that is suitable for information you'd need.
-    // see, twurple documentation on EventSubHandler for properties specific to eventsubscription types.
-
-    //console.log("Checking for new Subs and Follows")
-    if (!waitForNext) {
-        while (eventsQueue.length > 0) {
-            isRunningQueue = true;
-            await delay(10000);
-            //nodecg.sendMessage(`${eventsQueue[0].type}`, { username: eventsQueue[0].data.userDisplayName });
-            await delay(10000);
-            eventsQueue.shift();
-        }
-        isRunningQueue = false;
-    }
-};
-
-const newEventCheck = async () => {
-    waitForNext = isRunningQueue;
-    await queueSendHandler(waitForNext);
-};
-
-const main = async () => {
-    const eventSubscriptions = getChannelEventSubscriptions(listener);
-    for (const eventSubscription of eventSubscriptions) {
-        try {
-            const parsedEventType = sentenceCase(eventSubscription.slice(11, eventSubscription.length)).replace(/ /g, '_').toUpperCase();
-            if (parsedEventType === 'CHANNEL_FOLLOW_EVENTS') {
-                console.log(`Attempting to subscribe to ${parsedEventType}`);
-                listener[eventSubscription as 'onChannelFollow'](userId, userId, (event) => {
-                    console.log(`what is here`, typeof event);
-                    eventsQueue.push({
-                        type: parsedEventType,
-                        data: event
-                    });
-                });
-            }
-            if (parsedEventType === 'CHANNEL_SUBSCRIBTION_EVENTS') {
-                console.log(`Attempting to subscribe to ${parsedEventType}`);
-                listener[eventSubscription as 'onChannelSubscription'](userId, (event) => {
-                    console.log(`what is here`, typeof event);
-                    eventsQueue.push({
-                        type: parsedEventType,
-                        data: event
-                    });
-                });
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
+async function main(): Promise<void> {
+    await client.eventSub.deleteAllSubscriptions();
     listener.start();
 
     const channelSubscriptionEvent = listener.onChannelSubscription(userId, (event) => eventHandler(event, 'sub'));
-    const subGift = listener.onChannelSubscriptionGift(userId, (event) => eventHandler(event, 'giftSub'));
+    //const subGift = listener.onChannelSubscriptionGift(userId, (event) => eventHandler(event, 'giftSub'));
     const channelFollowEvent = listener.onChannelFollow(userId, userId, (event) => eventHandler(event, 'follow'));
     const resubEvent = listener.onChannelSubscriptionMessage(userId, (event) => eventHandler(event, 'resub'));
     logger.info('sub', await channelSubscriptionEvent.getCliTestCommand());
     logger.info('follow', await channelFollowEvent.getCliTestCommand());
-    logger.info('gift sub', await subGift.getCliTestCommand());
+    //logger.info('gift sub', await subGift.getCliTestCommand());
     logger.info('resub', await resubEvent.getCliTestCommand());
-    setInterval(newEventCheck, 1000);
-};
+}
 
 main();
 
-function eventHandler(event: unknown, type: 'resub' | 'sub' | 'giftSub' | 'follow') {
-    eventsQueue.push(event);
+function eventHandler(event: knownEvents, type: eventEnum) {
+    eventsQueue.push({type, event});
+    logger .info('Received Event', type)
     while (eventsQueue.length > 0) {
-        if ((new Date().getTime()) - lastTimestamp <= ANIMATION_DELAY) {
+        logger.info('in Loop');
+        if (new Date().getTime() - lastTimestamp <= ANIMATION_DELAY) {
+            logger.info('current Date', new Date().getTime(), 'last Timestamp', lastTimestamp, 'delay', ANIMATION_DELAY);
             continue;
         }
         lastTimestamp = new Date().getTime();
-        const event = eventsQueue.shift();
-        nodecg.sendMessage(type, event)
+        const eventQueueObject = eventsQueue.shift();
+        const messagePayloadUserName : string = (eventQueueObject?.event as Exclude<knownEvents, EventSubChannelSubscriptionGiftEvent>).userDisplayName || (eventQueueObject?.event as EventSubChannelSubscriptionGiftEvent).gifterDisplayName || '';
+        nodecg.sendMessage(eventQueueObject!.type, messagePayloadUserName);
         return;
     }
 }

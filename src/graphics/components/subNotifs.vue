@@ -14,13 +14,7 @@
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
     import TextFit from '../helpers/text-fit.vue';
-    import { nodecg } from '../../browser-util/nodecg';
-    import {
-        EventSubChannelFollowEvent,
-        EventSubChannelSubscriptionEvent,
-        EventSubChannelSubscriptionGiftEvent,
-        EventSubChannelSubscriptionMessageEvent
-    } from '@twurple/eventsub-base';
+    import { nodecg } from '@/browser-util/nodecg';
 
     @Component({
         components: {
@@ -30,12 +24,13 @@
     export default class SubNotifs extends Vue {
         username: string = 'LongerName';
         message: string = 'Thank you<br />for subscribing';
+        lastEvent: unknown = {};
 
-        messages: {
-            sub: 'Thank you<br/>for subscribing';
-            follow: 'Thank you<br/>for following';
-            resub: 'Thank you<br/>for resubscribing for 000 months';
-            gitSub: 'Thank you<br/>for gifting a sub';
+        messages = {
+            sub: 'Thank you\nfor subscribing',
+            follow: 'Thank you\nfor following',
+            resub: 'Thank you\nfor resubscribing for 000 months',
+            giftSub: 'Thank you\nfor gifting a sub'
         };
 
         runNotification = async () => {
@@ -65,26 +60,26 @@
         };
 
         mounted() {
-            nodecg.listenFor('sub', (data: EventSubChannelSubscriptionEvent) => {
-                this.username = data.userDisplayName;
+            nodecg.listenFor('sub', (data: string) => {
+                this.username = data;
                 this.message = this.messages.sub;
                 this.runNotification();
             });
 
-            nodecg.listenFor('resub', (data: EventSubChannelSubscriptionMessageEvent) => {
-                this.username = data.userDisplayName;
+            nodecg.listenFor('resub', (data: string) => {
+                this.username = data;
                 this.message = this.messages.resub;
                 this.runNotification();
             });
 
-            nodecg.listenFor('giftSub', (data: EventSubChannelSubscriptionGiftEvent) => {
-                this.username = data.gifterDisplayName;
-                this.message = this.messages.sub;
+            nodecg.listenFor('giftSub', (data: string) => {
+                this.username = data;
+                this.message = this.messages.giftSub;
                 this.runNotification();
             });
 
-            nodecg.listenFor('follow', (data: EventSubChannelFollowEvent) => {
-                this.username = data.userDisplayName;
+            nodecg.listenFor('follow', (data: string) => {
+                this.username = data;
                 this.message = this.messages.follow;
                 this.runNotification();
             });
@@ -112,7 +107,7 @@
         text-align: center;
         top: 20px;
         font-size: 20px;
-        left: 180px;
+        left: 135px;
         color: white;
     }
 
