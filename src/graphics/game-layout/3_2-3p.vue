@@ -7,10 +7,10 @@
         <div id="fillbar" class="flexContainer"></div>
         <div id="fillvoice" class="flexContainer"></div>
         <div id="fillupperplayers"></div>
-        <player-info id="pi1" playerIndex="4" height="45px"></player-info>
-        <player-info id="pi2" playerIndex="5" height="45px"></player-info>
+        <player-info id="pi1" :playerIndex="playerOffset" height="45px"></player-info>
+        <player-info id="pi2" :playerIndex="playerOffset+1" height="45px"></player-info>
         <div id="filllowerplayers"></div>
-        <player-info id="pi3" playerIndex="6" height="45px"></player-info>
+        <player-info id="pi3" :playerIndex="playerOffset+2" height="45px"></player-info>
         <game-container id="game"></game-container>
         <timer-container id="timer"></timer-container>
         <bingo-board id="Bingo-board" fontSize="30px"></bingo-board>
@@ -44,7 +44,12 @@
             DiscordVoiceDisplay
         }
     })
-    export default class GameLayout extends Vue {}
+    export default class GameLayout extends Vue {
+        get playerOffset(): number {
+            const playeroffset = new URLSearchParams(window.location.search).get('playeroffset') ?? '0';
+            return parseInt(playeroffset) || 0;
+        }
+    }
 </script>
 
 <style scoped>
