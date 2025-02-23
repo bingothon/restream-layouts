@@ -260,7 +260,7 @@
         }
 
         getStrikethrough(markers: string[]): boolean {
-            let res = markers.some((marker) => marker === 'black');
+            let res = markers?.some((marker) => marker === 'black');
             console.log(res);
             return res;
         }
