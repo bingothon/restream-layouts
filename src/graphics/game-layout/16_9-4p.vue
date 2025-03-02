@@ -6,10 +6,10 @@
         <div id="stream3" streamIndex="2"></div>
         <div id="stream4" streamIndex="3"></div>
         <div id="fillvoice" class="flexContainer"></div>
-        <player-info id="pi1" height="45px" playerIndex="0"></player-info>
-        <player-info id="pi2" height="45px" playerIndex="1"></player-info>
-        <player-info id="pi3" height="45px" playerIndex="2"></player-info>
-        <player-info id="pi4" height="45px" playerIndex="3"></player-info>
+        <player-info id="pi1" height="45px" :playerIndex="playerOffset"></player-info>
+        <player-info id="pi2" height="45px" :playerIndex="playerOffset + 1"></player-info>
+        <player-info id="pi3" height="45px" :playerIndex="playerOffset + 2"></player-info>
+        <player-info id="pi4" height="45px" :playerIndex="playerOffset + 3"></player-info>
         <game-container id="game"></game-container>
         <timer-container id="timer"></timer-container>
         <bingo-board id="Bingo-board" fontSize="20px"></bingo-board>
@@ -48,6 +48,10 @@
         }
     })
     export default class GameLayout extends Vue {
+        get playerOffset(): number {
+            const playeroffset = new URLSearchParams(window.location.search).get('playeroffset') ?? '0';
+            return parseInt(playeroffset) || 0;
+        }
         get teams(): RunDataTeam[] {
             return store.state.runDataActiveRun.teams;
         }

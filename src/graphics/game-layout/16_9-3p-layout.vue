@@ -57,33 +57,32 @@
         position: absolute;
         top: 60px;
         left: 0px;
-        width: 720px;
+        width: 854px;
         height: 480px;
     }
 
     #stream3 {
         position: absolute;
         top: 60px;
-        left: 1200px;
-        width: 720px;
+        left: 1066px;
+        width: 854px;
         height: 480px;
     }
 
     #stream2 {
         position: absolute;
         top: 500px;
-        left: 600px;
-        width: 720px;
+        left: 533px;
+        width: 854px;
         height: 480px;
     }
 
-    #discord-voice {
+    #Bingo-board {
         position: absolute;
         top: 540px;
-        left: 1320px;
-        width: 600px;
+        left: 1387px;
+        width: 533px;
         height: 540px;
-        background-image: url("../../../static/middle-info-background.png");
         border: 2px var(--container-border-color) solid;
     }
 
@@ -109,32 +108,33 @@
         top: 0px;
         left: 0px;
         border: 2px var(--container-border-color) solid;
-        width: 704px;
+        width: 839px;
     }
 
     #pi3 {
         position: absolute;
         top: 0px;
-        left: 1200px;
+        left: 1066px;
         border: 2px var(--container-border-color) solid;
-        width: 704px;
+        width: 839px;
     }
 
     #pi2 {
         position: absolute;
         top: 1018px;
-        left: 600px;
+        left: 533px;
         border: 2px var(--container-border-color) solid;
-        width: 704px;
+        width: 839px;
     }
 
-    #Bingo-board {
+    #discord-voice {
         position: absolute;
         top: 0px;
-        left: 720px;
+        left: 854px;
         border: 2px var(--container-border-color) solid;
-        width: 480px;
+        width: 212px;
         height: 540px;
+        background-image: url('../../../static/middle-info-background.png');
     }
 
     #game {
@@ -142,7 +142,7 @@
         position: absolute;
         top: 540px;
         left: 0px;
-        width: 600px;
+        width: 533px;
         border: 2px var(--container-border-color) solid;
         height: 270px;
     }
@@ -151,8 +151,8 @@
         position: absolute;
         top: 810px;
         left: 0px;
-        background-image: url("../../../static/middle-info-background.png");
-        width: 600px;
+        background-image: url('../../../static/middle-info-background.png');
+        width: 533px;
         border: 2px var(--container-border-color) solid;
         height: 270px;
     }
