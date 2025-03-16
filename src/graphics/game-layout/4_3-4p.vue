@@ -33,7 +33,7 @@
     import DiscordVoiceDisplay from '../components/discordVoiceDisplay.vue';
     import GameContainer from '../components/gameContainer.vue';
     import TimerContainer from '../components/timerContainer.vue';
-    import { store } from '@/browser-util/state.js';
+    import { store } from '../../browser-util/state.js';
 
     @Component({
         components: {
