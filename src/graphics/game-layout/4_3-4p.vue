@@ -6,7 +6,7 @@
 				<twitch-player id="stream4" streamIndex="3"></twitch-player>-->
         <div id="fillbar" class="flexContainer"></div>
         <div id="fillvoice" class="flexContainer"></div>
-        <div id="fillupperplayers"></div>
+        <div id="fillupperplayers" :class="game === 'sms' ? 'SMS' : 'Neutral'"></div>
         <player-info id="pi1" playerIndex="0" height="45px"></player-info>
         <player-info id="pi2" playerIndex="1" height="45px"></player-info>
         <div id="filllowerplayers"></div>
@@ -33,6 +33,7 @@
     import DiscordVoiceDisplay from '../components/discordVoiceDisplay.vue';
     import GameContainer from '../components/gameContainer.vue';
     import TimerContainer from '../components/timerContainer.vue';
+    import { store } from '@/browser-util/state.js';
 
     @Component({
         components: {
@@ -45,7 +46,11 @@
             DiscordVoiceDisplay
         }
     })
-    export default class GameLayout extends Vue {}
+    export default class GameLayout extends Vue {
+        get game(): string {
+            return store.state.gameMode.game;
+        }
+    }
 </script>
 
 <style scoped>
@@ -175,9 +180,16 @@
         left: 640px;
         width: 640px;
         height: 540px;
-        background-image: url('../../../static/background-sunshine.jpg');
         background-size: cover;
         background-repeat: no-repeat;
         border: 2px var(--container-border-color) solid;
+    }
+
+    .SMS {
+        background-image: url('../../../static/background-sunshine.jpg');
+    }
+
+    .Neutral {
+        background-image: url('../../../static/middle-info-background.png');
     }
 </style>
