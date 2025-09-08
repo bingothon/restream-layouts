@@ -1,9 +1,9 @@
-import clone from 'clone'
-import { ReplicantBrowser } from 'nodecg/types/browser' // eslint-disable-line
-import Vue from 'vue'
-import Vuex from 'vuex'
-import { vuexfireMutations, firebaseAction } from 'vuexfire'
-import { fb as db } from './firebase'
+import clone from 'clone';
+import { ReplicantBrowser } from 'nodecg/types/browser'; // eslint-disable-line
+import Vue from 'vue';
+import Vuex from 'vuex';
+import { vuexfireMutations, firebaseAction } from 'vuexfire';
+import { fb as db } from './firebase';
 import {
     AllCamNames,
     AllGameLayouts,
@@ -32,6 +32,7 @@ import {
     ObsStreamMode,
     OriBingoboard,
     OriBingoMeta,
+    PlayBingoSocket,
     ShowPictureDuringIntermission,
     SongData,
     SoundOnTwitchStream,
@@ -41,13 +42,13 @@ import {
     TrackerPrizes,
     TwitchStreams,
     VoiceActivity,
-    VoiceActivitySunshine,
-} from '../../schemas'
-import { RunDataActiveRun, RunDataArray, Timer } from '../../speedcontrol-types'
-import { Scene } from 'obs-websocket-js'
-import { Games } from '../../types'
+    VoiceActivitySunshine
+} from '../../schemas';
+import { RunDataActiveRun, RunDataArray, Timer } from '../../speedcontrol-types';
+import { Scene } from 'obs-websocket-js';
+import { Games } from '../../types';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 const replicantNames = [
     'allGameLayouts',
@@ -80,6 +81,7 @@ const replicantNames = [
     'obsStreamMode',
     'oriBingoboard',
     'oriBingoMeta',
+    'playBingoSocket',
     'showPictureDuringIntermission',
     'soundOnTwitchStream',
     'trackerDonations',
@@ -89,107 +91,108 @@ const replicantNames = [
     'voiceActivity',
     'voiceActivitySunshine',
     'songData',
-    'trackerData',
-]
-const nodecgSpeedcontrolReplicantNames = ['runDataActiveRun', 'runDataArray', 'timer']
-const replicants: Map<string, ReplicantBrowser<any>> = new Map()
+    'trackerData'
+];
+const nodecgSpeedcontrolReplicantNames = ['runDataActiveRun', 'runDataArray', 'timer'];
+const replicants: Map<string, ReplicantBrowser<any>> = new Map();
 
-var playerAlternateInterval: NodeJS.Timeout | null = null
+var playerAlternateInterval: NodeJS.Timeout | null = null;
 
 const firebaseActions = db
     ? {
           bindGameP1: firebaseAction<any, any>(({ bindFirebaseRef }, payload) => {
               // return the promise returned by `bindFirebaseRef` hardcoded for now
-              let ref = `games/${payload.gameId || 'floha258'}/items`
-              console.log(ref)
-              return bindFirebaseRef('gameP1', db.ref(ref))
+              let ref = `games/${payload.gameId || 'floha258'}/items`;
+              console.log(ref);
+              return bindFirebaseRef('gameP1', db.ref(ref));
           }),
           unbindGameP1: firebaseAction<any, any>(({ unbindFirebaseRef }) => {
-              unbindFirebaseRef('gameP1')
+              unbindFirebaseRef('gameP1');
           }),
           bindGameP2: firebaseAction<any, any>(({ bindFirebaseRef }, payload) => {
               // return the promise returned by `bindFirebaseRef`
-              let ref = `games/${payload.gameId || 'lepelog'}/items`
-              console.log(ref)
-              return bindFirebaseRef('gameP2', db.ref(ref))
+              let ref = `games/${payload.gameId || 'lepelog'}/items`;
+              console.log(ref);
+              return bindFirebaseRef('gameP2', db.ref(ref));
           }),
           unbindGameP2: firebaseAction<any, any>(({ unbindFirebaseRef }) => {
-              unbindFirebaseRef('gameP2')
+              unbindFirebaseRef('gameP2');
           }),
           bindGameP3: firebaseAction<any, any>(({ bindFirebaseRef }, payload) => {
               // return the promise returned by `bindFirebaseRef`
-              let ref = `games/${payload.gameId || 'cjs07'}/items`
-              console.log(ref)
-              return bindFirebaseRef('gameP3', db.ref(ref))
+              let ref = `games/${payload.gameId || 'cjs07'}/items`;
+              console.log(ref);
+              return bindFirebaseRef('gameP3', db.ref(ref));
           }),
           unbindGameP3: firebaseAction<any, any>(({ unbindFirebaseRef }) => {
-              unbindFirebaseRef('gameP3')
+              unbindFirebaseRef('gameP3');
           }),
           bindGameP4: firebaseAction<any, any>(({ bindFirebaseRef }, payload) => {
               // return the promise returned by `bindFirebaseRef`
-              let ref = `games/${payload.gameId || 'player4'}/items`
-              console.log(ref)
-              return bindFirebaseRef('gameP4', db.ref(ref))
+              let ref = `games/${payload.gameId || 'player4'}/items`;
+              console.log(ref);
+              return bindFirebaseRef('gameP4', db.ref(ref));
           }),
           unbindGameP4: firebaseAction<any, any>(({ unbindFirebaseRef }) => {
-              unbindFirebaseRef('gameP4')
-          }),
+              unbindFirebaseRef('gameP4');
+          })
       }
-    : {}
+    : {};
 
 interface StoreTypes {
     // bingothon
-    allGameLayouts: AllGameLayouts
-    allInterviews: AllInterviews
-    allCamNames: AllCamNames
-    bestOfX: BestOfX
-    bingoboard: Bingoboard
-    bingoboardMeta: BingoboardMeta
-    bingoboardMode: BingoboardMode
-    bingosyncSocket: BingosyncSocket
-    countdownTimer: CountdownTimer
-    currentGameLayout: CurrentGameLayout
-    currentInterview: CurrentInterview
-    currentCamNames: CurrentCamNames
-    currentMainBingoboard: CurrentMainBingoboard
-    discordDelayInfo: DiscordDelayInfo
-    discordDelayInfoSunshine: DiscordDelayInfoSunshine
-    donationTotal: DonationTotal
-    explorationBingoboard: ExplorationBingoboard
-    gameMode: GameMode
-    hostingBingosocket: HostingBingosocket
-    hostsSpeakingDuringIntermission: HostsSpeakingDuringIntermission
-    lastIntermissionTimestamp: LastIntermissionTimestamp
-    obsAudioSources: ObsAudioSources
-    obsConnection: ObsConnection
-    obsDashboardAudioSources: ObsDashboardAudioSources
-    obsPreviewScene: null | string
-    obsCurrentScene: null | string
-    obsSceneList: null | any // sorry i had to do it to test any was Scene[]
-    obsStreamMode: ObsStreamMode
-    oriBingoboard: OriBingoboard
-    oriBingoMeta: OriBingoMeta
-    showPictureDuringIntermission: ShowPictureDuringIntermission
-    soundOnTwitchStream: SoundOnTwitchStream
-    trackerData: TrackerData
-    trackerDonations: TrackerDonations
-    trackerOpenBids: TrackerOpenBids
-    trackerPrizes: TrackerPrizes
-    twitchStreams: TwitchStreams
-    voiceActivity: VoiceActivity
-    voiceActivitySunshine: VoiceActivitySunshine
-    songData: SongData
+    allGameLayouts: AllGameLayouts;
+    allInterviews: AllInterviews;
+    allCamNames: AllCamNames;
+    bestOfX: BestOfX;
+    bingoboard: Bingoboard;
+    bingoboardMeta: BingoboardMeta;
+    bingoboardMode: BingoboardMode;
+    bingosyncSocket: BingosyncSocket;
+    countdownTimer: CountdownTimer;
+    currentGameLayout: CurrentGameLayout;
+    currentInterview: CurrentInterview;
+    currentCamNames: CurrentCamNames;
+    currentMainBingoboard: CurrentMainBingoboard;
+    discordDelayInfo: DiscordDelayInfo;
+    discordDelayInfoSunshine: DiscordDelayInfoSunshine;
+    donationTotal: DonationTotal;
+    explorationBingoboard: ExplorationBingoboard;
+    gameMode: GameMode;
+    hostingBingosocket: HostingBingosocket;
+    hostsSpeakingDuringIntermission: HostsSpeakingDuringIntermission;
+    lastIntermissionTimestamp: LastIntermissionTimestamp;
+    obsAudioSources: ObsAudioSources;
+    obsConnection: ObsConnection;
+    obsDashboardAudioSources: ObsDashboardAudioSources;
+    obsPreviewScene: null | string;
+    obsCurrentScene: null | string;
+    obsSceneList: null | any; // sorry i had to do it to test any was Scene[]
+    obsStreamMode: ObsStreamMode;
+    oriBingoboard: OriBingoboard;
+    oriBingoMeta: OriBingoMeta;
+    playBingoSocket: PlayBingoSocket;
+    showPictureDuringIntermission: ShowPictureDuringIntermission;
+    soundOnTwitchStream: SoundOnTwitchStream;
+    trackerData: TrackerData;
+    trackerDonations: TrackerDonations;
+    trackerOpenBids: TrackerOpenBids;
+    trackerPrizes: TrackerPrizes;
+    twitchStreams: TwitchStreams;
+    voiceActivity: VoiceActivity;
+    voiceActivitySunshine: VoiceActivitySunshine;
+    songData: SongData;
     // nodecg-speedcontrol
-    runDataActiveRun: RunDataActiveRun
-    runDataArray: RunDataArray
-    timer: Timer
+    runDataActiveRun: RunDataActiveRun;
+    runDataArray: RunDataArray;
+    timer: Timer;
     // timer
-    playerAlternate: true
+    playerAlternate: true;
     //firebase
-    gameP1: Games
-    gameP2: Games
-    gameP3: Games
-    gameP4: Games
+    gameP1: Games;
+    gameP2: Games;
+    gameP3: Games;
+    gameP4: Games;
 }
 
 export const store = new Vuex.Store<StoreTypes>({
@@ -225,6 +228,7 @@ export const store = new Vuex.Store<StoreTypes>({
         obsStreamMode: '' as ObsStreamMode,
         oriBingoboard: {} as OriBingoboard,
         oriBingoMeta: {} as OriBingoMeta,
+        playBingoSocket: {} as PlayBingoSocket,
         showPictureDuringIntermission: {} as ShowPictureDuringIntermission,
         soundOnTwitchStream: 0 as SoundOnTwitchStream,
         trackerData: [] as TrackerData,
@@ -245,71 +249,71 @@ export const store = new Vuex.Store<StoreTypes>({
         gameP1: {} as Games,
         gameP2: {} as Games,
         gameP3: {} as Games,
-        gameP4: {} as Games,
+        gameP4: {} as Games
     },
     mutations: {
         updateReplicant(state, { name, value }) {
-            Vue.set(state, name, value)
+            Vue.set(state, name, value);
         },
         startPlayerAlternateInterval(state, interval) {
             if (playerAlternateInterval) {
-                clearInterval(playerAlternateInterval)
+                clearInterval(playerAlternateInterval);
             }
             playerAlternateInterval = setInterval(() => {
-                Vue.set(state, 'playerAlternate', !state.playerAlternate)
-            }, interval)
+                Vue.set(state, 'playerAlternate', !state.playerAlternate);
+            }, interval);
         },
         stopPlayerAlternateInterval(state) {
             if (playerAlternateInterval) {
-                clearInterval(playerAlternateInterval)
+                clearInterval(playerAlternateInterval);
             }
-            playerAlternateInterval = null
+            playerAlternateInterval = null;
         },
-        ...vuexfireMutations,
+        ...vuexfireMutations
     },
     actions: firebaseActions
-})
+});
 
-store.commit('startPlayerAlternateInterval', 10000)
+store.commit('startPlayerAlternateInterval', 10000);
 
 /**
  * Gets the raw replicant, only intended for modifications, to use values use state
  * @param replicant name of the replicant, throws an error if it isn't found
  */
 export function getReplicant<T>(replicant: string): ReplicantBrowser<T> {
-    const rep = replicants.get(replicant)
+    const rep = replicants.get(replicant);
     if (!rep) {
-        throw new Error('invalid replicant!')
+        throw new Error('invalid replicant!');
     }
-    return rep
+    return rep;
 }
 
 replicantNames.forEach((name) => {
-    const replicant = nodecg.Replicant(name)
+    const replicant = nodecg.Replicant(name);
 
     replicant.on('change', (newVal) => {
         store.commit('updateReplicant', {
             name: replicant.name,
-            value: clone(newVal),
-        })
-    })
+            value: clone(newVal)
+        });
+    });
 
-    replicants.set(name, replicant)
-})
+    replicants.set(name, replicant);
+});
 
 nodecgSpeedcontrolReplicantNames.forEach((name) => {
-    const rep = nodecg.Replicant(name, 'nodecg-speedcontrol')
+    const rep = nodecg.Replicant(name, 'nodecg-speedcontrol');
 
     rep.on('change', (newVal) => {
         store.commit('updateReplicant', {
             name: rep.name,
-            value: clone(newVal),
-        })
-    })
+            value: clone(newVal)
+        });
+    });
 
-    replicants.set(name, rep)
-})
+    replicants.set(name, rep);
+});
 
 export async function create() {
-    return NodeCG.waitForReplicants(...Array.from(replicants.values())).then(() => store)
+    return NodeCG.waitForReplicants(...Array.from(replicants.values())).then(() => store);
 }

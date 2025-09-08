@@ -1,6 +1,6 @@
-import {NodeCG} from 'nodecg/types/server'; // eslint-disable-line
+import { NodeCG } from 'nodecg/types/server'; // eslint-disable-line
 import * as nodecgApiContext from './util/nodecg-api-context';
-import {ShowPictureDuringIntermission, SongData, VoiceActivity} from '@/schemas';
+import { ShowPictureDuringIntermission, SongData, VoiceActivity } from '@/schemas';
 // import {requireService} from "nodecg-io-core";
 // import { StreamElementsServiceClient } from "nodecg-io-streamelements";
 
@@ -9,8 +9,9 @@ import {ShowPictureDuringIntermission, SongData, VoiceActivity} from '@/schemas'
 export = (nodecg: NodeCG): void => {
     nodecgApiContext.set(nodecg);
     nodecg.log.info('Extension code working!');
-    const {bundleConfig} = nodecg;
+    const { bundleConfig } = nodecg;
     require('./bingosync');
+    require('./playBingo');
     require('./bingoColors');
     require('./countdownTimer');
     require('./oriBingoBoard');
@@ -19,72 +20,116 @@ export = (nodecg: NodeCG): void => {
 
     const defaultAvatar = 'https://discordapp.com/assets/dd4dbc0016779df1378e7812eabaa04d.png';
 
-
     if (nodecg.bundleConfig.discord) {
         if (!nodecg.bundleConfig.discord.test) {
             require('./discord');
         } else {
             const voiceActivity = nodecg.Replicant<VoiceActivity>('voiceActivity', {
                 defaultValue: {
-                    members: [],
+                    members: []
                 },
-                persistent: true,
+                persistent: true
             });
             voiceActivity.value = {
-                members:  [
+                members: [
                     {
-                        id: '0', name: 'abc', avatar: defaultAvatar, isSpeaking: false,
+                        id: '0',
+                        name: 'abc',
+                        avatar: defaultAvatar,
+                        isSpeaking: false
                     },
                     {
-                        id: '1', name: 'testnickname with a long name', avatar: defaultAvatar, isSpeaking: true,
+                        id: '1',
+                        name: 'testnickname with a long name',
+                        avatar: defaultAvatar,
+                        isSpeaking: true
                     },
                     {
-                        id: '2', name: 'anotherone', avatar: defaultAvatar, isSpeaking: true,
+                        id: '2',
+                        name: 'anotherone',
+                        avatar: defaultAvatar,
+                        isSpeaking: true
                     },
                     {
-                        id: '3', name: 'POGGERS', avatar: defaultAvatar, isSpeaking: false,
+                        id: '3',
+                        name: 'POGGERS',
+                        avatar: defaultAvatar,
+                        isSpeaking: false
                     },
                     {
-                        id: '4', name: 'asdfasdf', avatar: defaultAvatar, isSpeaking: false,
+                        id: '4',
+                        name: 'asdfasdf',
+                        avatar: defaultAvatar,
+                        isSpeaking: false
                     },
                     {
-                        id: '5', name: 'someone', avatar: defaultAvatar, isSpeaking: false,
+                        id: '5',
+                        name: 'someone',
+                        avatar: defaultAvatar,
+                        isSpeaking: false
                     },
                     {
-                        id: '6', name: 'idk this is a lot', avatar: defaultAvatar, isSpeaking: true,
+                        id: '6',
+                        name: 'idk this is a lot',
+                        avatar: defaultAvatar,
+                        isSpeaking: true
                     },
                     {
-                        id: '7', name: 'not creative', avatar: defaultAvatar, isSpeaking: true,
+                        id: '7',
+                        name: 'not creative',
+                        avatar: defaultAvatar,
+                        isSpeaking: true
                     },
                     {
-                        id: '8', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
+                        id: '8',
+                        name: 'nr8',
+                        avatar: defaultAvatar,
+                        isSpeaking: false
                     },
                     {
-                        id: '9', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
+                        id: '9',
+                        name: 'nr8',
+                        avatar: defaultAvatar,
+                        isSpeaking: false
                     },
                     {
-                        id: '10', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
+                        id: '10',
+                        name: 'nr8',
+                        avatar: defaultAvatar,
+                        isSpeaking: false
                     },
                     {
-                        id: '11', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
+                        id: '11',
+                        name: 'nr8',
+                        avatar: defaultAvatar,
+                        isSpeaking: false
                     },
                     {
-                        id: '12', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
+                        id: '12',
+                        name: 'nr8',
+                        avatar: defaultAvatar,
+                        isSpeaking: false
                     },
                     {
-                        id: '13', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
+                        id: '13',
+                        name: 'nr8',
+                        avatar: defaultAvatar,
+                        isSpeaking: false
                     },
                     {
-                        id: '14', name: 'nr8', avatar: defaultAvatar, isSpeaking: false,
-                    },
-                ],
+                        id: '14',
+                        name: 'nr8',
+                        avatar: defaultAvatar,
+                        isSpeaking: false
+                    }
+                ]
             };
         }
     }
     require('./twitch-chat-bot');
     require('./util/obs');
     require('./obsremotecontrol');
-    if(bundleConfig.twitchEventSub && bundleConfig.twitchEventSub.enabled){
+    if (bundleConfig.twitchEventSub && bundleConfig.twitchEventSub.enabled) {
         require('./twitchEventSub');
     }
     if (bundleConfig.mpd && bundleConfig.mpd.enable) {
@@ -93,7 +138,7 @@ export = (nodecg: NodeCG): void => {
         nodecg.log.warn('MPD integration is disabled, no music!');
         nodecg.Replicant<SongData>('songData', {
             persistent: false,
-            defaultValue: {playing: false, title: 'No Track Playing'}
+            defaultValue: { playing: false, title: 'No Track Playing' }
         });
     }
     // this doesn't really belong anywhere
@@ -101,7 +146,7 @@ export = (nodecg: NodeCG): void => {
     nodecg.Replicant<ShowPictureDuringIntermission>('showPictureDuringIntermission');
     //const text = fs.readFileSync('src/graphics/host-dashboard/fhfacts.txt', 'utf-8');
 
-/*
+    /*
     //idk where to put this lol
     const streamElements = requireService<StreamElementsServiceClient>(nodecg, "streamelements");
 

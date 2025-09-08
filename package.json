@@ -62,6 +62,7 @@
   },
   "devDependencies": {
     "@mdi/font": "^5.4.55",
+    "@playbingo/types": "^1.1.0",
     "@types/cheerio": "^0.22.13",
     "@types/clone": "^0.1.30",
     "@types/d3": "^5.7.2",

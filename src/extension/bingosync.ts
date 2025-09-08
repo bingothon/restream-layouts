@@ -4,27 +4,29 @@ import * as RequestPromise from 'request-promise';
 import WebSocket from 'ws';
 
 // Ours
-import {Replicant} from 'nodecg/types/server'; // eslint-disable-line import/no-extraneous-dependencies
+import { Replicant } from 'nodecg/types/server'; // eslint-disable-line import/no-extraneous-dependencies
 import * as nodecgApiContext from './util/nodecg-api-context';
-import {BingoboardMeta, Bingoboard, BingosyncSocket, BingoboardMode} from '../../schemas';
+import { BingoboardMeta, Bingoboard, BingosyncSocket, BingoboardMode } from '../../schemas';
 
 import equal from 'deep-equal';
 import clone from 'clone';
-import {InvasionContext} from './util/invasion';
-import {BingoboardCell, BoardColor, BingosyncCell} from '../../types';
-import {RunDataActiveRun, RunDataPlayer, RunDataTeam} from "../../speedcontrol-types";
+import { InvasionContext } from './util/invasion';
+import { BingoboardCell, BingosyncCell } from '../../types';
+import { RunDataActiveRun, RunDataPlayer, RunDataTeam } from '../../speedcontrol-types';
 
 const nodecg = nodecgApiContext.get();
 const log = new nodecg.Logger(`${nodecg.bundleName}:bingosync`);
 const boardMetaRep = nodecg.Replicant<BingoboardMeta>('bingoboardMeta');
 
-const noop = (): void => {log.info('This should not exist, someone wrote this in here, just fixing eslint problems')};
+const noop = (): void => {
+    log.info('This should not exist, someone wrote this in here, just fixing eslint problems');
+};
 const bingosyncSocketUrl = 'wss://sockets.bingosync.com';
 const bingosyncSiteUrl = 'https://bingosync.com';
 const runData = nodecg.Replicant<RunDataActiveRun>('runDataActiveRun', 'nodecg-speedcontrol');
 const lockoutVariants = ['lockout', 'draftlockout', 'invasion', 'connect5'];
 
-const ALL_COLORS: readonly BoardColor[] = Object.freeze(['pink', 'red', 'orange', 'brown', 'yellow', 'green', 'teal', 'blue', 'navy', 'purple']);
+const ALL_COLORS: readonly string[] = Object.freeze(['pink', 'red', 'orange', 'brown', 'yellow', 'green', 'teal', 'blue', 'navy', 'purple']);
 
 // recover().catch((error) => {
 //  log.error(`Failed to recover connection to room ${socketRep.value.roomCode}:`, error);
@@ -34,13 +36,12 @@ const BINGOSYNC_ROOM_URL_RE = /^(.+)\/room\/([0-9a-zA-Z_-]+)$/g;
 const BINGOSYNC_SLUG_RE = /^[0-9a-zA-Z_-]+$/g;
 
 const SOCKET_URLS: Record<string, string> = Object.freeze({
-    "https://bingosync.com": "wss://sockets.bingosync.com",
-    "https://bingosync.bingothon.com": "wss://bingosock.bingothon.com",
+    'https://bingosync.com': 'wss://sockets.bingosync.com',
+    'https://bingosync.bingothon.com': 'wss://bingosock.bingothon.com'
 });
 
 class BingosyncManager {
-
-    private request = RequestPromise.defaults({jar: true});
+    private request = RequestPromise.defaults({ jar: true });
 
     // <= Automatically saves and re-uses cookies.
     // interval for a complete update to not miss stuff
@@ -54,10 +55,12 @@ class BingosyncManager {
 
     private invasionCtx: InvasionContext | null = null;
 
-    public constructor(public name: string, public boardRep: Replicant<Bingoboard>,
+    public constructor(
+        public name: string,
+        public boardRep: Replicant<Bingoboard>,
         public socketRep: Replicant<BingosyncSocket>,
-        public boardModeRep: Replicant<BingoboardMode> | null) {
-
+        public boardModeRep: Replicant<BingoboardMode> | null
+    ) {
         this.boardModeRep?.on('change', (newVal) => {
             log.info(newVal);
             if (newVal.boardMode === 'invasion') {
@@ -73,7 +76,7 @@ class BingosyncManager {
                 this.fullUpdateMarkers();
             }
         });
-        boardMetaRep.on('change', newVal => {
+        boardMetaRep.on('change', (newVal) => {
             if (this.invasionCtx !== null) {
                 this.invasionCtx.setPlayerColor1(newVal.playerColors[0] || 'red');
                 this.invasionCtx.setPlayerColor2(newVal.playerColors[1] || 'orange');
@@ -81,17 +84,15 @@ class BingosyncManager {
         });
         // recovering past connection
         // catch startup errors when this is all empty
-        if (!this.socketRep.value
-            || !this.socketRep.value.roomCode
-            || !this.socketRep.value.passphrase) {
+        if (!this.socketRep.value || !this.socketRep.value.roomCode || !this.socketRep.value.passphrase) {
             if (!this.socketRep.value) {
-                this.socketRep.value = {status: 'disconnected'};
+                this.socketRep.value = { status: 'disconnected' };
                 return;
             }
             this.socketRep.value.status = 'disconnected';
         }
         // Restore previous connection on startup
-        const {roomCode, passphrase, siteUrl, socketUrl} = this.socketRep.value;
+        const { roomCode, passphrase, siteUrl, socketUrl } = this.socketRep.value;
         if (roomCode && passphrase && siteUrl) {
             log.info(`Recovering connection to room ${this.socketRep.value.roomCode}`);
             this.joinRoom(roomCode, siteUrl, socketUrl, passphrase)
@@ -115,7 +116,7 @@ class BingosyncManager {
         } else {
             const match = BINGOSYNC_ROOM_URL_RE.exec(roomUrlOrCode);
             if (match === null) {
-                throw new Error("can only join room with room code or url!!");
+                throw new Error('can only join room with room code or url!!');
             }
             siteUrl = match[1];
             // if the site is not one of the known urls, we get undefined
@@ -153,8 +154,8 @@ class BingosyncManager {
                 room: roomCode,
                 is_specator: 'on',
                 nickname: 'bingothon',
-                password: passphrase,
-            },
+                password: passphrase
+            }
         });
 
         const socketKey = data.socket_key;
@@ -200,7 +201,7 @@ class BingosyncManager {
     public async fullUpdate(siteUrl: string, roomCode: string): Promise<void> {
         const bingosyncBoard: BingosyncCell[] = await this.request.get({
             uri: `${siteUrl}/room/${roomCode}/board`,
-            json: true,
+            json: true
         });
 
         // Bail if the room changed while this request was in-flight.
@@ -219,7 +220,7 @@ class BingosyncManager {
             teal: 0,
             blue: 0,
             navy: 0,
-            purple: 0,
+            purple: 0
         };
 
         const newBoardState = bingosyncBoard.map((cell): BingoboardCell => {
@@ -230,7 +231,7 @@ class BingosyncManager {
                 slot: cell.slot,
                 colors: [],
                 markers: [null, null, null, null],
-                rawColors: cell.colors,
+                rawColors: cell.colors
             };
             newCell.rawColors.split(' ').forEach((color): void => {
                 if (color !== 'blank') {
@@ -243,17 +244,17 @@ class BingosyncManager {
 
         newBoardState.forEach((cell, cellIdx) => {
             this.addBomberMarker(cell, cellIdx, newBoardState);
-        })
+        });
 
         if (this.invasionCtx !== null) {
             this.invasionCtx.updateSides(newBoardState);
             this.invasionCtx.setMarkers(newBoardState);
         }
 
-        if (this.boardModeRep && this.boardModeRep.value.boardMode === "rowcontrol") {
-            ALL_COLORS.forEach(color => {
+        if (this.boardModeRep && this.boardModeRep.value.boardMode === 'rowcontrol') {
+            ALL_COLORS.forEach((color) => {
                 this.updateRowControlScore(newBoardState, color);
-            })
+            });
         } else {
             this.boardRep.value.colorCounts = goalCounts;
         }
@@ -263,16 +264,14 @@ class BingosyncManager {
             return;
         }
 
-
         this.boardRep.value.cells = newBoardState;
     }
 
     private fullUpdateMarkers(): void {
         const clonedCells = clone(this.boardRep.value.cells);
         clonedCells.forEach((cell: BingoboardCell, cellIdx): void => {
-
             cell.markers = [null, null, null, null];
-            if (this.boardModeRep?.value.boardMode === "bomber") {
+            if (this.boardModeRep?.value.boardMode === 'bomber') {
                 this.addBomberMarker(cell, cellIdx, clonedCells);
             } else {
                 this.processCellForMarkers(cell);
@@ -291,7 +290,7 @@ class BingosyncManager {
             cell.colors = [];
             return;
         }
-        const newColors: BoardColor[] = [];
+        const newColors: string[] = [];
         const markers: [string | null, string | null, string | null, string | null] = [null, null, null, null];
         // each color could be overritten by a marker
         cell.rawColors.split(' ').forEach((color): void => {
@@ -303,13 +302,13 @@ class BingosyncManager {
                 }
             }
             if (!redirected) {
-                newColors.push(color as BoardColor);
+                newColors.push(color as string);
             }
         });
         // if a cell has both a marker and is filled with the same color, drop the marker
         if (!this.boardModeRep?.value.alwaysShowMarkers) {
             markers.forEach((color, index) => {
-                if (color !== null && newColors.includes(color as BoardColor)) {
+                if (color !== null && newColors.includes(color)) {
                     markers[index] = null;
                 }
             });
@@ -319,19 +318,19 @@ class BingosyncManager {
     }
 
     private addBomberMarker(cell: BingoboardCell, cellIdx: number, otherCells: BingoboardCell[]) {
-        if (this.boardModeRep?.value.boardMode === "bomber") {
+        if (this.boardModeRep?.value.boardMode === 'bomber') {
             const neighbors = [/* up */ (cellIdx + 5) % 25, /* down */ (cellIdx + 20) % 25];
             if (cellIdx % 5 === 0) {
                 neighbors.push(cellIdx + 4);
             } else {
-                neighbors.push(cellIdx - 1)
+                neighbors.push(cellIdx - 1);
             }
             if (cellIdx % 5 === 4) {
-                neighbors.push(cellIdx - 4)
+                neighbors.push(cellIdx - 4);
             } else {
                 neighbors.push(cellIdx + 1);
             }
-            if (cell.colors.length === 0 && neighbors.some(neighbor => otherCells[neighbor].colors.length !== 0)) {
+            if (cell.colors.length === 0 && neighbors.some((neighbor) => otherCells[neighbor].colors.length !== 0)) {
                 const playerColors = boardMetaRep.value.playerColors;
                 cell.markers[0] = playerColors[0] || 'red';
                 cell.markers[1] = playerColors[1] || 'orange';
@@ -353,17 +352,16 @@ class BingosyncManager {
             this.websocket.onopen = (): void => {
                 log.info('Socket opened.');
                 if (this.websocket) {
-                    this.websocket.send(JSON.stringify({socket_key: socketKey}));
+                    this.websocket.send(JSON.stringify({ socket_key: socketKey }));
                 }
             };
 
-            this.websocket.onmessage = (event: {
-                data: WebSocket.Data; type: string; target: WebSocket;
-            }): void => {
+            this.websocket.onmessage = (event: { data: WebSocket.Data; type: string; target: WebSocket }): void => {
                 let json;
                 try {
                     json = JSON.parse(event.data as string);
-                } catch (error) { // tslint:disable-line:no-unused
+                } catch (error) {
+                    // tslint:disable-line:no-unused
                     log.error('Failed to parse message:', event.data);
                 }
 
@@ -394,10 +392,10 @@ class BingosyncManager {
                         slot: json.square.slot,
                         colors: [],
                         markers: [null, null, null, null],
-                        rawColors: json.square.colors,
+                        rawColors: json.square.colors
                     };
                     this.processCellForMarkers(cell);
-                    if (this.boardModeRep?.value.boardMode === "bomber") {
+                    if (this.boardModeRep?.value.boardMode === 'bomber') {
                         const newBoardState = clone(this.boardRep.value.cells);
                         newBoardState[index] = cell;
                         newBoardState.forEach((cell, cellIdx) => {
@@ -408,14 +406,17 @@ class BingosyncManager {
                         this.boardRep.value.cells[index] = cell;
                     }
                     // update goal count
-                    this.countScore(json)
+                    this.countScore(json);
                     //Check if conditions for lockout win are fulfilled and stop timer
-                    if (runData.value
-                            && ((lockoutVariants.includes(runData.value.customData.Bingotype) && this.boardRep.value.colorCounts[json.color] == 13) //normal lockout up to 13
-                                || (runData.value.customData.Bingotype === "rowcontrol" && this.boardRep.value.colorCounts[json.color] == 3) //for rowcontrol, this can probably be simplified somehow
-                                || (runData.value.customData.Bingotype === "blockout" && this.boardRep.value.colorCounts[json.color] == 10))) { // blockout stops at 10 goals
+                    if (
+                        runData.value &&
+                        ((lockoutVariants.includes(runData.value.customData.Bingotype) && this.boardRep.value.colorCounts[json.color] == 13) || //normal lockout up to 13
+                            (runData.value.customData.Bingotype === 'rowcontrol' && this.boardRep.value.colorCounts[json.color] == 3) || //for rowcontrol, this can probably be simplified somehow
+                            (runData.value.customData.Bingotype === 'blockout' && this.boardRep.value.colorCounts[json.color] == 10))
+                    ) {
+                        // blockout stops at 10 goals
                         const colorTo13 = json.color;
-                        const playerIndex = boardMetaRep.value.playerColors.findIndex((color) => (color == colorTo13));
+                        const playerIndex = boardMetaRep.value.playerColors.findIndex((color) => color == colorTo13);
                         let i = 0;
                         let teamId = '';
                         const otherTeamIds: string[] = [];
@@ -425,7 +426,7 @@ class BingosyncManager {
                                     if (i === playerIndex) {
                                         teamId = player.teamID;
                                     } else {
-                                        otherTeamIds.push(player.teamID)
+                                        otherTeamIds.push(player.teamID);
                                     }
                                     i++;
                                 });
@@ -439,7 +440,7 @@ class BingosyncManager {
                                     });
                                 }, 1000 * i);
                                 i++;
-                                otherTeamIds.forEach(team => {
+                                otherTeamIds.forEach((team) => {
                                     setTimeout(function () {
                                         nodecg.sendMessageToBundle('timerStop', 'nodecg-speedcontrol', {
                                             id: team,
@@ -447,7 +448,7 @@ class BingosyncManager {
                                         });
                                     }, 1000 * i);
                                     i++;
-                                })
+                                });
                             }
                         }
                     }
@@ -469,9 +470,7 @@ class BingosyncManager {
                 }
             };
 
-            this.websocket.onclose = (event: {
-                wasClean: boolean; code: number; reason: string; target: WebSocket;
-            }): void => {
+            this.websocket.onclose = (event: { wasClean: boolean; code: number; reason: string; target: WebSocket }): void => {
                 this.socketRep.value.status = 'disconnected';
                 log.info(`Socket closed (code: ${event.code}, reason: ${event.reason})`);
                 this.destroyWebsocket();
@@ -480,11 +479,10 @@ class BingosyncManager {
                     // They will have already been logged in the onmessage handler.
                 });
             };
-        }
-        );
+        });
     }
 
-    private updateRowControlScore(cells: BingoboardCell[], color: BoardColor) {
+    private updateRowControlScore(cells: BingoboardCell[], color: string) {
         //count rows
         let rowCounter = 0;
         for (let row = 0; row < 5; row++) {
@@ -502,7 +500,7 @@ class BingosyncManager {
     }
 
     // probably not the correct typing for the json, but enough to deal with ts
-    private countScore(json: { remove: boolean, color:  BoardColor}) {
+    private countScore(json: { remove: boolean; color: string }) {
         const boardModeRep = nodecg.Replicant<BingoboardMode>('bingoboardMode');
         if (boardModeRep.value.boardMode === 'rowcontrol') {
             this.updateRowControlScore(this.boardRep.value.cells, json.color);
@@ -526,7 +524,8 @@ class BingosyncManager {
             this.websocket.onmessage = noop;
             this.websocket.onclose = noop;
             this.websocket.close();
-        } catch (_error) { // tslint:disable-line:no-unused
+        } catch (_error) {
+            // tslint:disable-line:no-unused
             // Intentionally discard error.
         }
 
@@ -555,10 +554,7 @@ nodecg.listenFor('bingosync:joinRoom', async (data, callback): Promise<void> => 
                 callback(new Error(`No Bingosync Manager with name ${data.name} found`));
             }
         } else {
-            await manager.joinRoomUrlOrCode(
-                data.roomCode,
-                data.passphrase,
-            );
+            await manager.joinRoomUrlOrCode(data.roomCode, data.passphrase);
             log.info(`Successfully joined room ${data.roomCode}.`);
             if (callback && !callback.handled) {
                 callback(null);
@@ -623,15 +619,21 @@ nodecg.listenFor('bingosync:toggleColors', (_data, callback): void => {
     }
 });
 
-nodecg.listenFor('bingosync:setPlayerColor', (data: {
-    idx: number;
-    color: ('pink' | 'red' | 'orange' | 'brown' | 'yellow' | 'green' | 'teal' | 'blue' | 'navy' | 'purple');
-}, callback): void => {
-    boardMetaRep.value.playerColors[data.idx] = data.color;
-    if (callback && !callback.handled) {
-        callback();
+nodecg.listenFor(
+    'bingosync:setPlayerColor',
+    (
+        data: {
+            idx: number;
+            color: 'pink' | 'red' | 'orange' | 'brown' | 'yellow' | 'green' | 'teal' | 'blue' | 'navy' | 'purple';
+        },
+        callback
+    ): void => {
+        boardMetaRep.value.playerColors[data.idx] = data.color;
+        if (callback && !callback.handled) {
+            callback();
+        }
     }
-});
+);
 
 nodecg.listenFor('bingomode:setBingoboardMode', (data: BingoboardMode, callback): void => {
     if (data.boardMode === 'invasion') {

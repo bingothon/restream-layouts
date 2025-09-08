@@ -6,58 +6,57 @@
  */
 
 export interface Configschema {
-    twitchEventSub: any;
-    twitch?: {
-        enable: boolean;
-        chatBot: boolean;
-    };
-    discord?: {
-        test: boolean;
-        token: string;
-        serverID: string;
-        commandChannelID: string;
-        voiceChannelID: string;
-        ignoredUsers?: string[];
-    };
-    discordSunshine?: {
-        serverID: string;
-        commandChannelID: string;
-        voiceChannelID: string;
-    };
-    discordSA2?: {
-        serverID: string;
-        commandChannelID: string;
-        voiceChannelID: string;
-    };
-    obs?: {
-        enable: boolean;
-        address: string;
-        password: string;
-        discordAudio: string;
-        mpdAudio: string;
-        streamsAudio: string;
-    };
-    mpd?: {
-        enable: boolean;
-        address: string;
-        port: number;
-    };
-    twitchEventSub?: {
-        enabled: boolean;
-        clientID: string;
-        clientSecret: string;
-        accessToken: string;
-        hostName: string;
-        eventSubListenerKey: string;
-    };
-    firebaseConfig?: {
-        apiKey: string;
-        authDomain: string;
-        databaseURL: string;
-        projectId: string;
-        storageBucket: string;
-        messagingSenderId: string;
-        appId: string;
-        measurementId: string;
-    };
+  twitch?: {
+    enable: boolean;
+    chatBot: boolean;
+  };
+  discord?: {
+    test: boolean;
+    token: string;
+    serverID: string;
+    commandChannelID: string;
+    voiceChannelID: string;
+    ignoredUsers?: string[];
+  };
+  discordSunshine?: {
+    serverID: string;
+    commandChannelID: string;
+    voiceChannelID: string;
+  };
+  discordSA2?: {
+    serverID: string;
+    commandChannelID: string;
+    voiceChannelID: string;
+  };
+  obs?: {
+    enable: boolean;
+    address: string;
+    password: string;
+    discordAudio: string;
+    mpdAudio: string;
+    streamsAudio: string;
+  };
+  mpd?: {
+    enable: boolean;
+    address: string;
+    port: number;
+  };
+  twitchEventSub?: {
+    enabled: boolean;
+    clientID: string;
+    clientSecret: string;
+    accessToken: string;
+    hostName: string;
+    eventSubListenerKey: string;
+  };
+  firebaseConfig?: {
+    apiKey: string;
+    authDomain: string;
+    databaseURL: string;
+    projectId: string;
+    storageBucket: string;
+    messagingSenderId: string;
+    appId: string;
+    measurementId: string;
+  };
 }
