@@ -110,7 +110,6 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
 
     // Voice
     bot.on('voiceStateUpdate', (): void => {
-		console.log('Voice state update');
         updateCommentaryChannelMembers();
         // reconnect to voice channel on disconnect
         if (voiceStatus === 'error') {
@@ -298,8 +297,7 @@ if (!(botToken && botServerID && botCommandChannelID && botVoiceCommentaryChanne
     // Message Handling
     bot.on('messageCreate', (message: Message): void => {
         if (message.channelId === botCommandChannelID) {
-			console.log('Got message in command channel: ' + message.content + ' from ' + message.author.tag + ' in ' + message.guild?.name + ' (' + message.guildId + ')');
-            if (message.content.toLowerCase() === '!status') {
+			if (message.content.toLowerCase() === '!status') {
                 switch (voiceStatus) {
                     case 'disconnected':
                         message.reply('I\'m not in the podcast channel!');
